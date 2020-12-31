@@ -1,5 +1,6 @@
 {
     "name": "magmacore/magma-base",
+    "description": "Barebone starter library for MagmaCore framework",
     "type": "library",
     "license": "MIT",
     "authors": [
