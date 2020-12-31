@@ -1,0 +1,15 @@
+{
+    "name": "magmacore/magma-base",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TheCodingWorkshop",
+            "email": "riccodingworkshop@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+        "magmacore/magmacore": "^1.0"
+    }
+}
