@@ -1,0 +1,55 @@
+app:
+  app_name: MagmaCore
+  app_version: 1.0.0
+  app_email: magmacore@lavastudio.co.uk
+  app_author: Ricardo Miller
+
+settings:
+  default_charset: UTF-8
+  default_locale: en_GB
+  default_timezone: Europe/London
+  favicon: ''
+  apple_icon: ''
+  secret_key: ''
+
+system:
+  use_session: true
+  use_cookie: true
+  cache:
+    use_cache: true
+    storage: file
+    key: auto
+    cache_path: /Storage/Cache/
+    cache_expires: 3600
+  logger:
+    use_logger: true
+    log:
+      - warnings
+      - errors
+      - critical
+      - exceptions
+    log_path: /Storage/Logs/
+  use_translations: true
+  use_csrf: true
+  use_honeypot: true
+  use_hash_cost_factor: 10
+  use_auto_password: false,
+  use_auth: true
+
+gravatar:
+  rating: r
+  size: 40
+  default: 'monsterid'
+
+security:
+  password_pattern: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
+  url_pattern: 'https?://.+'
+  search_pattern: "[^'\x22]+"
+  email_pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+  tel_pattern: '[0-9]{3}-[0-9]{3}-[0-9]{4}'
+
+database:
+  default_pdo_driver: mysql
+
+debug_error:
+  mode: 'dev'

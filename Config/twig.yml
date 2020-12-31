@@ -1,0 +1,11 @@
+debug: false
+charset: 'utf-8'
+cache: App/Templates/.cache/
+auto_reload: true
+strict_variables: false
+autoescape: false
+optimizations: -1
+template_ext:
+    - .html
+    - .twig
+    - .html.twig

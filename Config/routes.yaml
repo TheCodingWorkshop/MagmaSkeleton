@@ -1,0 +1,36 @@
+'':
+    controller: Home
+    action: index
+
+login:
+    controller: Security
+    action: index
+
+logout:
+    controller: Security
+    action: logout
+
+register:
+    controller: Registration
+    action: register
+
+profile:
+    controller: Profile
+    action: index
+
+password/reset/{token:[\da-f]+}:
+    controller: Password
+    action: reset
+
+activation/activate/{token:[\da-f]+}:
+    controller: Activation
+    action: activate
+
+admin/{controller}/{action}:
+    namespace: Admin
+
+admin/{controller}/{id:[\da-f]+}/{action}:
+    namespace: Admin
+    
+charts/{controller}/{action}:
+    namespace: Charts
