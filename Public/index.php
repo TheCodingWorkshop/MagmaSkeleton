@@ -81,7 +81,13 @@ $app->setRouter(
     $_SERVER['QUERY_STRING']
 );
 
-//$app->setErrorHandlers();
+/**
+ * Convert all errors to exception. By providing custom error and exception
+ * handlers within the core. If we remove the below code then errors and exception
+ * will be rendered as normal. This method provides a much more graceful way of 
+ * displaying those errors and exceptions
+ */
+$app->setErrorHandlers();
 
 /**
  * Return the fully configured application
