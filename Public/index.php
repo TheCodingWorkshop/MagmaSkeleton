@@ -81,7 +81,8 @@ $app->setRouter(
     $_SERVER['QUERY_STRING']
 );
 
-$app->setErrorHandlers();
+//$app->setErrorHandlers();
+
 /**
  * Return the fully configured application
  */

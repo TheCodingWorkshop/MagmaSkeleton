@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}Home
+{% endblock content_title %}
+
+{% block main %}
+	<article class="uk-article">
+
+		<h1 class="uk-article-title">
+			<a class="uk-link-reset" href="/">{{ app_name }}</a>
+		</h1>
+
+		<p class="uk-article-meta">Developed By
+			<a href="#">{{ app_author }}</a>
+			Current stable version
+			<a class="uk-label uk-label-warning uk-text-default uk-text-bolder" href="#">{{ app_version }}</a>
+		</p>
+
+		<p class="uk-text-lead">Your application is ready.</p>
+
+		<p>Straight out of the box you get built in user authentication and user role base management system. User friendly administration panel with dynamic table grid with full crud capabilities. Plus tons more features.</p>
+
+		<div class="uk-grid-small uk-child-width-auto" uk-grid>
+			<div>
+				<a class="uk-button uk-button-text" target="_blank" href="{{ github_code }}">Github Project</a>
+			</div>
+			<div>
+				<a class="uk-button uk-button-text" target="_blank" href="{{ github_wiki }}">Read Documentation</a>
+			</div>
+		</div>
+	{% if current_user.id %}
+		You are logged in.
+		<a href="/logout">Logout</a>
+		|
+		<a href="/login">Login Now</a>
+	{% else %}
+		Not Logged in
+		<a href="/login">Login Now</a>
+	{% endif %}
+
+	</article>
+{% endblock main %}
