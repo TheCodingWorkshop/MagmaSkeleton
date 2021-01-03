@@ -9,17 +9,18 @@
  */
 declare(strict_types=1);
 
-namespace App\Middleware;
+namespace App\Middleware\Before;
 
 use MagmaCore\Middleware\BeforeMiddleware;
 use MagmaCore\Auth\Authorized;
 use Closure;
 
-class BasicAuthentication extends BeforeMiddleware
+class AuthorizedIsNull extends BeforeMiddleware
 {
 
     /**
-     * Requires basic login when entering protected routes
+     * Redirect to login if authorized object is null. As if you're not 
+     * authorized then access cannot be granted.
      *
      * @param Object $object - contains the BaseController object
      * @param Closure $next
@@ -27,11 +28,9 @@ class BasicAuthentication extends BeforeMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {   
-        if ($user = Authorized::grantedUser()) {
-            if (!$user) {
-                Authorized::rememberRequestedPage();
-                $object->redirect('/login');
-            }
+        $authorized = Authorized::grantedUser();
+        if (is_null($authorized)) {
+            $object->redirect('/login');
         }
         return $next($object);
     }

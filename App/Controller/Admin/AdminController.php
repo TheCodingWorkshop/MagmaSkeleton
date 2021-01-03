@@ -60,8 +60,9 @@ class AdminController extends BaseController
     protected function callBeforeMiddlewares() : array
     {
         return [
-            'BasicAuthentication' => \App\Middleware\BasicAuthentication::class,
-            'AdminAuthentication' => \App\Middleware\AdminAuthentication::class
+            'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
+            'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
+            'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class
         ];
     }
 

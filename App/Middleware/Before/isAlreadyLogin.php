@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Middleware;
+namespace App\Middleware\Before;
 
 use MagmaCore\Middleware\BeforeMiddleware;
 use Closure;

@@ -55,10 +55,27 @@ class SecurityController extends AuthSecurityController
     protected function callBeforeMiddlewares() : array
     {
         return [
-            \App\Middleware\BasicAuthentication::class,
-            \App\Middleware\isAlreadyLogin::class
+            'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
+            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class
         ];
     }
+
+    /**
+     * Middleware which are executed before any action methods is called
+     * middlewares are return within an array as either key/value pair. Note
+     * array keys should represent the name of the actual class its loading ie
+     * upper camel case for array keys. alternatively array can be defined as 
+     * an index array omitting the key entirely
+     *
+     * @return array
+     */
+    protected function callAfterMiddlewares() : array
+    {
+        return [
+            'CleanUpAfterLogout' => \App\Middleware\After\CleanUpAfterLogout::class,
+        ];
+    }
+
 
     /**
      * Entry method which is hit on request. This method should be implement within
