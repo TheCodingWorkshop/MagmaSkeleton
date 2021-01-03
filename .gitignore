@@ -2,4 +2,5 @@
 /.env
 /composer.lock
 /Storage/
-node_modules
+/App/Templates/.cache/
+/node_modules

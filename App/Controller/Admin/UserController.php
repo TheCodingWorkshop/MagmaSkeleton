@@ -49,28 +49,6 @@ class UserController extends AdminController
     }
 
     /**
-     * Before filter which is called before every controller
-     * method. Use to check is user as privileges to be in the backend
-     * or use to log data on requesting of methods
-     *
-     * @return void
-     */
-    protected function before()
-    {
-        parent::before();
-    }
-
-    /**
-     * After filter which is called after every controller. Can be used
-     * for garbage collection
-     *
-     * @return void
-     */
-    protected function after()
-    {}
-
-
-    /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is 
      * made.
@@ -139,6 +117,32 @@ class UserController extends AdminController
                 "form" => $this->formUser->createForm('/admin/user/new')
             ]
         );
+    }
+
+    /**
+     * table settings for this entity. Stored in flat file database
+     *
+     * @return bool
+     */
+    public function tableSettingsInsertAction() : bool
+    {
+        $this->tableSettingsInit($this->thisRouteController());
+        $this->flashMessage('Changes Saved!');
+        $this->redirect('/admin/user/index');
+        return true;
+    }
+
+    /**
+     * table settings for updating this entity. Stored in flat file database
+     *
+     * @return boolean
+     */
+    public function tableSettingsUpdateAction() : bool
+    {
+        $this->tableSettingsUpdateInit($this->thisRouteController());
+        $this->flashMessage('Settings Updated!');
+        $this->redirect('/admin/user/index');
+        return true;
     }
 
 }

@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use MagmaCore\Auth\Controller\AuthenticatedController;
-use MagmaCore\Auth\Roles\Roles;
-use MagmaCore\Auth\Authorized;
+use MagmaCore\Base\BaseController;
 use MagmaCore\Utility\Sanitizer;
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Session\SessionTrait;
 
-class AdminController extends AuthenticatedController
+class AdminController extends BaseController
 {
 
     use SessionTrait;
@@ -51,37 +49,34 @@ class AdminController extends AuthenticatedController
     }
 
     /**
-     * Before filter which is called before every controller
-     * method. Use to check is user as privileges to be in the backend
-     * or use to log data on requesting of methods
+     * Middleware which are executed before any action methods is called
+     * middlewares are return within an array as either key/value pair. Note
+     * array keys should represent the name of the actual class its loading ie
+     * upper camel case for array keys. alternatively array can be defined as 
+     * an index array omitting the key entirely
      *
-     * @return void
+     * @return array
      */
-    protected function before()
+    protected function callBeforeMiddlewares() : array
     {
-        parent::before(); /* simple ineriting the loginRequired method */
-        /* But this the admin section we are going to be super strict with access */
-        $authorized = Authorized::grantedUser();
-        if (null !== $authorized) {
-            $priviledge = (new Roles());
-            $priviledge->initRoles(SessionTrait::sessionFromGlobal()->get('user_id'));
-            if (!$priviledge->hasPrivilege('all')){
-                header('HTTP/1.1 403 Forbidden');
-                $this->flashMessage('You are not allowed to access that resource.', $this->flashWarning());
-                $this->redirect('/login');
-
-            }
-        }
+        return [
+            'BasicAuthentication' => \App\Middleware\BasicAuthentication::class,
+            'AdminAuthentication' => \App\Middleware\AdminAuthentication::class
+        ];
     }
 
     /**
      * After filter which is called after every controller. Can be used
      * for garbage collection
      *
-     * @return void
+     * @return array
      */
-    protected function after()
-    {}
+    protected function callAfterMiddlewares() : array
+    {
+        return [
+
+        ];
+    }
 
     private function tableOptions(string $autoController): array
     {

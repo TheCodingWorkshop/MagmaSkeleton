@@ -44,25 +44,21 @@ class SecurityController extends AuthSecurityController
     }
 
     /**
-     * Before filter which is called before every controller
-     * method. Use to check is user as privileges to be in the backend
-     * or use to log data on requesting of methods
+     * Middleware which are executed before any action methods is called
+     * middlewares are return within an array as either key/value pair. Note
+     * array keys should represent the name of the actual class its loading ie
+     * upper camel case for array keys. alternatively array can be defined as 
+     * an index array omitting the key entirely
      *
-     * @return void
+     * @return array
      */
-    protected function before()
+    protected function callBeforeMiddlewares() : array
     {
-        parent::before(); /* Will prevent showing loginform if user already logged in */
+        return [
+            \App\Middleware\BasicAuthentication::class,
+            \App\Middleware\isAlreadyLogin::class
+        ];
     }
-
-    /**
-     * After filter which is called after every controller. Can be used
-     * for garbage collection
-     *
-     * @return void
-     */
-    protected function after()
-    {}
 
     /**
      * Entry method which is hit on request. This method should be implement within
