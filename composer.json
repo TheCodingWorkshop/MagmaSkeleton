@@ -1,7 +1,13 @@
 {
     "name": "magmacore/magma-base",
     "description": "Barebone starter library for MagmaCore framework",
-    "keywords": ["magma-base", "magmacore", "php", "framework", "project"],
+    "keywords": [
+        "magma-base",
+        "magmacore",
+        "php",
+        "framework",
+        "project"
+    ],
     "type": "project",
     "time": "2021-01-01",
     "readme": "https://github.com/TheCodingWorkshop/MagmaSkeleton/blob/main/README.md",
@@ -13,10 +19,12 @@
     },
     "homepage": "https://thecodingworkshop.github.io/MagmaCore__/",
     "license": "MIT",
-    "authors": [{
-        "name": "TheCodingWorkshop",
-        "email": "riccodingworkshop@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "TheCodingWorkshop",
+            "email": "riccodingworkshop@gmail.com"
+        }
+    ],
     "minimum-stability": "beta",
     "require": {
         "ext-mbstring": "*",
@@ -25,8 +33,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-simplexml": "*",
-        "magmacore/magmacore": "^1.0",
-        "magmacore/magma-admin": "^1.0"
+        "magmacore/magmacore": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -44,5 +51,4 @@
     "suggest": {
         "magmacore/magmacore": "added for a complete management system."
     }
-
 }

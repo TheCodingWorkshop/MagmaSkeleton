@@ -11,13 +11,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use MagmaAdmin\Backend\Controller\UserController as AdminUserController;
+use App\Controller\Admin\AdminController;
+use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
 
-class UserController extends AdminUserController
+class UserController extends AdminController
 {
 
     /**
@@ -41,6 +42,8 @@ class UserController extends AdminUserController
          */
         $this->container(
             [
+                "repository" => \MagmaCore\Auth\Model\UserModel::class,
+                "column" => \App\DataColumns\UserColumn::class
             ]
         );
     }
@@ -66,6 +69,7 @@ class UserController extends AdminUserController
     protected function after()
     {}
 
+
     /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is 
@@ -78,7 +82,63 @@ class UserController extends AdminUserController
      */
     protected function indexAction()
     { 
-        parent::indexAction();
+        $args = Yaml::file('controller')[$this->thisRouteController()];
+        //$args['records_per_page'] = $this->tablegetSettings('records_per_page', $this->thisRouteController());
+        //$args['filter_by'] = $this->tablegetSettings('filter_by', $this->thisRouteController());
+
+        $repository = $this
+        ->repository
+        ->getRepo()
+        ->findWithSearchAndPaging($this->request->handler(), $args);
+        $tableData = $this->tableGrid->create($this->column, $repository)->table();
+        $this->render(
+            'admin/user/index.html.twig',
+            [
+                "controller" => $this->thisRouteController(),
+                "table" => $tableData,
+                "pagination" => $this->tableGrid->pagination(),
+                //"total_records" => $this->tableGrid->totalRecords(),
+                //"columns" => $this->tableGrid->getColumns(),
+                "results" => $repository,
+               /* "search_query" => $this
+                    ->request
+                    ->handler()
+                    ->query
+                    ->getAlnum($this->tableGetSettings('filter_by')),*/
+                "help_block" => ""
+            ] 
+        );
+    }
+
+    public function newAction()
+    {
+        if (isset($this->form)) {
+            if ($this->form->canHandleRequest() && $this->form->isSubmittable('new-' . $this->thisRouteController())) {
+                if ($this->form->csrfValidate()) {
+
+                    $submit = $this
+                    ->repository
+                    ->getRepo()
+                    ->validateRepository()
+                    ->persistAfterValidation();
+
+                    if (!$submit) {
+                        $this->flashMessage($this->locale('new_added'));
+                        $this->redirect('/admin/user/new');
+                    } else {
+                        $this->flashMessage($this->locale('fail_submission'), $this->flashWarning());
+                        $this->redirect('/admin/user/new');    
+                    }
+
+                }
+            }
+        }
+        $this->render(
+            "/admin/user/new.html.twig",
+            [
+                "form" => $this->formUser->createForm('/admin/user/new')
+            ]
+        );
     }
 
 }
