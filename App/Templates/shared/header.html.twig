@@ -1,0 +1,18 @@
+{% block header %}
+	<header uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-active" style="position: fixed; top: 0px; width: 1903px;">
+		<section class="uk-container uk-container-expand">
+			<nav uk-navbar>
+				<div class="uk-navbar-left">
+					{% block header_logo %}
+						<a href="/" class="uk-navbar-item uk-logo"></a>
+					{% endblock header_logo %}
+				</div>
+				<div class="uk-navbar-right uk-light">
+					{% block header_profile %}{% endblock header_profile %}
+				</div>
+
+			</nav>
+		</section>
+	</header>
+
+{% endblock header %}

@@ -1,0 +1,18 @@
+{% macro _stylesheets(stylesheets) %}
+    {% for stylesheet in stylesheets %}
+        {% if stylesheet.enable == true %}
+            <link rel="stylesheet" href="{{ stylesheet.href }}">
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro _scripts(scripts, location) %}
+    {% for script in scripts %}
+        {% if script.enable == true and script.location == location %}
+            {% if script.src !='' %}
+                {% set _integrity = script.integrity %}
+                <script src="{{ script.src }}" {% if script.integrity %} integrity="{{ script.integrity }}" {% endif %} {% if script.crossorigin %} crossorigin="{{ script.crossorigin }}" {% endif %}></script>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

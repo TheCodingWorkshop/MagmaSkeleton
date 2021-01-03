@@ -1,0 +1,36 @@
+{% macro navMenu(mainMenus) %}
+    {% if mainMenus|length > 0 %}
+        <ul class="uk-nav uk-nav-default uk-nav-parent-icon" uk-nav>
+
+            {% for index, menu in mainMenus %}
+                {% set roles = menu.roles %}
+                {% set active_state = '' %}
+                {% if menu.name|lower in twig_routes.controller %}
+                    {% set active_state = ' uk-active uk-open' %}
+                {% endif %}
+                <li class="{{ menu.children|length > 0 ? 'uk-parent' : '' }}{{ active_state }}">
+                    <a href="{{ menu.path ? menu.path|raw : js_void|raw }}">
+                        <span uk-icon="icon: {{ menu.icon|raw }}"></span>
+                        {{ locale(menu.name|lower|raw) }}
+                        {% if menu.children|length > 0 %}
+                            <ul class="uk-nav-sub">
+                                {% for children in menu.children %}
+                                    <li class="{{ active_state }}">
+                                        <a href="{{ children.path ? children.path|raw : js_void|raw }}">
+                                            <span uk-icon="icon: {{ children.icon|raw }}"></span>
+                                            {{ locale(children.name|lower|raw) }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </a>
+                </li>
+                {% if menu.header !='' %}
+                    <li class="uk-nav-header">{{ menu.header ? locale(menu.header|lower|raw) : '' }}</li>
+                {% endif %}
+            {% endfor %}
+
+        </ul>
+    {% endif %}
+{% endmacro %}

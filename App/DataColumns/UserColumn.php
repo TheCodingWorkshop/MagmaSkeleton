@@ -68,7 +68,7 @@ class UserColumn extends AbstractDatatableColumn
                 'dt_row' => 'Published',
                 'class' => '',
                 'show_column' => true,
-                'sortable' => false,
+                'sortable' => true,
                 'formatter' => ''
             ],
             [

@@ -1,3 +1,4 @@
+{% import "macros/asset.macro.html.twig" as asset_macro %}
 <!doctype html>
 <html class="no-js" lang="{{ app.default_locale }}">
 
@@ -10,95 +11,46 @@
 		</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<meta property="og:title" content="">
-		<meta property="og:type" content="">
-		<meta property="og:url" content="">
-		<meta property="og:image" content="">
-
 		<link rel="manifest" href="site.webmanifest">
 		{% if app.favicon %}
 			<link type='image/x-icon' href='{{ app.favicon }}' rel='shortcut icon'>
 		{% endif %}
 		{% if app.apple_icon %}
 			<linkrel="apple-touch-icon" href="{{ app.apple_icon }}">
-			{% endif %}
+		{% endif %}
 			<!-- Place favicon.ico in the root directory -->
-			{% block head_stylesheets %}
-				{#{{ macros._stylesheets(asset.stylesheets) }}#}
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.5/dist/css/uikit.min.css"/>
-				<link rel="preconnect" href="https://fonts.gstatic.com">
-				<link href="https://fonts.googleapis.com/css2?family=Nunito:ital@0;1&display=swap" rel="stylesheet">
-				<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-				<style>
-					body {
-						font-family: 'Nunito', sans-serif;
-					}
-				</style>
 
-				{#<link rel="stylesheet" href="{{ asset('/Resources/css/custom.css') }}">#}
-				{{ macros._scripts(asset.scripts, 'header') }}
+			{% block head_stylesheets %}
+				{{ asset_macro._stylesheets(Config('assets').stylesheets) }}
+				<style>body {font-family: 'Nunito', sans-serif;}</style>
+				{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
 			{% endblock head_stylesheets %}
+
 			<script>
 				$(window).on("load", function () {
-				$(".preloader").fadeOut("slow");;
+					$(".preloader").fadeOut("slow");;
 				});
 			</script>
-
-			<meta name="theme-color" content="#fafafa">
 		</head>
 		<body>
 			{% block body %}
-				{#<div class="preloader">
-					<div class="uk-overlay-default uk-position-cover uk-text-teal">
-						<div class="uk-overlay uk-position-center uk-dark">
-							<div uk-spinner="ratio: 2.0"></div>
-						</div>
-					</div>
-				</div>#}
-				<!--[if IE]>
-				    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-				    <![endif]-->
-					{% block main_wrapper %}
-						{% block header %}
-							<header uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-active" style="position: fixed; top: 0px; width: 1903px;"> <section class="uk-container uk-container-expand">
-								<nav uk-navbar>
-									<div class="uk-navbar-left">
-										{% block header_logo %}
-											<a href="/" class="uk-navbar-item uk-logo"></a>
-										{% endblock header_logo %}
-									</div>
-									<div class="uk-navbar-right uk-light">
-										{% block header_profile %}{% endblock header_profile %}
-									</div>
-
-								</nav>
-							</section>
-						</header>
-
-					{% endblock header %}
+				{#{% include 'shared/loader.html.twig' %}#}
+				{% include 'shared/ie9.html.twig' %}
+				{% block main_wrapper %}
+					{% include 'shared/header.html.twig' %}
 					<section class="content-background">
 						<main class="uk-section-small page-body">
-							<div
-								class="uk-container uk-container-small">
+							<div class="uk-container uk-container-small">
 								{{ flashMessages()|raw }}
 								{% block main %}{% endblock main %}
 							</div>
 							<!--//.uk-container-large -->
 						</main>
 					</section>
-
 				{% endblock main_wrapper %}
 
 				{% block body_javascript %}
-					<!-- UIkit JS -->
-					<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.5/dist/js/uikit.min.js"></script>
-					<script src="https://cdn.jsdelivr.net/npm/uikit@3.6.5/dist/js/uikit-icons.min.js"></script>
-
-					{#{{ macros._scripts(asset.scripts, 'footer') }}#}
-					<script src="js/vendor/modernizr-3.11.2.min.js"></script>
-					<script src="js/plugins.js"></script>
-					<script src="js/main.js"></script>
+					{{ asset_macro._scripts(Config('assets').scripts, 'footer') }}
 				{% endblock body_javascript %}
 
 				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
