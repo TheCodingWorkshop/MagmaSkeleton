@@ -1,0 +1,11 @@
+{
+    "name": "my-package",
+    "license": "MIT",
+    "scripts": {
+        "build": "babel src -d lib",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.33.0"
+    }
+}

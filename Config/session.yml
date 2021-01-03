@@ -1,5 +1,5 @@
 session_name: 'LavaStudio'
-lifetime: '0'
+lifetime: 120
 path: /
 domain: ''
 secure: false

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}User
+{% endblock content_title %}
+{% block main %}
+	<section class="uk-child-width-1-1@s uk-child-width-1-1@l" uk-grid>
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{% if table is empty %}
+							No Data
+						{% else %}
+							{{ table|raw }}
+						{% endif %}
+					</div>
+					<!--//.uk-card-body -->
+				</div>
+				{{ pagination|raw }}
+			</div>
+			<!--//required element -->
+		</div>
+	</section>
+
+{% endblock main %}
