@@ -23,7 +23,6 @@ class SessionExpiresCleanUp extends AfterMiddleware
         //if ($object->thisRouteController() === 'Security' && $object->thisRouteAction() === 'index') {
             //$userID = $object->getSession()->get('user_id');
         //}
-        echo 'testing';
         return $next($object);
     }
 }
