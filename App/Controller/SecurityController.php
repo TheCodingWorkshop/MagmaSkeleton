@@ -72,7 +72,7 @@ class SecurityController extends AuthSecurityController
     protected function callAfterMiddlewares() : array
     {
         return [
-            'CleanUpAfterLogout' => \App\Middleware\After\CleanUpAfterLogout::class,
+            'SessionExpiresCleanUp' => \App\Middleware\After\SessionExpiresCleanUp::class,
         ];
     }
 

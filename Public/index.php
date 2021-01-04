@@ -40,6 +40,7 @@ if (is_file($autoload)) {
  * together.
  */
 use MagmaCore\Base\BaseApplication;
+use MagmaCore\Utility\Yaml;
 $app = new BaseApplication();
 
 /**
@@ -65,7 +66,7 @@ $app->setConfig(
  * 3. string session storage defaults to NativeSessionStorage already set internally
  */
 $app->setSession(
-    null,
+    Yaml::file('session'),
     'my_application_session'
 );
 

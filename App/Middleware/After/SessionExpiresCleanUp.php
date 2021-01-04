@@ -7,7 +7,7 @@ namespace App\Middleware\After;
 use MagmaCore\Middleware\AfterMiddleware;
 use Closure;
 
-class CleanUpAfterLogout extends AfterMiddleware
+class SessionExpiresCleanUp extends AfterMiddleware
 {
     /**
      * Clean up after logout will only execute when the logout action called
@@ -20,11 +20,10 @@ class CleanUpAfterLogout extends AfterMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {
-        /* If we hit the logout button we want to ensure the token in the database gets
-        deleted and the browser cookie also gets deleted */
-        /*
-            scenario 1 - if the database token gets corupt then we will have an invalid browser cookie
-            whcih will results in a fatal error */
+        //if ($object->thisRouteController() === 'Security' && $object->thisRouteAction() === 'index') {
+            //$userID = $object->getSession()->get('user_id');
+        //}
+        echo 'testing';
         return $next($object);
     }
 }
