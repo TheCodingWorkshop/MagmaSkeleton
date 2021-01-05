@@ -88,38 +88,33 @@ $app->setRouter(
  * will be rendered as normal. This method provides a much more graceful way of 
  * displaying those errors and exceptions
  */
-//$app->setErrorHandlers();
+$app->setErrorHandlers();
 
 /**
  * Return the fully configured application
  */
-//$app->run();
+$app->run();
 
 
-use MagmaCore\EventDispatcher\EventDispatcher;
+/*use MagmaCore\EventDispatcher\EventDispatcher;
 use App\Event\MySubscriber;
 use App\Event\MyListener;
 
 $dispatcher = new EventDispatcher();
-$listender = new MyListener();
-$dispatcher->addListener([$listener, 'onFooAction'], 'foo.action');
+//$listender = new MyListener();
+//$dispatcher->addListener([$listener, 'onFooAction'], 'foo.action');
 $subscriber = new MySubscriber();
 $dispatcher->addSubscriber($subscriber);
-$dispatcher->addListener([$listener, 'onFooAction'], 'baz.action');
-$dispatcher->addListener(function(){
-    echo __FUNCTION__;
-    echo "<br>";
-}, 'foo.action');
+//$dispatcher->addListener([$listener, 'onFooAction'], 'baz.action');
+//$dispatcher->addListener(function(){
+   // echo __FUNCTION__;
+   // echo "<br>";
+//}, 'foo.action');
 
 echo "<h2>START</h2>";
 
 echo "<h4>FOO-ACTION</h4>";
-$dispatcher->dispatch('foo.action');
+$dispatcher->dispatch(new MyListener(), 'foo.action');
 
-echo "<h4>BAR-ACTION</h4>";
-$dispatcher->dispatch('bar.action');
 
-echo "<h4>BAZ-ACTION</h4>";
-$dispatcher->dispatch('baz.action');
-
-echo "<h2>END</h2>";
+echo "<h2>END</h2>";*/
