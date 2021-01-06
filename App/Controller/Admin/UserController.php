@@ -14,6 +14,8 @@ namespace App\Controller\Admin;
 use App\Controller\Admin\AdminController;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
+use App\Event\NewUserEvent;
+use App\EventSubscribers\UserSubscriber;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -48,6 +50,23 @@ class UserController extends AdminController
         );
     }
 
+    private function userRepository()
+    {
+        $repository = $this->repository->getRepo();
+        if (null !== $repository) {
+            return $repository;
+        }
+    }
+
+    private function findUserOr404()
+    {
+        $repository = $this->userRepository()
+        ->findAndReturn($this->thisRouteID())
+        ->or404();
+
+        return $repository;
+    }
+
     /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is 
@@ -64,9 +83,7 @@ class UserController extends AdminController
         //$args['records_per_page'] = $this->tablegetSettings('records_per_page', $this->thisRouteController());
         //$args['filter_by'] = $this->tablegetSettings('filter_by', $this->thisRouteController());
 
-        $repository = $this
-        ->repository
-        ->getRepo()
+        $repository = $this->userRepository()
         ->findWithSearchAndPaging($this->request->handler(), $args);
         $tableData = $this->tableGrid->create($this->column, $repository)->table();
         $this->render(
@@ -75,10 +92,10 @@ class UserController extends AdminController
                 "controller" => $this->thisRouteController(),
                 "table" => $tableData,
                 "pagination" => $this->tableGrid->pagination(),
-                //"total_records" => $this->tableGrid->totalRecords(),
-                //"columns" => $this->tableGrid->getColumns(),
+                "total_records" => $this->tableGrid->totalRecords(),
+                "columns" => $this->tableGrid->getColumns(),
                 "results" => $repository,
-               /* "search_query" => $this
+                /*"search_query" => $this
                     ->request
                     ->handler()
                     ->query
@@ -88,19 +105,54 @@ class UserController extends AdminController
         );
     }
 
-    public function newAction()
+    /**
+     * The show action request displays singluar information about a user. This is a 
+     * read only request. Information here cannot be editted.
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function showAction()
+    {
+        $this->render('admin/user/show.html.twig',
+            [
+                "form" => "",
+                "user" => $this->findUserOr404(),
+                "help_block" => ""
+            ]
+        );
+    }
+
+    /**
+     * The new action request. is responsible for creating a new user. By sending
+     * post data to the relevant model. Which is turns sanitize and validate the the 
+     * incoming data. An event will be dispatched when a new user is created.
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function newAction()
     {
         if (isset($this->form)) {
             if ($this->form->canHandleRequest() && $this->form->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->form->csrfValidate()) {
 
-                    $submit = $this
-                    ->repository
-                    ->getRepo()
-                    ->validateRepository()
+                    $action = $this->userRepository() /* Helper method */
+                    ->validateRepository(new UserEntity($this->form->getData()))
                     ->persistAfterValidation();
 
-                    if (!$submit) {
+                    if ($action) {
+                        
+                        $this->eventDispatcher->addSubscriber(new UserSubscriber());
+                        $this->eventDispatcher->dispatch(
+                            new NewUserEvent($this->repository), 
+                            NewUserEvent::NAME
+                        );
+    
                         $this->flashMessage($this->locale('new_added'));
                         $this->redirect('/admin/user/new');
                     } else {
@@ -120,7 +172,70 @@ class UserController extends AdminController
     }
 
     /**
-     * table settings for this entity. Stored in flat file database
+     * The edit action request. is responsible for updating a user record within
+     * the database. User data wille be sanitized and validated before upon re 
+     * submitting new data. An event will be dispatched on this action
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function editAction()
+    {   
+        if (isset($this->form)) :
+            if ($this->form->canHandleRequest() && $this->form->isSubmittable('edit-' . $this->thisRouteController())) {
+                if ($this->form->csrfValidate()) {
+
+                    $action = $this->userRepository()
+                    ->validateRepository(new UserEntity($this->form->getData()))
+                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    if ($action) {
+
+                    }   
+
+                }
+            }
+        endif;
+        $this->render('/admin/user/edit.html.twif',
+            [
+                "form" => "",
+                "errors" => "",
+                "help_block" => "",
+                "user" => $this->findUserOr404(),
+                "total_records" => "",
+                "controller" => $this->thisRouteController()
+            ]
+        );
+    }
+
+    /**
+     * The delete action request. is responsible for deleting a single record from
+     * the database. This method is not a submittable method hence why this check has
+     * been omitted. This a simple click based action. which is triggered within the
+     * datatable. An event will be dispatch by this action
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function deleteAction()
+    {
+        if (isset($this->form)) :
+            if ($this->form->canHandleRequest()) :
+                $action = $this->userRepository()
+                ->findByIDAndDelete(['id' => $this->thisRouteID()]);
+                if (!$action) {
+                    
+                }
+            endif;
+        endif;
+    }
+
+    /**
+     * The table settings insert action request. Simple adds per table related 
+     * configurable data. This provides customizable settings for each datatable
      *
      * @return bool
      */

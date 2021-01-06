@@ -1,0 +1,16 @@
+services:
+  session:
+    accessor: session
+    class: \MagmaCore\Session\SessionFacade::class
+      parameters:
+        - identifier: __MAGMA_SESSION__
+        - environment: {} # Use the session.yml configuration
+        - drivers:
+            native: 
+              class: \MagmaCore\Session\Storage\NativeSessionStorage::class
+              load: true
+              default: true;
+            database:
+              class: 
+              load: false
+              default: false

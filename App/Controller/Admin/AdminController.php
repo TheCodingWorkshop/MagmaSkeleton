@@ -46,6 +46,7 @@ class AdminController extends BaseController
                 "tableGrid" => \MagmaCore\Datatable\Datatable::class /* Global access */
             ]
         );
+
     }
 
     /**
@@ -154,7 +155,7 @@ class AdminController extends BaseController
                 "filter_by" => $filterBy
             ];
 
-            $this->flatDb()
+            $this->flatDb
                 ->flatDatabase()
                 ->insert()
                 ->in($this->channel)
@@ -187,7 +188,7 @@ class AdminController extends BaseController
                 "columns_visible" => $columnVisible,
                 "filter_by" => $filterBy
             ];
-            $this->flatDb()
+            $this->flatDb
                 ->flatDatabase()
                 ->update()
                 ->in($this->channel)
@@ -209,7 +210,7 @@ class AdminController extends BaseController
     {
         $autoController = $this->getCurrentController($controller);
         $options = $this
-        ->flatDb()
+        ->flatDb
         ->flatDatabase()
         ->read()
         ->in($this->channel)
