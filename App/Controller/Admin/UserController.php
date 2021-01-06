@@ -45,7 +45,8 @@ class UserController extends AdminController
         $this->container(
             [
                 "repository" => \MagmaCore\Auth\Model\UserModel::class,
-                "column" => \App\DataColumns\UserColumn::class
+                "column" => \App\DataColumns\UserColumn::class,
+                "formUser" => \App\Forms\Admin\User\UserForm::class
             ]
         );
     }
@@ -137,16 +138,19 @@ class UserController extends AdminController
      */
     protected function newAction()
     {
-        if (isset($this->form)) {
-            if ($this->form->canHandleRequest() && $this->form->isSubmittable('new-' . $this->thisRouteController())) {
-                if ($this->form->csrfValidate()) {
 
-                    $action = $this->userRepository() /* Helper method */
-                    ->validateRepository(new UserEntity($this->form->getData()))
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                    $user = new UserEntity($this->formBuilder->getData());
+                    $action = $this->userRepository()
+                    ->validateRepository($user)
                     ->persistAfterValidation();
+                    
+                    var_dump($this->userRepository()->getValidationErrors());
+                    die();
 
                     if ($action) {
-                        
                         $this->eventDispatcher->addSubscriber(new UserSubscriber());
                         $this->eventDispatcher->dispatch(
                             new NewUserEvent($this->repository), 
@@ -197,9 +201,9 @@ class UserController extends AdminController
                 }
             }
         endif;
-        $this->render('/admin/user/edit.html.twif',
+        $this->render('/admin/user/edit.html.twig',
             [
-                "form" => "",
+                "form" => $this->formUser->createForm("/admin/user/edit", $this->findUserOr404()),
                 "errors" => "",
                 "help_block" => "",
                 "user" => $this->findUserOr404(),
