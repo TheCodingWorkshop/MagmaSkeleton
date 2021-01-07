@@ -28,17 +28,13 @@ class UserSubscriber implements EventSubscriberInterface
     {
 
         return [
-            NewUserEvent::NAME =>
-            [
-                ['onUserRegistrationAction', 2],
-                ['']
-            ]
+            NewUserEvent::NAME => ['onNewUserRegisterAction'],
         ];
 
     }
 
     /** */
-    public function onUserRegistrationAction(NewUserEvent $event)
+    public function onNewUserRegisterAction(?NewUserEvent $event = null)
     {
         $user = $event->getUser();
     }

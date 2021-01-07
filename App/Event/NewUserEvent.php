@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Model\UserModel;
+use MagmaCore\Auth\Model\UserModel;
 use MagmaCore\EventDispatcher\Event;
 
 class NewUserEvent extends Event

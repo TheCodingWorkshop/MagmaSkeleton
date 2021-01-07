@@ -15,6 +15,7 @@ use App\Controller\Admin\AdminController;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use App\Event\NewUserEvent;
+use App\Event\FlashMessagesEvent;
 use App\EventSubscribers\UserSubscriber;
 use LoaderError;
 use RuntimeError;
@@ -47,6 +48,7 @@ class UserController extends AdminController
                 "repository" => \MagmaCore\Auth\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
                 "formUser" => \App\Forms\Admin\User\UserForm::class
+                
             ]
         );
     }
@@ -138,25 +140,22 @@ class UserController extends AdminController
      */
     protected function newAction()
     {
-
-        if (isset($this->formBuilder)) {
+        if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
-                    $user = new UserEntity($this->formBuilder->getData());
                     $action = $this->userRepository()
-                    ->validateRepository($user)
+                    ->validateRepository(new UserEntity($this->formBuilder->getData()))
                     ->persistAfterValidation();
-                    
-                    var_dump($this->userRepository()->getValidationErrors());
-                    die();
-
                     if ($action) {
-                        $this->eventDispatcher->addSubscriber(new UserSubscriber());
-                        $this->eventDispatcher->dispatch(
-                            new NewUserEvent($this->repository), 
-                            NewUserEvent::NAME
-                        );
-    
+                        
+                        /*$this->eventDispatcher->addSubscriber($this->flashMessagesSubscriber);
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(
+                                new FlashMessagesEvent($action, ''),
+                                FlashMessagesEvent::NAME
+                            );
+                        }*/
+                        
                         $this->flashMessage($this->locale('new_added'));
                         $this->redirect('/admin/user/new');
                     } else {
@@ -166,11 +165,12 @@ class UserController extends AdminController
 
                 }
             }
-        }
+        endif;
         $this->render(
             "/admin/user/new.html.twig",
             [
-                "form" => $this->formUser->createForm('/admin/user/new')
+                "form" => $this->formUser->createForm('/admin/user/new'),
+                "errors" => $this->userRepository()->getValidationErrors()
             ]
         );
     }
@@ -187,6 +187,7 @@ class UserController extends AdminController
      */
     protected function editAction()
     {   
+
         if (isset($this->form)) :
             if ($this->form->canHandleRequest() && $this->form->isSubmittable('edit-' . $this->thisRouteController())) {
                 if ($this->form->csrfValidate()) {

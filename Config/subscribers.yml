@@ -1,0 +1,6 @@
+# config/services.yaml
+subscribers:
+    App\EventListener\NewUserListener:
+        parameters:
+            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_listener, event: kernel.exception }

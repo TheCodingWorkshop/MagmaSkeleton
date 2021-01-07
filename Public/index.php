@@ -94,27 +94,3 @@ $app->setErrorHandlers();
  * Return the fully configured application
  */
 $app->run();
-
-
-/*use MagmaCore\EventDispatcher\EventDispatcher;
-use App\Event\MySubscriber;
-use App\Event\MyListener;
-
-$dispatcher = new EventDispatcher();
-//$listender = new MyListener();
-//$dispatcher->addListener([$listener, 'onFooAction'], 'foo.action');
-$subscriber = new MySubscriber();
-$dispatcher->addSubscriber($subscriber);
-//$dispatcher->addListener([$listener, 'onFooAction'], 'baz.action');
-//$dispatcher->addListener(function(){
-   // echo __FUNCTION__;
-   // echo "<br>";
-//}, 'foo.action');
-
-echo "<h2>START</h2>";
-
-echo "<h4>FOO-ACTION</h4>";
-$dispatcher->dispatch(new MyListener(), 'foo.action');
-
-
-echo "<h2>END</h2>";*/
