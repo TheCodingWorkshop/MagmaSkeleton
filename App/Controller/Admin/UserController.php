@@ -16,7 +16,6 @@ use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use App\Event\NewUserEvent;
 use App\Event\FlashMessagesEvent;
-use App\EventSubscribers\UserSubscriber;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -47,10 +46,12 @@ class UserController extends AdminController
             [
                 "repository" => \MagmaCore\Auth\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
-                "formUser" => \App\Forms\Admin\User\UserForm::class
+                "formUser" => \App\Forms\Admin\User\UserForm::class,
+                "flashMessages" => \App\EventSubscriber\FlashMessagesSubscriber::class
                 
             ]
-        );
+        );  
+
     }
 
     private function userRepository()
@@ -98,6 +99,7 @@ class UserController extends AdminController
                 "total_records" => $this->tableGrid->totalRecords(),
                 "columns" => $this->tableGrid->getColumns(),
                 "results" => $repository,
+                //"session" => var_dump($_SESSION['flash_messages']),
                 /*"search_query" => $this
                     ->request
                     ->handler()
@@ -146,22 +148,15 @@ class UserController extends AdminController
                     $action = $this->userRepository()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()))
                     ->persistAfterValidation();
-                    if ($action) {
-                        
-                        /*$this->eventDispatcher->addSubscriber($this->flashMessagesSubscriber);
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(
-                                new FlashMessagesEvent($action, ''),
-                                FlashMessagesEvent::NAME
-                            );
-                        }*/
-                        
-                        $this->flashMessage($this->locale('new_added'));
-                        $this->redirect('/admin/user/new');
-                    } else {
-                        $this->flashMessage($this->locale('fail_submission'), $this->flashWarning());
-                        $this->redirect('/admin/user/new');    
-                    }
+
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->addSubscriber($this->flashMessages);
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
+                        /*$this->eventDispatcher->dispatch(
+                            new NewUserEvent(array_merge(['action' => $action], $this->userRepository()->validatedDataBag())), 
+                            NewUserEvent::NAME
+                        );*/
+                    }    
 
                 }
             }

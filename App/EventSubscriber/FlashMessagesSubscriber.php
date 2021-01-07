@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace App\EventSubscribers;
+namespace App\EventSubscriber;
 
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use App\Event\FlashMessagesEvent;
@@ -27,59 +27,52 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            FlashMessagesEvent::NAME => [
-                ['onSuccess'],
-                ['onFail'],
-                ['onInvalidCsrf'],
-                ['onInvalidRequest']
-            ],
+            FlashMessagesEvent::NAME => ['onSuccessRequestAction']
+            
         ];
 
     }
 
     /** */
-    public function onSuccess(FlashMessagesEvent $event)
+    public function onSuccessRequestAction(FlashMessagesEvent $event)
     {
         if ($event->isValid()) {
-            $flash = $event->flash()->flashMessage('Successfully created');
+            $event->controller()->flashMessage('Successfully created');
+            $event->controller()->redirect('/admin/user/index');
+        } else {
+            $event->controller()->flashMessage('Failed');
+            $event->controller()->redirect('/admin/user/new');
+        }
+    }
+
+    /** */
+    public function onFailRequestAction(FlashMessagesEvent $event)
+    {
+        if ($event->isValid()) {
+            $event->controller()->flashMessage('Changes not saved.', $event->controller()->flashWarning());
+            $event->controller()->redirect('/admin/user/index');
+        }
+    }
+
+    /** */
+    public function onInvalidCsrfRequestAction(FlashMessagesEvent $event)
+    {
+        if ($event->isValid()) {
+            $flash = $event->controller()->flashMessage('Invalid Csrf token', $event->controller()->flashDanger());
             if ($flash) {
-                return $flash;
+                echo $flash;
             }    
         }
         return false;
     }
 
     /** */
-    public function onFail(FlashMessagesEvent $event)
+    public function onInvalidRequestAction(FlashMessagesEvent $event)
     {
         if ($event->isValid()) {
-            $flash = $event->flash()->flashMessage('Changes not saved.', $event->flash()->flashWarning());
+            $flash = $event->controller()->flashMessage('Invalid Request.', $event->controller()->flashWarning());
             if ($flash) {
-                return $flash;
-            }    
-        }
-        return false;
-    }
-
-    /** */
-    public function onInvalidCsrf(FlashMessagesEvent $event)
-    {
-        if ($event->isValid()) {
-            $flash = $event->flash()->flashMessage('Invalid Csrf token', $event->flash->flashDanger());
-            if ($flash) {
-                return $flash;
-            }    
-        }
-        return false;
-    }
-
-    /** */
-    public function onInvalidRequest(FlashMessagesEvent $event)
-    {
-        if ($event->isValid()) {
-            $flash = $event->flash()->flashMessage('Invalid Request.', $event->flash()->flashWarning());
-            if ($flash) {
-                return $flash;
+                echo $flash;
             }    
         }
         return false;

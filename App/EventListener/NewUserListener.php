@@ -24,7 +24,9 @@ class NewUserListener
      */
     public function onUserRegisterAction(Event $event)
     { 
+        echo __CLASS__ . '/' . __METHOD__;
         $user = $event->getUser();
+        var_dump($user);
     }
 
 }

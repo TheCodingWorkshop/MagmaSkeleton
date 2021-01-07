@@ -9,10 +9,13 @@
  */
 declare(strict_types=1);
 
-namespace App\EventSubscribers;
+namespace App\EventSubscriber;
 
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use App\Event\NewUserEvent;
+use App\Event\UserEdittedEvent;
+use App\Event\UserDeletedEvent;
+
 
 class UserSubscriber implements EventSubscriberInterface
 {
@@ -28,15 +31,30 @@ class UserSubscriber implements EventSubscriberInterface
     {
 
         return [
-            NewUserEvent::NAME => ['onNewUserRegisterAction'],
+            NewUserEvent::NAME => ['onUserCreatedAction'],
+            UserDeletedEvent::NAME => ['onUserDeletedAction', 300],
+            UserEdittedEvent::NAME =>['onUserEdittedAction', -255],
         ];
 
     }
 
-    /** */
-    public function onNewUserRegisterAction(?NewUserEvent $event = null)
+    /** @Listener */
+    public function onUserCreatedAction(?NewUserEvent $event = null)
     {
         $user = $event->getUser();
+        var_dump($user);
     }
+
+    public function onUserEdittedAction(?UserEdittedEvent $event = null)
+    { 
+        echo $event->getUser();
+    }
+
+    public function onUserDeletedAction(?UserDeletedEvent $event = null)
+    { 
+        echo $event->getUser();
+    }
+
+
 
 }

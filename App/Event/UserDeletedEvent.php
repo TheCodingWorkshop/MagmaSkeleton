@@ -13,20 +13,20 @@ namespace App\Event;
 
 use MagmaCore\EventDispatcher\Event;
 
-class NewUserEvent extends Event
+class UserDeletedEvent extends Event
 {
 
     /** @var string - name of the event */
-    public const NAME = 'app.event.new_user_event';
+    public const NAME = 'app.event.user_deleted_event';
     
-    /** @var array */
+    /** @var Object */
     private Object $user;
 
     /**
      * New user event dispatcher. Which pipes the user object arguement to 
      * the class property
      *
-     * @param Object $user
+     * @param array $user
      * @return void
      */
     public function __construct(Object $user)
@@ -41,7 +41,7 @@ class NewUserEvent extends Event
      */
     public function getUser()
     {
-        return $this->user;
+        echo 'User Deleted event fires';
     }
 
 }

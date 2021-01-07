@@ -17,22 +17,39 @@ class FlashMessagesEvent extends Event
 {
 
     /** @var string - name of the event */
-    public const NAME = 'flash_messages';
+    public const NAME = 'app.event.flash_messages_event';
     /** @var bool */
     private bool $action;
-    private $flash;
+    /** @var Object - teh current controller object */
+    private $controller;
 
-    public function __construct(bool $action, $flashMessages)
+    /**
+     * Undocumented function
+     *
+     * @param boolean $action
+     * @param Object $controllerObject
+     */
+    public function __construct(bool $action, Object $controllerObject)
     { 
         $this->action = $action;
-        $this->flash = $flashMessages;
+        $this->controller = $controllerObject;
     }
 
-    public function flash()
+    /**
+     * Returns teh current controller object with access to all its methods and property
+     *
+     * @return OPbject
+     */
+    public function controller()
     {
-        return $this->flash;
+        return $this->controller;
     }
 
+    /**
+     * Checks whether data submission was success or fail
+     * 
+     * @return bool
+     */
     public function isValid()
     {
         return $this->action;
