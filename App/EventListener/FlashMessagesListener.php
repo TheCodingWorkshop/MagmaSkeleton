@@ -9,37 +9,21 @@
  */
 declare(strict_types=1);
 
-namespace App\EventSubscriber;
+namespace App\EventListener;
 
-use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use App\Event\FlashMessagesEvent;
 
-class FlashMessagesSubscriber implements EventSubscriberInterface
+class FlashMessagesListener
 {
-
-    const SUCCESS_MSG = 'Successful';
-    const UPDATE_MSG = 'Updated';
-    const DELETE_MSG = 'Deleted';
-
     /**
-     * Subscibe multiple listeners to listen for the NewUserEvent. This will fire
-     * each time a new user is added to the database. Listeners can then perform
-     * addtitional tasks on that return object.
+     * New user event dispatcher. Which pipes the user object arguement to 
+     * the class property
      *
-     * @return array
+     * @param UserModel $user
+     * @return void
      */
-    public static function getSubscribedEvents() : array
-    {
-        return [
-            FlashMessagesEvent::NAME => ['onSuccessRequestAction']
-            
-        ];
-
-    }
-
-    /** */
-    public function onSuccessRequestAction(FlashMessagesEvent $event)
-    {
+    public function onSubmissonSuccessOrOtherWise(FlashMessagesEvent $event)
+    { 
         if ($event->isValid()) {
             /* What action route */
             if (!empty($event->get()->thisRouteAction())) {
@@ -51,10 +35,9 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
                 endswitch;
 
                 $event->get()->flashMessage($locale);
-                $event->get()->redirect('/admin/user/index');
+                $event->get()->redirect($redirect);
             }
         }
     }
-
 
 }

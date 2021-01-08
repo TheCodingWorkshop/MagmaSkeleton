@@ -11,12 +11,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use MagmaCore\Auth\Controller\HomeController as DefaultController;
+use MagmaCore\Base\BaseController;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
 
-class HomeController extends DefaultController
+class HomeController extends BaseController
 {
 
     /**
@@ -55,7 +55,17 @@ class HomeController extends DefaultController
      */
     protected function indexAction()
     { 
-        parent::indexAction();
+        $this->render(
+            'client/home/index.html.twig',
+            [
+                'app_name' => 'MagmaCore Framework',
+                'app_version' => '1.0.0',
+                'app_author' => 'LavaStudio',
+                'github_code' => 'https://github.com/TheCodingWorkshop/_MagmaCore.git',
+                'github_wiki' => 'https://github.com/TheCodingWorkshop/_MagmaCore/wiki',
+
+            ]
+        );
     }
 
 }

@@ -1,0 +1,18 @@
+services:
+  session:
+    facade: \MagmaCore\Session\SessionFacade
+    make_globally: true
+      global_key: session_global
+    parameters:
+      - identifier: '__magma_session__'
+      - environment: {} # This will initally look for a corresponding config file first
+      - storage: {}
+  
+    cache:
+      facade: \MagmaCore\Cache\CacheFacade
+      make_globally: false
+        global_key: cache_global
+      parameters:
+        - identifier: __magma_cache__
+        - environment: {}
+        - storage: {}

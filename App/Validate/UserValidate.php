@@ -10,6 +10,7 @@ use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\GravatarGenerator;
 use MagmaCore\Utility\ClientIP;
+use App\Model\UserModel;
 
 class UserValidate extends AbstractDataRepositoryValidation
 {
@@ -60,9 +61,10 @@ class UserValidate extends AbstractDataRepositoryValidation
                     "gravatar" => (new GravatarGenerator())->setGravatar($cleanData["email"]),
                     "remote_addr" => (new ClientIP())->getClientIp()
                 ];    
+
                 $this->dataBag['activation_hash'] = $activationHash;
                 if (null !== $dataRepository) {
-                    unset($cleanData['activation_token']);
+                    unset($newCleanData['activation_token']);
                 }
             }
             return [
@@ -125,6 +127,11 @@ class UserValidate extends AbstractDataRepositoryValidation
                             case "email" :
                                 if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
                                     $this->errors[] = "Please enter a valid email address";
+                                }
+                                if (null !== $dataRepository) {
+                                    if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
+                                        $this->errors[] = "Email address already exists";
+                                    }
                                 }
                                 break;
                             case "firstame" :

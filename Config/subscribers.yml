@@ -1,6 +1,4 @@
 # config/services.yaml
 subscribers:
-    App\EventListener\FlashMessagesSubscriber:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-            - { name: kernel.event_listener, event: kernel.exception }
+    flash_messages_subscriber:
+        class: \App\EventSubscriber\FlashMessagesSubscriber

@@ -46,9 +46,7 @@ class UserController extends AdminController
             [
                 "repository" => \MagmaCore\Auth\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
-                "formUser" => \App\Forms\Admin\User\UserForm::class,
-                "flashMessages" => \App\EventSubscriber\FlashMessagesSubscriber::class
-                
+                "formUser" => \App\Forms\Admin\User\UserForm::class,                
             ]
         );  
 
@@ -150,12 +148,7 @@ class UserController extends AdminController
                     ->persistAfterValidation();
 
                     if ($this->eventDispatcher) {
-                        $this->eventDispatcher->addSubscriber($this->flashMessages);
                         $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
-                        /*$this->eventDispatcher->dispatch(
-                            new NewUserEvent(array_merge(['action' => $action], $this->userRepository()->validatedDataBag())), 
-                            NewUserEvent::NAME
-                        );*/
                     }    
 
                 }
@@ -165,7 +158,7 @@ class UserController extends AdminController
             "/admin/user/new.html.twig",
             [
                 "form" => $this->formUser->createForm('/admin/user/new'),
-                "errors" => $this->userRepository()->getValidationErrors()
+                "errors" => $this->userRepository()->getValidationErrors(),
             ]
         );
     }
@@ -183,23 +176,24 @@ class UserController extends AdminController
     protected function editAction()
     {   
 
-        if (isset($this->form)) :
-            if ($this->form->canHandleRequest() && $this->form->isSubmittable('edit-' . $this->thisRouteController())) {
-                if ($this->form->csrfValidate()) {
-
+        if (isset($this->formBuilder)) :
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                    
                     $action = $this->userRepository()
-                    ->validateRepository(new UserEntity($this->form->getData()))
+                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
                     ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    if ($action) {
 
-                    }   
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
+                    }    
 
                 }
             }
         endif;
         $this->render('/admin/user/edit.html.twig',
             [
-                "form" => $this->formUser->createForm("/admin/user/edit", $this->findUserOr404()),
+                "form" => $this->formUser->createForm("/admin/user/{$this->thisRouteID()}/edit", $this->findUserOr404()),
                 "errors" => "",
                 "help_block" => "",
                 "user" => $this->findUserOr404(),

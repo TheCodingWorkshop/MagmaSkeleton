@@ -44,4 +44,27 @@ class UserModel extends AbstractBaseModel
         return [];
     }
 
+    /**
+     * See if a user record already exists with the specified email
+     *
+     * @param string $email email address to search for
+     * @param int|null $ignoreID
+     * @return boolean  True if a record already exists with the specified email, false otherwise
+     */
+    public function emailExists(string $email, int $ignoreID = null)
+    {
+        if (!empty($email)) {
+            $result = $this
+                ->getRepo()
+                ->findObjectBy(['email' => $email], ['*']);
+            if ($result) {
+                if ($result->id != $ignoreID) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

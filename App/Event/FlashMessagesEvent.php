@@ -40,7 +40,7 @@ class FlashMessagesEvent extends Event
      *
      * @return OPbject
      */
-    public function controller()
+    public function get()
     {
         return $this->controller;
     }
