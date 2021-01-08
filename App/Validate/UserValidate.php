@@ -35,7 +35,7 @@ class UserValidate extends AbstractDataRepositoryValidation
     {
         /* convert object to an array */
         $this->cleanData = (array)$cleanData;
-        $this->validate($this->cleanData);
+        $this->validate($this->cleanData, $dataRepository);
         if (empty($this->errors)) {
             /**
              * getArr() method simple merges any data returned within the $this->fields() method and the 
@@ -124,14 +124,13 @@ class UserValidate extends AbstractDataRepositoryValidation
 
                                 }
                                 break;
-                            case "email" :
-                                if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
-                                    $this->errors[] = "Email address already exists";
-                                }
+                            case "email" :                                
                                 if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
                                     $this->errors[] = "Please enter a valid email address";
                                 }
-
+                                if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
+                                    $this->errors[] = "Email address already exists";
+                                }
                                 break;
                             case "firstame" :
                             case "lastname" :

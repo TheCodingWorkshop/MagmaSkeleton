@@ -64,7 +64,8 @@ class AdminController extends BaseController
             'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
             'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class,
-            'SessionExpires' => \App\Middleware\Before\SessionExpires::class
+            'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
+            //'EmailAlreadyExists' => \App\Middleware\Before\EmailAlreadyExists::class
         ];
     }
 

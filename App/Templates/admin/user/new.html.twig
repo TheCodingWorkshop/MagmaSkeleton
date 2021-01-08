@@ -2,6 +2,13 @@
 
 {% block content_title %}New User{% endblock content_title %}
 {% block main %}
-{{ errors }}
+
+{% if errors is not empty %}
+    {% for error in errors %}
+        <div class="uk-alert">{{ error }}</div>
+    {% endfor %}
+{% endif %}
+
+
     {{ form|raw }}
 {% endblock main %}

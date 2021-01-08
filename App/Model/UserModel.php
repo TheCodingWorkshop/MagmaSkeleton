@@ -54,9 +54,7 @@ class UserModel extends AbstractBaseModel
     public function emailExists(string $email, int $ignoreID = null)
     {
         if (!empty($email)) {
-            $result = $this
-                ->getRepo()
-                ->findObjectBy(['email' => $email], ['*']);
+            $result = $this->getRepo()->findObjectBy(['email' => $email], ['*']);
             if ($result) {
                 if ($result->id != $ignoreID) {
                     return true;

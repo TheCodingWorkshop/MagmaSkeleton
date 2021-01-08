@@ -14,9 +14,9 @@ namespace App\Controller\Admin;
 use App\Controller\Admin\AdminController;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
-use App\Event\NewUserEvent;
 use App\Event\FlashMessagesEvent;
 use LoaderError;
+use MagmaCore\Session\Flash\Flash;
 use RuntimeError;
 use SyntaxError;
 
@@ -97,7 +97,6 @@ class UserController extends AdminController
                 "total_records" => $this->tableGrid->totalRecords(),
                 "columns" => $this->tableGrid->getColumns(),
                 "results" => $repository,
-                //"session" => var_dump($_SESSION['flash_messages']),
                 /*"search_query" => $this
                     ->request
                     ->handler()
@@ -143,17 +142,13 @@ class UserController extends AdminController
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
+                    
                     $action = $this->userRepository()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()))
                     ->persistAfterValidation();
-                    if ($action) {
                     if ($this->eventDispatcher) {
                         $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
                     }    
-                } else {
-                    var_dump($this->userRepository()->getValidationErrors());
-                }
-
                 }
             }
         endif;
@@ -186,11 +181,9 @@ class UserController extends AdminController
                     $action = $this->userRepository()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
                     ->saveAfterValidation(['id' => $this->thisRouteID()]);
-
                     if ($this->eventDispatcher) {
                         $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
-                    }    
-
+                    }        
                 }
             }
         endif;
@@ -219,12 +212,13 @@ class UserController extends AdminController
      */
     protected function deleteAction()
     {
-        if (isset($this->form)) :
-            if ($this->form->canHandleRequest()) :
+        if (isset($this->formBuilder)) :
+            if ($this->formBuilder->canHandleRequest()) :
                 $action = $this->userRepository()
                 ->findByIDAndDelete(['id' => $this->thisRouteID()]);
-                if (!$action) {
-                    
+                
+                if ($this->eventDispatcher) {
+                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
                 }
             endif;
         endif;
