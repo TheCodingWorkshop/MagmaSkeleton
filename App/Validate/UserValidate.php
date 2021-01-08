@@ -125,14 +125,13 @@ class UserValidate extends AbstractDataRepositoryValidation
                                 }
                                 break;
                             case "email" :
+                                if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
+                                    $this->errors[] = "Email address already exists";
+                                }
                                 if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
                                     $this->errors[] = "Please enter a valid email address";
                                 }
-                                if (null !== $dataRepository) {
-                                    if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
-                                        $this->errors[] = "Email address already exists";
-                                    }
-                                }
+
                                 break;
                             case "firstame" :
                             case "lastname" :

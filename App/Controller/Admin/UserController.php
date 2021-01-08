@@ -146,10 +146,13 @@ class UserController extends AdminController
                     $action = $this->userRepository()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()))
                     ->persistAfterValidation();
-
+                    if ($action) {
                     if ($this->eventDispatcher) {
                         $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
                     }    
+                } else {
+                    var_dump($this->userRepository()->getValidationErrors());
+                }
 
                 }
             }
@@ -194,7 +197,7 @@ class UserController extends AdminController
         $this->render('/admin/user/edit.html.twig',
             [
                 "form" => $this->formUser->createForm("/admin/user/{$this->thisRouteID()}/edit", $this->findUserOr404()),
-                "errors" => "",
+                "errors" => $this->userRepository()->getValidationErrors(),
                 "help_block" => "",
                 "user" => $this->findUserOr404(),
                 "total_records" => "",
