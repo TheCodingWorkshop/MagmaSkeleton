@@ -54,7 +54,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
                 break;         
             endswitch;
             $event->get()->flashMessage($flash);
-            $event->get()->redirect($redirect);
+            //$event->get()->redirect($redirect);
         }
     }
 

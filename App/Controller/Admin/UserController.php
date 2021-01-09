@@ -16,7 +16,6 @@ use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use App\Event\FlashMessagesEvent;
 use LoaderError;
-use MagmaCore\Session\Flash\Flash;
 use RuntimeError;
 use SyntaxError;
 
