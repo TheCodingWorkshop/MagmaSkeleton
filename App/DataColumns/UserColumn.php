@@ -101,7 +101,17 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
-                'formatter' => ''
+                'formatter' => function ($row, $twigExt) {
+                    return $twigExt->iconNav(
+                        [
+                            'file-edit' => [],
+                            'trash' => []
+                        ],
+                        $row,
+                        'user',
+                        false
+                    );
+                }
             ],
 
         ];

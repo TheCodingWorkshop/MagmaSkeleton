@@ -36,7 +36,9 @@ class UserValidate extends AbstractDataRepositoryValidation
         /* convert object to an array */
         $this->cleanData = (array)$cleanData;
         $this->validate($this->cleanData, $dataRepository);
+
         if (empty($this->errors)) {
+
             /**
              * getArr() method simple merges any data returned within the $this->fields() method and the 
              * $cleanData array and return a combine array of data
@@ -61,7 +63,6 @@ class UserValidate extends AbstractDataRepositoryValidation
                     "gravatar" => (new GravatarGenerator())->setGravatar($cleanData["email"]),
                     "remote_addr" => (new ClientIP())->getClientIp()
                 ];    
-
                 $this->dataBag['activation_hash'] = $activationHash;
                 if (null !== $dataRepository) {
                     unset($newCleanData['activation_token']);
@@ -105,7 +106,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      */
     private function validate(array $cleanData, ?Object $dataRepository = null) : ?array
     {
-        if (null !== $cleanData) {
+        if (null !== $cleanData) {    
             if (is_array($cleanData) && count($cleanData) > 0) {
                 foreach ($cleanData as $key => $value) :
                     if (isset($key) && $key !='') :
@@ -128,9 +129,9 @@ class UserValidate extends AbstractDataRepositoryValidation
                                 if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
                                     $this->errors[] = "Please enter a valid email address";
                                 }
-                                if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
+                                /*if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
                                     $this->errors[] = "Email address already exists";
-                                }
+                                }*/
                                 break;
                             case "firstame" :
                             case "lastname" :

@@ -61,7 +61,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
     
     public function onNewAction(Object $event)
     {
-        /*if ($event->isValid()) {
+        if ($event->isValid()) {
             $flash = $event->get()->locale('new_successful');
             if ($flash) {
                 return [
@@ -69,7 +69,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
                     "/admin/user/new"
                 ];
             }
-        }*/ 
+        }
     }
 
     public function onEditAction(Object $event)

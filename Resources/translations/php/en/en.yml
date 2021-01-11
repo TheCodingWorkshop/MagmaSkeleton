@@ -1,0 +1,13 @@
+new_added: Successfully added new item to database.
+fail_added: There was a problem adding item to database.
+fail_submission: The request fail. Please try again.
+fail_csrf_validation: Invalid or expired Csrf token
+changes_saved: Item successfully updated.
+item_deleted: Item permanently deleted from datatable.
+item_trash: The item has been trash. See trash for restoration option.
+suspended: Your account has been suspended until further notice.
+locked: Your account is locked. Admin is aware of this.
+pending: Your account is pending and need to be activated before you can access that area.
+activated: Your account is activated.
+login_successful: You are now logged in.
+login_fail: One or more fields were incorrect

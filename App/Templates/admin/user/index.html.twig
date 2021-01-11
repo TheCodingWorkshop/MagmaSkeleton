@@ -5,6 +5,11 @@
 {% block main %}
 	<section class="uk-child-width-1-1@s uk-child-width-1-1@l" uk-grid>
 		<div class="uk-width-expand@m">
+			<div class="uk-margin">
+				<a href="/admin/user/new" class="uk-button uk-button-small uk-button-primary">Add New</a>
+                <a href="/admin/user/index?status=trash">View Trash</a> |
+                <a href="/admin/user/index?status=active">Active</a>
+			</div>
 			<div>
 				<div class="uk-card uk-card-default">
 					<div class="uk-card-body">

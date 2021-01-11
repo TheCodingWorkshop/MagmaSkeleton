@@ -86,6 +86,11 @@ class UserController extends AdminController
 
         $repository = $this->userRepository()
         ->findWithSearchAndPaging($this->request->handler(), $args);
+    
+        /*$rest = new \MagmaCore\RestFul\RestHandler($repository);
+        echo $rest->response();
+        die();*/
+        
         $tableData = $this->tableGrid->create($this->column, $repository)->table();
         $this->render(
             'admin/user/index.html.twig',
@@ -216,6 +221,18 @@ class UserController extends AdminController
                 $action = $this->userRepository()
                 ->findByIDAndDelete(['id' => $this->thisRouteID()]);
                 
+                if ($this->eventDispatcher) {
+                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
+                }
+            endif;
+        endif;
+    }
+
+    protected function deleteBulkAction()
+    {
+        if (isset($this->formBuilder)) :
+            if ($this->formBuilderp->canHandleRequest()) :
+                $action = $this->userRepository()->findAndDelete($_POST['ids']);
                 if ($this->eventDispatcher) {
                     $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
                 }
