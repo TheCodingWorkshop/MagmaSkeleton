@@ -9,11 +9,12 @@
  */
 declare(strict_types=1);
 
-namespace App\Model;
+namespace App\Repository;
 
 use InvalidArgumentException;
 
 use MagmaCore\Auth\Contracts\UserPasswordRecoveryInterface;
+use App\Model\UserModel;
 use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\Token;
 use MagmaCore\Base\BaseView;

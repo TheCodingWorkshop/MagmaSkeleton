@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+	<div class="uk-card uk-card-default uk-margin-large-top">
+		<div class="uk-card-body">
+			<div class="uk-text-center">
+				<h2>
+					{% block content_title %}
+						<span uk-icon="icon: sign-in; ratio: 2"></span>
+						Signup
+					{% endblock content_title %}
+				</h2>
+			</div>
+
+			{{ form|raw }}
+
+            <hr/>
+            <div style="text-align: center;">
+                <p>
+                    Already register?
+                </p>
+                <a href="/login" class="uk-button uk-button-default">
+                    <span class="ion-android-person-add"></span>&nbsp;
+                    Signin
+                </a>
+            </div>
+
+		</div>
+	</div>
+
+{% endblock main %}

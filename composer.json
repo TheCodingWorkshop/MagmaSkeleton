@@ -47,8 +47,6 @@
             "MagmaSkeleton\\Tests\\": "tests/"
         }
     },
-    "require-dev": {
-    },
     "suggest": {
         "magmacore/magmacore": "added for a complete management system."
     }

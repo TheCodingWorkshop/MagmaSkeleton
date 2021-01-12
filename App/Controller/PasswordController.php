@@ -42,6 +42,7 @@ class PasswordController extends BaseController
         $this->container(
             [
                 "repository" => \App\Model\UserModel::class,
+                "passwordRepo" => \App\Repository\PasswordRepository::class,
                 "formPassword" => \App\Forms\Client\Password\PasswordForm::class,
                 "formResetPassword" => \App\Forms\Client\Password\ResetForm::class,
             ]
@@ -68,6 +69,12 @@ class PasswordController extends BaseController
         );
     }
 
+    /**
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     protected function requestResetAction()
     {
         if (isset($this->formBuilder)) :
@@ -75,11 +82,7 @@ class PasswordController extends BaseController
                 if ($this->formBuilder->csrfValidate()) {
                     $userEntity = new UserEntity($this->formBuilder->getData());
                     if ($this->repository->emailExists($userEntity->email)) {
-
-                        $this->repository
-                        ->findByUser($userEntity->email)
-                        ->sendUserResetPassword();
-
+                        $this->passwordRepo->findByUser($userEntity->email)->sendUserResetPassword();
                         $this->render('client/password/reset_requested.html.twig');
                     } else {
                         $this->flashMessage('Your email address could not be found!', $this->flashInfo());
@@ -91,7 +94,12 @@ class PasswordController extends BaseController
         endif;
     }
 
-
+    /**
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     protected function resetAction()
     {
         $token = $this->repository->parsedUrlToken($this->thisRouteToken());
@@ -104,13 +112,19 @@ class PasswordController extends BaseController
         
     }
 
+    /**
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     protected function resetPasswordAction()
     {
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('reset-password')) : {
                 if ($this->formBuilder->csrfValidate()) {
                     $userEntity = new UserEntity($this->formBuilder->getData());
-                    $repository = $this->repository->findByPasswordResetToken($userEntity->token);
+                    $repository = $this->passwordRepo->findByPasswordResetToken($userEntity->token);
                     $action = $this->repository->validatePassword($userEntity, $repository)->reset();
                     if ($action) {
                         $this->render('client/password/reset_success.html.twig');
