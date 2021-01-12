@@ -56,7 +56,8 @@ class SecurityController extends AuthSecurityController
     {
         return [
             'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
-            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class
+            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
+            //'isUserAccountActivated' => \App\Middleware\Before\isUserAccountActivated::class,
         ];
     }
 
