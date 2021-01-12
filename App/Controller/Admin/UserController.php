@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\AdminController;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use App\Event\FlashMessagesEvent;
@@ -45,7 +44,7 @@ class UserController extends AdminController
             [
                 "repository" => \MagmaCore\Auth\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
-                "formUser" => \App\Forms\Admin\User\UserForm::class,                
+                "formUser" => \App\Forms\Admin\User\UserForm::class,       
             ]
         );  
 
@@ -80,6 +79,7 @@ class UserController extends AdminController
      */
     protected function indexAction()
     { 
+
         $args = Yaml::file('controller')[$this->thisRouteController()];
         //$args['records_per_page'] = $this->tablegetSettings('records_per_page', $this->thisRouteController());
         //$args['filter_by'] = $this->tablegetSettings('filter_by', $this->thisRouteController());
@@ -91,7 +91,7 @@ class UserController extends AdminController
         echo $rest->response();
         die();*/
         
-        $tableData = $this->tableGrid->create($this->column, $repository)->table();
+        $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
         $this->render(
             'admin/user/index.html.twig',
             [

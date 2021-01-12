@@ -24,6 +24,7 @@
 				{{ asset_macro._stylesheets(Config('assets').stylesheets) }}
 				<style>body {font-family: 'Nunito', sans-serif;}</style>
 				{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
+				<link rel="stylesheet" href="{{ asset('build/app.css') }}">
 			{% endblock head_stylesheets %}
 
 			<script>
@@ -34,23 +35,10 @@
 		</head>
 		<body>
 			{% block body %}
-				{#{% include 'shared/loader.html.twig' %}#}
-				{% include 'shared/ie9.html.twig' %}
-				{% block main_wrapper %}
-					{% include 'shared/header.html.twig' %}
-					<section class="content-background">
-						<main class="uk-section-small page-body">
-							<div class="uk-container uk-container-small">
-								{{ flashMessages()|raw }}
-								{% block main %}{% endblock main %}
-							</div>
-							<!--//.uk-container-large -->
-						</main>
-					</section>
-				{% endblock main_wrapper %}
-
+				 {{ inertia(page) }}
 				{% block body_javascript %}
 					{{ asset_macro._scripts(Config('assets').scripts, 'footer') }}
+					<script src="{{ asset('./build/app.js') }}"></script>
 				{% endblock body_javascript %}
 
 				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->

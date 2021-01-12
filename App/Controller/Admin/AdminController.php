@@ -65,7 +65,6 @@ class AdminController extends BaseController
             'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
             'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
-            //'EmailAlreadyExists' => \App\Middleware\Before\EmailAlreadyExists::class
         ];
     }
 
@@ -78,7 +77,6 @@ class AdminController extends BaseController
     protected function callAfterMiddlewares() : array
     {
         return [
-
         ];
     }
 

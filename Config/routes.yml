@@ -31,6 +31,10 @@ admin/{controller}/{action}:
 
 admin/{controller}/{id:[\da-f]+}/{action}:
     namespace: Admin
+
+profile/{controller}/{action}:
+    namespace: Profile
+
+profile/{controller}/{profile_id:[\da-f]+}/{action}:
+    namespace: Profile
     
-charts/{controller}/{action}:
-    namespace: Charts

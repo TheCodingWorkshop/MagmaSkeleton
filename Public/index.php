@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 /**
@@ -22,8 +23,8 @@ defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . DS . "Config/");
  * allows us to run silex without any configuration. However in order
  * to server static files we need to handle it nicely
  */
-$filename = __DIR__ . preg_replace( '#(\?.*)$#', '', $_SERVER['REQUEST_URI'] );
-if ( php_sapi_name() == 'cli-server' && is_file( $filename ) ) {
+$filename = __DIR__ . preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+if (php_sapi_name() == 'cli-server' && is_file($filename)) {
     return false;
 }
 
@@ -39,8 +40,10 @@ if (is_file($autoload)) {
  * Load BaseApplication class. Which ignites and ties the MagmaCore framework
  * together.
  */
+
 use MagmaCore\Base\BaseApplication;
 use MagmaCore\Utility\Yaml;
+
 $app = new BaseApplication();
 
 /**
@@ -69,7 +72,17 @@ $app->setSession(
     Yaml::file('session'),
     'my_application_session'
 );
-
+/*$app
+->setContainer(Yaml::file('providers'))
+    ->setConfig(Yaml::file('app'), Yaml::file('cache')['identifier'])
+    ->setCookie(Yaml::file('cookie'))
+    ->setSession(Yaml::file('session'), Yaml::file('session')['session_name'])
+    ->setCache(Yaml::file('cache'))
+    ->setRouter(Yaml::file('routes'), null, $_SERVER['QUERY_STRING'])
+    ->setErrorHandler()
+    ->setPath(ROOT_PATH)
+    ->run();
+*/
 /**
  * Setup the application router.
  * 1. array of routes from application routes.yaml file should located within te Config directory
@@ -94,6 +107,31 @@ $app->setErrorHandlers();
  * Return the fully configured application
  */
 $app->run();
+
+use MagmaCore\Http\Event\RequestEvent;
+use MagmaCore\Http\Event\ResponseEvent;
+use MagmaCore\Http\Event\BaseEvents;
+use MagmaCore\Inertia\EventListener\InertiaListener;
+use MagmaCore\EventDispatcher\EventDispatcher;
+use MagmaCore\Http\ResponseHandler;
+use MagmaCore\Http\RequestHandler;
+use MagmaCore\Inertia\Service\Inertia;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
+$res = new Response();
+$req = new Request();
+$inertia = new Inertia(ROOT_PATH, new Environment($loader));
+$dispatcher = new EventDispatcher();
+$loader = new FilesystemLoader('templates', TEMPLATE_PATH);
+$listener = new InertiaListener($inertia);
+$dispatcher->addListener('request', [$listener, 'onBaseRequest']);
+$dispatcher->addListener('response', [$listener, 'OnBaseResponse']);
+$dispatcher->dispatch(new RequestEvent($req, 1), 'request');
+$dispatcher->dispatch(new ResponseEvent($req, 1, $res), 'response');
 
 /*use MagmaCore\EventDispatcher\EventDispatcher;
 use App\EventSubscriber\UserSubscriber;
