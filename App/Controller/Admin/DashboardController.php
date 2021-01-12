@@ -14,10 +14,8 @@ namespace App\Controller\Admin;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
-use Symfony\Component\HttpFoundation\Response;
-use MagmaCore\Inertia\BaseInertiaController;
 
-class DashboardController extends BaseInertiaController
+class DashboardController extends AdminController
 {
 
     /**
@@ -56,10 +54,10 @@ class DashboardController extends BaseInertiaController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function indexAction() : Response
+    protected function indexAction()
     { 
 
-        $this->renderWithInertia(
+        $this->render(
             'admin/dashboard/index.html.twig',
             [
             ] 

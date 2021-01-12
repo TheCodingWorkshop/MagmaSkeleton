@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+	<div class="uk-card uk-card-default uk-margin-large-top">
+		<div class="uk-card-body">
+			<center>
+				<h2>
+					{% block content_title %}
+						<span uk-icon="icon: lock; ratio: 2">New Password</span>
+					{% endblock content_title %}
+				</h2><br/>
+			</center>
+            {{ form|raw }}
+		</div>
+	</div>
+
+{% endblock main %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script src="{{ asset('/resources/js/hideShowPassword.min.js') }}"></script>
+    <script src="{{ asset('/resources/js/app.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            /**
+             * Validate the form
+             */
+            $('#user-password-form').validate({
+                rules: {
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        validPassword: true
+                    }
+                }
+            });
+
+
+            /**
+              * Show password toggle button
+              */
+            $('#inputPassword').hideShowPassword({
+                show: false,
+                innerToggle: 'focus'
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -51,7 +51,7 @@
 				{% endblock main_wrapper %}
 
 				{% block body_javascript %}
-					{{ asset_macro._scripts(Config('assets').scripts, 'footer') }}#
+					{{ asset_macro._scripts(Config('assets').scripts, 'footer') }}
 					<script src="{{ asset('./build/app.js') }}"></script>
 				{% endblock body_javascript %}
 

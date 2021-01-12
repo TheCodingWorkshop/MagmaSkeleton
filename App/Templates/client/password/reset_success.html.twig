@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+
+{% block main %}
+	<div class="uk-card uk-card-default uk-margin-large-top">
+		<div class="uk-card-body">
+			<center>
+				<h2>
+					{% block content_title %}
+						Password reset Success
+					{% endblock content_title %}
+				</h2><br/>
+			</center>
+			<p>You can now
+				<a href="/login"> Login</a>.</p>
+		</div>
+	</div>
+
+{% endblock main %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Forgot Password
+{% endblock %}
+
+{% block main %}
+	<div class="uk-card uk-card-default uk-margin-large-top">
+		<div class="uk-card-body">
+			<center>
+				<h2>
+					{% block content_title %}
+						<span uk-icon="icon: lock; ratio: 2"></span>
+					{% endblock content_title %}
+				</h2><br/>
+			</center>
+			{{ form|raw }}
+			<center>
+				<p>
+					No Account Yet?
+				</p>
+				<a href="/registration/register" class="uk-button uk-button-default">
+					<span class="ion-android-person-add"></span>&nbsp;
+					Register
+				</a>
+			</center>
+
+			</div>
+		</div>
+
+	{% endblock %}

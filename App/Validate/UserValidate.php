@@ -104,7 +104,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param Object|null $dataRepository
      * @return void
      */
-    private function validate(array $cleanData, ?Object $dataRepository = null) : ?array
+    public function validate(array $cleanData, ?Object $dataRepository = null) : ?array
     {
         if (null !== $cleanData) {    
             if (is_array($cleanData) && count($cleanData) > 0) {
