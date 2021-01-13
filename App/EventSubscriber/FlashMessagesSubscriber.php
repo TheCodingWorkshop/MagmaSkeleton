@@ -7,12 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace App\EventSubscriber;
 
-use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use App\Event\FlashMessagesEvent;
+use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 class FlashMessagesSubscriber implements EventSubscriberInterface
 {
@@ -24,11 +24,10 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
      *
      * @return array
      */
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
-            FlashMessagesEvent::NAME => ['onSuccessOrFailAction']
-            
+            FlashMessagesEvent::NAME => ['onSuccessOrFailAction'],
         ];
 
     }
@@ -36,40 +35,39 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
     public function onSuccessOrFailAction(FlashMessagesEvent $event)
     {
         if (!empty($event->get()->thisRouteAction())) {
-            switch ($event->get()->thisRouteAction()) :
-                case 'new' :
-                        list(
-                            $flash, 
-                            $redirect) = $this->onNewAction($event);
-                    break;
-                case 'edit' :
-                    list(
-                        $flash, 
-                        $redirect) = $this->onEditAction($event);
-                break;   
-                case 'delete' :
-                    list(
-                        $flash, 
-                        $redirect) = $this->onDeleteAction($event);
-                break;         
+            switch ($event->get()->thisRouteAction()):
+        case 'new':
+            list(
+                $flash,
+                $redirect) = $this->onNewAction($event);
+            break;
+        case 'edit':
+            list(
+                $flash,
+                $redirect) = $this->onEditAction($event);
+            break;
+        case 'delete':
+            list(
+                $flash,
+                $redirect) = $this->onDeleteAction($event);
+            break;
             endswitch;
             $event->get()->flashMessage($flash);
-            //$event->get()->redirect($redirect);
+            $event->get()->redirect($redirect);
         }
     }
 
-    
     public function onNewAction(Object $event)
     {
-        if ($event->isValid()) {
-            $flash = $event->get()->locale('new_successful');
-            if ($flash) {
-                return [
-                    $flash,
-                    "/admin/user/new"
-                ];
+            if ($event->isValid()) {
+                $flash = $event->get()->locale('new_successful');
+                if ($flash) {
+                    return [
+                        $flash,
+                        "/admin/user/new",
+                    ];
+                }
             }
-        }
     }
 
     public function onEditAction(Object $event)
@@ -79,24 +77,23 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/{$event->get()->thisRouteID()}/edit"
+                    "/admin/user/{$event->get()->thisRouteID()}/edit",
                 ];
-           }
+            }
         }
     }
 
     public function onDeleteAction(Object $event)
     {
-                          /*if ($event->isValid()) {
+        if ($event->isValid()) {
             $flash = $event->get()->locale('item_deleted');
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/index"
+                    "/admin/user/index",
                 ];
             }
-        }*/
+        }
     }
-
 
 }

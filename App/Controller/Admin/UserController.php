@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use App\Event\FlashMessagesEvent;
+use App\Event\RequestRedirectEvent;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -187,7 +188,7 @@ class UserController extends AdminController
                     ->saveAfterValidation(['id' => $this->thisRouteID()]);
                     if ($this->eventDispatcher) {
                         $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
-                    }        
+                    }
                 }
             }
         endif;

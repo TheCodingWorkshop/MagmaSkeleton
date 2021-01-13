@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use MagmaCore\Base\BaseController;
-use MagmaCore\Auth\Authorized;
 use LoaderError;
-use RuntimeError;
 use SyntaxError;
+use RuntimeError;
+use MagmaCore\Auth\Authorized;
+use App\Event\FlashMessagesEvent;
+use MagmaCore\Base\BaseController;
 
 class SecurityController extends BaseController
 {
