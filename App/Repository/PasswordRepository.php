@@ -121,5 +121,20 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
         return false;
     }
 
+    /**
+     * Fetch the user object from the valid token within the url. Method will
+     * false if the token has expired
+     *
+     * @param string $tokenHash - the URL hash token sent to the user who requested it
+     * @return object
+     * @throws Throwable
+     */
+    public function parsedUrlToken($tokenHash)
+    {
+        $user = $this->findByPasswordResetToken($tokenHash);
+        if ($user !=null) {
+            return $user;
+        }
+    }
 
 }

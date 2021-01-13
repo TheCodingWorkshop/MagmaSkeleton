@@ -102,7 +102,7 @@ class PasswordController extends BaseController
      */
     protected function resetAction()
     {
-        $token = $this->repository->parsedUrlToken($this->thisRouteToken());
+        $token = $this->passwordRepo->parsedUrlToken($this->thisRouteToken());
         if ($token) {
             $this->render('client/password/reset.html.twig',["form" => $this->formResetPassword->createForm('/password/reset-password', $this->thisRouteToken())]);
         } else {
@@ -125,7 +125,7 @@ class PasswordController extends BaseController
                 if ($this->formBuilder->csrfValidate()) {
                     $userEntity = new UserEntity($this->formBuilder->getData());
                     $repository = $this->passwordRepo->findByPasswordResetToken($userEntity->token);
-                    $action = $this->repository->validatePassword($userEntity, $repository)->reset();
+                    $action = $this->passwordRepo->validatePassword($userEntity, $repository)->reset();
                     if ($action) {
                         $this->render('client/password/reset_success.html.twig');
                     } else {

@@ -2,6 +2,12 @@
 
 {% block content_title %}Edit {{ user.firstname }}{% endblock content_title %}
 {% block main %}
+    {% if user.status == 'pending' %}
+        <div class="uk-placeholder">
+            This account is not activated
+        </div>
+    {% endif %}
+    <a href="/admin/user/index">Back</a>
 {% if errors is not empty %}
     {% for error in errors %}
         <div class="uk-alert">{{ error }}</div>

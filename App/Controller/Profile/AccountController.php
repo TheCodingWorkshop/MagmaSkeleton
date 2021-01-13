@@ -11,12 +11,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
+use MagmaCore\Auth\Controller\AuthSecurityController;
 use MagmaCore\Base\BaseController;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
 
-class AccountController extends BaseController
+class AccountController extends AuthSecurityController
 {
 
     /**
@@ -39,8 +40,30 @@ class AccountController extends BaseController
          * property for the userModel object like so $this->userModel->getRepo();
          */
         $this->container(
-            [/** Dependencies goes here! */]
+            [
+                "repository" => \App\Model\UserModel::class
+            ]
         );
+    }
+
+    /**
+     * Middleware which are executed before any action methods is called
+     * middlewares are return within an array as either key/value pair. Note
+     * array keys should represent the name of the actual class its loading ie
+     * upper camel case for array keys. alternatively array can be defined as 
+     * an index array omitting the key entirely
+     *
+     * @return array
+     */
+    protected function callBeforeMiddlewares() : array
+    {
+        return [
+            'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
+            'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
+            'loginRequired' => \App\Middleware\Before\LoginRequired::class,
+            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
+            'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
+        ];
     }
 
     /**
@@ -55,9 +78,48 @@ class AccountController extends BaseController
      */
     protected function indexAction()
     { 
-        $user = $this->repository
-        ->getRepo()
-        ->findObjectBy(['id' => $this->thisRouteID()], ['email', 'id', 'firstname', 'lastname']);
+        $this->render(
+            'client/profile/index.html.twig',
+            [
+            ]
+        );
+    }
+
+    /**
+     * Entry method which is hit on request. This method should be implement within
+     * all sub controller class as a default landing point when a request is 
+     * made.
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function showAction()
+    {
+        $this->render('client/profile/show.html.twig',
+            [
+                "profile" => $this->repository
+                    ->getRepo()
+                    ->findAndReturn($_SESSION['user_id'])
+                    ->or404()
+            ]
+        );
+    }
+
+    /**
+     * Entry method which is hit on request. This method should be implement within
+     * all sub controller class as a default landing point when a request is 
+     * made.
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function editAction()
+    {
+
     }
 
 }

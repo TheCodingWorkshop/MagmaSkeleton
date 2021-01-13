@@ -26,15 +26,16 @@ activation/activate/{token:[\da-f]+}:
     controller: Activation
     action: activate
 
+profile/{controller}/{action}:
+    namespace: Profile
+
+profile/{controller}/{id:[\da-f]+}/{action}:
+    namespace: Profile
+
 admin/{controller}/{action}:
     namespace: Admin
 
 admin/{controller}/{id:[\da-f]+}/{action}:
     namespace: Admin
 
-profile/{controller}/{action}:
-    namespace: Profile
-
-profile/{controller}/{profile_id:[\da-f]+}/{action}:
-    namespace: Profile
     
