@@ -1,15 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block content_title %}New User{% endblock content_title %}
+{% block content_title %}New User
+{% endblock content_title %}
 {% block main %}
+	<a href="/admin/user/index" class="uk-button-text">Go Back</a>
 
-{% if errors is not empty %}
-    {% for error in errors %}
-        <div class="uk-alert">{{ error }}</div>
-    {% endfor %}
-{% endif %}
-
-    <a href="/admin/user/index" class="uk-button-text">Go Back</a>
-
-    {{ form|raw }}
+	{{ form|raw }}
 {% endblock main %}

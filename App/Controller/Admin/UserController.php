@@ -151,8 +151,9 @@ class UserController extends AdminController
                     $action = $this->userRepository()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()))
                     ->persistAfterValidation();
+                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
                     if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
                     }    
                 }
             }
@@ -161,7 +162,6 @@ class UserController extends AdminController
             "/admin/user/new.html.twig",
             [
                 "form" => $this->formUser->createForm('/admin/user/new'),
-                "errors" => $this->userRepository()->getValidationErrors(),
             ]
         );
     }
@@ -186,8 +186,9 @@ class UserController extends AdminController
                     $action = $this->userRepository()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
                     ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
                     if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
                     }
                 }
             }
@@ -195,7 +196,6 @@ class UserController extends AdminController
         $this->render('/admin/user/edit.html.twig',
             [
                 "form" => $this->formUser->createForm("/admin/user/{$this->thisRouteID()}/edit", $this->findUserOr404()),
-                "errors" => $this->userRepository()->getValidationErrors(),
                 "help_block" => "",
                 "user" => $this->findUserOr404(),
                 "total_records" => "",
@@ -221,9 +221,9 @@ class UserController extends AdminController
             if ($this->formBuilder->canHandleRequest()) :
                 $action = $this->userRepository()
                 ->findByIDAndDelete(['id' => $this->thisRouteID()]);
-                
+                $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
                 if ($this->eventDispatcher) {
-                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
+                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
                 }
             endif;
         endif;

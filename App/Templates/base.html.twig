@@ -9,30 +9,32 @@
 				{{ block('content_title')|capitalize|striptags|raw }}
 			{% endblock title %}
 		</title>
-		<meta name="description" content="">
+		<meta name="description" content="Default description goes here">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="manifest" href="site.webmanifest">
+
 		{% if app.favicon %}
 			<link type='image/x-icon' href='{{ app.favicon }}' rel='shortcut icon'>
 		{% endif %}
+
 		{% if app.apple_icon %}
 			<linkrel="apple-touch-icon" href="{{ app.apple_icon }}">
 		{% endif %}
+
 			<!-- Place favicon.ico in the root directory -->
 
-			{% block head_stylesheets %}
-				{{ asset_macro._stylesheets(Config('assets').stylesheets) }}
-				<style>body {font-family: 'Nunito', sans-serif;}</style>
-				{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
-				<link rel="stylesheet" href="{{ asset('build/app.css') }}">
-			{% endblock head_stylesheets %}
+		{% block head_stylesheets %}
+			{{ asset_macro._stylesheets(Config('assets').stylesheets) }}
+			<style>body {font-family: 'Nunito', sans-serif;}</style>
+			{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
+		{% endblock head_stylesheets %}
 
-			<script>
-				$(window).on("load", function () {
-					$(".preloader").fadeOut("slow");;
-				});
-			</script>
-		</head>
+		<script>
+			$(window).on("load", function () {
+				$(".preloader").fadeOut("slow");;
+			});
+		</script>
+	</head>
 		<body>
 			{% block body %}
 				{#{% include 'shared/loader.html.twig' %}#}

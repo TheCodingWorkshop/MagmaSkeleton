@@ -39,60 +39,101 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
         case 'new':
             list(
                 $flash,
-                $redirect) = $this->onNewAction($event);
+                $redirect,
+                $type) = $this->onNewAction($event);
             break;
         case 'edit':
             list(
                 $flash,
-                $redirect) = $this->onEditAction($event);
+                $redirect,
+                $type) = $this->onEditAction($event);
             break;
         case 'delete':
             list(
                 $flash,
-                $redirect) = $this->onDeleteAction($event);
+                $redirect,
+                $type) = $this->onDeleteAction($event);
             break;
             endswitch;
-            $event->get()->flashMessage($flash);
+            
+            if (is_array($flash) && count($flash) > 0) {
+                $event->get()->flashMessage(count($flash) . " Error<br>" . implode('<br>', $flash), $type);
+            } else {
+                $event->get()->flashMessage($flash, $type);
+            }
             $event->get()->redirect($redirect);
         }
     }
 
     public function onNewAction(Object $event)
     {
-            if ($event->isValid()) {
-                $flash = $event->get()->locale('new_successful');
-                if ($flash) {
-                    return [
-                        $flash,
-                        "/admin/user/new",
-                    ];
-                }
+        if ($event->isValid()['action'] === true) {
+            $flash = $event->get()->locale('new_successful');
+            if ($flash) {
+                return [
+                    $flash,
+                    "/admin/user/new",
+                    "success"
+                ];
             }
+        } else {
+            $flash = $event->isvalid()['errors'];
+            if ($flash) {
+                return [
+                    $flash,
+                    "/admin/user/new",
+                    "warning"
+                ];
+            }
+
+        }
     }
 
     public function onEditAction(Object $event)
     {
-        if ($event->isValid()) {
+        if ($event->isValid()['action'] === true) {
             $flash = $event->get()->locale('changes_saved');
             if ($flash) {
                 return [
                     $flash,
                     "/admin/user/{$event->get()->thisRouteID()}/edit",
+                    "success"
                 ];
             }
+        } else {
+            $flash = $event->isvalid()['errors'];
+            if ($flash) {
+                return [
+                    $flash,
+                    "/admin/user/{$event->get()->thisRouteID()}/edit",
+                    "warning"
+                ];
+            }
+
         }
     }
 
     public function onDeleteAction(Object $event)
     {
-        if ($event->isValid()) {
+        if ($event->isValid()['action'] === true) {
             $flash = $event->get()->locale('item_deleted');
             if ($flash) {
                 return [
                     $flash,
                     "/admin/user/index",
+                    "success"
                 ];
             }
+        } else {
+            $flash = $event->isvalid()['errors'];
+            if ($flash) {
+                return [
+                    $flash,
+                    "/admin/user/index",
+                    "warning"
+                ];
+            }
+
         }
     }
 

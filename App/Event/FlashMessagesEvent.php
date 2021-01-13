@@ -18,18 +18,18 @@ class FlashMessagesEvent extends Event
 
     /** @var string - name of the event */
     public const NAME = 'app.event.flash_messages_event';
-    /** @var bool */
-    private bool $action;
+    /** @var array */
+    private array $action;
     /** @var Object - teh current controller object */
     private $controller;
 
     /**
      * Undocumented function
      *
-     * @param boolean $action
+     * @param array $action
      * @param Object $controllerObject
      */
-    public function __construct(bool $action, Object $controllerObject)
+    public function __construct(array $action, Object $controllerObject)
     { 
         $this->action = $action;
         $this->controller = $controllerObject;
