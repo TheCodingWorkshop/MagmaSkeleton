@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use MagmaCore\Auth\Controller\AuthSecurityController;
 use MagmaCore\Base\BaseController;
+use App\Entity\UserEntity;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;

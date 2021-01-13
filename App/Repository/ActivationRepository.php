@@ -11,16 +11,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use InvalidArgumentException;
-
-use MagmaCore\Auth\Contracts\UserActivationRepository;
+use MagmaCore\Auth\Contracts\UserActivationInterface;
 use App\Model\UserModel;
 use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\Token;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\MailerFacade;
 
-class ActivationRepository extends UserModel implements UserActivationRepository
+class ActivationRepository extends UserModel implements UserActivationInterface
 { 
 
     /**
