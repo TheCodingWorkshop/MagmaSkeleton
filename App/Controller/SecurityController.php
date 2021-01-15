@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -15,11 +16,14 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use MagmaCore\Auth\Authorized;
+use MagmaCore\Utility\Sanitizer;
 use App\Event\FlashMessagesEvent;
 use MagmaCore\Base\BaseController;
 
 class SecurityController extends BaseController
 {
+
+    protected bool $isLoggedIn = false;
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
@@ -57,10 +61,10 @@ class SecurityController extends BaseController
      *
      * @return array
      */
-    protected function callBeforeMiddlewares() : array
+    protected function callBeforeMiddlewares(): array
     {
         return [
-            'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
+            'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
         ];
     }
@@ -74,7 +78,7 @@ class SecurityController extends BaseController
      *
      * @return array
      */
-    protected function callAfterMiddlewares() : array
+    protected function callAfterMiddlewares(): array
     {
         return [
             'SessionExpiresCleanUp' => \App\Middleware\After\SessionExpiresCleanUp::class,
@@ -93,7 +97,7 @@ class SecurityController extends BaseController
      * @throws SyntaxError
      */
     protected function indexAction()
-    { 
+    {
 
         if (isset($this->loginForm)) {
             $this->render(
@@ -115,24 +119,27 @@ class SecurityController extends BaseController
      */
     protected function loginAction()
     {
-        $authenticatedUser = $this->authenticator->authenticate($_POST['email'], $_POST['password_hash']);
+        //$cleanData = (new Sanitizer())->clean(['email' => $this->request->handler()->get('email'), 'password_hash' => $this->request->handler()->get('email')]);
+
+        $authenticatedUser = $this->authenticator->authenticate($this->request->handler()->get('email'), $this->request->handler()->get('password_hash'));
         $remember = $this->request->handler()->get('remember_me');
-        if (isset($this->formBuilder)) :    
+        if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signin')) : {
-                if ($this->formBuilder->csrfValidate()) {
-                    if ($authenticatedUser) {
-                        $this->getLogin($authenticatedUser, $remember);
-                        $this->flashMessage($this->locale('login_successful'), $this->flashSuccess());
-                        $this->redirect('/');
+                    if ($this->formBuilder->csrfValidate()) {
+                        if ($authenticatedUser) {
+                            $this->getLogin($authenticatedUser, $remember);
+                            $this->isLoggedIn = true;
+                            $actionEvent = ['action' => true, 'errors' => $this->authenticator->getErrors()];
+                            if ($this->eventDispatcher) {
+                                $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+                            }
+                        }
                     } else {
-                        $this->flashMessage($this->locale('login_fail', $this->flashWarning()));
+                        $this->isLoggedIn = false;
+                        $this->flashMessage($this->locale('fail_csrf_validation', $this->flashDanger()));
                         $this->redirect($this->onSelf());
                     }
-                } else {
-                    $this->flashMessage($this->locale('fail_csrf_validation', $this->flashDanger()));
-                    $this->redirect($this->onSelf());
                 }
-            }
             endif;
         endif;
     }
@@ -143,7 +150,7 @@ class SecurityController extends BaseController
      *
      * @return void
      */
-    protected function logoutAction() : void
+    protected function logoutAction(): void
     {
         Authorized::logout();
         $this->redirect("/security/show-logout-message");
@@ -171,10 +178,8 @@ class SecurityController extends BaseController
      * @param bool $remember
      * @return void
      */
-    private function getLogin(Object $authenticatedUser, $remember) : void
+    private function getLogin(Object $authenticatedUser, $remember): void
     {
         Authorized::login($authenticatedUser, $remember);
     }
-
-
 }

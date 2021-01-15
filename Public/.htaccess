@@ -16,7 +16,7 @@
     # to the front controller "/index.php" but be rewritten to "/index.php/index".
     # Remove the question mark from the request but maintain the query string
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /MagmaSkeleton/
 
     ## Begin - X-Forwarded-Proto
     # In some hosted or load balanced environments, SSL negotiation happens upstream.
@@ -25,6 +25,7 @@
     #
     # RewriteCond %{HTTP:X-Forwarded-Proto} https
     # RewriteRule .* - [E=HTTPS:on]
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     #
     ## End - X-Forwarded-Proto
 
@@ -34,11 +35,12 @@
     # Rewrite all other queries to the front controller.
     # If the requested path and file is not /index.php and the request
     # has not already been internally rewritten to the index.php script
-    # RewriteCond %{REQUEST_URI} !^/index\.php
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-l
     RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+
     ## End - Index
 
     ## Begin - Security

@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Middleware\Before;
@@ -19,21 +20,22 @@ class LoginRequired extends BeforeMiddleware
 {
 
     /**
-     * Undocumented function
+     * Requires basic login when entering protected routes
      *
      * @param Object $object - contains the BaseController object
      * @param Closure $next
      * @return void
      */
     public function middleware(Object $object, Closure $next)
-    {   
+    {
         if ($user = Authorized::grantedUser()) {
-            if (null !== $user) {
+            if (!$user) {
+                $object->flashMessage('Please login in to access that area', $object->flashInfo());
                 Authorized::rememberRequestedPage();
                 $object->redirect('/login');
             }
         }
+
         return $next($object);
     }
-
 }

@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use MagmaCore\Base\BaseController;
-use App\Entity\UserEntity;
 use LoaderError;
-use RuntimeError;
 use SyntaxError;
+use RuntimeError;
+use App\Entity\UserEntity;
+use App\Event\FlashMessagesEvent;
+use MagmaCore\Base\BaseController;
 
 class RegistrationController extends BaseController
 {
@@ -97,10 +98,10 @@ class RegistrationController extends BaseController
                     ->getRepo()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()))
                     ->persistAfterValidation();
+                    $actionEvent = ['action' => $action, 'errors' => $this->repository->getRepo()->getValidationErrors()];
 
-                    if ($action) {
-                        $this->flashMessage('Successfully Registered.');
-                        $this->redirect('/');
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
                     }
                 }
             }

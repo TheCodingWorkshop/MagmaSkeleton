@@ -39,7 +39,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 
         //$roles = new RoleRepository();
 
-        return $this->form(['action' => $action, 'class' => ['uk-form-horizontal']])
+        return $this->form(['action' => $action, 'class' => ['uk-form-horizontal'], "id" => "userForm"])
             ->add(
                 [TextType::class => [
                     'name' => 'firstname',

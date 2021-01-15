@@ -14,7 +14,6 @@ namespace App\Controller\Admin;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
 use App\Event\FlashMessagesEvent;
-use App\Event\RequestRedirectEvent;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -51,7 +50,14 @@ class UserController extends AdminController
 
     }
 
-    private function userRepository()
+    /**
+     * helper function which returns the current userModel object as the
+     * user repository. This method is used many times throughout the file
+     * this just provide a central method which can be used instead
+     *
+     * @return object
+     */
+    private function userRepository() : Object
     {
         $repository = $this->repository->getRepo();
         if (null !== $repository) {
@@ -59,6 +65,12 @@ class UserController extends AdminController
         }
     }
 
+    /**
+     * Returns a 404 error page if the data is not present within the database
+     * else return the requested object
+     *
+     * @return mixed
+     */
     private function findUserOr404()
     {
         $repository = $this->userRepository()
@@ -80,18 +92,18 @@ class UserController extends AdminController
      */
     protected function indexAction()
     { 
-
+        /**
+         * the two block below provides a mean of overriding the default settings 
+         * within the controller.yml file. So from the admin panel we can override
+         * the records_per_page and the filter_by options dynamically
+         */
         $args = Yaml::file('controller')[$this->thisRouteController()];
-        //$args['records_per_page'] = $this->tablegetSettings('records_per_page', $this->thisRouteController());
-        //$args['filter_by'] = $this->tablegetSettings('filter_by', $this->thisRouteController());
+        $args['records_per_page'] = $this->tableSettings($this->thisRouteController(), 'records_per_page');
+        $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
 
         $repository = $this->userRepository()
         ->findWithSearchAndPaging($this->request->handler(), $args);
-    
-        /*$rest = new \MagmaCore\RestFul\RestHandler($repository);
-        echo $rest->response();
-        die();*/
-        
+            
         $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
         $this->render(
             'admin/user/index.html.twig',
@@ -102,11 +114,16 @@ class UserController extends AdminController
                 "total_records" => $this->tableGrid->totalRecords(),
                 "columns" => $this->tableGrid->getColumns(),
                 "results" => $repository,
-                /*"search_query" => $this
+                "search_query" => $this
                     ->request
                     ->handler()
                     ->query
-                    ->getAlnum($this->tableGetSettings('filter_by')),*/
+                    ->getAlnum(
+                        implode(
+                            "|", 
+                            $this->tableSettings($this->thisRouteController(), 'filter_by')
+                        )
+                    ),
                 "help_block" => ""
             ] 
         );

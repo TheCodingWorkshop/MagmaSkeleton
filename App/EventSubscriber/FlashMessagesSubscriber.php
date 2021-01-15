@@ -36,24 +36,36 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
     {
         if (!empty($event->get()->thisRouteAction())) {
             switch ($event->get()->thisRouteAction()):
-        case 'new':
-            list(
-                $flash,
-                $redirect,
-                $type) = $this->onNewAction($event);
-            break;
-        case 'edit':
-            list(
-                $flash,
-                $redirect,
-                $type) = $this->onEditAction($event);
-            break;
-        case 'delete':
-            list(
-                $flash,
-                $redirect,
-                $type) = $this->onDeleteAction($event);
-            break;
+                case 'new':
+                    list(
+                        $flash,
+                        $redirect,
+                        $type) = $this->onNewAction($event);
+                    break;
+                case 'edit':
+                    list(
+                        $flash,
+                        $redirect,
+                        $type) = $this->onEditAction($event);
+                    break;
+                case 'delete':
+                    list(
+                        $flash,
+                        $redirect,
+                        $type) = $this->onDeleteAction($event);
+                    break;
+                case 'register' :
+                    list(
+                        $flash,
+                        $redirect,
+                        $type) = $this->onRegisterAction($event);
+                    break;
+                case 'login' :
+                list(
+                    $flash,
+                    $redirect,
+                    $type) = $this->onLoginAction($event);
+                    break;
             endswitch;
             
             if (is_array($flash) && count($flash) > 0) {
@@ -136,5 +148,54 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
 
         }
     }
+
+    public function onRegisterAction(Object $event)
+    {
+        if ($event->isValid()['action'] === true) {
+            $flash = $event->get()->locale('new_user_added');
+            if ($flash) {
+                return [
+                    $flash,
+                    "/register",
+                    "success"
+                ];
+            }
+        } else {
+            $flash = $event->isvalid()['errors'];
+            if ($flash) {
+                return [
+                    $flash,
+                    "/register",
+                    "warning"
+                ];
+            }
+
+        }
+    }
+
+    public function onLoginAction(Object $event)
+    {
+        if ($event->isValid()['action'] === true) {
+            $flash = $event->get()->locale('welcome_back');
+            if ($flash) {
+                return [
+                    $flash,
+                    "/login",
+                    "success"
+                ];
+            }
+        } else {
+            $flash = $event->isvalid()['errors'];
+            if ($flash) {
+                return [
+                    $flash,
+                    "/login",
+                    "warning"
+                ];
+            }
+
+        }
+    }
+
 
 }

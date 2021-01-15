@@ -13,3 +13,30 @@
 
 	{{ form|raw }}
 {% endblock main %}
+
+{% block body_javascript %}
+	{{ parent() }}
+	<script type="application/javascript">
+		const form = document.getElementById("userForm");
+		function save(data) {
+			const message = document.getElementById("status-message")
+			fetch("/admin/user/238/edit", {
+				method: "POST",
+				body: data,
+				headers: {'X-Requested-With', 'XMLHttpRequest'}
+			})
+			.then(response => response.json())
+			.then(response => {message.innerHTML = response.message})
+			.catch(error => {
+				error.json().then(response => {
+					message.innerHTML = response.message
+				})
+			})
+		}
+		const submitEvent = form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const formData = new FormData(form
+			save(formData))
+		})
+	</script>
+{% endblock body_javascript %}
