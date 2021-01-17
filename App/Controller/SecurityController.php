@@ -16,7 +16,6 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use MagmaCore\Auth\Authorized;
-use MagmaCore\Utility\Sanitizer;
 use App\Event\FlashMessagesEvent;
 use MagmaCore\Base\BaseController;
 
@@ -119,9 +118,7 @@ class SecurityController extends BaseController
      */
     protected function loginAction()
     {
-        //$cleanData = (new Sanitizer())->clean(['email' => $this->request->handler()->get('email'), 'password_hash' => $this->request->handler()->get('email')]);
-
-        $authenticatedUser = $this->authenticator->authenticate($this->request->handler()->get('email'), $this->request->handler()->get('password_hash'));
+        $authenticatedUser = $this->authenticator->authenticate($this->request->handler()->get('email'), $this->request->handler()->get('password_hash'), $this);
         $remember = $this->request->handler()->get('remember_me');
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signin')) : {

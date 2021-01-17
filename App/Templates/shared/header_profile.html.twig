@@ -1,0 +1,29 @@
+<div class="uk-navbar-right uk-light">
+	<ul class="uk-navbar-nav">
+		{% set links = {
+                    edit_profile: {title: 'My Account', path: _account_profile, header: 'Options'},
+                    preference: {title: 'Preferences', path: '', header: ''},
+                    settings: {title: 'Settings', path: '', header: ''},
+                    lock: {title: 'Lock', path: '', header: 'Action'},
+                    logout: {title: 'Logout', path: '/logout'}
+                } %}
+
+		<li class="uk-active">
+			<a href="#">{{ current_user.firstname }} &nbsp;<span class="ion-ios-arrow-down"></span>
+			</a>
+			<div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
+				<ul class="uk-nav uk-navbar-dropdown-nav">
+					{% for index, link in links %}
+						{% if link.header !='' %}
+							<li class="uk-nav-header">{{ link.header }}</li>
+						{% endif %}
+						<li>
+							<a href="{{ link.path }}">{{ link.title !='' ? link.title|capitalize : index|capitalize }}</a>
+						</li>
+
+					{% endfor %}
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>

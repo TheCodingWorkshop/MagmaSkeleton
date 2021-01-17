@@ -1,0 +1,96 @@
+{% import "macros/asset.macro.html.twig" as asset_macro %}
+{% import "macros/nav.macro.html.twig" as menu %}
+
+<!doctype html>
+<html class="no-js" lang="{{ Config('app').settings.default_locale }}">
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			{% block title %}
+				{{ block('content_title')|capitalize|striptags|raw }}
+			{% endblock title %}
+		</title>
+		<meta name="description" content="Default description goes here">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="manifest" href="site.webmanifest">
+
+		{% if app.favicon %}
+			<link type='image/x-icon' href='{{ app.favicon }}' rel='shortcut icon'>
+		{% endif %}
+
+		{% if app.apple_icon %}
+			<linkrel="apple-touch-icon" href="{{ app.apple_icon }}">
+		{% endif %}
+
+			<!-- Place favicon.ico in the root directory -->
+
+		{% block head_stylesheets %}
+			{{ asset_macro._stylesheets(Config('assets').stylesheets) }}
+			<link rel="stylesheet" href="{{ asset('/public/assets/css/custom.css') }}">
+			<link rel="stylesheet" href="{{ asset('/public/assets/css/default_color.css') }}">
+			<style>body {font-family: 'Nunito', sans-serif;}</style>
+			{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
+		{% endblock head_stylesheets %}
+
+		<script>
+			$(window).on("load", function () {
+				$(".preloader").fadeOut("slow");;
+			});
+		</script>
+	</head>
+		<body class="uk-text-meta uk-text-bold uk-height-1-1">
+			{% block body %}
+				{#{% include 'shared/loader.html.twig' %}#}
+				{% include 'shared/ie9.html.twig' %}
+				{% block main_wrapper %}
+
+					{% block header %}
+						{% include 'shared/header.html.twig' %}
+					{% endblock header %}
+
+					<aside id="sidebar" class="tm-sidebar-left uk-background-muted">
+						{% block sidebar_wrapper %}
+							{% block sidebar_profile %}
+								{#{{ macros.sidebarUserProfile(current_user) }}#}
+							{% endblock sidebar_profile %}
+							{% block main_sidebar %}
+								{{ menu.navMenu(items) }}
+							{% endblock main_sidebar %}
+						{% endblock sidebar_wrapper %}
+					</aside>
+
+					<section class="content-padder content-background uk-flex uk-flex-column">
+						<main class="uk-section-small page-body">
+							<div class="uk-container uk-container-small">
+								{{ flashMessages()|raw }}
+								{% block main %}{% endblock main %}
+							</div>
+							<!--//.uk-container-large -->
+						</main>
+					</section>
+					{% include 'shared/footer.html.twig' %}
+				{% endblock main_wrapper %}
+
+				{% block body_javascript %}
+					{{ asset_macro._scripts(Config('assets').scripts, 'footer') }}
+					<script src="{{ asset('./build/app.js') }}"></script>
+				{% endblock body_javascript %}
+
+				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+				<script>
+					window.ga = function () {
+					ga.q.push(arguments)
+					};
+					ga.q = [];
+					ga.l = + new Date;
+					ga('create', 'UA-XXXXX-Y', 'auto');
+					ga('set', 'anonymizeIp', true);
+					ga('set', 'transport', 'beacon');
+					ga('send', 'pageview')
+				</script>
+				<script src="https://www.google-analytics.com/analytics.js" async></script>
+			{% endblock body %}
+		</body>
+	</head>
+</html>

@@ -1,0 +1,10 @@
+<aside id="sidebar" class="tm-sidebar-left uk-background-muted">
+	{% block sidebar_wrapper %}
+		{% block sidebar_profile %}
+			{#{{ macros.sidebarUserProfile(current_user) }}#}
+		{% endblock sidebar_profile %}
+		{% block main_sidebar %}
+			{{ menu.navMenu(items) }}
+		{% endblock main_sidebar %}
+	{% endblock sidebar_wrapper %}
+</aside>

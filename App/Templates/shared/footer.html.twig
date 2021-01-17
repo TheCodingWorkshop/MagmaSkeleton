@@ -1,0 +1,16 @@
+<footer id="footer" class="uk-section-small uk-background-muted uk-padding-remove uk-margin-remove uk-width-1-1@s">
+	<div class="uk-container uk-container-large uk-padding-small uk-clearfix uk-text-meta">
+		<div class="uk-float-left uk-text-left">
+			{% set _copyright = "now"|date("Y") ~ ' ' ~ app.app_name ~ '. ' ~ 'All rights reserved.'|raw %}
+			<small>Copyright &copy;
+				{{ _copyright }}</small>
+		</div>
+
+		<div class="uk-float-right uk-text-right">
+			<a href="">
+				{{ app.app_name ~ ' v' ~ app.system_version }}
+			</a>
+
+		</div>
+	</div>
+</footer>

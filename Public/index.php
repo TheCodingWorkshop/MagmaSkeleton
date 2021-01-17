@@ -14,6 +14,8 @@ declare(strict_types=1);
  * Load main application directory path constant
  */
 defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
+defined('ROOT_URI') or define('ROOT_URI', '');
+defined('RESOURCES') or define('RESOURCES', ROOT_URI);
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 defined('UPLOAD_PATH') or define("UPLOAD_PATH", $_SERVER['DOCUMENT_ROOT'] . DS . "uploads/");
 defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . DS . "Config/");
