@@ -1,5 +1,6 @@
-{% import "macros/asset.macro.html.twig" as asset_macro %}
+{% import "macros/asset.macro.html.twig" as asset %}
 {% import "macros/nav.macro.html.twig" as menu %}
+{% import "macros/body_class.macro.html.twig" as bodyClass %}
 
 <!doctype html>
 <html class="no-js" lang="{{ Config('app').settings.default_locale }}">
@@ -21,27 +22,31 @@
 
 		{% if app.apple_icon %}
 			<linkrel="apple-touch-icon" href="{{ app.apple_icon }}">
-		{% endif %}
+			{% endif %}
 
 			<!-- Place favicon.ico in the root directory -->
 
-		{% block head_stylesheets %}
-			{{ asset_macro._stylesheets(Config('assets').stylesheets) }}
-			<link rel="stylesheet" href="{{ asset('/public/assets/css/custom.css') }}">
-			<link rel="stylesheet" href="{{ asset('/public/assets/css/default_color.css') }}">
-			<style>body {font-family: 'Nunito', sans-serif;}</style>
-			{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
-		{% endblock head_stylesheets %}
+			{% block head_stylesheets %}
+				{{ asset._stylesheets(Config('assets').stylesheets) }}
+				<link rel="stylesheet" href="{{ asset('/public/assets/css/custom.css') }}">
+				<link rel="stylesheet" href="{{ asset('/public/assets/css/default_color.css') }}">
+				<style>
+					body {
+						font-family: 'Nunito', sans-serif;
+					}
+				</style>
+				{{ asset._scripts(Config('assets').scripts, 'header') }}
+			{% endblock head_stylesheets %}
 
-		<script>
-			$(window).on("load", function () {
+			<script>
+				$(window).on("load", function () {
 				$(".preloader").fadeOut("slow");;
-			});
-		</script>
-	</head>
+				});
+			</script>
+		</head>
 		<body class="uk-text-meta uk-text-bold uk-height-1-1">
 			{% block body %}
-				{#{% include 'shared/loader.html.twig' %}#}
+				{% include 'shared/loader.html.twig' %}
 				{% include 'shared/ie9.html.twig' %}
 				{% block main_wrapper %}
 
@@ -52,7 +57,7 @@
 					<aside id="sidebar" class="tm-sidebar-left uk-background-muted">
 						{% block sidebar_wrapper %}
 							{% block sidebar_profile %}
-								{#{{ macros.sidebarUserProfile(current_user) }}#}
+								{% include 'shared/sidebar_profile.html.twig' %}
 							{% endblock sidebar_profile %}
 							{% block main_sidebar %}
 								{{ menu.navMenu(items) }}
@@ -60,31 +65,48 @@
 						{% endblock sidebar_wrapper %}
 					</aside>
 
-					<section class="content-padder content-background uk-flex uk-flex-column">
-						<main class="uk-section-small page-body">
-							<div class="uk-container uk-container-small">
-								{{ flashMessages()|raw }}
-								{% block main %}{% endblock main %}
-							</div>
-							<!--//.uk-container-large -->
-						</main>
-					</section>
-					{% include 'shared/footer.html.twig' %}
+					{% block content %}
+						<section class="content-padder content-background uk-flex uk-flex-column">
+							{% block content_header %}
+								<div class="uk-section-small uk-section-default header uk-padding-remove" uk-sticky="offset: 80; bottom: #top">
+									<div class="uk-container uk-container-large">
+										{% block content_title %}{% endblock content_title %}
+										{% block content_header_help %}{% endblock content_header_help %}
+									</div>
+								</div>
+							{% endblock content_header %}
+
+							<main class="uk-section-small page-body">
+								<section class="uk-container uk-container-large">
+									{{ flashMessages()|raw }}
+									{% block main %}{% endblock main %}
+								</section>
+								<!--//.uk-container-large -->
+							</main>
+						</section>
+					{% endblock content %}
+
+					{% block footer %}
+						{% include 'shared/footer.html.twig' %}
+					{% endblock footer %}
+
 				{% endblock main_wrapper %}
 
 				{% block body_javascript %}
-					{{ asset_macro._scripts(Config('assets').scripts, 'footer') }}
-					<script src="{{ asset('./build/app.js') }}"></script>
+					{{ asset._scripts(Config('assets').scripts, 'footer') }}
+					<script src="{{ asset('/public/assets/js/main.js') }}"></script>
+					<script src="{{ asset('/public/assets/js/sidebar.js') }}"></script>
 				{% endblock body_javascript %}
 
 				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 				<script>
 					window.ga = function () {
+					const googleAnalytics = '{{ Config('app').settings.googleAnalytics }}';
 					ga.q.push(arguments)
 					};
 					ga.q = [];
 					ga.l = + new Date;
-					ga('create', 'UA-XXXXX-Y', 'auto');
+					ga('create', `${googleAnalytics}`, 'auto');
 					ga('set', 'anonymizeIp', true);
 					ga('set', 'transport', 'beacon');
 					ga('send', 'pageview')

@@ -11,6 +11,7 @@ settings:
   favicon: ''
   apple_icon: ''
   secret_key: ''
+  googleAnalytics: UA-XXXXX-Y
 
 system:
   use_session: true

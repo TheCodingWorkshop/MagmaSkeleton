@@ -1,7 +1,7 @@
 user:
     additional_conditions: []
     selectors: []
-    records_per_page: 5
+    records_per_page: 10
     query: status
     filter_by: ['lastname']
     filter_alias: s                     ## associated to html form input name attribute

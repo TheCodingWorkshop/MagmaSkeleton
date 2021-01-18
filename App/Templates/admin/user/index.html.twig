@@ -1,32 +1,57 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block content_title %}User
+{% set _controller 		= controller %}
+{% set _table 			= table %}
+{% set _pagination 		= pagination %}
+{% set _totalRecords 	= total_records %}
+{% set _columns 		= columns %}
+{% set _results 		= results %}
+{% set _searchedQuery 	= search_query %}
+{% set _helpBlock 		= help_block %}
+
+{% block content_title %}
+	{{ _controller|capitalize }}
 {% endblock content_title %}
+
 {% block main %}
-	<section class="uk-child-width-1-1@s uk-child-width-1-1@l" uk-grid>
-		<div class="uk-width-expand@m">
-			<div class="uk-margin">
-				<a href="/admin/user/new" class="uk-button uk-button-small uk-button-primary">Add New</a>
-				<a href="/admin/user/index">Reset</a> |
-                <a href="/admin/user/index?status=trash">View Trash</a> |
-				<a href="/admin/user/index?status=pending">View Pending</a> |
-                <a href="/admin/user/index?status=active">Active</a>
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		<div class="uk-width-1-5">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				<form class="uk-search uk-search-default" z>
+					<span uk-search-icon></span>
+					<input class="uk-search-input" type="search" placeholder="Search...">
+				</form>
+				<div class="uk-padding-small uk-padding-remove-bottom">
+					{{ iconNav(
+						{
+							plus: { tooltip: 'Add New User', icon: 'plus', ratio: _icon_size, path: _new_path },
+							bin: { icon: 'trash', ratio: _icon_size, tooltip: 'Bulk Delete'}
+						},
+						_results,
+						_controller,
+						false
+					)|raw }}
+				</div>
+
+				{{ navMenu(Config('meta_nav').user_index_path)|raw }}
 			</div>
+		</div>
+
+		<div class="uk-width-expand@m">
 			<div>
 				<div class="uk-card uk-card-default">
 					<div class="uk-card-body">
-						{% if table is empty %}
-							No Data
-						{% else %}
-							{{ table|raw }}
+						{% if _results is empty %}
+							{% else %}
+								{{ table|raw }}
 						{% endif %}
 					</div>
-					<!--//.uk-card-body -->
 				</div>
-				{{ pagination|raw }}
+				{{ _pagination|raw }}
 			</div>
-			<!--//required element -->
-		</div>
-	</section>
+			<div></section>
+		{% endblock main %}
 
-{% endblock main %}
+		{% block body_javascript %}
+			{{ parent() }}
+		{% endblock body_javascript %}
