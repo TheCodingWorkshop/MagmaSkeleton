@@ -39,8 +39,8 @@ system:
 
 gravatar:
   rating: r
-  size: 40
-  default: 'monsterid'
+  size: 200
+  default: mystery #monsterid, identicon, wavatar, blank, default, mystery
 
 security:
   password_pattern: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'

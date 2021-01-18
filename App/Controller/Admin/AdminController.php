@@ -43,7 +43,7 @@ class AdminController extends BaseController
          */
         $this->container(
             [
-                "tableGrid" => \MagmaCore\Datatable\Datatable::class /* Global access */
+                "tableGrid" => \MagmaCore\Datatable\Datatable::class /* Global Admin access */
             ]
         );
 

@@ -3,105 +3,15 @@ dashboard:
     icon: home
     path: /admin/dashboard/index
     roles: {}
-    header: Managing
-post:
-    name: Post
-    icon: file-text
-    path: '#!'
-    roles: {}
-    children:
-        article:
-            name: Posts
-            icon: file-text
-            path: /admin/post/index
-        categories:
-            name: Categories
-            icon: list
-            path: /admin/category/index
-        tags:
-            name: Tags
-            icon: tag
-            path: /admin/tag/index
-        logs:
-            name: Logs
-            icon: file-edit
-            path: /admin/post/log
-page:
-    name: Pages
-    icon: file
-    path: /admin/page/index
-    roles: {}
-    children: {}
+    header: Manager
 authentication:
-    name: Authentication
+    name: Users
     icon: user
     path: ''
-    roles: {}
     children:
         users:
             name: Users
             icon: users
-            path: /admin/user/index
-        roles:
-            name: Roles
-            icon: unlock
-            path: /admin/role/index
-        permission:
-            name: Permissions
-            icon: lock
-            path: /admin/permission/index
-        logs:
-            name: Logs
-            icon: file-edit
-            path: /admin/user/log
-menu:
-    name: Menu
-    icon: menu
-    path: /admin/menu/index
-    roles: {}
-    children: {}
-asset:
-    name: Assets
-    icon: folder
-    path: /admin/asset/index
-    roles: {}
-    children: {}
-ticket:
-    name: Ticket
-    icon: tag
-    path: /admin/ticket/index
-    roles: {}
-    children: {}
-    header: Administrator
-settings:
-    name: Settings
-    icon: cog
-    path: /admin/setting/index
-    roles: {}
-    children: {}
-system:
-    name: System
-    icon: phone
-    path: '#!'
-    roles: {}
-    children:
-        statistics:
-            name: Statistics
-            icon: rss
-            path: '#!'
-            roles: {}
-        update:
-            name: Update
-            icon: pull
-            path: /admin/update/index
-            roles: {}
-        backup:
-            name: Backup
-            icon: push
-            path: /admin/backup/index
-            roles: {}
-        health:
-            name: Health
-            icon: lifesaver
-            path: ''
-            roles: {}
+            path: '[%user_edit%]'
+            role:
+                - developer

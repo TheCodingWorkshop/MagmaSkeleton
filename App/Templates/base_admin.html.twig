@@ -2,6 +2,9 @@
 {% import "macros/nav.macro.html.twig" as menu %}
 {% import "macros/body_class.macro.html.twig" as bodyClass %}
 
+{% set _account_profile = '/admin/user/' ~ current_user.id ~ '/edit' %}
+{% set _logout_path = '/logout' %}
+{% set _setting_path = '' %}
 <!doctype html>
 <html class="no-js" lang="{{ Config('app').settings.default_locale }}">
 
@@ -96,6 +99,7 @@
 					{{ asset._scripts(Config('assets').scripts, 'footer') }}
 					<script src="{{ asset('/public/assets/js/main.js') }}"></script>
 					<script src="{{ asset('/public/assets/js/sidebar.js') }}"></script>
+					<script src="{{ asset('/public/assets/js/status.js') }}"></script>
 				{% endblock body_javascript %}
 
 				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->

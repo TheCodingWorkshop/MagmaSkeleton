@@ -2,10 +2,8 @@
 	<ul class="uk-navbar-nav">
 		{% set links = {
                     edit_profile: {title: 'My Account', path: _account_profile, header: 'Options'},
-                    preference: {title: 'Preferences', path: '', header: ''},
-                    settings: {title: 'Settings', path: '', header: ''},
-                    lock: {title: 'Lock', path: '', header: 'Action'},
-                    logout: {title: 'Logout', path: '/logout'}
+                    settings: {title: 'Settings', path: _setting_path, header: ''},
+                    logout: {title: 'Logout', path: _logout_path}
                 } %}
 
 		<li class="uk-active">
