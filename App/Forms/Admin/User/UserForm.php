@@ -76,7 +76,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                     'value' => empty($password_hash) ? '' : $password_hash,
                     'class' => ['uk-input', 'uk-width-1-1'],
                     'autocomplete' => 'new-password',
-                    'pattern' => true
+                    'pattern' => false
                 ]],
                 null,
                 ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'Password']

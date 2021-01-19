@@ -1,9 +1,119 @@
 {% extends 'base_admin.html.twig' %}
 
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController()|lower %}
+{% set _namespace		= _this.thisRouteNamespace()|lower %}
+{% set _action			= _this.thisRouteAction()|lower %}
+{% set _sep				= '/' %}
+{% set _helpBlock 		= help_block %}
+{% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
+{% set _new_path		= _path ~ 'new' %}
+{% set _edit_path		= _path ~ _row.id ~ 'edit' %}
+{% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
+{% set _preference_path = _path ~ _row.id ~ _sep ~ 'preferences' %}
+{% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
+
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size		= 3 %}
+{% set _icon			= 'user' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
+
 {% block content_title %}New User
 {% endblock content_title %}
-{% block main %}
-	<a href="/admin/user/index" class="uk-button-text">Go Back</a>
 
-	{{ form|raw }}
-{% endblock main %}
+{% block content_header_help %}
+	{{ subHeader(
+		_searchedQuery,
+		_icon,
+		null,
+		_icon_size,
+		'Register a new User',
+		'New' ~ ' ' ~ _controller|capitalize,
+		_total_records,
+		null,
+		false,
+		null
+	)|raw }}
+{% endblock content_header_help %}
+
+
+{% block main %}
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		<div class="uk-width-1-6">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				{{ searchBox()|raw }}
+				{{ submenu }}
+				{% set newCustomMenu = {
+					header: {header: 'Add New'},
+					role: {title: 'Role', path: '', icon: 'lock'},
+					permission: {title: 'Permission', path: '', icon: 'lock'}
+				} %}
+				{{ navMenu(newCustomMenu)|raw }}
+			</div>
+		</div>
+
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{{ form|raw }}
+					</div>
+				</div>
+			</div>
+			<div></section>
+		{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+			<script src="{{ asset('/public/assets/js/hideShowPassword.min.js') }}"></script>
+			<script src="{{ asset('/public/assets/js/app.js') }}"></script>
+			<script>
+				$(document).ready(function() {
+
+					var userId = '{{ _row.id }}';
+
+					/**
+					 * Validate the form
+					 */
+					$('#formUser').validate({
+						rules: {
+							name: 'required',
+							email: {
+								required: true,
+								email: true,
+								remote: {
+									url: '/account/validate-email',
+									data: {
+										ignore_id: function() {
+											return userId;
+										}
+									}
+								}
+							},
+							password: {
+							minlength: 6,
+							validPassword: true
+							}
+						},
+						messages: {
+							email: {
+								remote: 'email already taken'
+							}
+						}
+					});
+
+					/**
+					 * Show password toggle button
+					 */
+					$('#password_hash').hideShowPassword({
+						show: false,
+						innerToggle: 'focus'
+					});
+
+				});
+			</script>
+
+		{% endblock body_javascript %}

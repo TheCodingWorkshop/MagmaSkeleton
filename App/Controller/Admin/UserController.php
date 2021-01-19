@@ -180,6 +180,7 @@ class UserController extends AdminController
             "/admin/user/new.html.twig",
             [
                 "form" => $this->formUser->createForm('/admin/user/new'),
+                "this" => $this
             ]
         );
     }
@@ -215,7 +216,7 @@ class UserController extends AdminController
             [
                 "form" => $this->formUser->createForm("/admin/user/{$this->thisRouteID()}/edit", $this->findUserOr404()),
                 "help_block" => "",
-                "user" => $this->findUserOr404(),
+                "user" => $this->toArray($this->findUserOr404()),
                 "total_records" => "",
                 "this" => $this
             ]
@@ -288,7 +289,7 @@ class UserController extends AdminController
         $this->render('/admin/user/preferences.html.twig',
             [
                 "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
-                "user" => $this->findUserOr404(),
+                "user" => $this->toArray($this->findUserOr404()),
                 "this" => $this
             ]
         );
@@ -322,7 +323,7 @@ class UserController extends AdminController
         endif;
         $this->render('/admin/user/permission.html.twig',
             [
-                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
+                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->toArray($this->findUserOr404())),
                 "user" => $this->findUserOr404(),
                 "this" => $this
             ]

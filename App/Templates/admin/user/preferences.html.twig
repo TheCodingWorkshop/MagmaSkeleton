@@ -11,9 +11,14 @@
 {% set _edit_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ 'edit' %}
 {% set _trash_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'trash' %}
 {% set _preference_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'preferences' %}
-{% set _icon_size		= 1.5 %}
+{% set _icon			= '' %}
+{% set _icon_size		= 3 %}
+{% set _nav_icon_size	= 1.5 %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
 
-{% block content_title %}Edit
+{% block content_title %}Perferences
 	{{ user.firstname }}
 {% endblock content_title %}
 
@@ -21,17 +26,8 @@
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
 		<div class="uk-width-1-5">
 			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
-				<div class="uk-padding-small uk-padding-remove-bottom">
-					{{ iconNav(
-						{
-							plus: { tooltip: 'Add New User', icon: 'plus', ratio: _icon_size, path: _new_path },
-							bin: { icon: 'trash', ratio: _icon_size, tooltip: 'Bin It!', path: _trash_path}
-						},
-						_row,
-						_controller,
-						false
-					)|raw }}
-				</div>
+				{{ searchBox()|raw }}
+				{{ submenu }}
 				{% set editCustomMenu = {
 					header: {header: 'Manage'},
 					preferences: {title: 'Prefereces', path: _preference_path, header: '', icon: 'settings'},

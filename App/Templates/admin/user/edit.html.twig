@@ -13,37 +13,61 @@
 {% set _searchedQuery 	= search_query %}
 {% set _helpBlock 		= help_block %}
 {% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
+{% set _home_path		= _path ~ 'index' %}
 {% set _new_path		= _path ~ 'new' %}
 {% set _edit_path		= _path ~ _row.id ~ 'edit' %}
 {% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
 {% set _preference_path = _path ~ _row.id ~ _sep ~ 'preferences' %}
 {% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
-
-{% set _icon_size		= 1.5 %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size		= 3 %}
+{% set _icon			= 'file-edit' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
 
 {% block content_title %}Edit
 	{{ user.firstname }}
 {% endblock content_title %}
 
+{% block content_header_help %}
+{#
+string		$searchFilter = null, 
+string 		$icon = null, 
+string 		$iconColor = null,
+string 		$iconSize = null,
+string 		$prefix = null,
+string 		$controller = null,
+int 		$totalRecords = null,
+array 		$actions = null,
+bool 		$actionVertical = false,
+array 		$row = null) : string
+#}
+	{{ subHeader(
+		_searchedQuery,
+		_icon,
+		null,
+		_icon_size,
+		null,
+		_controller|capitalize,
+		_total_records,
+		null,
+		false,
+		null
+	)|raw }}
+{% endblock content_header_help %}
+
 {% block main %}
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
 		<div class="uk-width-1-5">
 			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
-				<div class="uk-padding-small uk-padding-remove-bottom">
-					{{ iconNav(
-						{
-							plus: { tooltip: 'Add New User', icon: 'plus', ratio: _icon_size, path: _new_path },
-							bin: { icon: 'trash', ratio: _icon_size, tooltip: 'Bin It!', path: _trash_path}
-						},
-						_row,
-						_controller,
-						false
-					)|raw }}
-				</div>
+				{{ searchBox()|raw }}
+				{{ submenu }}
 				{% set editCustomMenu = {
 					header: {header: 'Manage'},
-					preferences: {title: 'Prefereces', path: _preference_path, header: '', icon: 'settings'},
-					permission: {title: 'Permission', path: _permission_path, header: '', icon: 'lock'}
+					preferences: {title: 'Perferences', path: _preference_path, header: '', icon: 'settings'},
+					permission: {title: 'Permission', path: _permission_path, header: '', icon: 'lock'},
+					role: {title: 'Roles', path: '', ratio: _nav_icon_size, icon: 'unlock'}
 				} %}
 				{{ navMenu(editCustomMenu)|raw }}
 			</div>

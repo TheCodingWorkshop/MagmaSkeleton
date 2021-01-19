@@ -4,36 +4,50 @@
 {% set _controller 		= _this.thisRouteController() %}
 {% set _table 			= table %}
 {% set _pagination 		= pagination %}
-{% set _totalRecords 	= total_records %}
+{% set _total_records 	= total_records %}
 {% set _columns 		= columns %}
 {% set _results 		= results %}
 {% set _searchedQuery 	= search_query %}
 {% set _helpBlock 		= help_block %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size	    = 3 %}
+{% set _icon			= 'file-edit' %}
+{% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
+{% set _new_path		= _path ~ 'new' %}
+{% set _edit_path		= _path ~ _row.id ~ 'edit' %}
+{% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
+{% set _preference_path = _path ~ _row.id ~ _sep ~ 'preferences' %}
+{% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
 
 {% block content_title %}
 	{{ _controller|capitalize }}
 {% endblock content_title %}
 
+{% block content_header_help %}
+	{{ subHeader(
+		_searchedQuery,
+		_icon,
+		null,
+		_icon_size,
+		null,
+		_controller|capitalize,
+		_total_records,
+		null,
+		false,
+		null
+	)|raw }}
+{% endblock content_header_help %}
+
+
 {% block main %}
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
-		<div class="uk-width-1-5">
+		<div class="uk-width-1-6">
 			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
-				<form class="uk-search uk-search-default" z>
-					<span uk-search-icon></span>
-					<input class="uk-search-input" type="search" placeholder="Search...">
-				</form>
-				<div class="uk-padding-small uk-padding-remove-bottom">
-					{{ iconNav(
-						{
-							plus: { tooltip: 'Add New User', icon: 'plus', ratio: _icon_size, path: _new_path },
-							bin: { icon: 'trash', ratio: _icon_size, tooltip: 'Bulk Delete'}
-						},
-						_results,
-						_controller,
-						false
-					)|raw }}
-				</div>
-
+				{{ searchBox()|raw }}
+				{{ submenu }}
 				{{ navMenu(Config('meta_nav').user_index_path)|raw }}
 			</div>
 		</div>
