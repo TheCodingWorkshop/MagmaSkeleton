@@ -1,6 +1,7 @@
 {% extends 'base_admin.html.twig' %}
 
-{% set _controller 		= controller %}
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController() %}
 {% set _table 			= table %}
 {% set _pagination 		= pagination %}
 {% set _totalRecords 	= total_records %}

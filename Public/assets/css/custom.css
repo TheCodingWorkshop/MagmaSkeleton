@@ -290,5 +290,25 @@ tr .highlight {
     font-size: 0.8em;
 }
 
+.z1000 {
+    z-index: 1000!important;
+}
+
+.z5000 {
+    z-index: 5000!important;
+}
+
+.z9000 {
+    z-index: 9000!important;
+}
+
+.z10000 {
+    z-index: 10000!important;
+}
+
+.z20000 {
+    z-index: 20000!important;
+}
+
 
 /*# sourceMappingURL=custom.css.map */

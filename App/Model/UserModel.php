@@ -11,14 +11,9 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use InvalidArgumentException;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
 use MagmaCore\Base\AbstractBaseModel;
-use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\PasswordEncoder;
-use MagmaCore\Utility\Token;
-use MagmaCore\Base\BaseView;
-use MagmaCore\Mailer\MailerFacade;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
 { 

@@ -74,9 +74,9 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 [PasswordType::class => [
                     'name' => 'password_hash',
                     'value' => empty($password_hash) ? '' : $password_hash,
-                    'class' => ['uk-input', 'uk-form-width-medium'],
+                    'class' => ['uk-input', 'uk-width-1-1'],
                     'autocomplete' => 'new-password',
-                    'pattern' => false
+                    'pattern' => true
                 ]],
                 null,
                 ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'Password']
@@ -99,7 +99,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 ['choices' => [
                     'pending', 'active', 'lock', 'trash',
                 ], 'default' => 'pending'],
-                ['inline_icon' => false]
+                ['inline_icon' => '']
             )
             ->add(
                 [TextType::class => [

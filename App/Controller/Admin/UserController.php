@@ -42,9 +42,10 @@ class UserController extends AdminController
          */
         $this->container(
             [
-                "repository" => \MagmaCore\Auth\Model\UserModel::class,
+                "repository" => \App\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
-                "formUser" => \App\Forms\Admin\User\UserForm::class,       
+                "formUser" => \App\Forms\Admin\User\UserForm::class,  
+                "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,     
             ]
         );  
 
@@ -108,7 +109,7 @@ class UserController extends AdminController
         $this->render(
             'admin/user/index.html.twig',
             [
-                "controller" => $this->thisRouteController(),
+                "this" => $this,
                 "table" => $tableData,
                 "pagination" => $this->tableGrid->pagination(),
                 "total_records" => $this->tableGrid->totalRecords(),
@@ -216,7 +217,7 @@ class UserController extends AdminController
                 "help_block" => "",
                 "user" => $this->findUserOr404(),
                 "total_records" => "",
-                "controller" => $this->thisRouteController()
+                "this" => $this
             ]
         );
     }
@@ -257,6 +258,77 @@ class UserController extends AdminController
             endif;
         endif;
     }
+
+    /**
+     * The perferences action request. is responsible for updating setting and updating
+     * user perferences whatever that might be
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function preferencesAction()
+    {   
+
+        if (isset($this->formBuilder)) :
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('perferences-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                    
+                    /*$action = $this->userRepository()
+                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
+                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
+                    }*/
+                }
+            }
+        endif;
+        $this->render('/admin/user/preferences.html.twig',
+            [
+                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
+                "user" => $this->findUserOr404(),
+                "this" => $this
+            ]
+        );
+    }
+
+    /**
+     * The perferences action request. is responsible for updating setting and updating
+     * user perferences whatever that might be
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function permissionAction()
+    {   
+
+        if (isset($this->formBuilder)) :
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('perferences-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                    
+                    /*$action = $this->userRepository()
+                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
+                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
+                    }*/
+                }
+            }
+        endif;
+        $this->render('/admin/user/permission.html.twig',
+            [
+                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
+                "user" => $this->findUserOr404(),
+                "this" => $this
+            ]
+        );
+    }
+
 
     /**
      * The table settings insert action request. Simple adds per table related 

@@ -1,0 +1,58 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController()|lower %}
+{% set _namespace		= _this.thisRouteNamespace()|lower %}
+{% set _action			= _this.thisRouteAction()|lower %}
+{% set _sep				= '/' %}
+{% set _row 			= user %}
+{% set _helpBlock 		= help_block %}
+{% set _new_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ 'new' %}
+{% set _edit_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ 'edit' %}
+{% set _trash_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'trash' %}
+{% set _preference_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'preferences' %}
+{% set _icon_size		= 1.5 %}
+
+{% block content_title %}Edit
+	{{ user.firstname }}
+{% endblock content_title %}
+
+{% block main %}
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		<div class="uk-width-1-5">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				<div class="uk-padding-small uk-padding-remove-bottom">
+					{{ iconNav(
+						{
+							plus: { tooltip: 'Add New User', icon: 'plus', ratio: _icon_size, path: _new_path },
+							bin: { icon: 'trash', ratio: _icon_size, tooltip: 'Bin It!', path: _trash_path}
+						},
+						_row,
+						_controller,
+						false
+					)|raw }}
+				</div>
+				{% set editCustomMenu = {
+					header: {header: 'Manage'},
+					preferences: {title: 'Prefereces', path: _preference_path, header: '', icon: 'settings'},
+					permission: {title: 'Permission', path: '', header: '', icon: 'lock'}
+				} %}
+				{{ navMenu(editCustomMenu)|raw }}
+			</div>
+		</div>
+
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{{ form|raw }}
+					</div>
+				</div>
+				{{ _pagination|raw }}
+			</div>
+			<div></section>
+		{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+		{% endblock body_javascript %}
