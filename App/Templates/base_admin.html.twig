@@ -72,6 +72,9 @@
 						<section class="content-padder content-background uk-flex uk-flex-column">
 							{% block content_header %}
 								<div class="uk-section-small uk-section-default header uk-padding-remove" uk-sticky="offset: 80; bottom: #top">
+									<div class="uk-container uk-container-large">
+										{% block content_header_help %}{% endblock content_header_help %}
+									</div>
 								</div>
 							{% endblock content_header %}
 

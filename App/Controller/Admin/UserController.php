@@ -269,24 +269,17 @@ class UserController extends AdminController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function preferencesAction()
+    protected function perferencesAction()
     {   
 
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('perferences-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
                     
-                    /*$action = $this->userRepository()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
-                    }*/
                 }
             }
         endif;
-        $this->render('/admin/user/preferences.html.twig',
+        $this->render('/admin/user/perferences.html.twig',
             [
                 "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
                 "user" => $this->toArray($this->findUserOr404()),
@@ -308,23 +301,15 @@ class UserController extends AdminController
     {   
 
         if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('perferences-' . $this->thisRouteController())) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('permission-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
-                    
-                    /*$action = $this->userRepository()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
-                    }*/
                 }
             }
         endif;
         $this->render('/admin/user/permission.html.twig',
             [
-                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->toArray($this->findUserOr404())),
-                "user" => $this->findUserOr404(),
+                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
+                "user" => $this->toArray($this->findUserOr404()),
                 "this" => $this
             ]
         );

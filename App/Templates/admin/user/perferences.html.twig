@@ -10,10 +10,12 @@
 {% set _new_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ 'new' %}
 {% set _edit_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ 'edit' %}
 {% set _trash_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'trash' %}
-{% set _preference_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'preferences' %}
-{% set _icon			= '' %}
+{% set _preference_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'perferences' %}
+{% set _icon			= 'settings' %}
 {% set _icon_size		= 3 %}
 {% set _nav_icon_size	= 1.5 %}
+{% set _full_name		= _row.firstname ~ ' ' ~ _row.lastname %}
+{% set _prefix			= '`' ~ _full_name ~ '` Perferences' %}
 {% set submenu %}
 	{% include 'admin/user/parts/submenu.html.twig' %}
 {% endset %}
@@ -21,6 +23,33 @@
 {% block content_title %}Perferences
 	{{ user.firstname }}
 {% endblock content_title %}
+
+{% block content_header_help %}
+{#
+string		$searchFilter = null, 
+string 		$icon = null, 
+string 		$iconColor = null,
+string 		$iconSize = null,
+string 		$prefix = null,
+string 		$controller = null,
+int 		$totalRecords = null,
+array 		$actions = null,
+bool 		$actionVertical = false,
+array 		$row = null) : string
+#}
+	{{ subHeader(
+		_searchedQuery,
+		_icon,
+		null,
+		_icon_size,
+		_prefix,
+		_controller|capitalize,
+		_total_records,
+		null,
+		false,
+		null
+	)|raw }}
+{% endblock content_header_help %}
 
 {% block main %}
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
@@ -30,7 +59,7 @@
 				{{ submenu }}
 				{% set editCustomMenu = {
 					header: {header: 'Manage'},
-					preferences: {title: 'Prefereces', path: _preference_path, header: '', icon: 'settings'},
+					perferences: {title: 'Perfereces', path: _perference_path, header: '', icon: 'settings'},
 					permission: {title: 'Permission', path: '', header: '', icon: 'lock'}
 				} %}
 				{{ navMenu(editCustomMenu)|raw }}

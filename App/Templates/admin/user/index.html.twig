@@ -16,7 +16,7 @@
 {% set _new_path		= _path ~ 'new' %}
 {% set _edit_path		= _path ~ _row.id ~ 'edit' %}
 {% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
-{% set _preference_path = _path ~ _row.id ~ _sep ~ 'preferences' %}
+{% set _preference_path = _path ~ _row.id ~ _sep ~ 'perferences' %}
 {% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
 {% set submenu %}
 	{% include 'admin/user/parts/submenu.html.twig' %}
@@ -27,6 +27,18 @@
 {% endblock content_title %}
 
 {% block content_header_help %}
+{#
+string		$searchFilter = null, 
+string 		$icon = null, 
+string 		$iconColor = null,
+string 		$iconSize = null,
+string 		$prefix = null,
+string 		$controller = null,
+int 		$totalRecords = null,
+array 		$actions = null,
+bool 		$actionVertical = false,
+array 		$row = null) : string
+#}
 	{{ subHeader(
 		_searchedQuery,
 		_icon,
@@ -40,7 +52,6 @@
 		null
 	)|raw }}
 {% endblock content_header_help %}
-
 
 {% block main %}
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">

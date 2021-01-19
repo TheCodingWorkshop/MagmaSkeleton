@@ -17,11 +17,13 @@
 {% set _new_path		= _path ~ 'new' %}
 {% set _edit_path		= _path ~ _row.id ~ 'edit' %}
 {% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
-{% set _preference_path = _path ~ _row.id ~ _sep ~ 'preferences' %}
+{% set _preference_path = _path ~ _row.id ~ _sep ~ 'perferences' %}
 {% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size		= 3 %}
 {% set _icon			= 'file-edit' %}
+{% set _full_name		= _row.firstname ~ ' ' ~ _row.lastname %}
+{% set _prefix			= 'Edit `' ~ _full_name ~ '` Account' %}
 {% set submenu %}
 	{% include 'admin/user/parts/submenu.html.twig' %}
 {% endset %}
@@ -48,7 +50,7 @@ array 		$row = null) : string
 		_icon,
 		null,
 		_icon_size,
-		null,
+		_prefix,
 		_controller|capitalize,
 		_total_records,
 		null,
