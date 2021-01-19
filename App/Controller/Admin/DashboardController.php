@@ -60,6 +60,7 @@ class DashboardController extends AdminController
         $this->render(
             'admin/dashboard/index.html.twig',
             [
+                "this" => $this
             ] 
         );
     }

@@ -12,6 +12,6 @@ authentication:
         users:
             name: Users
             icon: users
-            path: '[%user_edit%]'
+            path: '/admin/user/index'
             role:
                 - developer

@@ -1,1 +1,47 @@
 {% extends 'base_admin.html.twig' %}
+
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController() %}
+{% set _helpBlock 		= help_block %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size	    = 3 %}
+{% set _icon			= 'home' %}
+
+{% block content_title %}
+	{{ _controller|capitalize }}
+{% endblock content_title %}
+
+{% block content_header_help %}
+{#
+string		$searchFilter = null, 
+string 		$icon = null, 
+string 		$iconColor = null,
+string 		$iconSize = null,
+string 		$prefix = null,
+string 		$controller = null,
+int 		$totalRecords = null,
+array 		$actions = null,
+bool 		$actionVertical = false,
+array 		$row = null) : string
+#}
+	{{ subHeader(
+		_searchedQuery,
+		_icon,
+		null,
+		_icon_size,
+		'Dashboard',
+		_controller|capitalize,
+		_total_records,
+		null,
+		false,
+		null
+	)|raw }}
+{% endblock content_header_help %}
+
+{% block main %}
+    Dashboard
+{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+		{% endblock body_javascript %}
