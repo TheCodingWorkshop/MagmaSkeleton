@@ -104,7 +104,7 @@ class UserColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->iconNav(
                         [
-                            'file-edit' => [],
+                            'user' => [],
                             'trash' => []
                         ],
                         $row,

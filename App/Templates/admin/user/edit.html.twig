@@ -62,7 +62,10 @@
 					header: {header: 'Manage'},
 					preferences: {title: 'Perferences', path: _preference_path, header: '', icon: 'settings'},
 					permission: {title: 'Permission', path: _permission_path, header: '', icon: 'lock'},
-					role: {title: 'Roles', path: '', ratio: _nav_icon_size, icon: 'unlock'}
+					role: {title: 'Roles', path: '', ratio: _nav_icon_size, icon: 'unlock', header: 'Actions'},
+					file: {title: 'Notes', path: '', ratio: _nav_icon_size, icon: 'file-edit'},
+					trash: {title: 'Delete Acount', path: '', ratio: _nav_icon_size, icon: 'trash'},
+
 				} %}
 				{{ navMenu(editCustomMenu)|raw }}
 			</div>

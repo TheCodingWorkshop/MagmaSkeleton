@@ -144,7 +144,8 @@ class UserController extends AdminController
         $this->render('admin/user/show.html.twig',
             [
                 "form" => "",
-                "user" => $this->findUserOr404(),
+                "this" => $this,
+                "user" => $this->toArray($this->findUserOr404()),
                 "help_block" => ""
             ]
         );
