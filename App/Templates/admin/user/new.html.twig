@@ -26,13 +26,11 @@
 {% block content_header_help %}
 	{{ subHeader(
 		_searchedQuery,
-		_icon,
-		null,
-		_icon_size,
-		'Register a new User',
-		'New' ~ ' ' ~ _controller|capitalize,
+		_controller,
 		_total_records,
-		null,
+		{
+			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+		},
 		false,
 		null
 	)|raw }}
@@ -41,9 +39,8 @@
 
 {% block main %}
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
-		<div class="uk-width-1-6">
+		<div class="uk-width-1-5">
 			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
-				{{ searchBox()|raw }}
 				{{ submenu }}
 				{% set newCustomMenu = {
 					header: {header: 'Add New'},

@@ -33,27 +33,21 @@
 {% endblock content_title %}
 
 {% block content_header_help %}
-{#
-string		$searchFilter = null, 
-string 		$icon = null, 
-string 		$iconColor = null,
-string 		$iconSize = null,
-string 		$prefix = null,
-string 		$controller = null,
-int 		$totalRecords = null,
-array 		$actions = null,
-bool 		$actionVertical = false,
-array 		$row = null) : string
-#}
+	{#
+	string		$searchFilter = null, 
+	string 		$controller = null,
+	int 		$totalRecords = null,
+	array 		$actions = null,
+	bool 		$actionVertical = false,
+	array 		$row = null) : string
+	#}
 	{{ subHeader(
 		_searchedQuery,
-		_icon,
-		null,
-		_icon_size,
-		_prefix,
 		_controller|capitalize,
 		_total_records,
-		null,
+		{
+			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+		},
 		false,
 		null
 	)|raw }}
@@ -63,7 +57,6 @@ array 		$row = null) : string
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
 		<div class="uk-width-1-5">
 			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
-				{{ searchBox()|raw }}
 				{{ submenu }}
 				{% set editCustomMenu = {
 					header: {header: 'Manage'},

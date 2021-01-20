@@ -19,9 +19,13 @@ use MagmaCore\FormBuilder\Type\EmailType;
 use MagmaCore\FormBuilder\Type\RadioType;
 use MagmaCore\FormBuilder\Type\PasswordType;
 use MagmaCore\FormBuilder\Type\SubmitType;
+use MagmaCore\Auth\Model\RoleModel;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
+
+    use DataLayerTrait;
 
     /**
      * {@inheritdoc}
@@ -36,9 +40,6 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             $dataRepository = (array) $dataRepository;
             extract($dataRepository);
         }
-
-        //$roles = new RoleRepository();
-
         return $this->form(['action' => $action, 'class' => ['uk-form-horizontal'], "id" => "userForm"])
             ->add(
                 [TextType::class => [
@@ -81,16 +82,18 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 null,
                 ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'Password']
             )
-        /*->add(
-        [RadioType::class => [
-        'name' => 'roles'
-        ]],
-        [
-        'choices' => $this->flattenArrayRecursive($roles->getRepo()->findBy(['role_name'])),
-        'default' => 'Subscriber'
-        ],
-        ['inline_icon' => false]
-        )*/
+            ->add(
+                [RadioType::class => [
+                'name' => 'roles'
+                ]],
+                [
+                'choices' => $this->flattenArrayRecursive(
+                    (new RoleModel())->getRepo()->findBy(['role_name'])
+                ),
+                'default' => 'Subscriber'
+                ],
+                ['inline_icon' => false]
+                )
             ->add(
                 [RadioType::class => [
                     'name' => 'status',

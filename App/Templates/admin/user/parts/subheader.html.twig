@@ -1,0 +1,16 @@
+	{#
+	string		$searchFilter = null, 
+	string 		$controller = null,
+	int 		$totalRecords = null,
+	array 		$actions = null,
+	bool 		$actionVertical = false,
+	array 		$row = null) : string
+	#}
+	{{ subHeader(
+		_searchedQuery,
+		_controller|capitalize,
+		_total_records,
+		null,
+		false,
+		null
+	)|raw }}

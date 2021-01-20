@@ -71,7 +71,7 @@
 					{% block content %}
 						<section class="content-padder content-background uk-flex uk-flex-column">
 							{% block content_header %}
-								<div class="uk-section-small uk-section-default header uk-padding-remove" uk-sticky="offset: 80; bottom: #top">
+								<div class="uk-section-small uk-section-default header uk-padding-remove" style="z-index: 980;" uk-sticky="top: 100; animation: uk-animation-slide-top; bottom: #sticky-on-scroll-up">
 									<div class="uk-container uk-container-large">
 										{% block content_header_help %}{% endblock content_header_help %}
 									</div>

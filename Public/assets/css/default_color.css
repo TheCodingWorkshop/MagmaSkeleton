@@ -30,9 +30,7 @@
     background-color: teal !important;
 }
 
-.uk-navbar-container {
-    background-color: #949fa0 !important;
-}
+.uk-navbar-container {}
 
 .uk-background-teal,
 .uk-card-teal,
