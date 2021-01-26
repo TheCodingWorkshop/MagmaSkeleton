@@ -118,26 +118,25 @@ class SecurityController extends BaseController
      */
     protected function loginAction()
     {
-        $authenticatedUser = $this->authenticator->authenticate($this->request->handler()->get('email'), $this->request->handler()->get('password_hash'), $this);
-        $remember = $this->request->handler()->get('remember_me');
         if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signin')) : {
-                    if ($this->formBuilder->csrfValidate()) {
-                        if ($authenticatedUser) {
-                            $this->getLogin($authenticatedUser, $remember);
-                            $this->isLoggedIn = true;
-                            $actionEvent = ['action' => true, 'errors' => $this->authenticator->getErrors()];
-                            if ($this->eventDispatcher) {
-                                $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                            }
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signin')) {
+                if ($this->formBuilder->csrfValidate()) {
+                    if ($this->getAuthUser()) {
+                        $this->getLogin($this->getAuthUser(), $this->isRememberingLogin());
+                        $actionEvent = [
+                            'action' => $this->authenticator->getAction(), 
+                            'errors' => $this->authenticator->getErrors()
+                        ];
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
                         }
-                    } else {
-                        $this->isLoggedIn = false;
-                        $this->flashMessage($this->locale('fail_csrf_validation', $this->flashDanger()));
-                        $this->redirect($this->onSelf());
                     }
+                } else {
+                    $this->isLoggedIn = false;
+                    $this->flashMessage($this->locale('fail_csrf_validation', $this->flashDanger()));
+                    $this->redirect($this->onSelf());
                 }
-            endif;
+            }
         endif;
     }
 
@@ -166,6 +165,47 @@ class SecurityController extends BaseController
     {
         $this->flashMessage('Youv\'e successfully logged out', $this->flashInfo());
         $this->redirect('/');
+    }
+
+    /**
+     * Returns the required user object or returns an array of errors if the user
+     * object doesn't exists or if the credentials typed in is not correct
+     *
+     * @return mixed
+     */
+    private function getAuthUser()
+    {
+        $user = $this->authenticator
+        ->authenticate(
+            $this->request->handler()->get('email'), 
+            $this->request->handler()->get('password_hash'), 
+            $this
+        );
+        if (!$user) {
+            $actionEvent = [
+                'action' => $this->authenticator->getAction(), 
+                'errors' => $this->authenticator->getErrors()
+            ];
+            if ($this->eventDispatcher) {
+                $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+            }
+    
+        }
+
+        return $user;
+    }
+
+    /**
+     * Carry out other actions if the remember_me checkbox was checked.
+     *
+     * @return boolean
+     */
+    private function isRememberingLogin()
+    {
+        $remember = $this->request->handler()->get('remember_me');
+        if ($remember) {
+            return $remember;
+        }
     }
 
     /**

@@ -48,6 +48,28 @@ class AdminController extends BaseController
         );
 
     }
+    
+    /**
+     * Returns the method path as a string to use with the redirect method.
+     * The method will generate the necessary redirect string based on the 
+     * current route.
+     *
+     * @param string $action
+     * @return string
+     */
+    public function selfPath(string $action) : string
+    {
+        $self = '';
+        if (!empty($this->thisRouteID()) && $this->thisRouteID() !==0) {
+            $self = "/admin/" . $this->thisRouteController() . "/" . $this->thisRouteID() . "/" . $action;
+        } else {
+            $self = "/admin/" . $this->thisRouteController() . "/" . $action;
+        }
+
+        if ($self) {
+            return $self;
+        }
+    }
 
     /**
      * Middleware which are executed before any action methods is called

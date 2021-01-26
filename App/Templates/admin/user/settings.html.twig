@@ -6,6 +6,12 @@
 {% set _action			= _this.thisRouteAction()|lower %}
 {% set _sep				= '/' %}
 {% set _helpBlock 		= help_block %}
+{% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
+{% set _new_path		= _path ~ 'new' %}
+{% set _edit_path		= _path ~ _row.id ~ 'edit' %}
+{% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
+{% set _preference_path = _path ~ _row.id ~ _sep ~ 'preferences' %}
+{% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
 
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size		= 3 %}
@@ -49,6 +55,7 @@
 			<div>
 				<div class="uk-card uk-card-default">
 					<div class="uk-card-body">
+						{{ form|raw }}
 					</div>
 				</div>
 			</div>

@@ -49,6 +49,11 @@ permission_index_path:
         title: Log
         path: /admin/role/log
         icon: file-text
+        
+user_index_sort:
+    header:
+        header: Sort By
+    
 
 user_index_path:
     header:

@@ -45,7 +45,8 @@ class UserController extends AdminController
                 "repository" => \App\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
                 "formUser" => \App\Forms\Admin\User\UserForm::class,  
-                "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,     
+                "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,   
+                "formSettings" => \App\Forms\Admin\User\SettingsForm::class  
             ]
         );  
 
@@ -93,6 +94,7 @@ class UserController extends AdminController
      */
     protected function indexAction()
     { 
+
         /**
          * the two block below provides a mean of overriding the default settings 
          * within the controller.yml file. So from the admin panel we can override
@@ -118,12 +120,8 @@ class UserController extends AdminController
                 "search_query" => $this
                     ->request
                     ->handler()
-                    ->query
-                    ->getAlnum(
-                        implode(
-                            "|", 
-                            $this->tableSettings($this->thisRouteController(), 'filter_by')
-                        )
+                    ->query->getAlnum(
+                        $args['filter_alias']
                     ),
                 "help_block" => ""
             ] 
@@ -316,6 +314,23 @@ class UserController extends AdminController
         );
     }
 
+    protected function settingsAction()
+    {
+        $this->render('/admin/user/settings.html.twig',
+            [
+                "form" => $this->formSettings->createForm("")
+            ]
+        );
+    }
+
+    protected function LogAction()
+    {
+        $this->render('/admin/user/log.html.twig',
+            [
+                
+            ]
+        );
+    }
 
     /**
      * The table settings insert action request. Simple adds per table related 

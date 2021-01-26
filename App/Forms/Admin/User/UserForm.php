@@ -29,7 +29,6 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 
     /**
      * {@inheritdoc}
-     *
      * @param string $action - form action
      * @return string
      * @throws Exception
@@ -74,7 +73,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             ->add(
                 [PasswordType::class => [
                     'name' => 'password_hash',
-                    'value' => empty($password_hash) ? '' : $password_hash,
+                    'value' => '',
                     'class' => ['uk-input', 'uk-width-1-1'],
                     'autocomplete' => 'new-password',
                     'pattern' => false
@@ -92,7 +91,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 ),
                 'default' => 'Subscriber'
                 ],
-                ['inline_icon' => false]
+                ['inline_icon' => false, 'before_after_wrapper' => true]
                 )
             ->add(
                 [RadioType::class => [
@@ -102,7 +101,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 ['choices' => [
                     'pending', 'active', 'lock', 'trash',
                 ], 'default' => 'pending'],
-                ['inline_icon' => '']
+                ['inline_icon' => '', 'before_after_wrapper' => true]
             )
             ->add(
                 [TextType::class => [
@@ -113,7 +112,6 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 ]],
                 null,
                 ['inline_icon' => false, 'new_label' => 'IP']
-
             )
             ->add(
                 [SubmitType::class => [

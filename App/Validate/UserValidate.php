@@ -54,6 +54,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                 $status = $this->setDefaultValue($cleanData, 'status', self::DEFAULT_STATUS);
                 $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
                 $encodedPassword = (new PasswordEncoder())->encode($cleanData['password_hash']);
+
                 list(
                     $tokenHash, 
                     $activationHash) = (new HashGenerator())->hash();
@@ -62,7 +63,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                     "firstname" => $cleanData["firstname"],
                     "lastname" => $cleanData["lastname"],
                     "email" => $cleanData["email"],
-                    "password_hash" => $encodedPassword,
+                    "password_hash" => $encodedPassword ? $encodedPassword : '',
                     "activation_token" => $tokenHash,
                     "status" => $status,
                     "created_byid" => $createdById,
@@ -70,15 +71,39 @@ class UserValidate extends AbstractDataRepositoryValidation
                     "remote_addr" => (new ClientIP())->getClientIp()
                 ];    
                 $this->dataBag['activation_hash'] = $activationHash;
+
                 if (null !== $dataRepository) {
                     unset($newCleanData['activation_token']);
+                    if (empty($cleanData['password_hash'])) {
+                        /* Prevent the user password from being updated if not specifying a new one */
+                        unset($newCleanData['password_hash']);
+                    }
                 }
+        
             }
             return [
                 $newCleanData,
                 $this->validatedDataBag($newCleanData), /* User will need this send to their email address so they can activate their accounts */
             ];
         }
+    }
+
+    /**
+     * Unset a specified key from an array based on some predefined conditions
+     *
+     * @param Object $dataRepository
+     * @return void
+     */
+    private function unsetter(Object $dataRepository) : void
+    {
+        if (null !== $dataRepository) {
+            unset($newCleanData['activation_token']);
+            if (empty($cleanData['password_hash'])) {
+                /* Prevent the user password from being updated if not specifying a new one */
+                unset($newCleanData['password_hash']);
+            }
+        }
+
     }
 
     public function validatedDataBag($newCleanData) 
@@ -118,7 +143,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                     if (isset($key) && $key !='') :
                         switch ($key) :
                             case "password_hash" :
-                                if (isset($value) && $value !=="") {
+                                if (!empty($value)) {
                                     if (strlen($value) < 6) {
                                         $this->errors[] = "Please enter at least 6 characters for the password";
                                     }

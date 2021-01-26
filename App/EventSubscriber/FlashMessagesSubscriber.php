@@ -84,7 +84,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/new",
+                    $event->get()->selfPath('new'),
                     "success"
                 ];
             }
@@ -93,7 +93,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/new",
+                    $event->get()->selfPath('new'),
                     "warning"
                 ];
             }
@@ -108,7 +108,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/{$event->get()->thisRouteID()}/edit",
+                    $event->get()->selfPath('edit'),
                     "success"
                 ];
             }
@@ -117,7 +117,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/{$event->get()->thisRouteID()}/edit",
+                    $event->get()->selfPath('edit'),
                     "warning"
                 ];
             }
@@ -132,7 +132,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/index",
+                    $event->get()->selfPath('index'),
                     "success"
                 ];
             }
@@ -141,7 +141,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             if ($flash) {
                 return [
                     $flash,
-                    "/admin/user/index",
+                    $event->get()->selfPath('index'),
                     "warning"
                 ];
             }

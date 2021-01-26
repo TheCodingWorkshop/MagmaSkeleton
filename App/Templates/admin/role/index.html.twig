@@ -1,6 +1,7 @@
 {% extends 'base_admin.html.twig' %}
 
 {% set _this			= this %}
+{% set _form            = form %}
 {% set _controller 		= _this.thisRouteController() %}
 {% set _table 			= table %}
 {% set _pagination 		= pagination %}
@@ -12,14 +13,8 @@
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size	    = 3 %}
 {% set _icon			= 'file-edit' %}
-{% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
-{% set _new_path		= _path ~ 'new' %}
-{% set _edit_path		= _path ~ _row.id ~ 'edit' %}
-{% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
-{% set _preference_path = _path ~ _row.id ~ _sep ~ 'perferences' %}
-{% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
 {% set submenu %}
-	{% include 'admin/user/parts/submenu.html.twig' %}
+{% include 'admin/user/parts/submenu.html.twig' %}
 {% endset %}
 
 {% block content_title %}
@@ -28,20 +23,30 @@
 
 {% block content_header_help %}
 	{#
-	string		$searchFilter = null, 
-	string 		$controller = null,
-	int 		$totalRecords = null,
-	array 		$actions = null,
-	bool 		$actionVertical = false,
-	array 		$row = null) : string
-	#}
+		string		$searchFilter = null, 
+		string 		$controller = null,
+		int 		$totalRecords = null,
+		array 		$actions = null,
+		bool 		$actionVertical = false,
+		array 		$row = null) : string
+		#}
 	{{ subHeader(
 		_searchedQuery,
 		_controller|capitalize,
 		_total_records,
 		{
 			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
-			plus: {tooltip: 'Add New', icon: 'plus-circle', path: '/admin/user/new', ratio: _nav_icon_size, color: 'uk-text-primary'},
+			plus: {
+                tooltip: 'Add New', 
+                icon: 'plus-circle', 
+                ratio: _nav_icon_size, 
+                color: 'uk-text-primary',
+                toggle: true,
+                toggle_id: '#new-role',
+                use_modal: true,
+                modal_title: 'New Role',
+                modal_content: _form|raw
+            },
 		},
 		false,
 		null
@@ -53,7 +58,7 @@
 		<div class="uk-width-1-5">
 			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
 				{{ submenu }}
-				{{ navMenu(Config('meta_nav').user_index_path)|raw }}
+				{{ navMenu(Config('meta_nav').role_index_path)|raw }}
 			</div>
 		</div>
 
@@ -77,7 +82,7 @@
 			{{ parent() }}
 			<script>
 				function saveChanges(Object) {
-					alert(Object.value)
-				}
+                alert(Object.value)
+                }
 			</script>
 		{% endblock body_javascript %}

@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\DataColumns;
@@ -21,22 +22,34 @@ class UserColumn extends AbstractDatatableColumn
         return [
             [
                 'db_row' => 'id',
-                'dt_row' => "",
-                'class' => 'id-class',
+                'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
+                'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
-                'formatter' => function($row) {
-                    return '<input type="checkbox" class="uk-checkbox">';
+                'formatter' => function ($row) {
+                    return '<input type="checkbox" class="uk-checkbox" id="users" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
                 }
             ],
             [
                 'db_row' => 'firstname',
-                'dt_row' => 'Firstname',
-                'class' => '',
+                'dt_row' => 'Name',
+                'class' => 'uk-table-expand',
                 'show_column' => true,
                 'sortable' => true,
-                'formatter' => function($row) {
-                    return $row['firstname'] . ' ' . $row['lastname'];
+                'formatter' => function ($row) {
+                    $html = '<div class="uk-clearfix">';
+                    $html .= '<div class="uk-float-left">';
+                    $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
+                    $html .= '</div>';
+                    $html .= '<div class="uk-float-left uk-margin-small-right">';
+                    $html .= $this->status($row);
+                    $html .= '</div>';
+                    $html .= '<div class="uk-float-left">';
+                    $html .= $row["firstname"] . ' ' . $row["lastname"] . "<br/>";
+                    $html .= '<div><small>' . $row["email"] . '</small></div>';
+                    $html .= '</div>';
+                    $html .= '</div>';
+                    return $html;
                 }
             ],
             [
@@ -51,7 +64,7 @@ class UserColumn extends AbstractDatatableColumn
                 'db_row' => 'email',
                 'dt_row' => 'Email Address',
                 'class' => '',
-                'show_column' => true,
+                'show_column' => false,
                 'sortable' => false,
                 'formatter' => ''
             ],
@@ -59,7 +72,7 @@ class UserColumn extends AbstractDatatableColumn
                 'db_row' => 'status',
                 'dt_row' => 'Status',
                 'class' => '',
-                'show_column' => true,
+                'show_column' => false,
                 'sortable' => false,
                 'formatter' => ''
             ],
@@ -69,15 +82,29 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
-                'formatter' => ''
+                'formatter' => function ($row, $twigExt) {
+                    $html = $twigExt->tableDateFormat($row, "created_at");
+                    $html .= '<div><small>By Admin</small></div>';
+                    return $html;
+                }
             ],
             [
                 'db_row' => 'modified_at',
                 'dt_row' => 'Modified',
                 'class' => '',
-                'show_column' => false,
-                'sortable' => false,
-                'formatter' => ''
+                'show_column' => true,
+                'sortable' => true,
+                'formatter' => function ($row, $twigExt) {
+                    $html = '';
+                    if (isset($row["modified_at"]) && $row["modified_at"] != null) {
+                        //$html .= "$twig->getUserById($row[$row_name]);"
+                        $html .= $twigExt->tableDateFormat($row, "modified_at");
+                        $html .= '<div><small>By Admin</small></div>';
+                    } else {
+                        $html .= '<small>Never!</small>';
+                    }
+                    return $html;
+                }
             ],
             [
                 'db_row' => 'gravatar',
@@ -89,11 +116,13 @@ class UserColumn extends AbstractDatatableColumn
             ],
             [
                 'db_row' => 'ip',
-                'dt_row' => 'IP Address',
-                'class' => '',
+                'dt_row' => 'IP',
+                'class' => 'uk-table-shrink',
                 'show_column' => false,
                 'sortable' => false,
-                'formatter' => ''
+                'formatter' => function ($row, $twigExt) {
+                    return '<span uk-icon="icon: location" uk-tooltip="' . $row["remote_addr"] . '"></span>';
+                }
             ],
             [
                 'db_row' => '',
@@ -104,7 +133,8 @@ class UserColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->iconNav(
                         [
-                            'user' => [],
+                            //'user' => [],
+                            'file-edit' => [],
                             'trash' => []
                         ],
                         $row,
@@ -115,5 +145,29 @@ class UserColumn extends AbstractDatatableColumn
             ],
 
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function status(?array $row): string
+    {
+        $html = '';
+
+        switch ($row["status"]) {
+            case "pending":
+                $html .= '<span class="uk-text-warning" uk-icon="icon: warning; ratio: .8" uk-tooltip="' . ($row["status"] == 'pending' ? 'pending' : '') . '"></span>';
+                break;
+            case "active":
+                $html .= '<span class="uk-text-success" uk-icon="icon: check; ratio: .8" uk-tooltip="' . ($row["status"] == 'active' ? 'active' : '') . '"></span>';
+                break;
+            case "lock":
+                $html .= '<span class="uk-text-secondary" uk-icon="icon: lock; ratio: .8" uk-tooltip="' . ($row["status"] == 'lock' ? 'lock' : '') . '"></span>';
+                break;
+            case "trash":
+                $html .= '<span class="uk-text-danger" uk-icon="icon: trash; ratio: .8" uk-tooltip="' . ($row["status"] == 'trash' ? 'trash' : '') . '"></span>';
+                break;
+        }
+        return $html;
     }
 }
