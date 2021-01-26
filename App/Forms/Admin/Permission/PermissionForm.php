@@ -39,13 +39,15 @@ class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInter
                 [TextType::class => [
                     'name' => 'permission_name',
                     'class' => ['uk-input', 'uk-form-width-large'],
+                    'value' => (empty($permission_name) ? '' : $permission_name)
                 ]]
             )
             ->add(
                 [TextareaType::class => [
                     'name' => 'permission_description',
                     'class' => ['uk-textarea', 'uk-form-width-large'],
-                ]]
+                ]],
+                (empty($permission_description) ? '' : $permission_description)
             )
             ->add(
                 [SubmitType::class => [

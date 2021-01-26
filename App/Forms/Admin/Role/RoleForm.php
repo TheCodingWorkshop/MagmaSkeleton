@@ -40,13 +40,15 @@ class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 [TextType::class => [
                     'name' => 'role_name',
                     'class' => ['uk-input', 'uk-form-width-large'],
+                    'value' => (empty($role_name) ? '' : $role_name)
                 ]]
             )
             ->add(
                 [TextareaType::class => [
                     'name' => 'role_description',
                     'class' => ['uk-textarea', 'uk-form-width-large'],
-                ]]
+                ]],
+                empty($role_description) ? '' : $role_description
             )
             ->add(
                 [SubmitType::class => [

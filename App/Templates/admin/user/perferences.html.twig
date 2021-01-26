@@ -7,10 +7,6 @@
 {% set _sep				= '/' %}
 {% set _row 			= user %}
 {% set _helpBlock 		= help_block %}
-{% set _new_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ 'new' %}
-{% set _edit_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ 'edit' %}
-{% set _trash_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'trash' %}
-{% set _preference_path		= _sep ~ _namespace ~ _sep ~ _controller ~ _sep ~ _row.id ~ _sep ~ 'perferences' %}
 {% set _icon			= 'settings' %}
 {% set _icon_size		= 3 %}
 {% set _nav_icon_size	= 1.5 %}
@@ -41,6 +37,7 @@
 			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
 		},
 		false,
+		null,
 		null
 	)|raw }}
 {% endblock content_header_help %}

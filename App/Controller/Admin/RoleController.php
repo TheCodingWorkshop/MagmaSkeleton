@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -46,8 +47,7 @@ class RoleController extends AdminController
                 "column" => \App\DataColumns\RoleColumn::class,
                 "formRole" => \App\Forms\Admin\Role\RoleForm::class
             ]
-        );  
-
+        );
     }
 
     /**
@@ -57,7 +57,7 @@ class RoleController extends AdminController
      *
      * @return object
      */
-    private function roleRepository() : Object
+    private function roleRepository(): Object
     {
         $repository = $this->repository->getRepo();
         if (null !== $repository) {
@@ -74,8 +74,8 @@ class RoleController extends AdminController
     private function findRoleOr404()
     {
         $repository = $this->roleRepository()
-        ->findAndReturn($this->thisRouteID())
-        ->or404();
+            ->findAndReturn($this->thisRouteID())
+            ->or404();
 
         return $repository;
     }
@@ -91,7 +91,7 @@ class RoleController extends AdminController
      * @throws SyntaxError
      */
     protected function indexAction()
-    { 
+    {
 
         /**
          * the two block below provides a mean of overriding the default settings 
@@ -103,8 +103,8 @@ class RoleController extends AdminController
         $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
 
         $repository = $this->roleRepository()
-        ->findWithSearchAndPaging($this->request->handler(), $args);
-            
+            ->findWithSearchAndPaging($this->request->handler(), $args);
+
         $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
         $this->render(
             'admin/role/index.html.twig',
@@ -123,7 +123,7 @@ class RoleController extends AdminController
                         $args['filter_alias']
                     ),
                 "help_block" => ""
-            ] 
+            ]
         );
     }
 
@@ -140,7 +140,7 @@ class RoleController extends AdminController
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
                     $action = $this->roleRepository()
-                    ->validateRepository(new RoleEntity($this->formBuilder->getData()))->persistAfterValidation();
+                        ->validateRepository(new RoleEntity($this->formBuilder->getData()))->persistAfterValidation();
                     $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getvalidationErrors()];
 
                     if ($this->eventDispatcher) {
@@ -151,6 +151,54 @@ class RoleController extends AdminController
         endif;
     }
 
+    /**
+     * The edit action request. is responsible for updating a user record within
+     * the database. User data wille be sanitized and validated before upon re 
+     * submitting new data. An event will be dispatched on this action
+     *
+     * @return void
+     */
+    protected function editAction()
+    {
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                    $action = $this->roleRepository()
+                        ->validateRepository(
+                            new RoleEntity($this->formBuilder->getData()),
+                            $this->roleRepository()
+                        )
+                        ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getValidationErrors()];
+
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * The delete action request. is responsible for deleting a single record from
+     * the database. This method is not a submittable method hence why this check has
+     * been omitted. This a simple click based action. which is triggered within the
+     * datatable. An event will be dispatch by this action
+     *
+     * @return void
+     */
+    protected function deleteAction()
+    {
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest()) {
+                $action = $this->roleRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
+                $actionEvent = ['action' => $action];
+                if ($this->eventDispatcher) {
+                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+                }
+            }
+        }
+    }
 
     /**
      * The table settings insert action request. Simple adds per table related 
@@ -158,7 +206,7 @@ class RoleController extends AdminController
      *
      * @return bool
      */
-    public function tableSettingsInsertAction() : bool
+    public function tableSettingsInsertAction(): bool
     {
         $this->tableSettingsInit($this->thisRouteController());
         $this->flashMessage('Changes Saved!');
@@ -171,12 +219,11 @@ class RoleController extends AdminController
      *
      * @return boolean
      */
-    public function tableSettingsUpdateAction() : bool
+    public function tableSettingsUpdateAction(): bool
     {
         $this->tableSettingsUpdateInit($this->thisRouteController());
         $this->flashMessage('Settings Updated!');
         $this->redirect('/admin/role/index');
         return true;
     }
-
 }

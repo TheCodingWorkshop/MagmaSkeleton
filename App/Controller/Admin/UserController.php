@@ -314,6 +314,11 @@ class UserController extends AdminController
         );
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     protected function settingsAction()
     {
         $this->render('/admin/user/settings.html.twig',

@@ -138,6 +138,7 @@ class UserColumn extends AbstractDatatableColumn
                             'trash' => []
                         ],
                         $row,
+                        $twigExt,
                         'user',
                         false
                     );

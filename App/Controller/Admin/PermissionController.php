@@ -151,6 +151,54 @@ class PermissionController extends AdminController
         endif;
     }
 
+    /**
+     * The edit action request. is responsible for updating a user record within
+     * the database. User data wille be sanitized and validated before upon re 
+     * submitting new data. An event will be dispatched on this action
+     *
+     * @return void
+     */
+    protected function editAction()
+    {
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                    $action = $this->permissionRepository()
+                        ->validateRepository(
+                            new PermissionEntity($this->formBuilder->getData()),
+                            $this->roleRepository()
+                        )
+                        ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getValidationErrors()];
+
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * The delete action request. is responsible for deleting a single record from
+     * the database. This method is not a submittable method hence why this check has
+     * been omitted. This a simple click based action. which is triggered within the
+     * datatable. An event will be dispatch by this action
+     *
+     * @return void
+     */
+    protected function deleteAction()
+    {
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest()) {
+                $action = $this->permissionRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
+                $actionEvent = ['action' => $action];
+                if ($this->eventDispatcher) {
+                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+                }
+            }
+        }
+    }
 
     /**
      * The table settings insert action request. Simple adds per table related 

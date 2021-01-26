@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use MagmaCore\Datatable\AbstractDatatableColumn;
+use App\Forms\Admin\Permission\PermissionForm;
 
 class PermissionColumn extends AbstractDatatableColumn
 {
@@ -97,10 +98,25 @@ class PermissionColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->iconNav(
                         [
-                            'file-edit' => [],
+                            'edit_modal' => [
+                                'icon' => 'file-edit',
+                                'tooltip' => 'Edit',
+                                'toggle_modal_edit' => true,
+                                'callback' => function ($row, $twigExt) {
+                                    return $twigExt->getModal(
+                                        [
+                                            'toggle_id' => 'edit-modal-permission-' . $row['id'],
+                                            'modal_title' => 'Edit ' . $row['permission_name'],
+                                            'modal_content' => (new PermissionForm())
+                                                ->createForm("/admin/permission/{$row['id']}/edit", $row)
+                                        ]
+                                    );
+                                }
+                            ],
                             'trash' => ['tooltip' => 'Trash', 'icon' => 'trash']
                         ],
                         $row,
+                        $twigExt,
                         'permission',
                         false
                     );
