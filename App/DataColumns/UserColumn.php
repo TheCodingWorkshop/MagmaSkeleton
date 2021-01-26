@@ -131,7 +131,7 @@ class UserColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    return $twigExt->iconNav(
+                    return $twigExt->action(
                         [
                             //'user' => [],
                             'file-edit' => [],
@@ -140,7 +140,9 @@ class UserColumn extends AbstractDatatableColumn
                         $row,
                         $twigExt,
                         'user',
-                        false
+                        false,
+                        'Are You Sure!',
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['firstname']}</strong> account."
                     );
                 }
             ],

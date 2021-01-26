@@ -96,7 +96,7 @@ class RoleColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    return $twigExt->iconNav(
+                    return $twigExt->action(
                         [
                             'edit_modal' => [
                                 'icon' => 'file-edit',
@@ -118,7 +118,9 @@ class RoleColumn extends AbstractDatatableColumn
                         $row,
                         $twigExt,
                         'role',
-                        false
+                        false,
+                        'Are You Sure!',
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['role_name']}</strong> role."
                     );
                 }
             ],
