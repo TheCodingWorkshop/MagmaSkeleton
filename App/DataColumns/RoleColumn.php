@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
+use MagmaCore\Auth\Model\RolePermissionModel;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 use App\Forms\Admin\Role\RoleForm;
 
@@ -98,6 +99,7 @@ class RoleColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->action(
                         [
+                            'has_permission' => $this->hasPermission($row),
                             'edit_modal' => [
                                 'icon' => 'file-edit',
                                 'tooltip' => 'Edit',
@@ -126,5 +128,24 @@ class RoleColumn extends AbstractDatatableColumn
             ],
 
         ];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $row
+     * @return array
+     */
+    private function hasPermission(array $row) : array
+    {
+        $rolePerm = (new RolePermissionModel())
+        ->getRepo()
+        ->findOneBy(['role_id' => $row['id']]);
+        if ($rolePerm !=null) {
+            $array = ['icon' => 'lock', 'tooltip' => 'Role Lock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-success'];
+        } else {
+            $array = ['icon' => 'unlock', 'tooltip' => 'Role Unlock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-warning'];
+        }
+        return $array;
     }
 }

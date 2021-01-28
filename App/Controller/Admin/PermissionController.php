@@ -81,6 +81,19 @@ class PermissionController extends AdminController
     }
 
     /**
+     * Return the flash event for the action route and also redirect
+     *
+     * @param array $actionEvent
+     * @return void
+     */
+    public function getFlashEvent($actionEvent) : void
+    {
+        if ($this->eventDispatcher) {
+            $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+        }
+    }
+
+    /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is 
      * made.
@@ -134,7 +147,7 @@ class PermissionController extends AdminController
      *
      * @return void
      */
-    protected function newAction()
+    protected function newAction() : void
     {
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
@@ -143,9 +156,7 @@ class PermissionController extends AdminController
                     ->validateRepository(new PermissionEntity($this->formBuilder->getData()))->persistAfterValidation();
                     $actionEvent = ['action' => $action, 'errors' => $this->permissionRepository()->getvalidationErrors()];
 
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                    }
+                    $this->getFlashEvent($actionEvent);
                 }
             }
         endif;
@@ -158,7 +169,7 @@ class PermissionController extends AdminController
      *
      * @return void
      */
-    protected function editAction()
+    protected function editAction() : void
     {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
@@ -166,14 +177,13 @@ class PermissionController extends AdminController
                     $action = $this->permissionRepository()
                         ->validateRepository(
                             new PermissionEntity($this->formBuilder->getData()),
-                            $this->roleRepository()
+                            $this->permissionRepository()
                         )
                         ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getValidationErrors()];
+                    $actionEvent = ['action' => $action, 'errors' => $this->permissionRepository()->getValidationErrors()];
 
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                    }
+                    $this->getFlashEvent($actionEvent);
+
                 }
             }
         }
@@ -193,9 +203,7 @@ class PermissionController extends AdminController
             if ($this->formBuilder->canHandleRequest()) {
                 $action = $this->permissionRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
                 $actionEvent = ['action' => $action];
-                if ($this->eventDispatcher) {
-                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                }
+                $this->getFlashEvent($actionEvent);
             }
         }
     }

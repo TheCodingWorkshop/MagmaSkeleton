@@ -14,10 +14,6 @@ register:
     controller: Registration
     action: register
 
-profile:
-    controller: Profile
-    action: index
-
 password/reset/{token:[\da-f]+}:
     controller: Password
     action: reset

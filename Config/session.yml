@@ -1,5 +1,5 @@
 session_name: 'LavaStudio'
-lifetime: 1800 #session expires in 10min if left idle
+lifetime: 3600 #session expires in 10min if left idle
 path: /
 domain: 'localhost'
 secure: false

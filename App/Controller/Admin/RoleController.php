@@ -45,7 +45,9 @@ class RoleController extends AdminController
             [
                 "repository" => \MagmaCore\Auth\Model\RoleModel::class,
                 "column" => \App\DataColumns\RoleColumn::class,
-                "formRole" => \App\Forms\Admin\Role\RoleForm::class
+                "formRole" => \App\Forms\Admin\Role\RoleForm::class,
+                "permissionModel" => \MagmaCore\Auth\Model\PermissionModel::class,
+                "rolePerm" => \MagmaCore\Auth\Model\RolePermissionModel::class,
             ]
         );
     }
@@ -198,6 +200,26 @@ class RoleController extends AdminController
                 }
             }
         }
+    }
+
+    protected function assignedAction()
+    {
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
+                if ($this->formBuilder->csrfValidate()) {
+                }
+            }
+        }
+        $this->render(
+            "/admin/role/assigned.html.twig",
+            [
+                "this" => $this,
+                "role" => $this->toArray($this->findRoleOr404()),
+                "permissions" => $this->permissionModel->getRepo()->findAll(),
+                "role_perm" => $this->rolePerm->getRepo()->findObjectBy(['role_id' => $this->thisRouteID()])
+            ]
+        );
+
     }
 
     /**

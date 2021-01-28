@@ -39,6 +39,7 @@ class DashboardController extends AdminController
          */
         $this->container(
             [
+                "userRepo" => \App\Model\UserModel::class
             ]
         );  
 

@@ -15,3 +15,21 @@ authentication:
             path: '/admin/user/index'
             role:
                 - developer
+        role:
+            name: Roles
+            icon: nut
+            path: '/admin/role/index'
+            role:
+                - developer
+        permission:
+            name: Permission
+            icon: settings
+            path: '/admin/permission/index'
+            role:
+                - developer
+        log:
+            name: Log
+            icon: file-text
+            path: '/admin/log/index'
+            role:
+                - developer

@@ -11,13 +11,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use MagmaCore\Auth\Controller\AuthSecurityController;
 use MagmaCore\Base\BaseController;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
 
-class AccountController extends AuthSecurityController
+class AccountController extends BaseController
 {
 
     /**
@@ -41,7 +40,10 @@ class AccountController extends AuthSecurityController
          */
         $this->container(
             [
-                "repository" => \App\Model\UserModel::class
+                "repository" => \App\Model\UserModel::class,
+                //"editNameForm" => \App\Forms\Client\Profile\EditNameForm::class,
+                //"editEmailForm" => \App\Forms\Client\Profile\EditEmailForm::class,
+                //"editPasswordForm" => \App\Forms\Client\Profile\EditPasswordForm::class,
             ]
         );
     }
@@ -59,7 +61,7 @@ class AccountController extends AuthSecurityController
     {
         return [
             'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
-            'BasicAuthentication' => \App\Middleware\Before\BasicAuthentication::class,
+            'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'loginRequired' => \App\Middleware\Before\LoginRequired::class,
             'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
@@ -79,8 +81,12 @@ class AccountController extends AuthSecurityController
     protected function indexAction()
     { 
         $this->render(
-            'client/profile/index.html.twig',
+            'client/profile/show.html.twig',
             [
+                "profile" => $this->repository
+                    ->getRepo()
+                    ->findAndReturn($_SESSION['user_id'])
+                    ->or404()
             ]
         );
     }
