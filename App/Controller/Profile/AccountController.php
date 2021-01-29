@@ -74,7 +74,7 @@ class AccountController extends BaseController
      *
      * @return Object
      */
-    protected function getProfileRepo() : Object
+    protected function findUserOr404() : Object
     {
         return $this->repository
         ->getRepo()
@@ -97,7 +97,7 @@ class AccountController extends BaseController
         $this->render(
             'client/profile/index.html.twig',
             [
-                "profile" => $this->getProfileRepo()
+                "profile" => $this->findUserOr404()
             ]
         );
     }
@@ -106,10 +106,11 @@ class AccountController extends BaseController
     {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-email')) {
-                if ($this->formBuilder->carfValidate()) {
+                if ($this->formBuilder->csrfValidate()) {
                     $action = $this->repository
+                    ->getRepo()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
                     if ($action) {
                         $this->flashMessage('Changes saved');
                         $this->redirect('/profile/account/edit-email');
@@ -119,8 +120,8 @@ class AccountController extends BaseController
         }
         $this->render('client/profile/edit_email.html.twig',
             [
-                "profile" => $this->getProfileRepo(),
-                "formEmail" => $this->editEmailForm->createForm("/profile/edit-email", $this->getProfileRepo())
+                "profile" => $this->findUserOr404(),
+                "formEmail" => $this->editEmailForm->createForm("/profile/edit-email", $this->findUserOr404())
             ]
         );
 
@@ -133,8 +134,8 @@ class AccountController extends BaseController
                 if ($this->formBuilder->csrfValidate()) {
                     $action = $this->repository
                     ->getRepo()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->getProfileRepo())
-                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
+                    ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
                     if ($action) {
                         $this->flashMessage('Changes saved');
                         $this->redirect('/profile/account/edit-name');
@@ -144,8 +145,8 @@ class AccountController extends BaseController
         }
         $this->render('client/profile/edit_name.html.twig',
             [
-                "profile" => $this->getProfileRepo(),
-                "formName" => $this->editNameForm->createForm("/profile/account/edit-name", $this->getProfileRepo())
+                "profile" => $this->findUserOr404(),
+                "formName" => $this->editNameForm->createForm("/profile/account/edit-name", $this->findUserOr404())
             ]
         );
 
@@ -155,10 +156,11 @@ class AccountController extends BaseController
     {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-password')) {
-                if ($this->formBuilder->carfValidate()) {
+                if ($this->formBuilder->csrfValidate()) {
                     $action = $this->repository
+                    ->getRepo()
                     ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
                     if ($action) {
                         $this->flashMessage('Changes saved');
                         $this->redirect('/profile/account/edit-password');
@@ -168,8 +170,8 @@ class AccountController extends BaseController
         }
         $this->render('client/profile/edit_password.html.twig',
             [
-                "profile" => $this->getProfileRepo(),
-                "formPassword" => $this->editPasswordForm->createForm("/profile/edit-password", $this->getProfileRepo())
+                "profile" => $this->findUserOr404(),
+                "formPassword" => $this->editPasswordForm->createForm("/profile/edit-password", $this->findUserOr404())
             ]
         );
 

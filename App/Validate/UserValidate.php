@@ -46,14 +46,16 @@ class UserValidate extends AbstractDataRepositoryValidation
         if (empty($this->errors)) {
 
             /**
-             * getArr() method simple merges any data returned within the $this->fields() method and the 
+             * getArr() method simple merges any data returned within the 
+             * $this->fields() method and the 
              * $cleanData array and return a combine array of data
              */
             $cleanData = $this->getArr($this->cleanData);
             if (null !== $cleanData) {
                 $status = $this->setDefaultValue($cleanData, 'status', self::DEFAULT_STATUS);
-                $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
                 $encodedPassword = (new PasswordEncoder())->encode($cleanData['password_hash']);
+                $avatar = (new GravatarGenerator())->setGravatar($cleanData["email"] ? $cleanData['email'] : $dataRepository->email);
+                $clientIP = (new ClientIP())->getClientIp();
 
                 list(
                     $tokenHash, 
@@ -62,13 +64,13 @@ class UserValidate extends AbstractDataRepositoryValidation
                 $newCleanData = [
                     "firstname" => $cleanData["firstname"],
                     "lastname" => $cleanData["lastname"],
-                    "email" => $cleanData["email"],
+                    "email" => $cleanData["email"] ? $cleanData['email'] : $dataRepository->email,
                     "password_hash" => $encodedPassword ? $encodedPassword : '',
                     "activation_token" => $tokenHash,
                     "status" => $status,
-                    "created_byid" => $createdById,
-                    "gravatar" => (new GravatarGenerator())->setGravatar($cleanData["email"]),
-                    "remote_addr" => (new ClientIP())->getClientIp()
+                    "created_byid" => $this->getCreatedBy($cleanData),
+                    "gravatar" => $avatar,
+                    "remote_addr" => $clientIP
                 ];    
                 $this->dataBag['activation_hash'] = $activationHash;
 
