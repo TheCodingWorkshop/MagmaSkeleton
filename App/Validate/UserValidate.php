@@ -166,8 +166,10 @@ class UserValidate extends AbstractDataRepositoryValidation
                                 break;
                             case "firstame" :
                             case "lastname" :
-                                if (is_string($value) && empty($value)) {
-                                    $this->errors[] = "Please enter your name this field can not be left empty.";
+                                if (isset($value)) {
+                                    if (is_string($value) && empty($value)) {
+                                        $this->errors[] = "Please enter your name this field can not be left empty.";
+                                    }    
                                 }
                                 break;
                             default :

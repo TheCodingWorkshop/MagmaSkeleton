@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% set _profile_index = '/profile/account/index' %}
+{% set profile_nav %}
+{% include 'client/profile/profile_menu.html.twig' %}
+{% endset %}
+{% block content_title %}
+	My Account
+{% endblock content_title %}
+
+{% block main %}
+	<div class="uk-container uk-container-xsmall">
+		<div>
+			<div uk-grid>
+				<div class="uk-width-auto@m">
+					{{ profile_nav }}
+				</div>
+				<div class="uk-width-expand@m">
+					<ul id="component-tab-left" class="uk-switcher">
+						<li>
+							<h1 class="uk-heading-small">Edit Name</h1>
+                            <p>Your display name is what people will see whenever you do anything public on our website or app. For example, if you comment on a story.</p>
+                            {{ formName|raw }}
+							<a class="uk-button uk-button-text uk-text-primary" href="{{ _profile_index }}">Cancel</a>
+						</li>
+						<li>{% include '/client/profile/profile_history.html.twig' %}</li>
+						<li>{% include '/client/profile/profile_cookies.html.twig' %}</li>
+						<li>{% include '/client/profile/profile_settings.html.twig' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock main %}

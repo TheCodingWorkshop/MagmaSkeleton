@@ -1,1 +1,53 @@
-This is user profile page. Which should be a protective page
+{% extends 'base.html.twig' %}
+
+{% set _profile_index = '/profile/account/index' %}
+{% set profile_nav %}
+{% include 'client/profile/profile_menu.html.twig' %}
+{% endset %}
+
+{% block content_title %}
+	My Account
+{% endblock content_title %}
+
+{% block main %}
+	<div class="uk-container uk-container-xsmall">
+		<div>
+			<div uk-grid>
+				<div class="uk-width-auto@m">
+					{{ profile_nav }}
+				</div>
+				<div class="uk-width-expand@m">
+					<ul id="component-tab-left" class="uk-switcher">
+						<li>
+							<h1 class="uk-heading-small">Personal Details</h1>
+							<p>Your account was created on {{ profile.created_at }}. And your current status is <span class="uk-text-success">{{ profile.status }}.</span> Your current role is set as <i>Superadmin</i></p>
+							{% set details = {
+								email: {path: 'edit-email', value: profile.email},
+								password: {path: 'edit-password', value: profile.password_hash},
+								name: {path: 'edit-name', value: profile.firstname ~ ' ' ~ profile.lastname},
+							} %}
+
+							<dl class="uk-description-list uk-description-list-divider">
+								{% for index, detail in details %}
+									<dt>
+										<a href="/profile/account/{{ detail.path }}">
+											<span class="uk-text-bolder uk-text-meta" uk-icon="icon: pencil; ratio: 0.9">{{ index|capitalize }}</span>
+										</a>
+									</dt>
+									<dd>{{ detail.value }}</dd>
+								{% endfor %}
+							</dl>
+							<p>
+								<a href="" class="uk-button uk-button-text uk-text-danger uk-text-bolder">I want to delete my account</a>
+							</p>
+
+						</li>
+						<li>{% include '/client/profile/profile_history.html.twig' %}</li>
+						<li>{% include '/client/profile/profile_cookies.html.twig' %}</li>
+						<li>{% include '/client/profile/profile_settings.html.twig' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock main %}

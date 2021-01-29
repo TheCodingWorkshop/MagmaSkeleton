@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Forms\Client\Security;
+namespace App\Forms\Client\Profile;
 
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;
@@ -30,10 +30,10 @@ class EditNameForm extends ClientFormBuilder implements ClientFormBuilderInterfa
 	 */
     public function createForm(string $action,?Object $repository = null) 
 	{
-		return $this->form(['action' => $action]) 
-        ->add([TextType::class => ['name' => 'firstname']])
-		->add([TextType::class => ['name' => 'lastname']])
-		->add([SubmitType::class => ['name' => 'edit-profile-name', 'value' => 'Update', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+		return $this->form(['action' => $action, 'class' => 'uk-form-stacked']) 
+        ->add([TextType::class => ['name' => 'firstname', 'value' => $repository->firstname]], null, ['show_label' => false])
+		->add([TextType::class => ['name' => 'lastname', 'value' => $repository->lastname]], null, ['show_label' => false])
+		->add([SubmitType::class => ['name' => 'edit-profile-name', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	} 
 }

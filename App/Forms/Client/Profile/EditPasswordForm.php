@@ -9,14 +9,14 @@
  */
 declare(strict_types=1);
 
-namespace App\Forms\Client\Security;
+namespace App\Forms\Client\Profile;
 
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\Type\SubmitType;
 use MagmaCore\FormBuilder\Type\PasswordType;
 
-class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
 	/**
@@ -30,9 +30,10 @@ class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterf
 	 */
     public function createForm(string $action,?Object $repository = null) 
 	{
-		return $this->form(['action' => $action]) 
-        ->add([PasswordType::class => ['name' => 'password_hash']])
-		->add([SubmitType::class => ['name' => 'edit-profile-email', 'value' => 'Update', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+		return $this->form(['action' => $action, 'class' => 'uk-form-stacked']) 
+        ->add([PasswordType::class => ['name' => 'check_password_hash', 'placeholder' => 'Current Password']], null, ['show_label' => false])
+        ->add([PasswordType::class => ['name' => 'password_hash', 'placeholder' => 'New Password']], null, ['show_label' => false])
+		->add([SubmitType::class => ['name' => 'edit-profile-email', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	} 
 }

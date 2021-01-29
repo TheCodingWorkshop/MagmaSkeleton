@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% set _profile_index = '/profile/account/index' %}
+{% set profile_nav %}
+{% include 'client/profile/profile_menu.html.twig' %}
+{% endset %}
+
+{% block content_title %}
+	My Account
+{% endblock content_title %}
+
+{% block main %}
+	<div class="uk-container uk-container-xsmall">
+		<div>
+			<div uk-grid>
+				<div class="uk-width-auto@m">
+					{{ profile_nav }}
+				</div>
+				<div class="uk-width-expand@m">
+					<ul id="component-tab-left" class="uk-switcher">
+						<li>
+<div uk-alert class="uk-alert-success">
+    <a class="uk-alert-close" uk-close></a>
+    <h3>Notice</h3>
+    <p>Your email will not change until your verify the changes using the email sent to the password you are changing to.</p>
+</div>
+							<h1 class="uk-heading-small">Edit Email</h1>
+                            <p>Remember to verify your new email address after you've changed it, using the email we'll send you</p>
+                            {{ formEmail|raw }}
+							<a class="uk-button uk-button-text uk-text-primary" href="{{ _profile_index }}">Cancel</a>
+						</li>
+						<li>{% include '/client/profile/profile_history.html.twig' %}</li>
+						<li>{% include '/client/profile/profile_cookies.html.twig' %}</li>
+						<li>{% include '/client/profile/profile_settings.html.twig' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock main %}
