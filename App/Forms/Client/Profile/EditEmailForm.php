@@ -13,6 +13,7 @@ namespace App\Forms\Client\Profile;
 
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;
+use MagmaCore\FormBuilder\Type\PasswordType;
 use MagmaCore\FormBuilder\Type\SubmitType;
 use MagmaCore\FormBuilder\Type\EmailType;
 
@@ -31,7 +32,8 @@ class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterf
     public function createForm(string $action,?Object $repository = null) 
 	{
 		return $this->form(['action' => $action, 'class' => 'uk-form-stacked uk-form-bolder']) 
-        ->add([EmailType::class => ['name' => 'email', 'value' => $repository->email]], null, ['show_label' => false])
+		->add([EmailType::class => ['name' => 'email', 'value' => $repository->email]], null, ['show_label' => false])
+		->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
 		->add([SubmitType::class => ['name' => 'edit-profile-email', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	} 

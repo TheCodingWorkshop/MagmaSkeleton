@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -44,12 +45,11 @@ class UserController extends AdminController
             [
                 "repository" => \App\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
-                "formUser" => \App\Forms\Admin\User\UserForm::class,  
-                "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,   
-                "formSettings" => \App\Forms\Admin\User\SettingsForm::class  
+                "formUser" => \App\Forms\Admin\User\UserForm::class,
+                "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,
+                "formSettings" => \App\Forms\Admin\User\SettingsForm::class
             ]
-        );  
-
+        );
     }
 
     /**
@@ -59,7 +59,7 @@ class UserController extends AdminController
      *
      * @return object
      */
-    private function userRepository() : Object
+    private function userRepository(): Object
     {
         $repository = $this->repository->getRepo();
         if (null !== $repository) {
@@ -76,8 +76,8 @@ class UserController extends AdminController
     private function findUserOr404()
     {
         $repository = $this->userRepository()
-        ->findAndReturn($this->thisRouteID())
-        ->or404();
+            ->findAndReturn($this->thisRouteID())
+            ->or404();
 
         return $repository;
     }
@@ -93,7 +93,7 @@ class UserController extends AdminController
      * @throws SyntaxError
      */
     protected function indexAction()
-    { 
+    {
 
         /**
          * the two block below provides a mean of overriding the default settings 
@@ -105,8 +105,8 @@ class UserController extends AdminController
         $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
 
         $repository = $this->userRepository()
-        ->findWithSearchAndPaging($this->request->handler(), $args);
-            
+            ->findWithSearchAndPaging($this->request->handler(), $args);
+
         $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
         $this->render(
             'admin/user/index.html.twig',
@@ -124,7 +124,7 @@ class UserController extends AdminController
                         $args['filter_alias']
                     ),
                 "help_block" => ""
-            ] 
+            ]
         );
     }
 
@@ -139,7 +139,8 @@ class UserController extends AdminController
      */
     protected function showAction()
     {
-        $this->render('admin/user/show.html.twig',
+        $this->render(
+            'admin/user/show.html.twig',
             [
                 "form" => "",
                 "this" => $this,
@@ -164,14 +165,12 @@ class UserController extends AdminController
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
-                    
+
                     $action = $this->userRepository()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()))
-                    ->persistAfterValidation();
-                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
-                    }    
+                        ->validateRepository(new UserEntity($this->formBuilder->getData()))
+                        ->persistAfterValidation();
+                    $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
+                    $this->getFlashEvent($actionEvent);
                 }
             }
         endif;
@@ -195,23 +194,22 @@ class UserController extends AdminController
      * @throws SyntaxError
      */
     protected function editAction()
-    {   
+    {
 
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
-                    
+
                     $action = $this->userRepository()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                    ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
-                    }
+                        ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
+                        ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
+                    $this->getFlashEvent($actionEvent);
                 }
             }
         endif;
-        $this->render('/admin/user/edit.html.twig',
+        $this->render(
+            '/admin/user/edit.html.twig',
             [
                 "form" => $this->formUser->createForm("/admin/user/{$this->thisRouteID()}/edit", $this->findUserOr404()),
                 "help_block" => "",
@@ -238,11 +236,9 @@ class UserController extends AdminController
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest()) :
                 $action = $this->userRepository()
-                ->findByIDAndDelete(['id' => $this->thisRouteID()]);
-                $actionEvents = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                if ($this->eventDispatcher) {
-                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvents, $this), FlashMessagesEvent::NAME);
-                }
+                    ->findByIDAndDelete(['id' => $this->thisRouteID()]);
+                $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
+                $this->getFlashEvent($actionEvent);
             endif;
         endif;
     }
@@ -269,16 +265,16 @@ class UserController extends AdminController
      * @throws SyntaxError
      */
     protected function perferencesAction()
-    {   
+    {
 
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('perferences-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
-                    
                 }
             }
         endif;
-        $this->render('/admin/user/perferences.html.twig',
+        $this->render(
+            '/admin/user/perferences.html.twig',
             [
                 "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
                 "user" => $this->toArray($this->findUserOr404()),
@@ -297,7 +293,7 @@ class UserController extends AdminController
      * @throws SyntaxError
      */
     protected function permissionAction()
-    {   
+    {
 
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('permission-' . $this->thisRouteController())) {
@@ -305,7 +301,8 @@ class UserController extends AdminController
                 }
             }
         endif;
-        $this->render('/admin/user/permission.html.twig',
+        $this->render(
+            '/admin/user/permission.html.twig',
             [
                 "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
                 "user" => $this->toArray($this->findUserOr404()),
@@ -321,7 +318,8 @@ class UserController extends AdminController
      */
     protected function settingsAction()
     {
-        $this->render('/admin/user/settings.html.twig',
+        $this->render(
+            '/admin/user/settings.html.twig',
             [
                 "form" => $this->formSettings->createForm("")
             ]
@@ -330,10 +328,9 @@ class UserController extends AdminController
 
     protected function LogAction()
     {
-        $this->render('/admin/user/log.html.twig',
-            [
-                
-            ]
+        $this->render(
+            '/admin/user/log.html.twig',
+            []
         );
     }
 
@@ -343,7 +340,7 @@ class UserController extends AdminController
      *
      * @return bool
      */
-    public function tableSettingsInsertAction() : bool
+    public function tableSettingsInsertAction(): bool
     {
         $this->tableSettingsInit($this->thisRouteController());
         $this->flashMessage('Changes Saved!');
@@ -356,12 +353,11 @@ class UserController extends AdminController
      *
      * @return boolean
      */
-    public function tableSettingsUpdateAction() : bool
+    public function tableSettingsUpdateAction(): bool
     {
         $this->tableSettingsUpdateInit($this->thisRouteController());
         $this->flashMessage('Settings Updated!');
         $this->redirect('/admin/user/index');
         return true;
     }
-
 }

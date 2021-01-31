@@ -102,18 +102,32 @@ class AccountController extends BaseController
         );
     }
 
+    private function verifyPassword()
+    {
+        if (array_key_exists('password_hash', $this->formBuilder->getData())) {
+            if (password_verify($this->request->handler()->get('password_hash'), $this->findUserOr404()->password_hash)) {
+                return true;
+            }
+        }
+    }
+
     protected function editEmailAction()
     {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-email')) {
                 if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->repository
-                    ->getRepo()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                    ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
-                    if ($action) {
-                        $this->flashMessage('Changes saved');
-                        $this->redirect('/profile/account/edit-email');
+                    if ($this->verifyPassword()) {
+                        $action = $this->repository
+                        ->getRepo()
+                        ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
+                        ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
+                        if ($action) {
+                            $this->flashMessage('Changes saved');
+                            $this->redirect('/profile/account/edit-email');
+                        }
+    
+                    } else {
+                        die('Password not verify');
                     }
                 }
             }
@@ -121,7 +135,8 @@ class AccountController extends BaseController
         $this->render('client/profile/edit_email.html.twig',
             [
                 "profile" => $this->findUserOr404(),
-                "formEmail" => $this->editEmailForm->createForm("/profile/edit-email", $this->findUserOr404())
+                "formEmail" => $this->editEmailForm->createForm("/profile/account/edit-email", $this->findUserOr404()),
+                "app_name" => "LavaStudio"
             ]
         );
 
@@ -146,7 +161,8 @@ class AccountController extends BaseController
         $this->render('client/profile/edit_name.html.twig',
             [
                 "profile" => $this->findUserOr404(),
-                "formName" => $this->editNameForm->createForm("/profile/account/edit-name", $this->findUserOr404())
+                "formName" => $this->editNameForm->createForm("/profile/account/edit-name", $this->findUserOr404()),
+                "app_name" => "LavaStudio"
             ]
         );
 
@@ -171,7 +187,8 @@ class AccountController extends BaseController
         $this->render('client/profile/edit_password.html.twig',
             [
                 "profile" => $this->findUserOr404(),
-                "formPassword" => $this->editPasswordForm->createForm("/profile/edit-password", $this->findUserOr404())
+                "formPassword" => $this->editPasswordForm->createForm("/profile/edit-password", $this->findUserOr404()),
+                "app_name" => "LavaStudio"
             ]
         );
 

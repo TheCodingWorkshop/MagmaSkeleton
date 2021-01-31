@@ -30,15 +30,15 @@ class ResetForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, $dataRepository = null)
     {
-        return $this->form(['action' => $action])
+        return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
             ->add(
-                [PasswordType::class => ['name' => 'password_hash', 'required' => true, 'autofocus' => true, 'placeholder' => 'New Password', 'class' => ['uk-input', 'uk-form-width-large']]],
+                [PasswordType::class => ['name' => 'password_hash', 'required' => true, 'autofocus' => true, 'placeholder' => 'New Password', 'class' => ['uk-input', '']]],
                 null,
-                ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'New Password']
+                ['show_label' => false]
 
             )
             ->add([HiddenType::class => ['name' => 'token', 'value' => $dataRepository]], null, ['show_label' => false])
-            ->add([SubmitType::class => ['name' => 'reset-password', 'value' => 'Reset Password', 'class' => 'uk-button uk-button-teal']], null, ['show_label' => false, 'before_after_wrapper' => false])
+            ->add([SubmitType::class => ['name' => 'reset-password', 'value' => 'Save my new Password', 'class' => 'uk-button uk-button-teal']], null, ['show_label' => false, 'before_after_wrapper' => false])
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 
     }

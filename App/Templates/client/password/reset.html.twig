@@ -1,51 +1,72 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+	New Password
+{% endblock %}
+
 {% block main %}
-	<div class="uk-card uk-card-default uk-margin-large-top">
-		<div class="uk-card-body">
-			<center>
-				<h2>
-					{% block content_title %}
-						<span uk-icon="icon: lock; ratio: 2">New Password</span>
-					{% endblock content_title %}
-				</h2><br/>
-			</center>
-            {{ form|raw }}
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					new_password: {title: 'New Password', path: '#'},
+					info: {title: 'Help', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+						<h1 class="uk-heading-small">What's your New Password</h1>
+						<p>Passwords need to include...</p>
+						<p>
+							<ul>
+								<li>8 or more characters</li>
+								<li>At least 1 letter</li>
+								<li>At least 1 number</li>
+							</ul>
+						</p>
+						{{ form|raw }}
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 
 {% endblock main %}
 
 {% block body_javascript %}
-    {{ parent() }}
-    <script src="{{ asset('/resources/js/hideShowPassword.min.js') }}"></script>
-    <script src="{{ asset('/resources/js/app.js') }}"></script>
+	{{ parent() }}
+	<script src="{{ asset('/resources/js/hideShowPassword.min.js') }}"></script>
+	<script src="{{ asset('/resources/js/app.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-
-            /**
+	<script>
+		$(document).ready(function () { /**
              * Validate the form
              */
-            $('#user-password-form').validate({
-                rules: {
-                    password: {
-                        required: true,
-                        minlength: 6,
-                        validPassword: true
-                    }
-                }
-            });
+$('#user-password-form').validate({
+rules: {
+password: {
+required: true,
+minlength: 6,
+validPassword: true
+}
+}
+});
 
 
-            /**
+/**
               * Show password toggle button
               */
-            $('#inputPassword').hideShowPassword({
-                show: false,
-                innerToggle: 'focus'
-            });
-        });
-    </script>
+$('#inputPassword').hideShowPassword({show: false, innerToggle: 'focus'});
+});
+	</script>
 
 {% endblock %}

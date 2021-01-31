@@ -14,7 +14,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\RoleEntity;
 use MagmaCore\Utility\Yaml;
-use App\Event\FlashMessagesEvent;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -145,9 +144,7 @@ class RoleController extends AdminController
                         ->validateRepository(new RoleEntity($this->formBuilder->getData()))->persistAfterValidation();
                     $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getvalidationErrors()];
 
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                    }
+                    $this->getFlashEvent($actionEvent);
                 }
             }
         endif;
@@ -173,9 +170,8 @@ class RoleController extends AdminController
                         ->saveAfterValidation(['id' => $this->thisRouteID()]);
                     $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getValidationErrors()];
 
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                    }
+                    $this->getFlashEvent($actionEvent);
+
                 }
             }
         }
@@ -195,9 +191,7 @@ class RoleController extends AdminController
             if ($this->formBuilder->canHandleRequest()) {
                 $action = $this->roleRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
                 $actionEvent = ['action' => $action];
-                if ($this->eventDispatcher) {
-                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                }
+                $this->getFlashEvent($actionEvent);
             }
         }
     }

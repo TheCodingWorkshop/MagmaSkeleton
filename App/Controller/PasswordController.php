@@ -84,6 +84,7 @@ class PasswordController extends BaseController
                     if ($this->repository->emailExists($userEntity->email)) {
                         $this->passwordRepo->findByUser($userEntity->email)->sendUserResetPassword();
                         $this->render('client/password/reset_requested.html.twig');
+                        $this->redirect('/password/request-reset');
                     } else {
                         $this->flashMessage('Your email address could not be found!', $this->flashInfo());
                         $this->redirect('/password/forgot');

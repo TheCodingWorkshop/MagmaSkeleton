@@ -13,7 +13,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\PermissionEntity;
 use MagmaCore\Utility\Yaml;
-use App\Event\FlashMessagesEvent;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -78,19 +77,6 @@ class PermissionController extends AdminController
         ->or404();
 
         return $repository;
-    }
-
-    /**
-     * Return the flash event for the action route and also redirect
-     *
-     * @param array $actionEvent
-     * @return void
-     */
-    public function getFlashEvent($actionEvent) : void
-    {
-        if ($this->eventDispatcher) {
-            $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-        }
     }
 
     /**

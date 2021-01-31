@@ -30,12 +30,12 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
      */
     public function createForm(string $action, $dataRepository = null)
     {
-        return $this->form(['action' => $action])
-            ->add([TextType::class => ['name' => 'firstname']])
-            ->add([TextType::class => ['name' => 'lastname']])
-            ->add([EmailType::class => ['name' => 'email']])
-            ->add([PasswordType::class => ['name' => 'password_hash','autocomplete' => 'new-password']])
-            ->add([SubmitType::class => ['name' => 'new-register', 'value' => 'Register', 'class' => 'uk-button uk-button-teal']], 
+        return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
+            ->add([TextType::class => ['name' => 'firstname']], null, ['show_label' => false])
+            ->add([TextType::class => ['name' => 'lastname']], null, ['show_label' => false])
+            ->add([EmailType::class => ['name' => 'email', 'class' => ['uk-input', 'uk-form-width-1-2']]], null, ['show_label' => false])
+            ->add([PasswordType::class => ['name' => 'password_hash','autocomplete' => 'new-password']], null, ['show_label' => false])
+            ->add([SubmitType::class => ['name' => 'new-register', 'value' => 'Register new account', 'class' => 'uk-button uk-button-primary']], 
             null, 
             ['show_label' => false, 'before_after_wrapper' => false]
         )

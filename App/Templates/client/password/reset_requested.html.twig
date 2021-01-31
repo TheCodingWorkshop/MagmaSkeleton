@@ -1,19 +1,35 @@
 {% extends "base.html.twig" %}
 
+{% block content_title %}{% endblock content_title %}
 
 {% block main %}
-	<div class="uk-card uk-card-default uk-margin-large-top">
-		<div class="uk-card-body">
-			<center>
-				<h2>
-					{% block content_title %}
-						Reset Requested
-					{% endblock content_title %}
-				</h2><br/>
-			</center>
-			<p>Please check your email.</p>
-		</div>
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					notice: {title: 'Notice', path: '#'},
+					info: {title: 'Help', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+						<div uk-alert>
+							<a class="uk-alert-close" uk-close></a>
+							<h3>Your Password request has been sent!</h3>
+							<p>Please check your email for the request password link. This will enable you to change your password to something you can remember.</p>
+						</div>
+					</li>
+				</div>
+			</li>
+		</ul>
 	</div>
-
-
-{% endblock %}
+</div></div>{% endblock %}

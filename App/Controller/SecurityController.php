@@ -124,7 +124,7 @@ class SecurityController extends BaseController
                     if ($this->getAuthUser()) {
                         $this->getLogin($this->getAuthUser(), $this->isRememberingLogin());
                         $actionEvent = [
-                            'action' => $this->authenticator->getAction(), 
+                            'action' => $this->authenticator->getAction(),
                             'errors' => $this->authenticator->getErrors()
                         ];
                         if ($this->eventDispatcher) {
@@ -149,7 +149,12 @@ class SecurityController extends BaseController
     protected function logoutAction(): void
     {
         Authorized::logout();
-        $this->redirect("/security/show-logout-message");
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signout')) {
+                $this->redirect("/security/show-logout-message");
+            }
+        }
+        $this->render("client/security/logout.html.twig");
     }
 
     /**
@@ -176,20 +181,20 @@ class SecurityController extends BaseController
     private function getAuthUser()
     {
         $user = $this->authenticator
-        ->authenticate(
-            $this->request->handler()->get('email'), 
-            $this->request->handler()->get('password_hash'), 
-            $this
-        );
+            ->authenticate(
+                $this->request->handler()->get('email'),
+                $this->request->handler()->get('password_hash'),
+                $this
+            );
+
         if (!$user) {
             $actionEvent = [
-                'action' => $this->authenticator->getAction(), 
+                'action' => $this->authenticator->getAction(),
                 'errors' => $this->authenticator->getErrors()
             ];
             if ($this->eventDispatcher) {
                 $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
             }
-    
         }
 
         return $user;

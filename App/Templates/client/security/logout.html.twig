@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}Signing Out{% endblock %}
+{% block main %}
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					logout: {title: 'Signout', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+                        <article class="uk-article">
+                            <h1 class="uk-article-title">You've signed out, sorry to<br>see you go.</h1>
+
+                            <p class="uk-text-lead uk-margin-medium">
+                                <form method="post" action="/security/logout" class="uk-display-inline">
+                                <button type="submit" name="signout" class="uk-button uk-button-large uk-button-primary">Continue</button></form> Or <a href="/login" class="uk-button uk-button-text uk-text-primary">Sign in</a> again.
+                            </p>
+                        </article>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

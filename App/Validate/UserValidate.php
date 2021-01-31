@@ -80,6 +80,9 @@ class UserValidate extends AbstractDataRepositoryValidation
                         /* Prevent the user password from being updated if not specifying a new one */
                         unset($newCleanData['password_hash']);
                     }
+                    if (!array_key_exists('status', $cleanData)) {
+                        unset($newCleanData['status']);
+                    }
                 }
         
             }
@@ -88,24 +91,6 @@ class UserValidate extends AbstractDataRepositoryValidation
                 $this->validatedDataBag($newCleanData), /* User will need this send to their email address so they can activate their accounts */
             ];
         }
-    }
-
-    /**
-     * Unset a specified key from an array based on some predefined conditions
-     *
-     * @param Object $dataRepository
-     * @return void
-     */
-    private function unsetter(Object $dataRepository) : void
-    {
-        if (null !== $dataRepository) {
-            unset($newCleanData['activation_token']);
-            if (empty($cleanData['password_hash'])) {
-                /* Prevent the user password from being updated if not specifying a new one */
-                unset($newCleanData['password_hash']);
-            }
-        }
-
     }
 
     public function validatedDataBag($newCleanData) 

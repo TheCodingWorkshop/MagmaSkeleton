@@ -28,9 +28,9 @@ class PasswordForm extends ClientFormBuilder implements ClientFormBuilderInterfa
      */
     public function createForm(string $action, $dataRepository = null)
     {
-        return $this->form(['action' => $action])
-            ->add([EmailType::class => ['name' => 'email', 'required' => true, 'autofocus' => true, 'placeholder' => 'Email']])
-            ->add([SubmitType::class => ['name' => 'request-reset', 'value' => 'Reset Password', 'class' => 'uk-button uk-button-teal']], 
+        return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
+            ->add([EmailType::class => ['name' => 'email', 'required' => true, 'autofocus' => true, 'placeholder' => 'Email']], null, ['show_label' => false])
+            ->add([SubmitType::class => ['name' => 'request-reset', 'value' => 'Send Password Reset Email', 'class' => 'uk-button uk-button-primary']], 
             null, 
             ['show_label' => false, 'before_after_wrapper' => false]
             )

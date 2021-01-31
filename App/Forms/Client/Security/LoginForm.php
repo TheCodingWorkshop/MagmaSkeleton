@@ -32,9 +32,9 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 */
     public function createForm(string $action,?Object $repository = null) 
 	{
-		return $this->form(['action' => $action]) 
-		->add([EmailType::class => ['name' => 'email']])
-		->add([PasswordType::class => ['name' => 'password_hash']], null, ['new_label' => 'Password'])
+		return $this->form(['action' => $action, 'class' => 'uk-form-stacked']) 
+		->add([EmailType::class => ['name' => 'email']], null, ['show_label' => false])
+		->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
 		->add([CheckboxType::class => ['name' => 'remember_me', 'value' => false]], null, ['show_label' => false, 'checkbox_label' => 'Remember Me'])
 		->add([SubmitType::class => ['name' => 'signin', 'value' => 'Login', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);

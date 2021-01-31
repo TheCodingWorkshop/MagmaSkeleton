@@ -1,30 +1,41 @@
 {% extends 'base.html.twig' %}
 
+{% block content_title %}Register
+{% endblock %}
 {% block main %}
-	<div class="uk-card uk-card-default uk-margin-large-top">
-		<div class="uk-card-body">
-			<div class="uk-text-center">
-				<h2>
-					{% block content_title %}
-						<span uk-icon="icon: sign-in; ratio: 2"></span>
-						Signup
-					{% endblock content_title %}
-				</h2>
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					login: {title: 'Sign In', path: '#'},
+					help: {title: 'Help', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
 			</div>
-
-			{{ form|raw }}
-
-            <hr/>
-            <div style="text-align: center;">
-                <p>
-                    Already register?
-                </p>
-                <a href="/login" class="uk-button uk-button-default">
-                    <span class="ion-android-person-add"></span>&nbsp;
-                    Signin
-                </a>
-            </div>
-
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+						<h1 class="uk-heading-small">Register Account</h1>
+						<p></p>
+						{{ form|raw }}
+						<div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
+							<p class="uk-text-lead">Already register?
+								<a href="/login" class="uk-button uk-button-small uk-button-text uk-display-block uk-text-left">Login</a>
+							</p>
+						</div>
+						<hr>
+						<p>By clicking Register, you accept our Terms of Use. Find out about our Privacy and Cookies Policy.</p>
+					</li>
+					<li>{% include '/client/profile/profile_history.html.twig' %}</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 

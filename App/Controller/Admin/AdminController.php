@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Event\FlashMessagesEvent;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Session\SessionTrait;
 use MagmaCore\Base\Traits\TableSettingsTrait;
@@ -46,9 +47,8 @@ class AdminController extends BaseController
                 "tableGrid" => \MagmaCore\Datatable\Datatable::class /* Global Admin access */
             ]
         );
-
     }
-    
+
     /**
      * Returns the method path as a string to use with the redirect method.
      * The method will generate the necessary redirect string based on the 
@@ -57,10 +57,10 @@ class AdminController extends BaseController
      * @param string $action
      * @return string
      */
-    public function selfPath(string $action) : string
+    public function selfPath(string $action): string
     {
         $self = '';
-        if (!empty($this->thisRouteID()) && $this->thisRouteID() !==0) {
+        if (!empty($this->thisRouteID()) && $this->thisRouteID() !== 0) {
             $self = "/admin/" . $this->thisRouteController() . "/" . $this->thisRouteID() . "/" . $action;
         } else {
             $self = "/admin/" . $this->thisRouteController() . "/" . $action;
@@ -80,7 +80,7 @@ class AdminController extends BaseController
      *
      * @return array
      */
-    protected function callBeforeMiddlewares() : array
+    protected function callBeforeMiddlewares(): array
     {
         return [
             'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
@@ -97,10 +97,22 @@ class AdminController extends BaseController
      *
      * @return array
      */
-    protected function callAfterMiddlewares() : array
+    protected function callAfterMiddlewares(): array
     {
-        return [
-        ];
+        return [];
+    }
+
+    /**
+     * Return the flash event for the action route and also redirect
+     *
+     * @param array $actionEvent
+     * @return void
+     */
+    public function getFlashEvent($actionEvent): void
+    {
+        if ($this->eventDispatcher) {
+            $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+        }
     }
 
     /**
@@ -119,5 +131,4 @@ class AdminController extends BaseController
         }
         return false;
     }
-
 }

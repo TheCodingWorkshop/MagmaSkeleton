@@ -176,8 +176,8 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
     public function onLoginAction(Object $event)
     {
         if ($event->isValid()['action'] === true) {
-            $flash = $event->get()->locale('welcome_back');
-            if ($flash) {
+            $flash = "Welcome Back";
+            if ($flash !=='') {
                 return [
                     $flash,
                     "/login",
