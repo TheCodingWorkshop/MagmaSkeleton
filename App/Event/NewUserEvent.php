@@ -22,7 +22,7 @@ class NewUserEvent extends Event
     /** @var array */
     private Object $user;
 
-    /**
+    /** 
      * New user event dispatcher. Which pipes the user object arguement to 
      * the class property
      *
@@ -37,9 +37,9 @@ class NewUserEvent extends Event
     /**
      * Returns the new user object
      *
-     * @return void
+     * @return Object
      */
-    public function getUser()
+    public function getUser() : Object
     {
         return $this->user;
     }

@@ -7,21 +7,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Model;
 
-use MagmaCore\Auth\Contracts\UserSecurityInterface;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Utility\PasswordEncoder;
+use MagmaCore\Auth\Contracts\UserSecurityInterface;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
-{ 
+{
 
     /** @var string */
     protected const TABLESCHEMA = 'users';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
+    /** */
+    protected array $profileError = [];
+    /** */
+    protected const PROFILE_FIELDS = ['firstname', 'lastname', 'email', 'password_hash'];
 
     /**
      * Main constructor class which passes the relevant information to the 
@@ -41,7 +46,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      *
      * @return array
      */
-    public function guardedID() : array
+    public function guardedID(): array
     {
         return [];
     }
@@ -83,9 +88,8 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         if (empty($validate->errors)) {
             $this->validatedHashPassword = (new PasswordEncoder())->encode($cleanData['password_hash']);
             $this->tokenRepository = $repository;
-            
+
             return $this;
         }
     }
-
 }

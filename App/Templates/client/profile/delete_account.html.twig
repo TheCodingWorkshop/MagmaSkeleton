@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}Delete Your Account{% endblock %}
+{% block main %}
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					logout: {title: 'My Account', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+                        <article class="uk-article">
+                            <h1 class="uk-article-title">Are you sure you want to<br>delete your account?</h1>
+
+                            <p>Sorry to see you go. This action is irreversible and you will lose all your saved data.</p>
+
+                            <p class="uk-text-lead uk-margin-medium">
+                                <form method="post" action="/profile/account/delete" class="uk-display-inline">
+                                <button type="submit" name="profile-delete-account" class="uk-button uk-button-large uk-button-danger">Continue</button></form> Or <a href="/profile/account/index" class="uk-button uk-button-text uk-text-danger">Cancel</a>.
+                            </p>
+                        </article>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

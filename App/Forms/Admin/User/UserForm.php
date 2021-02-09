@@ -74,9 +74,11 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 [PasswordType::class => [
                     'name' => 'password_hash',
                     'value' => '',
-                    'class' => ['uk-input', 'uk-width-1-1'],
+                    'class' => ['uk-input', 'uk-form-medium'],
                     'autocomplete' => 'new-password',
-                    'pattern' => false
+                    'pattern' => false,
+                    'disabled' => true,
+                    'placeholder' => 'Auto-Generated'
                 ]],
                 null,
                 ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'Password']

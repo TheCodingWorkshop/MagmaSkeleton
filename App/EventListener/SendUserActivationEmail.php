@@ -9,19 +9,13 @@
  */
 declare(strict_types=1);
 
-namespace App\Event;
+namespace App\EventListener;
 
 use MagmaCore\EventDispatcher\Event;
 
-class UserEdittedEvent extends Event
+class SendUserActivationEmail
 {
-
-    /** @var string - name of the event */
-    public const NAME = 'app.event.user_editted_event';
     
-    /** @var Object */
-    private Object $user;
-
     /**
      * New user event dispatcher. Which pipes the user object arguement to 
      * the class property
@@ -29,19 +23,10 @@ class UserEdittedEvent extends Event
      * @param array $user
      * @return void
      */
-    public function __construct(Object $user)
+    public function sendActivationEmail(Event $event)
     { 
-        $this->user = $user;
-    }
-
-    /**
-     * Returns the new user object
-     *
-     * @return void
-     */
-    public function getUser()
-    {
-        echo 'User was editted event fires';
+        //$user = $event->getUser()->getRepo()->find(1);
+        //var_dump($user);
     }
 
 }

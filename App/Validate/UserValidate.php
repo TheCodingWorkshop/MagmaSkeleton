@@ -7,16 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
-use MagmaCore\Session\SessionTrait;
-use MagmaCore\Utility\PasswordEncoder;
-use MagmaCore\Utility\HashGenerator;
-use MagmaCore\Utility\GravatarGenerator;
 use MagmaCore\Utility\ClientIP;
+use MagmaCore\Session\SessionTrait;
+use MagmaCore\Utility\HashGenerator;
+use MagmaCore\Utility\PasswordEncoder;
+use MagmaCore\Utility\GravatarGenerator;
+use MagmaCore\Utility\RandomCharGenerator;
+use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use MagmaCore\Error\Error;
 
 class UserValidate extends AbstractDataRepositoryValidation
 {
@@ -26,6 +29,7 @@ class UserValidate extends AbstractDataRepositoryValidation
     protected array $errors = [];
     protected array $cleanData;
     protected array $dataBag = [];
+    protected ?string $randomPass = null;
 
     protected const DEFAULT_STATUS = 'pending';
 
@@ -52,48 +56,57 @@ class UserValidate extends AbstractDataRepositoryValidation
              */
             $cleanData = $this->getArr($this->cleanData);
             if (null !== $cleanData) {
-                $status = $this->setDefaultValue($cleanData, 'status', self::DEFAULT_STATUS);
-                $encodedPassword = (new PasswordEncoder())->encode($cleanData['password_hash']);
-                $avatar = (new GravatarGenerator())->setGravatar($cleanData["email"] ? $cleanData['email'] : $dataRepository->email);
                 $clientIP = (new ClientIP())->getClientIp();
+                
+                /* Password Generated within admin panel */
+                $this->userPassword = (new RandomCharGenerator())->generate();
+                /* User created frontend password from registration form */
+                $clientPasswordHash = $cleanData['client_password_hash'] ? $cleanData['client_password_hash'] : $this->userPassword;
+
+                $encodedPassword = (new PasswordEncoder())->encode(
+                    (isset($clientPasswordHash) ? $clientPasswordHash : $this->userPssword)
+                );
+                $avatar = (new GravatarGenerator())->setGravatar($cleanData["email"] ? $cleanData['email'] : $dataRepository->email);
 
                 list(
-                    $tokenHash, 
-                    $activationHash) = (new HashGenerator())->hash();
-                
+                    $tokenHash,
+                    $activationHash
+                ) = (new HashGenerator())->hash();
+
                 $newCleanData = [
                     "firstname" => $cleanData["firstname"],
                     "lastname" => $cleanData["lastname"],
                     "email" => $cleanData["email"] ? $cleanData['email'] : $dataRepository->email,
-                    "password_hash" => $encodedPassword ? $encodedPassword : '',
+                    "password_hash" => $encodedPassword,
                     "activation_token" => $tokenHash,
-                    "status" => $status,
-                    "created_byid" => $this->getCreatedBy($cleanData),
+                    "status" => $this->setDefaultValue($cleanData, 'status', self::DEFAULT_STATUS),
+                    "created_byid" => 0,
                     "gravatar" => $avatar,
                     "remote_addr" => $clientIP
-                ];    
+                ];
                 $this->dataBag['activation_hash'] = $activationHash;
 
-                if (null !== $dataRepository) {
-                    unset($newCleanData['activation_token']);
-                    if (empty($cleanData['password_hash'])) {
-                        /* Prevent the user password from being updated if not specifying a new one */
-                        unset($newCleanData['password_hash']);
-                    }
-                    if (!array_key_exists('status', $cleanData)) {
-                        unset($newCleanData['status']);
-                    }
-                }
-        
+                /**
+                 * When updatng we want to unset some key from the $newCleanData array so we
+                 * are not overwriting key aspects of the user object. ie. We don't wanna mess
+                 * with the user password. And we don't wanna generate a new activation_token
+                 * on user update so we will remove these two keys from the array. And !is_null
+                 * is simpel ensuring we have a user object that we are unsetting from.
+                 */
+                if (!is_null($dataRepository)) {
+                    unset($newCleanData['activation_token'], $newCleanData['password_hash']);
+                }     
+                    
             }
             return [
                 $newCleanData,
                 $this->validatedDataBag($newCleanData), /* User will need this send to their email address so they can activate their accounts */
+                $this->userPassword
             ];
         }
     }
 
-    public function validatedDataBag($newCleanData) 
+    public function validatedDataBag($newCleanData)
     {
         return array_merge($newCleanData, $this->dataBag);
     }
@@ -110,9 +123,7 @@ class UserValidate extends AbstractDataRepositoryValidation
 
     public function fields(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
@@ -122,46 +133,43 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(array $cleanData, ?Object $dataRepository = null) : ?array
+    public function validate(array $cleanData, ?Object $dataRepository = null): ?array
     {
-        if (null !== $cleanData) {    
+        if (null !== $cleanData) {
             if (is_array($cleanData) && count($cleanData) > 0) {
                 foreach ($cleanData as $key => $value) :
-                    if (isset($key) && $key !='') :
-                        switch ($key) :
-                            case "password_hash" :
+                    if (isset($key) && $key != '') :
+                        switch ($key):
+                            case "password_hash":
+                            case "client_password_hash" :
                                 if (!empty($value)) {
                                     if (strlen($value) < 6) {
-                                        $this->errors[] = "Please enter at least 6 characters for the password";
+                                        $this->errors[Error::SHORT_PASSWORD] = "Please enter at least 6 characters for the password";
                                     }
                                     if (preg_match('/.*[a-z]+.*/i', $value) == 0) {
-                                        $this->errors[] = 'Password needs at least one letter';
+                                        $this->errors[Error::PASSWORD_LETTER] = 'Password needs at least one letter';
                                     }
                                     if (preg_match('/.*\d+.*/i', $value) == 0) {
-                                        $this->errors[] = 'Password needs at least one number';
+                                        $this->errors[Error::PASSWORD_LETTER] = 'Password needs at least one number';
                                     }
-
                                 }
                                 break;
-                            case "email" :                                
+                            case "email":
                                 if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-                                    $this->errors[] = "Please enter a valid email address";
+                                    $this->errors[Error::INVALID_EMAIL] = "Please enter a valid email address";
                                 }
-                                /*if ((new UserModel())->emailExists($value, $dataRepository->id ?? null)) {
-                                    $this->errors[] = "Email address already exists";
-                                }*/
                                 break;
-                            case "firstame" :
-                            case "lastname" :
+                            case "firstame":
+                            case "lastname":
                                 if (isset($value)) {
                                     if (is_string($value) && empty($value)) {
-                                        $this->errors[] = "Please enter your name this field can not be left empty.";
-                                    }    
+                                        $this->errors[Error::EMPTY_FIELDS] = "Please enter your name this field can not be left empty.";
+                                    }
                                 }
                                 break;
-                            default :
+                            default:
                                 if ($cleanData === $dataRepository) {
-                                    $this->errors[] = "No changes was made.";
+                                    $this->errors['no_changes'] = "No changes was made.";
                                 }
                                 break;
                         endswitch;
@@ -172,6 +180,4 @@ class UserValidate extends AbstractDataRepositoryValidation
             }
         }
     }
-
-
 }

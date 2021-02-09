@@ -94,15 +94,17 @@ class RegistrationController extends BaseController
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-register')) : {
                 if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->repository
-                    ->getRepo()
-                    ->validateRepository(new UserEntity($this->formBuilder->getData()))
-                    ->persistAfterValidation();
-                    $actionEvent = ['action' => $action, 'errors' => $this->repository->getRepo()->getValidationErrors()];
-
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
+                    $action = $this->repository->getRepo()->validateRepository(new UserEntity($this->formBuilder->getData()))->persistAfterValidation();
+                    if ($this->error) {
+                        $this->error->addError($this->repository->getRepo()->getValidationErrors());
+                        $this->error->dispatchError($this);
                     }
+                    if ($action) {
+                        $this->flashMessage('Account Created');
+                        $this->redirect('/login');    
+
+                    }
+
                 }
             }
             endif;

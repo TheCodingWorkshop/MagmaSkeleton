@@ -34,7 +34,7 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
             ->add([TextType::class => ['name' => 'firstname']], null, ['show_label' => false])
             ->add([TextType::class => ['name' => 'lastname']], null, ['show_label' => false])
             ->add([EmailType::class => ['name' => 'email', 'class' => ['uk-input', 'uk-form-width-1-2']]], null, ['show_label' => false])
-            ->add([PasswordType::class => ['name' => 'password_hash','autocomplete' => 'new-password']], null, ['show_label' => false])
+            ->add([PasswordType::class => ['name' => 'client_password_hash','autocomplete' => 'new-password']], null, ['show_label' => false])
             ->add([SubmitType::class => ['name' => 'new-register', 'value' => 'Register new account', 'class' => 'uk-button uk-button-primary']], 
             null, 
             ['show_label' => false, 'before_after_wrapper' => false]

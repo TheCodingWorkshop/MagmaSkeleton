@@ -30,7 +30,7 @@
 							</p>
 							{% set details = {
 								email: {path: 'edit-email', value: profile.email},
-								password: {path: 'edit-password', value: profile.password_hash},
+								password: {path: 'edit-password', value: 'Encrypted Password'},
 								name: {path: 'edit-name', value: profile.firstname ~ ' ' ~ profile.lastname},
 							} %}
 
@@ -45,7 +45,7 @@
 								{% endfor %}
 							</dl>
 							<p>
-								<a href="" class="uk-button uk-button-text uk-text-danger uk-text-bolder">I want to delete my account</a>
+								<a href="/profile/account/delete" class="uk-button uk-button-text uk-text-danger uk-text-bolder">I want to delete my account</a>
 							</p>
 
 						</li>

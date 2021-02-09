@@ -170,6 +170,7 @@ class UserController extends AdminController
                         ->validateRepository(new UserEntity($this->formBuilder->getData()))
                         ->persistAfterValidation();
                     $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
+
                     $this->getFlashEvent($actionEvent);
                 }
             }

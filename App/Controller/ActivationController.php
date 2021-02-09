@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\UserEntity;
 use MagmaCore\Base\BaseController;
 use LoaderError;
 use RuntimeError;
