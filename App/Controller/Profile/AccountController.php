@@ -112,40 +112,36 @@ class AccountController extends BaseController
      *
      * @return void
      */
-    protected function editEmailAction()
+    protected function editNameAction()
     {
         if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-email')) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-name')) {
                 if ($this->formBuilder->csrfValidate()) {
-                    if ($this->verifyPassword()) {
-                        $userEntity = new UserEntity($this->formBuilder->getData());
-                        $action = $this->repository
-                            ->getRepo()
-                            ->validateRepository($userEntity, $this->findUserOr404())
-                            ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
-                        if ($action) {
-                            //$content = $this->getRepo()->validatedDataBag();
-                            //$this->activationRepo->
-                            /*
-                            @todo
-                            1. Generate and insert a new hash token
-                            2. send the hash value to the new email address
-                            3. only update user email once the token is activated
-                            */
-                            $this->flashMessage('Changes saved');
-                            $this->redirect('/profile/account/edit-email');
-                        }
-                    } else {
-                        die('Password not verify');
+                    list(
+                        $validatedData,
+                        $errors
+                    ) = $this->repository->updateProfileNameOnceValidated(
+                        new UserEntity($this->formBuilder->getData()),
+                        $this->findUserOr404()
+                    );
+                    if ($this->error) {
+                        $this->error->addError($errors, $this)->dispatchError($this->onSelf());
+                    }
+                    $updated = $this->repository
+                        ->getRepo()
+                        ->findByIDAndUpdate($validatedData, $this->findUserOr404()->id);
+                    if ($updated) {
+                        $this->flashMessage('Changes Saved!');
+                        $this->redirect($this->onSelf());
                     }
                 }
             }
         }
         $this->render(
-            'client/profile/edit_email.html.twig',
+            'client/profile/edit_name.html.twig',
             [
                 "profile" => $this->findUserOr404(),
-                "formEmail" => $this->editEmailForm->createForm("/profile/account/edit-email", $this->findUserOr404()),
+                "formName" => $this->editNameForm->createForm($this->onSelf(), $this->findUserOr404()),
                 "app_name" => "LavaStudio"
             ]
         );
@@ -156,36 +152,37 @@ class AccountController extends BaseController
      *
      * @return void
      */
-    protected function editNameAction()
+    protected function editEmailAction()
     {
         if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-name')) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-email')) {
                 if ($this->formBuilder->csrfValidate()) {
-                    list(
-                        $validatedData, 
-                        $errors) = $this->repository->updateProfileNameOnceValidated(
-                        new UserEntity($this->formBuilder->getData()),
-                        $this->findUserOr404()
-                    );
-                    $updated = $this->repository->getRepo()->findByIDAndUpdate($validatedData, $this->findUserOr404()->id);
-                    /*if ($errors) {
-                        $this->flashMessage(implode('<br>', $errors), $this->flashWarning());
-                        $this->redirect('/profile/account/edit-name');
-                    } else {
-                        
-                        if ($updated) {
-                            $this->flashMessage('Changes Saved');
-                            $this->redirect('/profile/account/edit-name');
+                    if ($this->repository->verifyPassword($this, $this->findUserOr404()->id)) {
+                        list(
+                            $validatedData,
+                            $errors
+                        ) = $this->repository->updateProfileEmailOnceValidated(
+                            new UserEntity($this->formBuilder->getData()),
+                            $this->findUserOr404()
+                        );
+                        if ($this->error) {
+                            $this->error->addError($errors, $this)->dispatchError($this->onSelf());
                         }
-                    }*/
+                        $action = $this->repository
+                            ->getRepo()
+                            ->findByIdAndUpdate($validatedData, $this->findUserOr404()->id);
+                        $this->flashAndRedirect($action, null, 'Changes Saved!');
+                    } else {
+                        $this->flashAndRedirect(false, null, 'Incorrect Password for this account.!', 'warning');
+                    }
                 }
             }
         }
         $this->render(
-            'client/profile/edit_name.html.twig',
+            'client/profile/edit_email.html.twig',
             [
                 "profile" => $this->findUserOr404(),
-                "formName" => $this->editNameForm->createForm("/profile/account/edit-name", $this->findUserOr404()),
+                "formEmail" => $this->editEmailForm->createForm($this->onSelf(), $this->findUserOr404()),
                 "app_name" => "LavaStudio"
             ]
         );
@@ -201,17 +198,25 @@ class AccountController extends BaseController
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-password')) {
                 if ($this->formBuilder->csrfValidate()) {
-                    if (!$this->passwordMatch()) {
-                        $this->flashMessage('Password does not matched. Please try again');
-                        $this->redirect('/profile/account/edit-password');
-                    }
-                    $action = $this->repository
-                        ->getRepo()
-                        ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                        ->saveAfterValidation(['id' => $this->findUserOr404()->id]);
-                    if ($action) {
-                        $this->flashMessage('Changes saved');
-                        $this->redirect('/profile/account/edit-password');
+                    if ($this->repository->verifyPassword($this, $this->findUserOr404()->id)) {
+                        $userEntity = new UserEntity($this->formBuilder->getData());
+                        if ($this->repository->isPasswordMatching($this, $userEntity)) {
+                            list($validatedData, $error) = $this->repository->updateProfilePasswordOnceValidated(
+                                $userEntity,
+                                $this->findUserOr404()
+                            );
+                            if ($this->erorr) {
+                                $this->error->addError($error, $this)->dispatchError($this->onSelf());
+                            }
+                            $action = $this->repository
+                                ->getRepo()
+                                ->findByIdAndUpdate($validatedData, $this->findUserOr404()->id);
+                            $this->flashAndRedirect($action, null, 'Changes Saved!');
+                        } else {
+                            $this->flashAndRedirect(false, null, 'Password does not match', 'warning');
+                        }
+                    } else {
+                        $this->flashAndRedirect(false, null, 'Incorrect Password for this account.!', 'warning');
                     }
                 }
             }
@@ -220,7 +225,7 @@ class AccountController extends BaseController
             'client/profile/edit_password.html.twig',
             [
                 "profile" => $this->findUserOr404(),
-                "formPassword" => $this->editPasswordForm->createForm("/profile/edit-password", $this->findUserOr404()),
+                "formPassword" => $this->editPasswordForm->createForm("/profile/account/edit-password", $this->findUserOr404()),
                 "app_name" => "LavaStudio"
             ]
         );

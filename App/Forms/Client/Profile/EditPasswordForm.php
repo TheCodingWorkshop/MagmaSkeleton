@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Forms\Client\Profile;
@@ -28,12 +29,14 @@ class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInt
 	 * @param Object|null $Repository
 	 * @return void
 	 */
-    public function createForm(string $action,?Object $repository = null) 
+	public function createForm(string $action, ?Object $repository = null)
 	{
-		return $this->form(['action' => $action, 'class' => 'uk-form-stacked']) 
-        ->add([PasswordType::class => ['name' => 'check_password_hash', 'placeholder' => 'Current Password']], null, ['show_label' => false])
-        ->add([PasswordType::class => ['name' => 'password_hash', 'placeholder' => 'New Password']], null, ['show_label' => false])
-		->add([SubmitType::class => ['name' => 'edit-profile-email', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
-		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
-	} 
+		return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
+			->add([PasswordType::class => ['name' => 'password_hash', 'placeholder' => 'Current Password']], null, ['show_label' => false])
+			->add([PasswordType::class => ['name' => 'password_hash_new', 'placeholder' => 'New Password']], null, ['show_label' => false])
+			->add([PasswordType::class => ['name' => 'password_hash_retype', 'placeholder' => 'Retype Password']], null, ['show_label' => false])
+
+			->add([SubmitType::class => ['name' => 'edit-profile-password', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+			->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+	}
 }
