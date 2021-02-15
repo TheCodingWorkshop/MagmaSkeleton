@@ -88,8 +88,6 @@ class AdminController extends BaseController
             'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class,
             'PreventionActions' => \App\Middleware\Before\PreventionActions::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
-            'isUserAccountActivated' => \App\Middleware\Before\isUserAccountActivated::class,
-
         ];
     }
 

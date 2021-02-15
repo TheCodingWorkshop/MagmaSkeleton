@@ -83,7 +83,7 @@ class UserColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => true,
                 'formatter' => function ($row, $twigExt) {
-                    $html = $twigExt->tableDateFormat($row, "created_at");
+                    $html = $twigExt->tableDateFormat($row, "created_at", true);
                     $html .= '<div><small>By Admin</small></div>';
                     return $html;
                 }

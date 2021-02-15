@@ -12,12 +12,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use LoaderError;
+use SyntaxError;
+use RuntimeError;
 use App\Entity\UserEntity;
+use App\Event\NewUserEvent;
 use MagmaCore\Utility\Yaml;
 use App\Event\FlashMessagesEvent;
-use LoaderError;
-use RuntimeError;
-use SyntaxError;
 
 class UserController extends AdminController
 {
@@ -165,13 +166,19 @@ class UserController extends AdminController
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
-
                     $action = $this->userRepository()
                         ->validateRepository(new UserEntity($this->formBuilder->getData()))
                         ->persistAfterValidation();
-                    $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-
-                    $this->getFlashEvent($actionEvent);
+                    if ($this->error) {
+                        $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
+                    }
+                    if ($action) {
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(new NewUserEvent(array_merge($this->userRepository()->validatedDataBag(), $this->userRepository()->getRandomPassword()), $this), NewUserEvent::NAME);
+                        }
+                        $this->flashMessage('New User added');
+                        $this->redirect($this->onSelf());
+                    }
                 }
             }
         endif;
@@ -198,16 +205,20 @@ class UserController extends AdminController
     {
 
         if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) :
+                if ($this->formBuilder->csrfValidate()) :
                     $action = $this->userRepository()
                         ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
                         ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                    $this->getFlashEvent($actionEvent);
-                }
-            }
+                    if ($this->error) {
+                        $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
+                    }
+                    if ($action) {
+                        $this->flashMessage('Changes Saved!');
+                        $this->redirect($this->onSelf());
+                    }
+                endif;
+            endif;
         endif;
         $this->render(
             '/admin/user/edit.html.twig',
@@ -236,14 +247,29 @@ class UserController extends AdminController
     {
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest()) :
-                $action = $this->userRepository()
-                    ->findByIDAndDelete(['id' => $this->thisRouteID()]);
-                $actionEvent = ['action' => $action, 'errors' => $this->userRepository()->getValidationErrors()];
-                $this->getFlashEvent($actionEvent);
+                $action = $this->userRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
+                if ($this->error) {
+                    $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
+                }
+                if ($action) {
+                    $this->flashMessage('Deleted Successfully');
+                    $this->redirect('/admin/user/index');
+            }
             endif;
         endif;
     }
 
+    /**
+     * The bulk delete action request. is responsible for deleting multiple record from
+     * the database. This method is not a submittable method hence why this check has
+     * been omitted. This a simple click based action. which is triggered within the
+     * datatable. An event will be dispatch by this action
+     *
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     protected function deleteBulkAction()
     {
         if (isset($this->formBuilder)) :

@@ -55,7 +55,8 @@ class NewUserSubscriber implements EventSubscriberInterface
                             [
                                 "activation_link" => $event->getObject()->getSiteUrl("/activation/activate/" . $user['activation_hash']),
                                 "accountee_name" => $user['firstname'] . " " . $user['lastname'],
-                                "website" => "LavaStudio"
+                                "website" => "LavaStudio",
+                                "random_pass" => $user['random_pass'] ? $user['random_pass'] : []
                             ]
                         )
                 );

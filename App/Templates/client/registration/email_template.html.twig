@@ -10,6 +10,9 @@
 					<li>
 						<h1 class="uk-heading-small">Activate Your Account!</h1>
 						<p>Hello {{ acountee_name }}</p>
+						{% if random_pass %}
+							<p><strong>Temporary Password:</strong> {{ random_pass }}</p>
+						{% endif %}
                         <p>Thanks for registering on {{ website }}. Please click the activation button below to activate your account in order to access your profile page.</p>
 						<div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
 							<p class="uk-text-lead">
