@@ -36,6 +36,7 @@ system:
   use_hash_cost_factor: 10
   use_auto_password: false,
   use_auth: true
+  activation_token_expiration: 3600
 
 gravatar:
   rating: r

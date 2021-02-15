@@ -17,31 +17,42 @@ class NewUserEvent extends Event
 {
 
     /** @var string - name of the event */
-    public const NAME = 'app.event.new_user_event';
-    
+    public const NAME = 'app.event.new_user';
     /** @var array */
-    private Object $user;
+    private array $context;
+    /** @var Object - the current controller object */
+    private Object $controller;
 
-    /** 
-     * New user event dispatcher. Which pipes the user object arguement to 
-     * the class property
+    /**
+     * Main class constructor method. assigning properties to constructor arguments
      *
-     * @param Object $user
-     * @return void
+     * @param array $context - the usable data as an array
+     * @param Object $controllerObject
      */
-    public function __construct(Object $user)
+    public function __construct(array $context, Object $controllerObject)
     { 
-        $this->user = $user;
+        $this->context = $context;
+        $this->controller = $controllerObject;
     }
 
     /**
-     * Returns the new user object
+     * Returns the current controller object with access to all its methods and property
      *
      * @return Object
      */
-    public function getUser() : Object
+    public function getObject() : Object
     {
-        return $this->user;
+        return $this->controller;
+    }
+
+    /**
+     * Returns the contextual data from the method
+     * 
+     * @return array
+     */
+    public function getContext() : array
+    {
+        return $this->context;
     }
 
 }

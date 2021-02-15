@@ -85,7 +85,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             )
             ->add(
                 [RadioType::class => [
-                'name' => 'roles'
+                'name' => 'roles', 'class' => ['uk-form-controls-text', 'uk-checkbox']
                 ]],
                 [
                 'choices' => $this->flattenArrayRecursive(

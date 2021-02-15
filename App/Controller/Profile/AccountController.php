@@ -16,9 +16,14 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use App\Event\NewUserEvent;
 use MagmaCore\Base\BaseController;
 
+/**
+ * This class is reponsible for allowing the user to control and edit their user account 
+ * i.e users can update their name, email address and change their password. Upon changing 
+ * their email address they will be automatically logged out and will be prompt to reactivate
+ * their account again. For added security. Activation token is valid for 1 hour by default
+ */
 class AccountController extends BaseController
 {
 
@@ -48,6 +53,7 @@ class AccountController extends BaseController
                 "editNameForm" => \App\Forms\Client\Profile\EditNameForm::class,
                 "editEmailForm" => \App\Forms\Client\Profile\EditEmailForm::class,
                 "editPasswordForm" => \App\Forms\Client\Profile\EditPasswordForm::class,
+                "deleteAccount" => \App\Forms\Client\Profile\DeleteAccountForm::class,
                 /* Event Listeners */
                 //"ResendActivationEmailListener" => \App\EventListener\ResendActivationEmailListener::class
             ]
@@ -72,6 +78,19 @@ class AccountController extends BaseController
             'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
         ];
+    }
+
+    /**
+     * Returns the user entity object
+     *
+     * @return Object
+     */
+    public function userEntity() : UserEntity
+    {
+        $entity = new UserEntity($this->formBuilder->getData());
+        if ($entity) {
+            return $entity;
+        }
     }
 
     /**
@@ -108,9 +127,13 @@ class AccountController extends BaseController
     }
 
     /**
-     * Undocumented function
-     *
-     * @return void
+     * Update the user first and lastname from their user account page. Renders the form
+     * which allows updating account.
+     * 
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function editNameAction()
     {
@@ -120,10 +143,7 @@ class AccountController extends BaseController
                     list(
                         $validatedData,
                         $errors
-                    ) = $this->repository->updateProfileNameOnceValidated(
-                        new UserEntity($this->formBuilder->getData()),
-                        $this->findUserOr404()
-                    );
+                    ) = $this->repository->updateProfileNameOnceValidated($this->userEntity(),$this->findUserOr404());
                     if ($this->error) {
                         $this->error->addError($errors, $this)->dispatchError($this->onSelf());
                     }
@@ -148,9 +168,13 @@ class AccountController extends BaseController
     }
 
     /**
-     * Undocumented function
-     *
-     * @return void
+     * Update the user email address from their user account page. Renders the form
+     * which allows updating account.
+     * 
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function editEmailAction()
     {
@@ -161,10 +185,7 @@ class AccountController extends BaseController
                         list(
                             $validatedData,
                             $errors
-                        ) = $this->repository->updateProfileEmailOnceValidated(
-                            new UserEntity($this->formBuilder->getData()),
-                            $this->findUserOr404()
-                        );
+                        ) = $this->repository->updateProfileEmailOnceValidated($this->userEntity(),$this->findUserOr404());
                         if ($this->error) {
                             $this->error->addError($errors, $this)->dispatchError($this->onSelf());
                         }
@@ -189,9 +210,13 @@ class AccountController extends BaseController
     }
 
     /**
-     * Undocumented function
-     *
-     * @return void
+     * Update the user password from their user account page. Renders the form
+     * which allows updating account.
+     * 
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function editPasswordAction()
     {
@@ -199,12 +224,11 @@ class AccountController extends BaseController
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-password')) {
                 if ($this->formBuilder->csrfValidate()) {
                     if ($this->repository->verifyPassword($this, $this->findUserOr404()->id)) {
-                        $userEntity = new UserEntity($this->formBuilder->getData());
-                        if ($this->repository->isPasswordMatching($this, $userEntity)) {
-                            list($validatedData, $error) = $this->repository->updateProfilePasswordOnceValidated(
-                                $userEntity,
-                                $this->findUserOr404()
-                            );
+                        if ($this->repository->isPasswordMatching($this, $this->userEntity())) {
+                            list(
+                                $validatedData,
+                                $error
+                            ) = $this->repository->updateProfilePasswordOnceValidated($this->userEntity(),$this->findUserOr404());
                             if ($this->erorr) {
                                 $this->error->addError($error, $this)->dispatchError($this->onSelf());
                             }
@@ -213,7 +237,7 @@ class AccountController extends BaseController
                                 ->findByIdAndUpdate($validatedData, $this->findUserOr404()->id);
                             $this->flashAndRedirect($action, null, 'Changes Saved!');
                         } else {
-                            $this->flashAndRedirect(false, null, 'Password does not match', 'warning');
+                            $this->flashAndRedirect(false, null, 'Oops! Password did not match! Try again.', 'warning');
                         }
                     } else {
                         $this->flashAndRedirect(false, null, 'Incorrect Password for this account.!', 'warning');
@@ -231,14 +255,41 @@ class AccountController extends BaseController
         );
     }
 
+    /**
+     * Allow the user to delete their own account from their accounts page. Renders the formB
+     * which allows removing account.
+     * 
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     protected function deleteAction()
     {
         if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('profile-delete-account')) {
-                if ($this->csrfValidate()) {
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('delete-profile')) {
+                if ($this->formBuilder->csrfValidate()) {
+                    if ($this->repository->isOwnAccount($this)) {
+                        list(
+                            $validatedData,
+                            $error
+                        ) = $this->repository->deleteAccountOnceValidated($this->userEntity(),$this->findUserOr404());
+                        if ($this->erorr) {
+                            $this->error->addError($error, $this)->dispatchError($this->onSelf());
+                        }
+                        $action = $this->repository->getRepo()->findByIdAndDelete($validatedData);
+                        $this->flashAndRedirect($action, '/', 'Account deleted successfully.');
+                    }
                 }
             }
         }
-        $this->render("client/profile/delete_account.html.twig", []);
+        $this->render(
+            'client/profile/delete_account.html.twig',
+            [
+                "profile" => $this->findUserOr404(),
+                "deleteAccount" => $this->deleteAccount->createForm("/profile/account/delete",$this->findUserOr404()),
+            ]
+        );
+
     }
 }

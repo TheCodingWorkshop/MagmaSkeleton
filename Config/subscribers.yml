@@ -2,3 +2,5 @@
 subscribers:
     flash_messages_subscriber:
         class: \App\EventSubscriber\FlashMessagesSubscriber
+    new_user_subscriber:
+        class: \App\EventSubscriber\NewUserSubscriber

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Auth\Contracts\UserProfileInterface;
 
 class UserProfileModel extends UserModel implements UserProfileInterface
@@ -21,7 +20,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
     /** @var array */
     protected array $profileError = [];
     /** @var array */
-    protected const PROFILE_FIELDS = ['firstname', 'lastname', 'email', 'password_hash'];
+    protected const PROFILE_FIELDS = ['firstname', 'lastname', 'email', 'password_hash', 'user_id'];
 
     /**
      * Verify the user password before making changes. Ensuring the correct user 
@@ -58,6 +57,26 @@ class UserProfileModel extends UserModel implements UserProfileInterface
     {
         if ($cleanData->password_hash_new === $cleanData->password_hash_retype) {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns true only if the current account ID matches the current sessions ID
+     * returns false otherwise
+     *
+     * @param Object $object
+     * @return boolean
+     */
+    public function isOwnAccount(Object $object) : bool
+    {
+        if ($object) {
+            $userID = $object->formBuilder->getData()['user_id'];
+            if (intval($userID) === $_SESSION['user_id']) {
+                return true;
+            } else {
+                return false;
+            }
         }
         return false;
     }
@@ -131,9 +150,9 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      *
      * @param Object $cleanData
      * @param Object|null $repository
-     * @return array|bool
+     * @return array
      */
-    public function updateProfilePasswordOnceValidated(Object $cleanData, ?Object $repository)
+    public function updateProfilePasswordOnceValidated(Object $cleanData, ?Object $repository) : array
     {
         $this->validateChanges($cleanData, $repository);
         if ($this->unsetValues($cleanData)) {
@@ -145,6 +164,28 @@ class UserProfileModel extends UserModel implements UserProfileInterface
             $newCleanData,
             $this->getProfileErrors()
         ];
+    }
+
+    /**
+     * delete the user profile account
+     *
+     * @param Object $cleanData
+     * @param Object|null $repository
+     * @return array
+     */
+    public function deleteAccountOnceValidated(Object $cleanData, ?Object $repository) : array
+    {
+        $this->validateChanges($cleanData, $repository);
+        if ($this->unsetValues($cleanData)) {
+            $newCleanData = [
+                'id' => intval($cleanData->user_id)
+            ];
+        }
+        return [
+            $newCleanData,
+            $this->getProfileErrors()
+        ];
+
     }
 
     /**
@@ -171,14 +212,12 @@ class UserProfileModel extends UserModel implements UserProfileInterface
                     }
                     break;
                 case 'password_hash':
-                case 'password_hash_new' :
-                case 'password_hash_retype' :
-                    if ($cleanData->password_hash_new != $cleanData->password_hash_retype) {
-                        $this->profileError[] = 'Oops! Password did not match! Try again.';
-                    }
                     if (!$this->validatePassword((object)$value, $repository)) {
                         $this->profileError[] = '';
                     }
+                    break;
+                case 'user_id' :
+                    
                     break;
                 default :
                     if ($value === $repository->$key) {

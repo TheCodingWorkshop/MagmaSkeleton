@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block content_title %}Your're Activated
+{% block content_title %}Account Activation Required!
 {% endblock %}
 {% block main %}
 	<div>
 		<div uk-grid>
 			<div class="uk-width-auto@m">
 				{% set navs = {
-					login: {title: 'Activated', path: '#'},
+					login: {title: 'Welcome', path: '#'},
 					help: {title: 'Help', path: '#'},
 
 				} %}
@@ -22,10 +22,9 @@
 			<div class="uk-width-expand@m">
 				<ul id="component-tab-left" class="uk-switcher">
 					<li>
-						<h1 class="uk-heading-small">You're Activated!</h1>
-                        <p>Welcome back</p>
-                        <p>Your account is now activated and you now have full access to our content and free to update your profile information.</p>
-                        <a href="/profile/account/index" class="uk-button uk-button-large uk-button-primary">My Account</a>
+						<h1 class="uk-heading-small">Welcome!</h1>
+						<p>Thanks for registering. Your account was created, but you now need to click the link sent to the email address you registered with. Once you click that link your account will become active and you will be redirect to the login page.</p>
+                        <p class="uk-button uk-button-small uk-button-primary">You can close this page</p>
 					</li>
 				</ul>
 			</div>

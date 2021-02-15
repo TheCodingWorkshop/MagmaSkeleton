@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -15,7 +16,7 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use App\Event\FlashMessagesEvent;
+use App\Event\NewUserEvent;
 use MagmaCore\Base\BaseController;
 
 class RegistrationController extends BaseController
@@ -57,10 +58,9 @@ class RegistrationController extends BaseController
      *
      * @return array
      */
-    protected function callBeforeMiddlewares() : array
+    protected function callBeforeMiddlewares(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -72,10 +72,9 @@ class RegistrationController extends BaseController
      *
      * @return array
      */
-    protected function callAfterMiddlewares() : array
+    protected function callAfterMiddlewares(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -90,31 +89,42 @@ class RegistrationController extends BaseController
      * @throws SyntaxError
      */
     protected function registerAction()
-    { 
+    {
         if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-register')) : {
-                if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->repository->getRepo()->validateRepository(new UserEntity($this->formBuilder->getData()))->persistAfterValidation();
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-register')) :
+                if ($this->formBuilder->csrfValidate()) :
+
+                    $action = $this->repository
+                        ->getRepo()->validateRepository(new UserEntity($this->formBuilder->getData()))->persistAfterValidation();
                     if ($this->error) {
-                        $this->error->addError($this->repository->getRepo()->getValidationErrors());
-                        $this->error->dispatchError($this);
+                        $this->error->addError($this->repository->getRepo()->getValidationErrors(), $this)->dispatchError($this->onSelf());
                     }
                     if ($action) {
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(new NewUserEvent($this->repository->getRepo()->validatedDataBag(), $this), NewUserEvent::NAME);
+                        }
                         $this->flashMessage('Account Created');
-                        $this->redirect('/login');    
-
+                        $this->redirect('/registration/registered');
                     }
-
-                }
-            }
+                endif;
             endif;
         endif;
 
-        $this->render('client/registration/register.html.twig',
+        $this->render(
+            'client/registration/register.html.twig',
             [
                 "form" => $this->formRegister->createForm('/registration/register')
             ]
         );
     }
 
+    /**
+     * Rendered the user message after successfully registering their account
+     *
+     * @return void
+     */
+    protected function registeredAction()
+    {
+        $this->render("client/registration/registered.html.twig", []);
+    }
 }

@@ -52,16 +52,15 @@ class ActivationController extends BaseController
      */
     protected function activateAction()
     {
-        $token = $this->thisRouteToken();
-        if (is_string($token) && $token !=null) {
-            $repository = $this->activationRepo->findByActivationToken($token);
+        if (isset($this->routeParams['token'])) {
+            $repository = $this->activationRepo->findByActivationToken($this->routeParams['token']);
             if (!$repository) {
-                $this->redirect('/profile');
+                $this->redirect('/profile/account/index');
             }
-            $action = $this->activationRepo->validateActivation()->activate();
+            $action = $this->activationRepo->validateActivation($repository)->activate();
             if ($action) {
                 $this->flashMessage('Your account is now activated', $this->flashInfo());
-                $this->redirect('/activation/activate');
+                $this->redirect('/activation/activated');
             } else {
                 $this->flashMessage('Fail to activate your account.', $this->flashInfo());
                 $this->redirect('/activation/fail-activation');
@@ -91,7 +90,7 @@ class ActivationController extends BaseController
      */
     protected function failActivationAction()
     {
-        $this->render('client/activation/fail_activated.html.twig');
+        $this->render('client/activation/fail_activation.html.twig');
     }
 
 

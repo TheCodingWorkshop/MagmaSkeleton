@@ -65,6 +65,7 @@ class SecurityController extends BaseController
         return [
             'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
+            'isUserAccountActivated' => \App\Middleware\Before\isUserAccountActivated::class,
         ];
     }
 
