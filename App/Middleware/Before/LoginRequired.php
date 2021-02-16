@@ -19,6 +19,8 @@ use Closure;
 class LoginRequired extends BeforeMiddleware
 {
 
+    protected const MESSAGE = "<strong class=\"uk-text-danger\">Action Required: </strong>Please login for access.";
+
     /**
      * Requires basic login when entering protected routes
      *
@@ -28,12 +30,11 @@ class LoginRequired extends BeforeMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {
-        if ($user = Authorized::grantedUser()) {
-            if (!$user) {
-                $object->flashMessage('Please login in to access that area', $object->flashInfo());
-                Authorized::rememberRequestedPage();
-                $object->redirect('/login');
-            }
+        if (!Authorized::grantedUser()) {
+            $object->flashMessage(self::MESSAGE, $object->flashInfo());
+            /* Hold the requested page so when the user logs in we can redirect them back */
+            Authorized::rememberRequestedPage();
+            $object->redirect('/login');
         }
 
         return $next($object);

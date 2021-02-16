@@ -11,14 +11,16 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use MagmaCore\Middleware\BeforeMiddleware;
 use Closure;
+use MagmaCore\Auth\Authorized;
+use MagmaCore\Middleware\BeforeMiddleware;
 
 class isAlreadyLogin extends BeforeMiddleware
 {
 
     /**
-     * Undocumented function
+     * Prevent access to the login form is the user is already logged.
+     * as this action doesn't need doing again
      *
      * @param Object $object - contains the BaseController object
      * @param Closure $next
@@ -29,7 +31,8 @@ class isAlreadyLogin extends BeforeMiddleware
         if ($object->thisRouteController() === 'Security' && $object->thisRouteAction() === 'index') {
             $userID = $object->getSession()->get('user_id');
             if (isset($userID) && $userID !== 0) {
-                $object->redirect('/');
+                $object->flashMessage("<strong class=\"uk-text-danger\">Action Rejected: </strong>You are already logged in.", $object->flashInfo());
+                $object->redirect(Authorized::getReturnToPage());
             }
         }
         return $next($object);

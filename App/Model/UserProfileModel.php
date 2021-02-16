@@ -131,7 +131,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object|null $repository
      * @return array
      */
-    public function updateProfileEmailOnceValidated(Object $cleanData, ?Object $repository) : array
+    public function updateProfileEmailOnceValidated(Object $cleanData, Null|Object $repository) : array
     {
         $this->validateChanges($cleanData, $repository);
         if ($this->unsetValues($cleanData)) {
@@ -152,7 +152,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object|null $repository
      * @return array
      */
-    public function updateProfilePasswordOnceValidated(Object $cleanData, ?Object $repository) : array
+    public function updateProfilePasswordOnceValidated(Object $cleanData, Null|Object $repository) : array
     {
         $this->validateChanges($cleanData, $repository);
         if ($this->unsetValues($cleanData)) {
@@ -173,7 +173,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object|null $repository
      * @return array
      */
-    public function deleteAccountOnceValidated(Object $cleanData, ?Object $repository) : array
+    public function deleteAccountOnceValidated(Object $cleanData, Null|Object $repository) : array
     {
         $this->validateChanges($cleanData, $repository);
         if ($this->unsetValues($cleanData)) {
@@ -196,7 +196,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object|null $repository
      * @return array
      */
-    private function validateChanges(Object $cleanData, ?Object $repository): array
+    private function validateChanges(Object $cleanData, Null|Object $repository): array
     {
         foreach ($cleanData as $key => $value) {
             switch ($key) {

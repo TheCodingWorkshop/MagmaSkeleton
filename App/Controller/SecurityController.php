@@ -64,9 +64,8 @@ class SecurityController extends BaseController
     {
         return [
             'HasConnection' => \App\Middleware\Before\HasConnection::class,
-            'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
-            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
             'isUserAccountActivated' => \App\Middleware\Before\isUserAccountActivated::class,
+            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
         ];
     }
 
@@ -125,13 +124,20 @@ class SecurityController extends BaseController
                 if ($this->formBuilder->csrfValidate()) {
                     if ($this->getAuthUser()) {
                         $this->getLogin($this->getAuthUser(), $this->isRememberingLogin());
-                        $actionEvent = [
+                        if ($this->error) {
+                            $this->error->addError($this->authenticator->getErrors(), $this)->dispatchError($this->onSelf());
+                        }
+                        if ($this->authenticator->getAction() === true) {
+                            $this->flashMessage('Login Successfully');
+                            $this->redirect(Authorized::getReturnToPage());
+                        }
+                        /*$actionEvent = [
                             'action' => $this->authenticator->getAction(),
                             'errors' => $this->authenticator->getErrors()
                         ];
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                        }
+                        }*/
                     }
                 } else {
                     $this->isLoggedIn = false;
@@ -150,14 +156,20 @@ class SecurityController extends BaseController
      */
     protected function logoutAction(): void
     {
-        Authorized::logout();
+        $this->render("client/security/logout.html.twig");
+    }
+
+    protected function doLogoutAction(): void
+    {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signout')) {
+                Authorized::logout();
                 $this->redirect("/security/show-logout-message");
             }
         }
         $this->render("client/security/logout.html.twig");
     }
+
 
     /**
      * Show a "logged out" flash message and redirect to the homepage.
@@ -222,7 +234,7 @@ class SecurityController extends BaseController
      * @param bool $remember
      * @return void
      */
-    private function getLogin(Object $authenticatedUser, $remember): void
+    private function getLogin(Object $authenticatedUser, mixed $remember): void
     {
         Authorized::login($authenticatedUser, $remember);
     }

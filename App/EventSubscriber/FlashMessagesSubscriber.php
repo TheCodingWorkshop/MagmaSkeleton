@@ -11,6 +11,7 @@ declare (strict_types = 1);
 
 namespace App\EventSubscriber;
 
+use MagmaCore\Auth\Authorized;
 use App\Event\FlashMessagesEvent;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
@@ -73,7 +74,7 @@ class FlashMessagesSubscriber implements EventSubscriberInterface
             } else {
                 $event->get()->flashMessage($flash, $type);
             }
-            $event->get()->redirect($redirect);
+            $event->get()->redirect(Authorized::getReturnToPage());
         }
     }
 

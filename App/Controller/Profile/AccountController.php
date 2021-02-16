@@ -54,8 +54,6 @@ class AccountController extends BaseController
                 "editEmailForm" => \App\Forms\Client\Profile\EditEmailForm::class,
                 "editPasswordForm" => \App\Forms\Client\Profile\EditPasswordForm::class,
                 "deleteAccount" => \App\Forms\Client\Profile\DeleteAccountForm::class,
-                /* Event Listeners */
-                //"ResendActivationEmailListener" => \App\EventListener\ResendActivationEmailListener::class
             ]
         );
     }
@@ -74,9 +72,8 @@ class AccountController extends BaseController
         return [
             'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
-            'loginRequired' => \App\Middleware\Before\LoginRequired::class,
-            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
+            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
         ];
     }
 

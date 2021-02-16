@@ -124,7 +124,8 @@ class UserController extends AdminController
                     ->query->getAlnum(
                         $args['filter_alias']
                     ),
-                "help_block" => ""
+                "help_block" => "",
+                "breadcrumb" => $this->breadcrumbs()
             ]
         );
     }
@@ -186,7 +187,8 @@ class UserController extends AdminController
             "/admin/user/new.html.twig",
             [
                 "form" => $this->formUser->createForm('/admin/user/new'),
-                "this" => $this
+                "this" => $this,
+                "breadcrumb" => $this->breadcrumbs()
             ]
         );
     }
@@ -248,9 +250,9 @@ class UserController extends AdminController
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest()) :
                 $action = $this->userRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
-                if ($this->error) {
+                /*if ($this->error) {
                     $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                }
+                }*/
                 if ($action) {
                     $this->flashMessage('Deleted Successfully');
                     $this->redirect('/admin/user/index');

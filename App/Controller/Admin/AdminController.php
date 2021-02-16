@@ -83,9 +83,9 @@ class AdminController extends BaseController
     protected function callBeforeMiddlewares(): array
     {
         return [
-            'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class,
+            'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'PreventionActions' => \App\Middleware\Before\PreventionActions::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
         ];
@@ -131,4 +131,5 @@ class AdminController extends BaseController
         }
         return false;
     }
+
 }

@@ -58,7 +58,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      * @param int|null $ignoreID
      * @return boolean  True if a record already exists with the specified email, false otherwise
      */
-    public function emailExists(string $email, int $ignoreID = null)
+    public function emailExists(string $email, int $ignoreID = null) : bool
     {
         if (!empty($email)) {
             $result = $this->getRepo()->findObjectBy(['email' => $email], ['*']);
@@ -81,7 +81,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      * @return self
      * @throws ReflectionException
      */
-    public function validatePassword(object $cleanData, ?object $repository = null)
+    public function validatePassword(object $cleanData, Null|object $repository = null)
     {
         $cleanData = (array)$cleanData;
         $validate = $this->get('validate.userValidate')->validate($cleanData);

@@ -39,6 +39,7 @@ class SessionExpires extends BeforeMiddleware
             $expires = ($lifetime !== 0) ? $lifetime : self::SESSION_TIMEOUT;
             if ($duration > $expires) {
                 $session->invalidate();
+                /** @todo let the user know the session was expired */
                 $object->redirect('/login');
             } else {
                 $session->set('timeout', time());

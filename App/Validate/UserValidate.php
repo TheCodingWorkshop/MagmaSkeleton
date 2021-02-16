@@ -41,7 +41,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param object|null $dataRepository - the repository for the entity
      * @return mixed
      */
-    public function validateBeforePersist(object $cleanData, ?object $dataRepository = null)
+    public function validateBeforePersist(object $cleanData, Null|object $dataRepository = null)
     {
         /* convert object to an array */
         $this->cleanData = (array)$cleanData;
@@ -109,7 +109,7 @@ class UserValidate extends AbstractDataRepositoryValidation
         }
     }
 
-    public function validatedDataBag($newCleanData)
+    public function validatedDataBag($newCleanData) : array
     {
         return array_merge($newCleanData, $this->dataBag);
     }
@@ -136,7 +136,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(array $cleanData, ?Object $dataRepository = null): ?array
+    public function validate(array $cleanData, Null|Object $dataRepository = null): Null|array
     {
         if (null !== $cleanData) {
             if (is_array($cleanData) && count($cleanData) > 0) {
