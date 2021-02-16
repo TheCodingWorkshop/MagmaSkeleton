@@ -131,13 +131,6 @@ class SecurityController extends BaseController
                             $this->flashMessage('Login Successfully');
                             $this->redirect(Authorized::getReturnToPage());
                         }
-                        /*$actionEvent = [
-                            'action' => $this->authenticator->getAction(),
-                            'errors' => $this->authenticator->getErrors()
-                        ];
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-                        }*/
                     }
                 } else {
                     $this->isLoggedIn = false;

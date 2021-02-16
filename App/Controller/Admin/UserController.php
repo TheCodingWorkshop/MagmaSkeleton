@@ -125,7 +125,6 @@ class UserController extends AdminController
                         $args['filter_alias']
                     ),
                 "help_block" => "",
-                "breadcrumb" => $this->breadcrumbs()
             ]
         );
     }
