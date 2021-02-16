@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Event;
@@ -17,7 +18,7 @@ class NewUserEvent extends Event
 {
 
     /** @var string - name of the event */
-    public const NAME = 'app.event.new_user';
+    public const NAME = 'app.event.new_user_event';
     /** @var array */
     private array $context;
     /** @var Object - the current controller object */
@@ -30,19 +31,9 @@ class NewUserEvent extends Event
      * @param Object $controllerObject
      */
     public function __construct(array $context, Object $controllerObject)
-    { 
+    {
         $this->context = $context;
         $this->controller = $controllerObject;
-    }
-
-    /**
-     * Returns the current controller object with access to all its methods and property
-     *
-     * @return Object
-     */
-    public function getObject() : Object
-    {
-        return $this->controller;
     }
 
     /**
@@ -50,9 +41,18 @@ class NewUserEvent extends Event
      * 
      * @return array
      */
-    public function getContext() : array
+    public function getContext(): array
     {
         return $this->context;
     }
 
+    /**
+     * Returns the current controller object with access to all its methods and property
+     *
+     * @return Object
+     */
+    public function getObject(): Object
+    {
+        return $this->controller;
+    }
 }

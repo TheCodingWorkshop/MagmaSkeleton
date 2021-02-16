@@ -174,7 +174,15 @@ class UserController extends AdminController
                     }
                     if ($action) {
                         if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(new NewUserEvent(array_merge($this->userRepository()->validatedDataBag(), $this->userRepository()->getRandomPassword()), $this), NewUserEvent::NAME);
+                            $this->eventDispatcher->dispatch(
+                                new NewUserEvent(
+                                    array_merge(
+                                        $this->userRepository()->validatedDataBag(), $this->userRepository()->getRandomPassword()
+                                    ), 
+                                    $this
+                                ), 
+                                NewUserEvent::NAME
+                            );
                         }
                         $this->flashMessage('New User added');
                         $this->redirect($this->onSelf());
@@ -187,7 +195,6 @@ class UserController extends AdminController
             [
                 "form" => $this->formUser->createForm('/admin/user/new'),
                 "this" => $this,
-                "breadcrumb" => $this->breadcrumbs()
             ]
         );
     }

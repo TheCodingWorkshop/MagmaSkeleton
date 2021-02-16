@@ -32,7 +32,7 @@ class NewUserSubscriber implements EventSubscriberInterface
         return [
             NewUserEvent::NAME => [
                 ['sendActivationEmail', -10],
-                ['assignedUserRole', 20]
+                ['assignedUserRole', 20],
             ],
         ];
 
@@ -85,7 +85,10 @@ class NewUserSubscriber implements EventSubscriberInterface
             if (is_array($user) && count($user) > 0 && !empty($user['role_id'])) {
                 $userRole = new UserRoleModel();
                 if ($userRole) {
-                    $push = $userRole->getRepo()->getEm()->getCrud()->create(['user_id' => $user['last_id'], 'role_id' => $user['role_id']]);
+                    $push = $userRole->getRepo()
+                    ->getEm()
+                    ->getCrud()
+                    ->create(['user_id' => $user['last_id'], 'role_id' => $user['role_id']]);
                     return ($push) ? true : false;
                 }
             }
