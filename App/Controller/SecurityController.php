@@ -63,6 +63,7 @@ class SecurityController extends BaseController
     protected function callBeforeMiddlewares(): array
     {
         return [
+            'HasConnection' => \App\Middleware\Before\HasConnection::class,
             'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
             'isUserAccountActivated' => \App\Middleware\Before\isUserAccountActivated::class,

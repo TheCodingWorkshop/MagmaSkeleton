@@ -17,6 +17,7 @@ use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\Type\PasswordType;
 use MagmaCore\FormBuilder\Type\EmailType;
 use MagmaCore\FormBuilder\Type\TextType;
+use MagmaCore\FormBuilder\Type\HiddenType;
 use MagmaCore\FormBuilder\Type\SubmitType;
 
 class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -35,6 +36,7 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
             ->add([TextType::class => ['name' => 'lastname']], null)
             ->add([EmailType::class => ['name' => 'email', 'class' => ['uk-input', 'uk-form-medium']]], null)
             ->add([PasswordType::class => ['name' => 'client_password_hash','autocomplete' => 'new-password', 'required' => true]], null, ['new_label' => 'Password'])
+            ->add([HiddenType::class => ['name' => 'role_id', 'value' => '2']])
             ->add([SubmitType::class => ['name' => 'new-register', 'value' => 'Register new account', 'class' => 'uk-button uk-button-primary']], 
             null, 
             ['show_label' => false, 'before_after_wrapper' => false]

@@ -14,6 +14,7 @@ namespace App\EventSubscriber;
 use App\Event\NewUserEvent;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\MailerFacade;
+use MagmaCore\Auth\Model\UserRoleModel;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 class NewUserSubscriber implements EventSubscriberInterface
@@ -29,7 +30,10 @@ class NewUserSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            NewUserEvent::NAME => ['sendActivationEmail'],
+            NewUserEvent::NAME => [
+                ['sendActivationEmail', -10],
+                ['assignedUserRole', 20]
+            ],
         ];
 
     }
@@ -65,7 +69,27 @@ class NewUserSubscriber implements EventSubscriberInterface
                 }
             }
         }
-        return false;
+    }
+
+    /**
+     * Assign the user the subscriber role on public registration and assigned
+     * the selected role from the admin panel
+     *
+     * @param NewUserEvent $event
+     * @return void
+     */
+    public function assignedUserRole(NewUserEvent $event)
+    {
+        if ($event) {
+            $user = $event->getContext();
+            if (is_array($user) && count($user) > 0 && !empty($user['role_id'])) {
+                $userRole = new UserRoleModel();
+                if ($userRole) {
+                    $push = $userRole->getRepo()->getEm()->getCrud()->create(['user_id' => $user['last_id'], 'role_id' => $user['role_id']]);
+                    return ($push) ? true : false;
+                }
+            }
+        }
     }
 
 

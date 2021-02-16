@@ -85,6 +85,9 @@ class UserValidate extends AbstractDataRepositoryValidation
                     "remote_addr" => $clientIP
                 ];
                 $this->dataBag['activation_hash'] = $activationHash;
+                if (array_key_exists('role_id', $cleanData)) {
+                    $this->dataBag['role_id'] = intval($cleanData['role_id']);
+                }
 
                 /**
                  * When updatng we want to unset some key from the $newCleanData array so we

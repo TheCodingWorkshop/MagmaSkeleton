@@ -44,6 +44,22 @@ class HomeController extends BaseController
     }
 
     /**
+     * Middleware which are executed before any action methods is called
+     * middlewares are return within an array as either key/value pair. Note
+     * array keys should represent the name of the actual class its loading ie
+     * upper camel case for array keys. alternatively array can be defined as
+     * an index array omitting the key entirely
+     *
+     * @return array
+     */
+    protected function callBeforeMiddlewares(): array
+    {
+        return [
+            'HasConnection' => \App\Middleware\Before\HasConnection::class,
+        ];
+    }
+
+    /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is 
      * made.
