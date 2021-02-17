@@ -17,9 +17,7 @@ use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
 use MagmaCore\Utility\Yaml;
-use App\Event\NewActionEvent;
-use App\Event\EditActionEvent;
-use App\Event\DeleteActionEvent;
+use App\Event\UserActionEvent;
 
 class UserController extends AdminController
 {
@@ -106,6 +104,8 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
+       // var_dump($_SERVER['QUERY_STRING']);
+       $this->getSession()->set('redirect_parameters', $_SERVER['QUERY_STRING']);
 
         /**
          * the two block below provides a mean of overriding the default settings
@@ -185,14 +185,15 @@ class UserController extends AdminController
                     if ($action) {
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(
-                                new NewActionEvent(
+                                new UserActionEvent(
+                                    __METHOD__,
                                     array_merge(
                                         $this->userRepository()->validatedDataBag(),
                                         $this->userRepository()->getRandomPassword()
                                     ),
                                     $this
                                 ),
-                                NewActionEvent::NAME
+                                UserActionEvent::NAME
                             );
                         }
                     }
@@ -233,14 +234,15 @@ class UserController extends AdminController
                     if ($action) {
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(
-                                new EditActionEvent(
+                                new UserActionEvent(
+                                    __METHOD__,
                                     array_merge(
                                         $this->userRepository()->validatedDataBag(),
                                         ['user_id' => $this->thisRouteID()]
                                     ),
                                     $this
                                 ),
-                                EditActionEvent::NAME
+                                UserActionEvent::NAME
                             );
                         }
                     }
@@ -283,11 +285,12 @@ class UserController extends AdminController
                 if ($action) {
                     if ($this->eventDispatcher) {
                         $this->eventDispatcher->dispatch(
-                            new DeleteActionEvent(
+                            new UserActionEvent(
+                                __METHOD__,
                                 ['action' => $action],
                                 $this
                             ),
-                            DeleteActionEvent::NAME
+                            UserActionEvent::NAME
                         );
                     }
                 }

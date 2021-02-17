@@ -1,0 +1,11 @@
+services: 
+    subscribers:
+        my.subscriber1:
+            class: \App\EventSubscriber\UserActionSubscriber
+            props:
+                - {}
+    listeners:
+        my.listener1:
+            class: \App\EventListener\RoleListener
+            props:
+                - { name: 'app.event.listener.role_listener', event: doUpdate }

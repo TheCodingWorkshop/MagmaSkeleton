@@ -67,6 +67,17 @@ class RoleController extends AdminController
         }
     }
 
+    private function roleEntity(): Object
+    {
+        if (isset($this->formBuilder)) {
+            $entity = new RoleEntity($this->formBuilder->getData());
+            if ($entity) {
+                return $entity;
+            }
+        }
+    }
+
+
     /**
      * Returns a 404 error page if the data is not present within the database
      * else return the requested object
@@ -104,10 +115,9 @@ class RoleController extends AdminController
         $args['records_per_page'] = $this->tableSettings($this->thisRouteController(), 'records_per_page');
         $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
 
-        $repository = $this->roleRepository()
-            ->findWithSearchAndPaging($this->request->handler(), $args);
-
+        $repository = $this->roleRepository()->findWithSearchAndPaging($this->request->handler(), $args);
         $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
+
         $this->render(
             'admin/role/index.html.twig',
             [
@@ -142,18 +152,15 @@ class RoleController extends AdminController
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
                     $action = $this->roleRepository()
-                        ->validateRepository(new RoleEntity($this->formBuilder->getData()))->persistAfterValidation();
+                        ->validateRepository($this->roleEntity())->persistAfterValidation();
                     if ($this->error) {
-                        $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
+                        $this->error->addError($this->roleRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
                     }
                     if ($action) {
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(
                                 new NewActionEvent(
-                                    array_merge(
-                                        $this->userRepository()->validatedDataBag(),
-                                        $this->userRepository()->getRandomPassword()
-                                    ),
+                                    $this->roleRepository()->validatedDataBag(),
                                     $this
                                 ),
                                 NewActionEvent::NAME

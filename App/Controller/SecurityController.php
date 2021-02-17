@@ -199,9 +199,9 @@ class SecurityController extends BaseController
                 'action' => $this->authenticator->getAction(),
                 'errors' => $this->authenticator->getErrors()
             ];
-            if ($this->eventDispatcher) {
+            /*if ($this->eventDispatcher) {
                 $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-            }
+            }*/
         }
 
         return $user;

@@ -1,7 +1,0 @@
-# config/listeners.yaml
-#listeners:
-    #NewUserEvent:
-      #listener: 
-        #- \App\EventListener\ResendActivationEmailListener
-        #- resendActivationEmail
-        #- \App\Model\UserModel

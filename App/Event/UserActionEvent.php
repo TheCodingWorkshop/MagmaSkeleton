@@ -14,15 +14,17 @@ namespace App\Event;
 
 use MagmaCore\EventDispatcher\Event;
 
-class DeleteActionEvent extends Event
+class UserActionEvent extends Event
 {
 
     /** @var string - name of the event */
-    public const NAME = 'app.event.delete_action_event';
+    public const NAME = 'app.event.user_action_event';
     /** @var array */
     private array $context;
     /** @var Object - the current controller object */
     private Object $controller;
+    /** @var string - the controller method as a string */
+    private string $method;
 
     /**
      * Main class constructor method. assigning properties to constructor arguments
@@ -30,10 +32,21 @@ class DeleteActionEvent extends Event
      * @param array $context - the usable data as an array
      * @param Object $controllerObject
      */
-    public function __construct(array $context, Object $controllerObject)
+    public function __construct(string $method, array $context, Object $controllerObject)
     {
+        $this->method = $method;
         $this->context = $context;
         $this->controller = $controllerObject;
+    }
+
+    /**
+     * Returns the namespace method
+     *
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
     }
 
     /**

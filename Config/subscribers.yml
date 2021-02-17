@@ -1,8 +1,0 @@
-# config/services.yaml
-subscribers:
-    new_user_subscriber:
-        class: \App\EventSubscriber\NewUserSubscriber
-    edit_user_subscriber:
-        class: \App\EventSubscriber\EditUserSubscriber
-    delete_user_subscriber:
-        class: \App\EventSubscriber\DeleteUserSubscriber
