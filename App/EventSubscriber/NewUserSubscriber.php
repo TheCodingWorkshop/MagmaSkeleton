@@ -33,13 +33,22 @@ class NewUserSubscriber implements EventSubscriberInterface
             NewUserEvent::NAME => [
                 ['sendActivationEmail', -10],
                 ['assignedUserRole', 20],
+                ['flashMessageEvent', -100],
             ],
         ];
 
     }
-    
+
+    public function flashMessageEvent(NewUserEvent $event)
+    {
+        if ($event) {
+            $event->getObject()->flashMessage('New user added!');
+            $event->getObject()->redirect($event->getObject()->onSelf());
+        }
+    }
+
     /**
-     * Send an activation email to the registered email address each time a user 
+     * Send an activation email to the registered email address each time a user
      * register for a new account.
      *
      * @param NewUserEvent $event

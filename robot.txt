@@ -2,7 +2,6 @@
 
 # Allow crawling of all content
 User-agent: *
-Disallow: /tmp/
 Disallow: /vendor/
 Disallow: /Storage/
 Disallow: /bin/

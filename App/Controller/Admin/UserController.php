@@ -17,16 +17,18 @@ use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
 use App\Event\NewUserEvent;
-use MagmaCore\Utility\Yaml;
+use App\Event\EditUserEvent;
+use App\Event\DeleteUserEvent;
 use App\Event\FlashMessagesEvent;
+use MagmaCore\Utility\Yaml;
 
 class UserController extends AdminController
 {
 
     /**
-     * Extends the base constructor method. Which gives us access to all the base 
+     * Extends the base constructor method. Which gives us access to all the base
      * methods inplemented within the base controller class.
-     * Class dependency can be loaded within the constructor by calling the 
+     * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
@@ -39,7 +41,7 @@ class UserController extends AdminController
         parent::__construct($routeParams);
         /**
          * Dependencies are defined within a associative array like example below
-         * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
+         * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the
          * property for the userModel object like so $this->userModel->getRepo();
          */
         $this->container(
@@ -68,6 +70,16 @@ class UserController extends AdminController
         }
     }
 
+    private function userEntity(): Object
+    {
+        if (isset($this->formBuilder)) {
+            $entity = new UserEntity($this->formBuilder->getData());
+            if ($entity) {
+                return $entity;
+            }
+        }
+    }
+
     /**
      * Returns a 404 error page if the data is not present within the database
      * else return the requested object
@@ -85,7 +97,7 @@ class UserController extends AdminController
 
     /**
      * Entry method which is hit on request. This method should be implement within
-     * all sub controller class as a default landing point when a request is 
+     * all sub controller class as a default landing point when a request is
      * made.
      *
      * @return Response
@@ -97,7 +109,7 @@ class UserController extends AdminController
     {
 
         /**
-         * the two block below provides a mean of overriding the default settings 
+         * the two block below provides a mean of overriding the default settings
          * within the controller.yml file. So from the admin panel we can override
          * the records_per_page and the filter_by options dynamically
          */
@@ -130,7 +142,7 @@ class UserController extends AdminController
     }
 
     /**
-     * The show action request displays singluar information about a user. This is a 
+     * The show action request displays singluar information about a user. This is a
      * read only request. Information here cannot be editted.
      *
      * @return Response
@@ -153,7 +165,7 @@ class UserController extends AdminController
 
     /**
      * The new action request. is responsible for creating a new user. By sending
-     * post data to the relevant model. Which is turns sanitize and validate the the 
+     * post data to the relevant model. Which is turns sanitize and validate the the
      * incoming data. An event will be dispatched when a new user is created.
      *
      * @return Response
@@ -167,8 +179,7 @@ class UserController extends AdminController
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
                     $action = $this->userRepository()
-                        ->validateRepository(new UserEntity($this->formBuilder->getData()))
-                        ->persistAfterValidation();
+                        ->validateRepository($this->userEntity())->persistAfterValidation();
                     if ($this->error) {
                         $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
                     }
@@ -177,15 +188,14 @@ class UserController extends AdminController
                             $this->eventDispatcher->dispatch(
                                 new NewUserEvent(
                                     array_merge(
-                                        $this->userRepository()->validatedDataBag(), $this->userRepository()->getRandomPassword()
-                                    ), 
+                                        $this->userRepository()->validatedDataBag(),
+                                        $this->userRepository()->getRandomPassword()
+                                    ),
                                     $this
-                                ), 
+                                ),
                                 NewUserEvent::NAME
                             );
                         }
-                        $this->flashMessage('New User added');
-                        $this->redirect($this->onSelf());
                     }
                 }
             }
@@ -201,7 +211,7 @@ class UserController extends AdminController
 
     /**
      * The edit action request. is responsible for updating a user record within
-     * the database. User data wille be sanitized and validated before upon re 
+     * the database. User data wille be sanitized and validated before upon re
      * submitting new data. An event will be dispatched on this action
      *
      * @return Response
@@ -216,14 +226,24 @@ class UserController extends AdminController
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) :
                 if ($this->formBuilder->csrfValidate()) :
                     $action = $this->userRepository()
-                        ->validateRepository(new UserEntity($this->formBuilder->getData()), $this->findUserOr404())
-                        ->saveAfterValidation(['id' => $this->thisRouteID()]);
+                        ->validateRepository($this->userEntity(), $this->findUserOr404())->saveAfterValidation(['id' => $this->thisRouteID()]);
+
                     if ($this->error) {
                         $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
                     }
                     if ($action) {
-                        $this->flashMessage('Changes Saved!');
-                        $this->redirect($this->onSelf());
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(
+                                new EditUserEvent(
+                                    array_merge(
+                                        $this->userRepository()->validatedDataBag(),
+                                        ['user_id' => $this->thisRouteID()]
+                                    ),
+                                    $this
+                                ),
+                                EditUserEvent::NAME
+                            );
+                        }
                     }
                 endif;
             endif;
@@ -260,9 +280,16 @@ class UserController extends AdminController
                     $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
                 }*/
                 if ($action) {
-                    $this->flashMessage('Deleted Successfully');
-                    $this->redirect('/admin/user/index');
-            }
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(
+                            new DeleteUserEvent(
+                                ['action' => $action],
+                                $this
+                            ),
+                            DeleteUserEvent::NAME
+                        );
+                    }
+                }
             endif;
         endif;
     }
@@ -370,7 +397,7 @@ class UserController extends AdminController
     }
 
     /**
-     * The table settings insert action request. Simple adds per table related 
+     * The table settings insert action request. Simple adds per table related
      * configurable data. This provides customizable settings for each datatable
      *
      * @return bool
