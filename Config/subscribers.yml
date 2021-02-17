@@ -1,7 +1,5 @@
 # config/services.yaml
 subscribers:
-    flash_messages_subscriber:
-        class: \App\EventSubscriber\FlashMessagesSubscriber
     new_user_subscriber:
         class: \App\EventSubscriber\NewUserSubscriber
     edit_user_subscriber:

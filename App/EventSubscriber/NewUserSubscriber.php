@@ -11,7 +11,7 @@ declare (strict_types = 1);
 
 namespace App\EventSubscriber;
 
-use App\Event\NewUserEvent;
+use App\Event\NewActionEvent;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\Auth\Model\UserRoleModel;
@@ -21,7 +21,7 @@ class NewUserSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * Subscibe multiple listeners to listen for the NewUserEvent. This will fire
+     * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
      * addtitional tasks on that return object.
      *
@@ -30,7 +30,7 @@ class NewUserSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            NewUserEvent::NAME => [
+            NewActionEvent::NAME => [
                 ['sendActivationEmail', -10],
                 ['assignedUserRole', 20],
                 ['flashMessageEvent', -100],
@@ -39,7 +39,7 @@ class NewUserSubscriber implements EventSubscriberInterface
 
     }
 
-    public function flashMessageEvent(NewUserEvent $event)
+    public function flashMessageEvent(NewActionEvent $event)
     {
         if ($event) {
             $event->getObject()->flashMessage('New user added!');
@@ -51,10 +51,10 @@ class NewUserSubscriber implements EventSubscriberInterface
      * Send an activation email to the registered email address each time a user
      * register for a new account.
      *
-     * @param NewUserEvent $event
+     * @param NewActionEvent $event
      * @return void
      */
-    public function sendActivationEmail(NewUserEvent $event)
+    public function sendActivationEmail(NewActionEvent $event)
     {
         if ($event) {
             $user = $event->getcontext();
@@ -84,10 +84,10 @@ class NewUserSubscriber implements EventSubscriberInterface
      * Assign the user the subscriber role on public registration and assigned
      * the selected role from the admin panel
      *
-     * @param NewUserEvent $event
+     * @param NewActionEvent $event
      * @return void
      */
-    public function assignedUserRole(NewUserEvent $event)
+    public function assignedUserRole(NewActionEvent $event)
     {
         if ($event) {
             $user = $event->getContext();

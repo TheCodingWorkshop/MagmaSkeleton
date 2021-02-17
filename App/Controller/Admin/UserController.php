@@ -16,11 +16,10 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use App\Event\NewUserEvent;
-use App\Event\EditUserEvent;
-use App\Event\DeleteUserEvent;
-use App\Event\FlashMessagesEvent;
 use MagmaCore\Utility\Yaml;
+use App\Event\NewActionEvent;
+use App\Event\EditActionEvent;
+use App\Event\DeleteActionEvent;
 
 class UserController extends AdminController
 {
@@ -186,14 +185,14 @@ class UserController extends AdminController
                     if ($action) {
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(
-                                new NewUserEvent(
+                                new NewActionEvent(
                                     array_merge(
                                         $this->userRepository()->validatedDataBag(),
                                         $this->userRepository()->getRandomPassword()
                                     ),
                                     $this
                                 ),
-                                NewUserEvent::NAME
+                                NewActionEvent::NAME
                             );
                         }
                     }
@@ -234,14 +233,14 @@ class UserController extends AdminController
                     if ($action) {
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(
-                                new EditUserEvent(
+                                new EditActionEvent(
                                     array_merge(
                                         $this->userRepository()->validatedDataBag(),
                                         ['user_id' => $this->thisRouteID()]
                                     ),
                                     $this
                                 ),
-                                EditUserEvent::NAME
+                                EditActionEvent::NAME
                             );
                         }
                     }
@@ -275,18 +274,20 @@ class UserController extends AdminController
     {
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest()) :
+                if ($this->findUserOr404()->id !== $this->thisRouteID()) {
+                    if ($this->error) {
+                        $this->error->addError(['erorr deleting user'], $this)->dispatchError($this->onSelf());
+                    }
+                }
                 $action = $this->userRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
-                /*if ($this->error) {
-                    $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                }*/
                 if ($action) {
                     if ($this->eventDispatcher) {
                         $this->eventDispatcher->dispatch(
-                            new DeleteUserEvent(
+                            new DeleteActionEvent(
                                 ['action' => $action],
                                 $this
                             ),
-                            DeleteUserEvent::NAME
+                            DeleteActionEvent::NAME
                         );
                     }
                 }
@@ -310,9 +311,6 @@ class UserController extends AdminController
         if (isset($this->formBuilder)) :
             if ($this->formBuilderp->canHandleRequest()) :
                 $action = $this->userRepository()->findAndDelete($_POST['ids']);
-                if ($this->eventDispatcher) {
-                    $this->eventDispatcher->dispatch(new FlashMessagesEvent($action, $this), FlashMessagesEvent::NAME);
-                }
             endif;
         endif;
     }

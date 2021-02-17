@@ -11,7 +11,7 @@ declare (strict_types = 1);
 
 namespace App\EventSubscriber;
 
-use App\Event\EditUserEvent;
+use App\Event\EditActionEvent;
 use MagmaCore\Auth\Model\UserRoleModel;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
@@ -28,14 +28,14 @@ class EditUserSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EditUserEvent::NAME => [
+            EditActionEvent::NAME => [
                 ['flashMessageEvent', -10],
             ],
         ];
 
     }
 
-    public function flashMessageEvent(EditUserEvent $event)
+    public function flashMessageEvent(EditActionEvent $event)
     {
         if ($event) {
             $event->getObject()->flashMessage('User Account updated!');

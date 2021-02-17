@@ -14,11 +14,11 @@ namespace App\Event;
 
 use MagmaCore\EventDispatcher\Event;
 
-class EditUserEvent extends Event
+class DeleteActionEvent extends Event
 {
 
     /** @var string - name of the event */
-    public const NAME = 'app.event.edit_user_event';
+    public const NAME = 'app.event.delete_action_event';
     /** @var array */
     private array $context;
     /** @var Object - the current controller object */

@@ -11,7 +11,7 @@ declare (strict_types = 1);
 
 namespace App\EventSubscriber;
 
-use App\Event\DeleteUserEvent;
+use App\Event\DeleteActionEvent;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 class DeleteUserSubscriber implements EventSubscriberInterface
@@ -27,14 +27,14 @@ class DeleteUserSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            DeleteUserEvent::NAME => [
+            DeleteActionEvent::NAME => [
                 ['flashMessageEvent', -1000],
             ],
         ];
 
     }
 
-    public function flashMessageEvent(DeleteUserEvent $event)
+    public function flashMessageEvent(DeleteActionEvent $event)
     {
         if ($event) {
             $event->getObject()->flashMessage('User Account deleted!');

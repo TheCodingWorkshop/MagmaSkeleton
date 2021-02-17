@@ -12,11 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use LoaderError;
+use SyntaxError;
+use RuntimeError;
 use App\Entity\RoleEntity;
 use MagmaCore\Utility\Yaml;
-use LoaderError;
-use RuntimeError;
-use SyntaxError;
+use App\Event\NewActionEvent;
 
 class RoleController extends AdminController
 {
@@ -142,9 +143,23 @@ class RoleController extends AdminController
                 if ($this->formBuilder->csrfValidate()) {
                     $action = $this->roleRepository()
                         ->validateRepository(new RoleEntity($this->formBuilder->getData()))->persistAfterValidation();
-                    $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getvalidationErrors()];
-
-                    $this->getFlashEvent($actionEvent);
+                    if ($this->error) {
+                        $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
+                    }
+                    if ($action) {
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(
+                                new NewActionEvent(
+                                    array_merge(
+                                        $this->userRepository()->validatedDataBag(),
+                                        $this->userRepository()->getRandomPassword()
+                                    ),
+                                    $this
+                                ),
+                                NewActionEvent::NAME
+                            );
+                        }
+                    }
                 }
             }
         endif;
@@ -171,7 +186,6 @@ class RoleController extends AdminController
                     $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getValidationErrors()];
 
                     $this->getFlashEvent($actionEvent);
-
                 }
             }
         }
@@ -213,7 +227,6 @@ class RoleController extends AdminController
                 "role_perm" => $this->rolePerm->getRepo()->findObjectBy(['role_id' => $this->thisRouteID()])
             ]
         );
-
     }
 
     /**
