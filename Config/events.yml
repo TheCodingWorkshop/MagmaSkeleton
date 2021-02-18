@@ -1,8 +1,12 @@
 services: 
     subscribers:
-        my.subscriber1:
+        user.subscriber:
             class: \App\EventSubscriber\UserActionSubscriber
             props:
+                - {}
+        role.subscriber:
+            class: \App\EventSubscriber\RoleActionSubscriber
+            props: 
                 - {}
     listeners:
         my.listener1:

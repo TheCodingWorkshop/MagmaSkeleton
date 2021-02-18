@@ -17,7 +17,7 @@ use SyntaxError;
 use RuntimeError;
 use App\Entity\RoleEntity;
 use MagmaCore\Utility\Yaml;
-use App\Event\NewActionEvent;
+use App\Event\RoleActionEvent;
 
 class RoleController extends AdminController
 {
@@ -162,11 +162,12 @@ class RoleController extends AdminController
                     if ($action) {
                         if ($this->eventDispatcher) {
                             $this->eventDispatcher->dispatch(
-                                new NewActionEvent(
+                                new RoleActionEvent(
+                                    __METHOD__,
                                     $this->roleRepository()->validatedDataBag(),
                                     $this
                                 ),
-                                NewActionEvent::NAME
+                                RoleActionEvent::NAME
                             );
                         }
                     }
