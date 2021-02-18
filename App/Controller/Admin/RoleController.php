@@ -23,9 +23,9 @@ class RoleController extends AdminController
 {
 
     /**
-     * Extends the base constructor method. Which gives us access to all the base 
+     * Extends the base constructor method. Which gives us access to all the base
      * methods inplemented within the base controller class.
-     * Class dependency can be loaded within the constructor by calling the 
+     * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
@@ -38,7 +38,7 @@ class RoleController extends AdminController
         parent::__construct($routeParams);
         /**
          * Dependencies are defined within a associative array like example below
-         * [ roleModel => \App\Model\RoleModel::class ]. Where the key becomes the 
+         * [ roleModel => \App\Model\RoleModel::class ]. Where the key becomes the
          * property for the RoleModel object like so $this->roleModel->getRepo();
          */
         $this->container(
@@ -67,6 +67,10 @@ class RoleController extends AdminController
         }
     }
 
+    /**
+     * [roleEntity description]
+     * @return Object [description]
+     */
     private function roleEntity(): Object
     {
         if (isset($this->formBuilder)) {
@@ -76,7 +80,6 @@ class RoleController extends AdminController
             }
         }
     }
-
 
     /**
      * Returns a 404 error page if the data is not present within the database
@@ -95,7 +98,7 @@ class RoleController extends AdminController
 
     /**
      * Entry method which is hit on request. This method should be implement within
-     * all sub controller class as a default landing point when a request is 
+     * all sub controller class as a default landing point when a request is
      * made.
      *
      * @return Response
@@ -107,7 +110,7 @@ class RoleController extends AdminController
     {
 
         /**
-         * the two block below provides a mean of overriding the default settings 
+         * the two block below provides a mean of overriding the default settings
          * within the controller.yml file. So from the admin panel we can override
          * the records_per_page and the filter_by options dynamically
          */
@@ -141,7 +144,7 @@ class RoleController extends AdminController
 
     /**
      * The new action request. is responsible for creating a new role. By sending
-     * post data to the relevant model. Which is turns sanitize and validate the the 
+     * post data to the relevant model. Which is turns sanitize and validate the the
      * incoming data. An event will be dispatched when a new role is created.
      *
      * @return void
@@ -174,7 +177,7 @@ class RoleController extends AdminController
 
     /**
      * The edit action request. is responsible for updating a user record within
-     * the database. User data wille be sanitized and validated before upon re 
+     * the database. User data wille be sanitized and validated before upon re
      * submitting new data. An event will be dispatched on this action
      *
      * @return void
@@ -237,7 +240,7 @@ class RoleController extends AdminController
     }
 
     /**
-     * The table settings insert action request. Simple adds per table related 
+     * The table settings insert action request. Simple adds per table related
      * configurable data. This provides customizable settings for each datatable
      *
      * @return bool
