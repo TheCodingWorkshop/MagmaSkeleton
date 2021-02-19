@@ -41,44 +41,19 @@ class RoleController extends AdminController
          * [ roleModel => \App\Model\RoleModel::class ]. Where the key becomes the
          * property for the RoleModel object like so $this->roleModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
                 "repository" => \MagmaCore\Auth\Model\RoleModel::class,
                 "column" => \App\DataColumns\RoleColumn::class,
                 "formRole" => \App\Forms\Admin\Role\RoleForm::class,
                 "permissionModel" => \MagmaCore\Auth\Model\PermissionModel::class,
                 "rolePerm" => \MagmaCore\Auth\Model\RolePermissionModel::class,
+                "newAction" => \App\Actions\NewAction::class,
+                "editAction" => \App\Actions\EditAction::class,
+                "deleteAction" => \App\Actions\DeleteAction::class,
+                "indexAction" => \App\Actions\IndexAction::class,
             ]
         );
-    }
-
-    /**
-     * helper function which returns the current roleModel object as the
-     * role repository. This method is used many times throughout the file
-     * this just provide a central method which can be used instead
-     *
-     * @return object
-     */
-    private function roleRepository(): Object
-    {
-        $repository = $this->repository->getRepo();
-        if (null !== $repository) {
-            return $repository;
-        }
-    }
-
-    /**
-     * [roleEntity description]
-     * @return Object [description]
-     */
-    private function roleEntity(): Object
-    {
-        if (isset($this->formBuilder)) {
-            $entity = new RoleEntity($this->formBuilder->getData());
-            if ($entity) {
-                return $entity;
-            }
-        }
     }
 
     /**
@@ -89,7 +64,7 @@ class RoleController extends AdminController
      */
     private function findRoleOr404()
     {
-        $repository = $this->roleRepository()
+        $repository = $this->roleRepository->getRepo()
             ->findAndReturn($this->thisRouteID())
             ->or404();
 
@@ -108,37 +83,20 @@ class RoleController extends AdminController
      */
     protected function indexAction()
     {
-        /**
-         * the two block below provides a mean of overriding the default settings
-         * within the controller.yml file. So from the admin panel we can override
-         * the records_per_page and the filter_by options dynamically
-         */
-        $args = Yaml::file('controller')[$this->thisRouteController()];
-        $args['records_per_page'] = $this->tableSettings($this->thisRouteController(), 'records_per_page');
-        $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
-
-        $repository = $this->roleRepository()->findWithSearchAndPaging($this->request->handler(), $args);
-        $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
-
-        $this->render(
-            'admin/role/index.html.twig',
+        list($results, $tableData, $pagination, $columns, $totalRecords, $searchQuery) = $this->indexAction->execute($this);
+        $this->render('admin/role/index.html.twig',
             [
-                "this" => $this,
-                "form" => $this->formRole->createForm("/admin/role/new"),
-                "table" => $tableData,
-                "pagination" => $this->tableGrid->pagination(),
-                "total_records" => $this->tableGrid->totalRecords(),
-                "columns" => $this->tableGrid->getColumns(),
-                "results" => $repository,
-                "search_query" => $this
-                    ->request
-                    ->handler()
-                    ->query->getAlnum(
-                        $args['filter_alias']
-                    ),
-                "help_block" => ""
+                'form' => $this->formRole->createForm("/admin/role/new"),
+                'this' => $this,
+                'table' => $tableData,
+                'pagination' => $pagination,
+                'total_records' => $totalRecords,
+                'columns' => $columns,
+                'results' => $results,
+                'search_query' => $searchQuery,
             ]
         );
+
     }
 
     /**
@@ -150,29 +108,8 @@ class RoleController extends AdminController
      */
     protected function newAction() : void
     {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->roleRepository()
-                        ->validateRepository($this->roleEntity())->persistAfterValidation();
-                    if ($this->error) {
-                        $this->error->addError($this->roleRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                    }
-                    if ($action) {
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(
-                                new RoleActionEvent(
-                                    __METHOD__,
-                                    $this->roleRepository()->validatedDataBag(),
-                                    $this
-                                ),
-                                RoleActionEvent::NAME
-                            );
-                        }
-                    }
-                }
-            }
-        endif;
+        $this->newAction
+            ->execute($this, RoleEntity::class, RoleActionEvent::class, __METHOD__);
     }
 
     /**
@@ -184,29 +121,8 @@ class RoleController extends AdminController
      */
     protected function editAction() : void
     {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->roleRepository()
-                        ->validateRepository($this->roleEntity(), $this->roleRepository())->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    if ($this->error) {
-                        $this->error->addError($this->roleRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                    }
-                    if ($action) {
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(
-                                new RoleActionEvent(
-                                    __METHOD__,
-                                    $this->roleRepository()->validatedDataBag(),
-                                    $this
-                                ),
-                                RoleActionEvent::NAME
-                            );
-                        }
-                    }
-                }
-            }
-        }
+        $this->editAction
+            ->execute($this, RoleEntity::class, RoleActionEvent::class, __METHOD__);
     }
 
     /**
@@ -219,28 +135,8 @@ class RoleController extends AdminController
      */
     protected function deleteAction() : void
     {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest()) {
-                if ($this->findRoleOr404()->id !== $this->thisRouteID()) {
-                    if ($this->error) {
-                        $this->error->addError(['erorr deleting role'], $this)->dispatchError($this->onSelf());
-                    }
-                }
-                $action = $this->roleRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
-                if ($action) {
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(
-                            new RoleActionEvent(
-                                __METHOD__,
-                                ['action' => $action],
-                                $this
-                            ),
-                            RoleActionEvent::NAME
-                        );
-                    }
-                }
-            }
-        }
+        $this->deleteAction
+            ->execute($this, RoleActionEvent::class, __METHOD__);
     }
 
     protected function assignedAction()

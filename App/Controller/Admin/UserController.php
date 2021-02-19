@@ -16,8 +16,8 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use MagmaCore\Utility\Yaml;
 use App\Event\UserActionEvent;
+use MagmaCore\Base\ControllerDomainLogicInterface;
 
 class UserController extends AdminController
 {
@@ -41,45 +41,21 @@ class UserController extends AdminController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
                 "repository" => \App\Model\UserModel::class,
                 "column" => \App\DataColumns\UserColumn::class,
                 "formUser" => \App\Forms\Admin\User\UserForm::class,
                 "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,
-                "formSettings" => \App\Forms\Admin\User\SettingsForm::class
+                "formSettings" => \App\Forms\Admin\User\SettingsForm::class,
+                "newAction" => \App\Actions\NewAction::class,
+                "editAction" => \App\Actions\EditAction::class,
+                "indexAction" => \App\Actions\IndexAction::class,
+                "deleteAction" => \App\Actions\DeleteAction::class,
+
+
             ]
         );
-    }
-
-    /**
-     * helper function which returns the current userModel object as the
-     * user repository. This method is used many times throughout the file
-     * this just provide a central method which can be used instead
-     *
-     * @return object
-     */
-    private function userRepository(): Object
-    {
-        $repository = $this->repository->getRepo();
-        if (null !== $repository) {
-            return $repository;
-        }
-    }
-
-    /**
-     * Helper function which returns the current entity object
-     *
-     * @return Object
-     */
-    private function userEntity(): Object
-    {
-        if (isset($this->formBuilder)) {
-            $entity = new UserEntity($this->formBuilder->getData());
-            if ($entity) {
-                return $entity;
-            }
-        }
     }
 
     /**
@@ -88,9 +64,9 @@ class UserController extends AdminController
      *
      * @return mixed
      */
-    private function findUserOr404()
+    public function findOr404(): Object
     {
-        $repository = $this->userRepository()
+        $repository = $this->repository->getRepo()
             ->findAndReturn($this->thisRouteID())
             ->or404();
 
@@ -109,37 +85,16 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-       $this->getSession()->set('redirect_parameters', $_SERVER['QUERY_STRING']);
-
-        /**
-         * the two block below provides a mean of overriding the default settings
-         * within the controller.yml file. So from the admin panel we can override
-         * the records_per_page and the filter_by options dynamically
-         */
-        $args = Yaml::file('controller')[$this->thisRouteController()];
-        $args['records_per_page'] = $this->tableSettings($this->thisRouteController(), 'records_per_page');
-        $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
-
-        $repository = $this->userRepository()
-            ->findWithSearchAndPaging($this->request->handler(), $args);
-
-        $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
-        $this->render(
-            'admin/user/index.html.twig',
+        list($results, $tableData, $pagination, $columns, $totalRecords, $searchQuery) = $this->indexAction->execute($this);
+        $this->render('admin/user/index.html.twig',
             [
-                "this" => $this,
-                "table" => $tableData,
-                "pagination" => $this->tableGrid->pagination(),
-                "total_records" => $this->tableGrid->totalRecords(),
-                "columns" => $this->tableGrid->getColumns(),
-                "results" => $repository,
-                "search_query" => $this
-                    ->request
-                    ->handler()
-                    ->query->getAlnum(
-                        $args['filter_alias']
-                    ),
-                "help_block" => "",
+                'this' => $this,
+                'table' => $tableData,
+                'pagination' => $pagination,
+                'total_records' => $totalRecords,
+                'columns' => $columns,
+                'results' => $results,
+                'search_query' => $searchQuery,
             ]
         );
     }
@@ -158,9 +113,8 @@ class UserController extends AdminController
         $this->render(
             'admin/user/show.html.twig',
             [
-                "this" => $this,
-                "user" => $this->toArray($this->findUserOr404()),
-                "help_block" => ""
+                'this' => $this,
+                'user' => $this->toArray($this->findOr404()),
             ]
         );
     }
@@ -177,37 +131,13 @@ class UserController extends AdminController
      */
     protected function newAction()
     {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->userRepository()
-                        ->validateRepository($this->userEntity())->persistAfterValidation();
-                    if ($this->error) {
-                        $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                    }
-                    if ($action) {
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(
-                                new UserActionEvent(
-                                    __METHOD__,
-                                    array_merge(
-                                        $this->userRepository()->validatedDataBag(),
-                                        $this->userRepository()->getRandomPassword()
-                                    ),
-                                    $this
-                                ),
-                                UserActionEvent::NAME
-                            );
-                        }
-                    }
-                }
-            }
-        endif;
+        $this->newAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__);
         $this->render(
-            "/admin/user/new.html.twig",
+            '/admin/user/new.html.twig',
             [
-                "form" => $this->formUser->createForm('/admin/user/new'),
-                "this" => $this,
+                'form' => $this->formUser->createForm('/admin/user/new'),
+                'this' => $this,
             ]
         );
     }
@@ -224,42 +154,13 @@ class UserController extends AdminController
      */
     protected function editAction()
     {
-
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) :
-                if ($this->formBuilder->csrfValidate()) :
-                    $action = $this->userRepository()
-                        ->validateRepository($this->userEntity(), $this->findUserOr404())->saveAfterValidation(['id' => $this->thisRouteID()]);
-
-                    if ($this->error) {
-                        $this->error->addError($this->userRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                    }
-                    if ($action) {
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(
-                                new UserActionEvent(
-                                    __METHOD__,
-                                    array_merge(
-                                        $this->userRepository()->validatedDataBag(),
-                                        ['user_id' => $this->thisRouteID()]
-                                    ),
-                                    $this
-                                ),
-                                UserActionEvent::NAME
-                            );
-                        }
-                    }
-                endif;
-            endif;
-        endif;
-        $this->render(
-            '/admin/user/edit.html.twig',
+        $this->editAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, ['user_id' => $this->thisRouteID()]);
+        $this->render('/admin/user/edit.html.twig',
             [
-                "form" => $this->formUser->createForm("/admin/user/{$this->thisRouteID()}/edit", $this->findUserOr404()),
-                "help_block" => "",
-                "user" => $this->toArray($this->findUserOr404()),
-                "total_records" => "",
-                "this" => $this
+                'form' => $this->formUser->createForm($this->editRoute($this), $this->findOr404()),
+                'user' => $this->toArray($this->findOr404()),
+                'this' => $this
             ]
         );
     }
@@ -277,28 +178,8 @@ class UserController extends AdminController
      */
     protected function deleteAction()
     {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest()) :
-                if ($this->findUserOr404()->id !== $this->thisRouteID()) {
-                    if ($this->error) {
-                        $this->error->addError(['erorr deleting user'], $this)->dispatchError($this->onSelf());
-                    }
-                }
-                $action = $this->userRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
-                if ($action) {
-                    if ($this->eventDispatcher) {
-                        $this->eventDispatcher->dispatch(
-                            new UserActionEvent(
-                                __METHOD__,
-                                ['action' => $action],
-                                $this
-                            ),
-                            UserActionEvent::NAME
-                        );
-                    }
-                }
-            endif;
-        endif;
+        $this->deleteAction
+            ->execute($this, UserActionEvent::class, __METHOD__);
     }
 
     /**
@@ -318,7 +199,7 @@ class UserController extends AdminController
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('bulk_delete')) :
                 var_dump($_POST['ids']);
                 die();
-                $action = $this->userRepository()->findAndDelete($_POST['ids']);
+                $action = $this->repository()->findAndDelete($_POST['ids']);
             endif;
         endif;
     }
@@ -344,8 +225,8 @@ class UserController extends AdminController
         $this->render(
             '/admin/user/perferences.html.twig',
             [
-                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
-                "user" => $this->toArray($this->findUserOr404()),
+                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findOr404()),
+                "user" => $this->toArray($this->findOr404()),
                 "this" => $this
             ]
         );
@@ -372,8 +253,8 @@ class UserController extends AdminController
         $this->render(
             '/admin/user/permission.html.twig',
             [
-                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findUserOr404()),
-                "user" => $this->toArray($this->findUserOr404()),
+                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findOr404()),
+                "user" => $this->toArray($this->findOr404()),
                 "this" => $this
             ]
         );

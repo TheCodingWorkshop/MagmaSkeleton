@@ -12,9 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use MagmaCore\Base\BaseEntity;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Session\SessionTrait;
 use MagmaCore\Base\Traits\TableSettingsTrait;
+use MagmaCore\Base\ControllerDomainLogicInterface;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class AdminController extends BaseController
 {
@@ -41,12 +44,29 @@ class AdminController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
                 "tableGrid" => \MagmaCore\Datatable\Datatable::class /* Global Admin access */
             ]
         );
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param Object $controller
+     * @return string
+     */
+    public function editRoute(Object $controller) : string
+    {
+        if ($controller->thisRouteAction() === 'edit') {
+            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteAction()}/" . $controller->thisRouteID();
+            if ($controller->thisRouteID() === $this->findOr404($controller)->id) {
+                return $route;
+            }
+        }
+    }
+
 
     /**
      * Returns the method path as a string to use with the redirect method.

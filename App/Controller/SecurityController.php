@@ -43,7 +43,7 @@ class SecurityController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
                 "loginForm" => \App\Forms\Client\Security\LoginForm::class,
                 "authenticator" => \MagmaCore\Auth\Authenticator::class,
