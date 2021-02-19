@@ -57,6 +57,7 @@
 					<script src="{{ asset('./build/app.js') }}"></script>
 				{% endblock body_javascript %}
 
+				{% if Config('app').settings.googleAnalytics is empty %}
 				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 				<script>
 					window.ga = function () {
@@ -70,6 +71,7 @@
 					ga('send', 'pageview')
 				</script>
 				<script src="https://www.google-analytics.com/analytics.js" async></script>
+				{% endif %}
 			{% endblock body %}
 		</body>
 	</head>

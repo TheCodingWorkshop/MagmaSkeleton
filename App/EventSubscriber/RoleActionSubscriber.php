@@ -14,6 +14,7 @@ namespace App\EventSubscriber;
 
 use App\Event\RoleActionEvent;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use MagmaCore\EventDispatcher\EventDispatcherTrait;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -22,12 +23,14 @@ use MagmaCore\EventDispatcher\EventSubscriberInterface;
 class RoleActionSubscriber implements EventSubscriberInterface
 {
 
+    use EventDispatcherTrait;
+
     /** @var int - we want this to execute last so it doesn't interupt other process */
     private const FLASH_MESSAGE_PRIOIRTY = -1000;
     /** @var string - default flash message */
     private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
     /** @var string */
-    protected const REDIRECT_DELETE = '/admin/role/index';
+    protected const REDIRECT_ON_INDEX = '/admin/role/index';
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
@@ -42,7 +45,7 @@ class RoleActionSubscriber implements EventSubscriberInterface
     protected const ACTION_ROUTES = [
         'App\Controller\Admin\RoleController::newAction' => ['msg' => 'New Role Added!'],
         'App\Controller\Admin\RoleController::editAction' => ['msg' => 'Role updated!'],
-        'App\Controller\Admin\RoleController::deleteAction' => ['msg' => 'Role Deleted!', 'redirect' => self::REDIRECT_DELETE],
+        'App\Controller\Admin\RoleController::deleteAction' => ['msg' => 'Role Deleted!'],
     ];
 
     /**
@@ -56,22 +59,9 @@ class RoleActionSubscriber implements EventSubscriberInterface
     {
         return [
             RoleActionEvent::NAME => [
-                ['flashing', self::FLASH_MESSAGE_PRIOIRTY],
+                ['flashRoleEvent', self::FLASH_MESSAGE_PRIOIRTY],
             ]
         ];
-    }
-
-    /**
-     * Helper method which allows filtering of the various routes. This enables us to 
-     * execute the method only on the routes we need to execute the method on.
-     *
-     * @param Object $event
-     * @param string $route
-     * @return boolean
-     */
-    public function onRoute(Object $event, string $route): bool
-    {
-        return ($event->getObject()->thisRouteAction() === $route) ? true : false;
     }
 
     /**
@@ -87,18 +77,17 @@ class RoleActionSubscriber implements EventSubscriberInterface
      * @param string|null $redirect
      * @return void
      */
-    public function flashing(RoleActionEvent $event)
+    public function flashRoleEvent(RoleActionEvent $event)
     {
-        if (!empty($event->getMethod())) {
-            if (in_array($event->getMethod(), array_keys(self::ACTION_ROUTES), true)) {
-                if ($event) {
-                    $_msg = self::ACTION_ROUTES[$event->getMethod()]['msg'];
-                    $event->getObject()->flashMessage($_msg ? $_msg : self::FLASH_DEFAULT);
-                    $event->getObject()
-                        ->redirect('/admin/role/index');
-                }
+        $this->flashingEvent($event, self::ACTION_ROUTES, self::FLASH_DEFAULT, null,
+            /**
+             * As we are dealing with modal for adding and editing roles we want to redirect
+             * back to the role index page.
+             */
+            function ($cbEvent, $actionRoutes) {
+                $cbEvent->getObject()->redirect(self::REDIRECT_ON_INDEX);
             }
-        }
+        );
     }
 
 }

@@ -308,7 +308,7 @@
         CheckUncheckAll: function(chkAll) {
             $(function() {
                 //Fetch all rows of the Table.
-                var rows = LavaCMS.getID("tabledata").rows;
+                var rows = LavaCMS.getID("datatable").rows;
                 //Execute loop on all rows excluding the Header row.
                 var isCheck = true;
                 for (var i = 1; i < rows.length; i++) {
@@ -325,7 +325,7 @@
                 //By default set to Checked.
                 chkAll.checked = true;
                 //Fetch all rows of the Table.
-                var rows = LavaCMS.getID("tabledata").rows;
+                var rows = LavaCMS.getID("datatable").rows;
 
                 //Execute loop on all rows excluding the Header row.
                 for (var i = 1; i < rows.length; i++) {
@@ -335,16 +335,16 @@
                         break;
                     }
                 }
-                if (chkAll) {
+                /* if (chkAll) {
 
-                    button.classList.add("uk-text-danger");
-                    button.classList.add("uk-animation-shake");
-                    form.classList.remove("uk-disabled");
+                     button.classList.add("uk-text-danger");
+                     button.classList.add("uk-animation-shake");
+                     form.classList.remove("uk-disabled");
 
-                } else {
-                    button.classList.remove("uk-text-danger");
-                    form.classList.add("uk-disabled");
-                }
+                 } else {
+                     button.classList.remove("uk-text-danger");
+                     form.classList.add("uk-disabled");
+                 }*/
 
 
             })
@@ -439,18 +439,19 @@
 
     }
     $(document).ready(function() {
-        setInterval(function() {
-            LavaCMS.notificationsCounter();
-        }, 3000)
-        LavaCMS.showBulkAction();
-        LavaCMS.activities();
-        LavaCMS.fetchCategories();
-        LavaCMS.fetchTags();
-        LavaCMS.clearAlert();
+        //setInterval(function() {
+        //LavaCMS.notificationsCounter();
+        //}, 3000)
+        //LavaCMS.showBulkAction();
+        //LavaCMS.activities();
+        ///LavaCMS.fetchCategories();
+        //LavaCMS.fetchTags();
+        //LavaCMS.clearAlert();
     });
     window.onload = function() {
-        LavaCMS.barChart();
-        LavaCMS.horizontalBarChart();
-        LavaCMS.lineChart();
+        //LavaCMS.barChart();
+        //LavaCMS.horizontalBarChart();
+        //LavaCMS.lineChart();
+        LavaCMS.CheckUncheckAll(this);
     }
 })(jQuery);

@@ -12,12 +12,7 @@
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size	    = 3 %}
 {% set _icon			= 'file-edit' %}
-{% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
-{% set _new_path		= _path ~ 'new' %}
-{% set _edit_path		= _path ~ _row.id ~ 'edit' %}
-{% set _trash_path		= _path ~ _row.id ~ _sep ~ 'trash' %}
-{% set _preference_path = _path ~ _row.id ~ _sep ~ 'perferences' %}
-{% set _permission_path = _path ~ _row.id ~ _sep ~ 'permission' %}
+{% set _header_icon		= 'user' %}
 {% set submenu %}
 	{% include 'admin/user/parts/submenu.html.twig' %}
 {% endset %}
@@ -45,7 +40,8 @@
 		},
 		false,
 		null,
-		null
+		null,
+		_header_icon
 	)|raw }}
 {% endblock content_header_help %}
 
@@ -57,7 +53,6 @@
 				{{ navMenu(Config('meta_nav').user_index_path)|raw }}
 			</div>
 		</div>
-
 		<div class="uk-width-expand@m">
 			<div>
 				<div class="uk-card uk-card-default">
@@ -65,7 +60,10 @@
 						{% if _results is empty %}
 							No Data!
 						{% else %}
+						<form method="POST" action="/admin/user/delete-bulk">
+							<div id="js-selector-container"></div>
 							{{ table|raw }}
+							</form>
 						{% endif %}
 					</div>
 				</div>
@@ -79,6 +77,42 @@
 			<script>
 				function saveChanges(Object) {
 					alert(Object.value)
+				}
+
+				function checkUncheckAll() {
+					var rows = document.getElementsByName('id'); // *Columns name attribute 
+					var isCheck = false; // flag defaults to false 
+					rows.forEach((cb) => {
+						if (cb.type === 'checkbox') {
+							if (cb.checked === false) {
+								isCheck = true
+								cb.checked = true;
+							}
+							else {
+								if (cb.checked === true) {
+									isCheck = false;
+									cb.checked = false;
+								}
+							}
+						}
+					})
+					whenCheck(isCheck)
+
+				}
+
+				function whenCheck(isCheck) {
+					var toggle = document.getElementById("js-selector-container");
+					if (isCheck === true) {
+						toggle.innerHTML = `
+							<div class="uk-background-muted uk-margin-remove uk-padding-small">
+								<button uk-icon="icon: trash" class="uk-button uk-button-small uk-button-default" type="submit" name="bulk_delete"></button>
+							<button uk-icon="icon: file-edit" class="uk-button uk-button-small uk-button-default" type="submit" name="bulk_delete"></button>							
+
+							</div>
+						`;
+					} else {
+						toggle.innerHTML = "";
+					}
 				}
 			</script>
 		{% endblock body_javascript %}

@@ -20,12 +20,12 @@ class PreventionActions extends BeforeMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {
-        if ($guards = (new UserModel())->guardedID()) {
+        if ($guards = (new UserModel())->guardedID()) {#
             if (is_array($guards) && count($guards) > 0) {
                 foreach ($guards as $guard) {
                     if (intval($guard) === $object->thisRouteID()) {
                         $object->flashMessage('That action is not allowed.', $object->flashWarning());
-                        $object->redirect('/admin/user/index');
+                        $object->redirect($object->onSelf());
                     }
                 }        
             }

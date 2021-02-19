@@ -67,6 +67,11 @@ class UserController extends AdminController
         }
     }
 
+    /**
+     * Helper function which returns the current entity object
+     *
+     * @return Object
+     */
     private function userEntity(): Object
     {
         if (isset($this->formBuilder)) {
@@ -104,7 +109,6 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-       // var_dump($_SERVER['QUERY_STRING']);
        $this->getSession()->set('redirect_parameters', $_SERVER['QUERY_STRING']);
 
         /**
@@ -154,7 +158,6 @@ class UserController extends AdminController
         $this->render(
             'admin/user/show.html.twig',
             [
-                "form" => "",
                 "this" => $this,
                 "user" => $this->toArray($this->findUserOr404()),
                 "help_block" => ""
@@ -312,7 +315,9 @@ class UserController extends AdminController
     protected function deleteBulkAction()
     {
         if (isset($this->formBuilder)) :
-            if ($this->formBuilderp->canHandleRequest()) :
+            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('bulk_delete')) :
+                var_dump($_POST['ids']);
+                die();
                 $action = $this->userRepository()->findAndDelete($_POST['ids']);
             endif;
         endif;

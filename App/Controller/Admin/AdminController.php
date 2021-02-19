@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Event\FlashMessagesEvent;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Session\SessionTrait;
 use MagmaCore\Base\Traits\TableSettingsTrait;
@@ -85,8 +84,8 @@ class AdminController extends BaseController
         return [
             'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class,
-            'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'PreventionActions' => \App\Middleware\Before\PreventionActions::class,
+            'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
         ];
     }
@@ -110,9 +109,9 @@ class AdminController extends BaseController
      */
     public function getFlashEvent($actionEvent): void
     {
-        if ($this->eventDispatcher) {
+        /*if ($this->eventDispatcher) {
             $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-        }
+        }*/
     }
 
     /**

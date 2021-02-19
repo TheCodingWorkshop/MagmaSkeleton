@@ -17,8 +17,6 @@
 		</title>
 		<meta name="description" content="Default description goes here">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="manifest" href="site.webmanifest">
-
 		{% if app.favicon %}
 			<link type='image/x-icon' href='{{ app.favicon }}' rel='shortcut icon'>
 		{% endif %}
@@ -96,11 +94,11 @@
 
 				{% block body_javascript %}
 					{{ asset._scripts(Config('assets').scripts, 'footer') }}
-					<script src="{{ asset('/public/assets/js/main.js') }}"></script>
 					<script src="{{ asset('/public/assets/js/sidebar.js') }}"></script>
 					<script src="{{ asset('/public/assets/js/status.js') }}"></script>
 				{% endblock body_javascript %}
 
+				{% if Config('app').settings.googleAnalytics is empty %}
 				<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 				<script>
 					window.ga = function () {
@@ -115,6 +113,7 @@
 					ga('send', 'pageview')
 				</script>
 				<script src="https://www.google-analytics.com/analytics.js" async></script>
+				{% endif %}
 			{% endblock body %}
 		</body>
 	</head>

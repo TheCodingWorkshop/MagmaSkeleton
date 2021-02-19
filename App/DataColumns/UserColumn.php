@@ -22,12 +22,12 @@ class UserColumn extends AbstractDatatableColumn
         return [
             [
                 'db_row' => 'id',
-                'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
+                'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="checkUncheckAll()">',
                 'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="users" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
+                    return '<input type="checkbox" class="uk-checkbox" id="user-' . $row['id'] . '" name="id" value="' . $row['id'] . '">';
                 }
             ],
             [

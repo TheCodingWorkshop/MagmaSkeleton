@@ -108,7 +108,6 @@ class RoleController extends AdminController
      */
     protected function indexAction()
     {
-
         /**
          * the two block below provides a mean of overriding the default settings
          * within the controller.yml file. So from the admin panel we can override
@@ -149,7 +148,7 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    protected function newAction()
+    protected function newAction() : void
     {
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
@@ -183,20 +182,28 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    protected function editAction()
+    protected function editAction() : void
     {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
                     $action = $this->roleRepository()
-                        ->validateRepository(
-                            new RoleEntity($this->formBuilder->getData()),
-                            $this->roleRepository()
-                        )
-                        ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvent = ['action' => $action, 'errors' => $this->roleRepository()->getValidationErrors()];
-
-                    $this->getFlashEvent($actionEvent);
+                        ->validateRepository($this->roleEntity(), $this->roleRepository())->saveAfterValidation(['id' => $this->thisRouteID()]);
+                    if ($this->error) {
+                        $this->error->addError($this->roleRepository()->getValidationErrors(), $this)->dispatchError($this->onSelf());
+                    }
+                    if ($action) {
+                        if ($this->eventDispatcher) {
+                            $this->eventDispatcher->dispatch(
+                                new RoleActionEvent(
+                                    __METHOD__,
+                                    $this->roleRepository()->validatedDataBag(),
+                                    $this
+                                ),
+                                RoleActionEvent::NAME
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -210,13 +217,28 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    protected function deleteAction()
+    protected function deleteAction() : void
     {
         if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest()) {
+                if ($this->findRoleOr404()->id !== $this->thisRouteID()) {
+                    if ($this->error) {
+                        $this->error->addError(['erorr deleting role'], $this)->dispatchError($this->onSelf());
+                    }
+                }
                 $action = $this->roleRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
-                $actionEvent = ['action' => $action];
-                $this->getFlashEvent($actionEvent);
+                if ($action) {
+                    if ($this->eventDispatcher) {
+                        $this->eventDispatcher->dispatch(
+                            new RoleActionEvent(
+                                __METHOD__,
+                                ['action' => $action],
+                                $this
+                            ),
+                            RoleActionEvent::NAME
+                        );
+                    }
+                }
             }
         }
     }

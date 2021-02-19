@@ -17,8 +17,8 @@ use App\Event\NewActionEvent;
 use App\Event\UserActionEvent;
 use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\Auth\Model\UserRoleModel;
-use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use MagmaCore\EventDispatcher\EventDispatcherTrait;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -27,7 +27,7 @@ use MagmaCore\EventDispatcher\EventSubscriberInterface;
 class UserActionSubscriber implements EventSubscriberInterface
 {
 
-    use DataLayerTrait;
+    use EventDispatcherTrait;
 
     /** @var int - we want this to execute last so it doesn't interupt other process */
     private const FLASH_MESSAGE_PRIOIRTY = -1000;
@@ -71,19 +71,6 @@ class UserActionSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Helper method which allows filtering of the various routes. This enables us to 
-     * execute the method only on the routes we need to execute the method on.
-     *
-     * @param Object $event
-     * @param string $route
-     * @return boolean
-     */
-    public function onRoute(Object $event, string $route): bool
-    {
-        return ($event->getObject()->thisRouteAction() === $route) ? true : false;
-    }
-
-    /**
      * Event flash allows flashing of any specified route defined with the ACTION_ROUTES constants
      * one can declare a message and a default route. if a default route isn't set then the script will 
      * redirect back on it self using the onSelf() method. Delete route is automatically filtered to 
@@ -98,20 +85,7 @@ class UserActionSubscriber implements EventSubscriberInterface
      */
     public function flashUserEvent(UserActionEvent $event)
     {
-        if (!empty($event->getMethod())) {
-            if (in_array($event->getMethod(), array_keys(self::ACTION_ROUTES), true)) {
-                if ($event) {
-                    $_msg = self::ACTION_ROUTES[$event->getMethod()]['msg'];
-                    $event->getObject()->flashMessage($_msg ? $_msg : self::FLASH_DEFAULT);
-                    $event->getObject()
-                        ->redirect(
-                            ($this->onRoute($event, self::DELETE_ACTION) ?
-                                '/' .$event->getObject()->getSession()->get('redirect_parameters') :
-                                $event->getObject()->onSelf())
-                        );
-                }
-            }
-        }
+        $this->flashingEvent($event, self::ACTION_ROUTES, self::FLASH_DEFAULT, self::DELETE_ACTION);
     }
 
     /**
@@ -147,6 +121,7 @@ class UserActionSubscriber implements EventSubscriberInterface
                 }
             }
         }
+
     }
 
     /**

@@ -12,7 +12,7 @@
 {% set _helpBlock 		= help_block %}
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size	    = 3 %}
-{% set _icon			= 'file-edit' %}
+{% set _icon			= 'lock' %}
 {% set submenu %}
 {% include 'admin/user/parts/submenu.html.twig' %}
 {% endset %}
@@ -50,7 +50,8 @@
 		},
 		false,
 		null,
-		null
+		null,
+		_icon
 	)|raw }}
 {% endblock content_header_help %}
 
