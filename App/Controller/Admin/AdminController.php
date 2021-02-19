@@ -60,7 +60,7 @@ class AdminController extends BaseController
     public function editRoute(Object $controller) : string
     {
         if ($controller->thisRouteAction() === 'edit') {
-            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteAction()}/" . $controller->thisRouteID();
+            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteID()}/{$controller->thisRouteAction()}/";
             if ($controller->thisRouteID() === $this->findOr404($controller)->id) {
                 return $route;
             }
