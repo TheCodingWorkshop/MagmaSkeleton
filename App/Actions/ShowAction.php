@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\Domain\DomainActionLogicInterface;
 use MagmaCore\Base\Domain\DomainTraits;
 
@@ -23,7 +22,7 @@ use MagmaCore\Base\Domain\DomainTraits;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class IndexAction implements DomainActionLogicInterface
+class ShowAction implements DomainActionLogicInterface
 {
 
     use DomainTraits;
@@ -37,8 +36,10 @@ class IndexAction implements DomainActionLogicInterface
      * execute logic for adding new items to the database()
      * 
      * @param Object $controller - The controller object implementing this object
+     * @param string $eventDispatcher - the eventDispatcher for the current object
      * @param string $method - the name of the method within the current controller object
-     * @return self
+     * @param array $additionalContext - additional data which can be passed to the event dispatcher
+     * @return void
      */
     public function execute(
         Object $controller,
@@ -47,15 +48,16 @@ class IndexAction implements DomainActionLogicInterface
         string $method,
         array $additionalContext = []
     ): self {
+
         $this->controller = $controller;
         $this->method = $method;
 
-        $controller->getSession()->set('redirect_parameters', $_SERVER['QUERY_STRING']);
-        $this->args = Yaml::file('controller')[$controller->thisRouteController()];
-        $this->tableRepository = $controller->repository->getRepo()->findWithSearchAndPaging($controller->request->handler(), $this->args);
-        $this->tableData = $controller->tableGrid;
+        if ($this->hasRouteWithID()) {
+            if ($this->isRouteIDEqual()) {
+                $this->singular = $controller->findOr404();
+            }
+        }
 
-        if ($this->tableData)
-            return $this;
+        return $this;
     }
 }

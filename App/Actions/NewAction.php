@@ -51,7 +51,7 @@ class NewAction implements DomainActionLogicInterface
         $this->method = $method;
 
         if (isset($controller->formBuilder)) :
-            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable('new-' . $controller->thisRouteController())) {
+            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . $controller->thisRouteController())) {
                 if ($controller->formBuilder->csrfValidate()) {
                     $action = $controller->repository->getRepo()
                         ->validateRepository(new $entityObject($controller->formBuilder->getData()))->persistAfterValidation();

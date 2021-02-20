@@ -17,7 +17,6 @@ use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
 use App\Event\UserActionEvent;
-use MagmaCore\Base\ControllerDomainLogicInterface;
 
 class UserController extends AdminController
 {
@@ -43,16 +42,16 @@ class UserController extends AdminController
          */
         $this->diContainer(
             [
-                "repository" => \App\Model\UserModel::class,
-                "column" => \App\DataColumns\UserColumn::class,
-                "formUser" => \App\Forms\Admin\User\UserForm::class,
-                "perferencesForm" => \App\Forms\Admin\User\PerferencesForm::class,
-                "formSettings" => \App\Forms\Admin\User\SettingsForm::class,
-                "newAction" => \App\Actions\NewAction::class,
-                "editAction" => \App\Actions\EditAction::class,
-                "indexAction" => \App\Actions\IndexAction::class,
-                "deleteAction" => \App\Actions\DeleteAction::class,
-
+                'repository' => \App\Model\UserModel::class,
+                'column' => \App\DataColumns\UserColumn::class,
+                'formUser' => \App\Forms\Admin\User\UserForm::class,
+                'perferencesForm' => \App\Forms\Admin\User\PerferencesForm::class,
+                'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
+                'newAction' => \App\Actions\NewAction::class,
+                'editAction' => \App\Actions\EditAction::class,
+                'indexAction' => \App\Actions\IndexAction::class,
+                'deleteAction' => \App\Actions\DeleteAction::class,
+                'showAction' => \App\Actions\ShowAction::class,
 
             ]
         );
@@ -85,7 +84,6 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-
         $this->indexAction
             ->execute($this, NULL, NULL,__METHOD__)
                 ->render()
@@ -105,13 +103,12 @@ class UserController extends AdminController
      */
     protected function showAction()
     {
-        $this->render(
-            'admin/user/show.html.twig',
-            [
-                'this' => $this,
-                'user' => $this->toArray($this->findOr404()),
-            ]
-        );
+        $this->showAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->singular()
+                            ->end();
     }
 
     /**
@@ -168,7 +165,7 @@ class UserController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->execute($this, UserActionEvent::class, __METHOD__);
+            ->execute($this, NULL, UserActionEvent::class, __METHOD__);
     }
 
     /**
@@ -184,13 +181,16 @@ class UserController extends AdminController
      */
     protected function deleteBulkAction()
     {
-        if (isset($this->formBuilder)) :
+        $this->deleteAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
+                ->bulk();
+       /* if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('bulk_delete')) :
                 var_dump($_POST['ids']);
                 die();
                 $action = $this->repository()->findAndDelete($_POST['ids']);
             endif;
-        endif;
+        endif;*/
     }
 
     /**
@@ -214,54 +214,28 @@ class UserController extends AdminController
     }
 
     /**
-     * The perferences action request. is responsible for updating setting and updating
-     * user perferences whatever that might be
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    protected function permissionAction()
-    {
-
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('permission-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                }
-            }
-        endif;
-        $this->render(
-            '/admin/user/permission.html.twig',
-            [
-                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findOr404()),
-                "user" => $this->toArray($this->findOr404()),
-                "this" => $this
-            ]
-        );
-    }
-
-    /**
      * Undocumented function
      *
      * @return void
      */
     protected function settingsAction()
     {
-        $this->render(
-            '/admin/user/settings.html.twig',
-            [
-                "form" => $this->formSettings->createForm("")
-            ]
-        );
+        $this->newAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->form($this->formSettings)
+                            ->end();
     }
 
     protected function LogAction()
     {
-        $this->render(
-            '/admin/user/log.html.twig',
-            []
-        );
+        $this->indexAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->table(/* table_params, new_column_obj, new_repo_obj, table_data */)
+                            ->end();
     }
 
     /**

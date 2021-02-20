@@ -9,7 +9,7 @@
 {% set _pagination 		= pagination %}
 {% set _totalRecords 	= total_records %}
 {% set _columns 		= columns %}
-{% set _row 			= user %}
+{% set _row 			= row %}
 {% set _searchedQuery 	= search_query %}
 {% set _helpBlock 		= help_block %}
 {% set _nav_icon_size	= 1.5 %}
@@ -22,7 +22,7 @@
 {% endset %}
 
 {% block content_title %}Edit
-	{{ user.firstname }}
+	{{ _row.firstname }}
 {% endblock content_title %}
 
 {% block content_header_help %}
@@ -43,7 +43,8 @@
 		},
 		false,
 		null,
-		null
+		null,
+		_icon
 	)|raw }}
 {% endblock content_header_help %}
 
