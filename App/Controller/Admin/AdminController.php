@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Actions\DomainTraits;
 use MagmaCore\Base\BaseEntity;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Session\SessionTrait;
@@ -60,10 +61,24 @@ class AdminController extends BaseController
     public function editRoute(Object $controller) : string
     {
         if ($controller->thisRouteAction() === 'edit') {
-            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteID()}/{$controller->thisRouteAction()}/";
+            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteID()}/{$controller->thisRouteAction()}";
             if ($controller->thisRouteID() === $this->findOr404($controller)->id) {
                 return $route;
             }
+        }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Object $controller
+     * @return string
+     */
+    public function mixedRoutes(Object $controller, string $action) : string
+    {
+        if ($controller->thisRouteAction() === $action) {
+            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteAction()}";
+            return $route;
         }
     }
 

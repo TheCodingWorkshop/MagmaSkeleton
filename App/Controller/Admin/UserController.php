@@ -85,18 +85,13 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-        list($results, $tableData, $pagination, $columns, $totalRecords, $searchQuery) = $this->indexAction->execute($this);
-        $this->render('admin/user/index.html.twig',
-            [
-                'this' => $this,
-                'table' => $tableData,
-                'pagination' => $pagination,
-                'total_records' => $totalRecords,
-                'columns' => $columns,
-                'results' => $results,
-                'search_query' => $searchQuery,
-            ]
-        );
+
+        $this->indexAction
+            ->execute($this, NULL, NULL,__METHOD__)
+                ->render()
+                    ->with()
+                        ->table()
+                            ->end();
     }
 
     /**
@@ -132,14 +127,11 @@ class UserController extends AdminController
     protected function newAction()
     {
         $this->newAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__);
-        $this->render(
-            '/admin/user/new.html.twig',
-            [
-                'form' => $this->formUser->createForm('/admin/user/new'),
-                'this' => $this,
-            ]
-        );
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->formUser)
+                            ->end();
     }
 
     /**
@@ -155,14 +147,11 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, ['user_id' => $this->thisRouteID()]);
-        $this->render('/admin/user/edit.html.twig',
-            [
-                'form' => $this->formUser->createForm($this->editRoute($this), $this->findOr404()),
-                'user' => $this->toArray($this->findOr404()),
-                'this' => $this
-            ]
-        );
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, ['user_id' => $this->thisRouteID()])
+                ->render()
+                    ->with(['user' => $this->toArray($this->findOr404())])
+                        ->form($this->formUser)
+                            ->end();
     }
 
     /**
@@ -215,21 +204,13 @@ class UserController extends AdminController
      */
     protected function perferencesAction()
     {
+        $this->editAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with(['user' => $this->toArray($this->findOr404())])
+                        ->form($this->perferencesForm)
+                            ->end();
 
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('perferences-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                }
-            }
-        endif;
-        $this->render(
-            '/admin/user/perferences.html.twig',
-            [
-                "form" => $this->perferencesForm->createForm("/admin/user/{$this->thisRouteID()}/perferences", $this->findOr404()),
-                "user" => $this->toArray($this->findOr404()),
-                "this" => $this
-            ]
-        );
     }
 
     /**

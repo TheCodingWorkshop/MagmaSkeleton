@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use MagmaCore\Base\Domain\DomainActionLogicInterface;
+use MagmaCore\Base\Domain\DomainTraits;
+
 /**
  * Class which handles the domain logic when adding a new item to the database
  * items are sanitize and validated before persisting to database. The class will 
@@ -19,8 +22,10 @@ namespace App\Actions;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class EditAction
+class EditAction implements DomainActionLogicInterface
 {
+
+    use DomainTraits;
 
     /** @return void - not currently being used */
     public function __construct()
@@ -38,13 +43,17 @@ class EditAction
      */
     public function execute(
         Object $controller,
-        string $entityObject,
-        string $eventDispatcher,
+        string|null $entityObject = null,
+        string|null $eventDispatcher = null,
         string $method,
         array $additionalContext = []
-    ) {
+    ): self {
+
+        $this->controller = $controller;
+        $this->method = $method;
+
         if (isset($controller->formBuilder)) :
-            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable('edit-' . $controller->thisRouteController())) {
+            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . $controller->thisRouteController())) {
                 if ($controller->formBuilder->csrfValidate()) {
 
                     $action = $controller->repository->getRepo()
@@ -77,5 +86,6 @@ class EditAction
                 }
             }
         endif;
+        return $this;
     }
 }

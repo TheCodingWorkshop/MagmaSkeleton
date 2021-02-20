@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use MagmaCore\Utility\Yaml;
+use MagmaCore\Base\Domain\DomainActionLogicInterface;
+use MagmaCore\Base\Domain\DomainTraits;
 
 /**
  * Class which handles the domain logic when adding a new item to the database
@@ -21,37 +23,42 @@ use MagmaCore\Utility\Yaml;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class IndexAction
+class IndexAction implements DomainActionLogicInterface
 {
+
+    use DomainTraits;
 
     /** @return void - not currently being used */
     public function __construct()
-    { }
+    {
+    }
 
     /**
      * execute logic for adding new items to the database()
      * 
      * @param Object $controller - The controller object implementing this object
-     * @param string $eventDispatcher - the eventDispatcher for the current object
-     * @return void
+     * @param string $method - the name of the method within the current controller object
+     * @return self
      */
-    public function execute(Object $controller)
+    public function execute(
+        Object $controller,
+        string|null $entityObject = null,
+        string|null $eventDispatcher = null,
+        string $method,
+        array $additionalContext = []
+        ): self
     {
+        $this->controller = $controller;
+        $this->method = $method;
+
         $controller->getSession()->set('redirect_parameters', $_SERVER['QUERY_STRING']);
-        $args = Yaml::file('controller')[$controller->thisRouteController()];
-        //$args['records_per_page'] = $controller->tableSettings($controller->thisRouteController());
-        //$args['filter_by'] = $controller->tableSettings($controller->thisRouteController(), 'filter_by');
-        $repository = $controller->repository->getRepo()->findWithSearchAndPaging($controller->request->handler(), $args);
-        $tableData = $controller->tableGrid->create($controller->column, $repository, $args)->table();
-        if ($tableData) {
-            return [
-                $repository,
-                $tableData,
-                $controller->tableGrid->pagination(),
-                $controller->tableGrid->getColumns(),
-                $controller->tableGrid->totalRecords(),
-                $controller->request->handler()->query->getAlnum($args['filter_alias'])
-            ];
-        }
+        $this->args = Yaml::file('controller')[$controller->thisRouteController()];
+        $this->tableRepository = $controller->repository->getRepo()->findWithSearchAndPaging($controller->request->handler(), $this->args);
+        $this->tableData = $controller
+            ->tableGrid
+            ->create($controller->column, $this->tableRepository, $this->args);
+
+        if ($this->tableData)
+            return $this;
     }
 }

@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use MagmaCore\Base\Domain\DomainActionLogicInterface;
+use MagmaCore\Base\Domain\DomainTraits;
+
 /**
  * Class which handles the domain logic when adding a new item to the database
  * items are sanitize and validated before persisting to database. The class will 
@@ -19,12 +22,15 @@ namespace App\Actions;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class NewAction
+class NewAction implements DomainActionLogicInterface
 {
+
+    use DomainTraits;
 
     /** @return void - not currently being used */
     public function __construct()
-    { }
+    {
+    }
 
     /**
      * execute logic for adding new items to the database()
@@ -34,11 +40,19 @@ class NewAction
      * @param string $method - the name of the method within the current controller object
      * @return void
      */
-    public function execute(Object $controller, string $entityObject, string $eventDispatcher, string $method)
-    {
+    public function execute(
+        Object $controller,
+        string|null $entityObject = null,
+        string|null $eventDispatcher = null,
+        string $method,
+        array $additionalContext = []
+    ): self {
+        $this->controller = $controller;
+        $this->method = $method;
+
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable('new-' . $controller->thisRouteController())) {
-                if ($controller->formBuilder->csrfValidate()) {            
+                if ($controller->formBuilder->csrfValidate()) {
                     $action = $controller->repository->getRepo()
                         ->validateRepository(new $entityObject($controller->formBuilder->getData()))->persistAfterValidation();
                     if ($controller->error) {
@@ -62,5 +76,6 @@ class NewAction
                 }
             }
         endif;
+        return $this;
     }
 }

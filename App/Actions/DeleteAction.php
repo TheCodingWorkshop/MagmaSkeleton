@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use MagmaCore\Base\Domain\DomainActionLogicInterface;
+use MagmaCore\Base\Domain\DomainTraits;
+
 /**
  * Class which handles the domain logic when adding a new item to the database
  * items are sanitize and validated before persisting to database. The class will 
@@ -19,12 +22,15 @@ namespace App\Actions;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class DeleteAction
+class DeleteAction implements DomainActionLogicInterface
 {
+
+    use DomainTraits;
 
     /** @return void - not currently being used */
     public function __construct()
-    { }
+    {
+    }
 
     /**
      * execute logic for adding new items to the database()
@@ -37,10 +43,16 @@ class DeleteAction
      */
     public function execute(
         Object $controller,
-        string $eventDispatcher,
+        string|null $entityObject = null,
+        string|null $eventDispatcher = null,
         string $method,
         array $additionalContext = []
-    ) {
+        ): self 
+    {
+
+        $this->controller = $controller;
+        $this->method = $method;
+
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest()) {
                 if ($controller->repository->getRepo()->findAndReturn($controller->thisRouteID())->or404() !== $controller->thisRouteID()) {
@@ -63,5 +75,6 @@ class DeleteAction
                 }
             }
         endif;
+        return $this;
     }
 }
