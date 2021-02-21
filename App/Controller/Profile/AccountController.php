@@ -46,7 +46,7 @@ class AccountController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
                 "repository" => \App\Model\UserProfileModel::class,
                 "activationRepo" => \App\Repository\ActivationRepository::class,

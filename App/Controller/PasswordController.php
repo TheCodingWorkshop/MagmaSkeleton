@@ -39,12 +39,13 @@ class PasswordController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
-                "repository" => \App\Model\UserModel::class,
-                "passwordRepo" => \App\Repository\PasswordRepository::class,
-                "formPassword" => \App\Forms\Client\Password\PasswordForm::class,
-                "formResetPassword" => \App\Forms\Client\Password\ResetForm::class,
+                'userRepository' => \App\Model\UserModel::class,
+                'repository' => \App\Repository\PasswordRepository::class,
+                'formPassword' => \App\Forms\Client\Password\PasswordForm::class,
+                'formResetPassword' => \App\Forms\Client\Password\ResetForm::class,
+                'passwordAction' => \App\Actions\PasswordAction::class,
             ]
         );
     }
@@ -61,12 +62,12 @@ class PasswordController extends BaseController
      */
     protected function forgotAction()
     { 
-        $this->render(
-            'client/password/forgot.html.twig',
-            [
-                "form" => $this->formPassword->createForm('/password/request-reset')
-            ]
-        );
+        $this->passwordAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render('client/password/forgot.html.twig')
+                    ->with()
+                        ->form($this->formPassword)
+                            ->end();
     }
 
     /**
@@ -75,7 +76,7 @@ class PasswordController extends BaseController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function requestResetAction()
+   /* protected function requestResetAction()
     {
         if (isset($this->formBuilder)) :
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('request-reset')) : {
@@ -93,7 +94,7 @@ class PasswordController extends BaseController
             }
             endif;
         endif;
-    }
+    }*/
 
     /**
      * @return Response

@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\PermissionEntity;
-use MagmaCore\Utility\Yaml;
+use App\Event\PermissionActionEvent;
 use LoaderError;
 use RuntimeError;
 use SyntaxError;
@@ -39,44 +39,14 @@ class PermissionController extends AdminController
          * [ PermissionModel => \App\Model\PermissionModel::class ]. Where the key becomes the 
          * property for the PermissionModel object like so $this->PermissionModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
-                "repository" => \MagmaCore\Auth\Model\PermissionModel::class,
-                "column" => \App\DataColumns\PermissionColumn::class,
-                "formPermission" => \App\Forms\Admin\Permission\PermissionForm::class
+                'repository' => \MagmaCore\Auth\Model\PermissionModel::class,
+                'column' => \App\DataColumns\PermissionColumn::class,
+                'formPermission' => \App\Forms\Admin\Permission\PermissionForm::class
             ]
         );  
 
-    }
-
-    /**
-     * helper function which returns the current PermissionModel object as the
-     * permission repository. This method is used many times throughout the file
-     * this just provide a central method which can be used instead
-     *
-     * @return object
-     */
-    private function permissionRepository() : Object
-    {
-        $repository = $this->repository->getRepo();
-        if (null !== $repository) {
-            return $repository;
-        }
-    }
-
-    /**
-     * Returns a 404 error page if the data is not present within the database
-     * else return the requested object
-     *
-     * @return mixed
-     */
-    private function findPermissionOr404()
-    {
-        $repository = $this->permissionRepository()
-        ->findAndReturn($this->thisRouteID())
-        ->or404();
-
-        return $repository;
     }
 
     /**
@@ -91,39 +61,13 @@ class PermissionController extends AdminController
      */
     protected function indexAction()
     { 
+        $this->indexAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with(['form' => $this->formPermission->createForm($this->getRoute('new', $this))])
+                        ->table()
+                            ->end();
 
-        /**
-         * the two block below provides a mean of overriding the default settings 
-         * within the controller.yml file. So from the admin panel we can override
-         * the records_per_page and the filter_by options dynamically
-         */
-        $args = Yaml::file('controller')[$this->thisRouteController()];
-        $args['records_per_page'] = $this->tableSettings($this->thisRouteController(), 'records_per_page');
-        $args['filter_by'] = $this->tableSettings($this->thisRouteController(), 'filter_by');
-
-        $repository = $this->permissionRepository()
-        ->findWithSearchAndPaging($this->request->handler(), $args);
-            
-        $tableData = $this->tableGrid->create($this->column, $repository, $args)->table();
-        $this->render(
-            'admin/permission/index.html.twig',
-            [
-                "this" => $this,
-                "form" => $this->formPermission->createForm("/admin/permission/new"),
-                "table" => $tableData,
-                "pagination" => $this->tableGrid->pagination(),
-                "total_records" => $this->tableGrid->totalRecords(),
-                "columns" => $this->tableGrid->getColumns(),
-                "results" => $repository,
-                "search_query" => $this
-                    ->request
-                    ->handler()
-                    ->query->getAlnum(
-                        $args['filter_alias']
-                    ),
-                "help_block" => ""
-            ] 
-        );
     }
 
     /**
@@ -135,17 +79,8 @@ class PermissionController extends AdminController
      */
     protected function newAction() : void
     {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->permissionRepository()
-                    ->validateRepository(new PermissionEntity($this->formBuilder->getData()))->persistAfterValidation();
-                    $actionEvent = ['action' => $action, 'errors' => $this->permissionRepository()->getvalidationErrors()];
-
-                    $this->getFlashEvent($actionEvent);
-                }
-            }
-        endif;
+        $this->newAction
+            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, __METHOD__);
     }
 
     /**
@@ -157,22 +92,8 @@ class PermissionController extends AdminController
      */
     protected function editAction() : void
     {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                    $action = $this->permissionRepository()
-                        ->validateRepository(
-                            new PermissionEntity($this->formBuilder->getData()),
-                            $this->permissionRepository()
-                        )
-                        ->saveAfterValidation(['id' => $this->thisRouteID()]);
-                    $actionEvent = ['action' => $action, 'errors' => $this->permissionRepository()->getValidationErrors()];
-
-                    $this->getFlashEvent($actionEvent);
-
-                }
-            }
-        }
+        $this->editAction
+            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, __METHOD__);
     }
 
     /**
@@ -185,13 +106,8 @@ class PermissionController extends AdminController
      */
     protected function deleteAction()
     {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest()) {
-                $action = $this->permissionRepository()->findByIdAndDelete(['id' => $this->thisRouteID()]);
-                $actionEvent = ['action' => $action];
-                $this->getFlashEvent($actionEvent);
-            }
-        }
+        $this->deleteAction
+            ->execute($this, NULL, PermissionActionEvent::class, __METHOD__);
     }
 
     /**

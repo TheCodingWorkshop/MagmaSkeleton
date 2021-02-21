@@ -45,8 +45,10 @@ class UserActionSubscriber implements EventSubscriberInterface
     protected const NEW_ACTION = 'new';
     protected const EDIT_ACTION = 'edit';
     protected const DELETE_ACTION = 'delete';
+    protected const REGISTER_ACTION = 'register';
 
     protected const ACTION_ROUTES = [
+        'App\Controller\RegistrationController::registerAction' => ['msg' => 'New User Added!'],
         'App\Controller\Admin\UserController::newAction' => ['msg' => 'New User Added!'],
         'App\Controller\Admin\UserController::editAction' => ['msg' => 'User updated!'],
         'App\Controller\Admin\UserController::deleteAction' => ['msg' => 'User Deleted!', 'redirect' => self::REDIRECT_DELETE],
@@ -97,7 +99,7 @@ class UserActionSubscriber implements EventSubscriberInterface
      */
     public function sendActivationEmail(UserActionEvent $event)
     {
-        if ($this->onRoute($event, self::NEW_ACTION)) {
+        if ($this->onRoute($event, self::NEW_ACTION) || $this->onRoute($event, self::REGISTER_ACTION)) {
             if ($event) {
                 $user = $event->getcontext();
                 if (is_array($user) && count($user) > 0) {

@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Actions\DomainTraits;
-use MagmaCore\Base\BaseEntity;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Session\SessionTrait;
 use MagmaCore\Base\Traits\TableSettingsTrait;
-use MagmaCore\Base\ControllerDomainLogicInterface;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class AdminController extends BaseController
@@ -47,62 +44,14 @@ class AdminController extends BaseController
          */
         $this->diContainer(
             [
-                "tableGrid" => \MagmaCore\Datatable\Datatable::class /* Global Admin access */
+                'tableGrid' => \MagmaCore\Datatable\Datatable::class, /* Global Admin access */
+                'newAction' => \App\Actions\NewAction::class,
+                'editAction' => \App\Actions\EditAction::class,
+                'deleteAction' => \App\Actions\DeleteAction::class,
+                'indexAction' => \App\Actions\IndexAction::class,
+
             ]
         );
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param Object $controller
-     * @return string
-     */
-    public function editRoute(Object $controller) : string
-    {
-        if ($controller->thisRouteAction() === 'edit') {
-            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteID()}/{$controller->thisRouteAction()}";
-            if ($controller->thisRouteID() === $this->findOr404($controller)->id) {
-                return $route;
-            }
-        }
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param Object $controller
-     * @return string
-     */
-    public function mixedRoutes(Object $controller, string $action) : string
-    {
-        if ($controller->thisRouteAction() === $action) {
-            $route = "/admin/{$controller->thisRouteController()}/{$controller->thisRouteAction()}";
-            return $route;
-        }
-    }
-
-
-    /**
-     * Returns the method path as a string to use with the redirect method.
-     * The method will generate the necessary redirect string based on the 
-     * current route.
-     *
-     * @param string $action
-     * @return string
-     */
-    public function selfPath(string $action): string
-    {
-        $self = '';
-        if (!empty($this->thisRouteID()) && $this->thisRouteID() !== 0) {
-            $self = "/admin/" . $this->thisRouteController() . "/" . $this->thisRouteID() . "/" . $action;
-        } else {
-            $self = "/admin/" . $this->thisRouteController() . "/" . $action;
-        }
-
-        if ($self) {
-            return $self;
-        }
     }
 
     /**
@@ -137,16 +86,27 @@ class AdminController extends BaseController
     }
 
     /**
-     * Return the flash event for the action route and also redirect
+     * Returns the method path as a string to use with the redirect method.
+     * The method will generate the necessary redirect string based on the 
+     * current route.
      *
-     * @param array $actionEvent
-     * @return void
+     * @param string $action
+     * @return string
      */
-    public function getFlashEvent($actionEvent): void
+    public function getRoute(string $action, Object $controller): string
     {
-        /*if ($this->eventDispatcher) {
-            $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-        }*/
+        $self = '';
+        if (!empty($this->thisRouteID()) && $this->thisRouteID() !== false) {
+            if ($this->thisRouteID() === $this->findOr404($controller)->id) {
+                $route = "/{$this->thisRouteNamespace()}/{$this->thisRouteController()}/{$this->thisRouteID()}/{$this->thisRouteAction()}";
+            }
+        } else {
+            $self = "/{$this->thisRouteNamespace()}/{$this->thisRouteController()}/{$action}";
+        }
+
+        if ($self) {
+            return $self;
+        }
     }
 
     /**
@@ -165,5 +125,4 @@ class AdminController extends BaseController
         }
         return false;
     }
-
 }

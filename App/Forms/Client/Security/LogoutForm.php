@@ -13,12 +13,9 @@ namespace App\Forms\Client\Security;
 
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\Type\PasswordType;
-use MagmaCore\FormBuilder\Type\CheckboxType;
 use MagmaCore\FormBuilder\Type\SubmitType;
-use MagmaCore\FormBuilder\Type\EmailType;
 
-class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class LogoutForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
 	/**
@@ -32,11 +29,8 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 */
     public function createForm(string $action,?Object $repository = null) 
 	{
-		return $this->form(['action' => $action, 'class' => 'uk-form-stacked']) 
-		->add([EmailType::class => ['name' => 'email']], null, ['show_label' => false])
-		->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
-		->add([CheckboxType::class => ['name' => 'remember_me', 'value' => false]], null, ['show_label' => false, 'checkbox_label' => 'Remember Me'])
-		->add([SubmitType::class => ['name' => 'index-security', 'value' => 'Login', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+		return $this->form(['action' => $action, 'class' => 'uk-display-inline']) 
+		->add([SubmitType::class => ['name' => 'logout-security', 'value' => 'Continue', 'class' => ['uk-button', 'uk-button-large', 'uk-button-primary']]], null, ['show_label' => false])
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	} 
 }

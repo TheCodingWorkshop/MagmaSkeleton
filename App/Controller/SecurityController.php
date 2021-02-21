@@ -15,8 +15,7 @@ namespace App\Controller;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
-use MagmaCore\Auth\Authorized;
-use App\Event\FlashMessagesEvent;
+use App\Event\LoginActionEvent;
 use MagmaCore\Base\BaseController;
 
 class SecurityController extends BaseController
@@ -45,8 +44,11 @@ class SecurityController extends BaseController
          */
         $this->diContainer(
             [
-                "loginForm" => \App\Forms\Client\Security\LoginForm::class,
-                "authenticator" => \MagmaCore\Auth\Authenticator::class,
+                'loginForm' => \App\Forms\Client\Security\LoginForm::class,
+                'logoutForm' => \App\Forms\Client\Security\LogoutForm::class,
+                'authenticator' => \MagmaCore\Auth\Authenticator::class,
+                'loginAction' => \App\Actions\LoginAction::class,
+                'logoutAction' => \App\Actions\LogoutAction::class,
             ]
         );
     }
@@ -85,7 +87,6 @@ class SecurityController extends BaseController
         ];
     }
 
-
     /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is
@@ -98,47 +99,13 @@ class SecurityController extends BaseController
      */
     protected function indexAction()
     {
+        $this->loginAction
+            ->execute($this, NULL, LoginActionEvent::class, __METHOD__)
+                ->render('client/security/index.html.twig')
+                    ->with()
+                        ->form($this->loginForm)
+                            ->end();
 
-        if (isset($this->loginForm)) {
-            $this->render(
-                "client/security/index.html.twig",
-                [
-                    "form" => $this->loginForm->createForm("/security/login"),
-                ]
-            );
-        }
-    }
-
-    /**
-     * Security login process.
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    protected function loginAction()
-    {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signin')) {
-                if ($this->formBuilder->csrfValidate()) {
-                    if ($this->getAuthUser()) {
-                        $this->getLogin($this->getAuthUser(), $this->isRememberingLogin());
-                        if ($this->error) {
-                            $this->error->addError($this->authenticator->getErrors(), $this)->dispatchError($this->onSelf());
-                        }
-                        if ($this->authenticator->getAction() === true) {
-                            $this->flashMessage('Login Successfully');
-                            $this->redirect(Authorized::getReturnToPage());
-                        }
-                    }
-                } else {
-                    $this->isLoggedIn = false;
-                    $this->flashMessage($this->locale('fail_csrf_validation', $this->flashDanger()));
-                    $this->redirect($this->onSelf());
-                }
-            }
-        endif;
     }
 
     /**
@@ -149,86 +116,12 @@ class SecurityController extends BaseController
      */
     protected function logoutAction(): void
     {
-        $this->render("client/security/logout.html.twig");
+        $this->logoutAction
+            ->execute($this, NULL, LoginActionEvent::class, __METHOD__)
+                ->render('client/security/logout.html.twig')
+                    ->with()
+                        ->form($this->logoutForm)
+                            ->end();
     }
 
-    protected function doLogoutAction(): void
-    {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('signout')) {
-                Authorized::logout();
-                $this->redirect("/security/show-logout-message");
-            }
-        }
-        $this->render("client/security/logout.html.twig");
-    }
-
-
-    /**
-     * Show a "logged out" flash message and redirect to the homepage.
-     * Necessary to use the flash messages as they use the session and
-     * at the end of the logout method (destroyAction) the session is destroyed
-     * so a new action needs to be called in order to use the session.
-     *
-     * @return void
-     * @throws Exception
-     */
-    protected function showLogoutMessageAction()
-    {
-        $this->flashMessage('Youv\'e successfully logged out', $this->flashInfo());
-        $this->redirect('/');
-    }
-
-    /**
-     * Returns the required user object or returns an array of errors if the user
-     * object doesn't exists or if the credentials typed in is not correct
-     *
-     * @return mixed
-     */
-    private function getAuthUser()
-    {
-        $user = $this->authenticator
-            ->authenticate(
-                $this->request->handler()->get('email'),
-                $this->request->handler()->get('password_hash'),
-                $this
-            );
-
-        if (!$user) {
-            $actionEvent = [
-                'action' => $this->authenticator->getAction(),
-                'errors' => $this->authenticator->getErrors()
-            ];
-            /*if ($this->eventDispatcher) {
-                $this->eventDispatcher->dispatch(new FlashMessagesEvent($actionEvent, $this), FlashMessagesEvent::NAME);
-            }*/
-        }
-
-        return $user;
-    }
-
-    /**
-     * Carry out other actions if the remember_me checkbox was checked.
-     *
-     * @return boolean
-     */
-    private function isRememberingLogin()
-    {
-        $remember = $this->request->handler()->get('remember_me');
-        if ($remember) {
-            return $remember;
-        }
-    }
-
-    /**
-     * Returns the authenticated user as an object
-     *
-     * @param Object $authenticatedUser - returns the authicated user Object
-     * @param bool $remember
-     * @return void
-     */
-    private function getLogin(Object $authenticatedUser, mixed $remember): void
-    {
-        Authorized::login($authenticatedUser, $remember);
-    }
 }

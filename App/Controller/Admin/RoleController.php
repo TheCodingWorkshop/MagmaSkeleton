@@ -16,7 +16,6 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\RoleEntity;
-use MagmaCore\Utility\Yaml;
 use App\Event\RoleActionEvent;
 
 class RoleController extends AdminController
@@ -43,15 +42,11 @@ class RoleController extends AdminController
          */
         $this->diContainer(
             [
-                "repository" => \MagmaCore\Auth\Model\RoleModel::class,
-                "column" => \App\DataColumns\RoleColumn::class,
-                "formRole" => \App\Forms\Admin\Role\RoleForm::class,
-                "permissionModel" => \MagmaCore\Auth\Model\PermissionModel::class,
-                "rolePerm" => \MagmaCore\Auth\Model\RolePermissionModel::class,
-                "newAction" => \App\Actions\NewAction::class,
-                "editAction" => \App\Actions\EditAction::class,
-                "deleteAction" => \App\Actions\DeleteAction::class,
-                "indexAction" => \App\Actions\IndexAction::class,
+                'repository' => \MagmaCore\Auth\Model\RoleModel::class,
+                'column' => \App\DataColumns\RoleColumn::class,
+                'formRole' => \App\Forms\Admin\Role\RoleForm::class,
+                'permissionModel' => \MagmaCore\Auth\Model\PermissionModel::class,
+                'rolePerm' => \MagmaCore\Auth\Model\RolePermissionModel::class,
             ]
         );
     }
@@ -83,20 +78,12 @@ class RoleController extends AdminController
      */
     protected function indexAction()
     {
-        list($results, $tableData, $pagination, $columns, $totalRecords, $searchQuery) = $this->indexAction->execute($this);
-        $this->render('admin/role/index.html.twig',
-            [
-                'form' => $this->formRole->createForm("/admin/role/new"),
-                'this' => $this,
-                'table' => $tableData,
-                'pagination' => $pagination,
-                'total_records' => $totalRecords,
-                'columns' => $columns,
-                'results' => $results,
-                'search_query' => $searchQuery,
-            ]
-        );
-
+        $this->indexAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with(['form' => $this->formRole->createForm($this->getRoute('new', $this))])
+                        ->table()
+                            ->end();
     }
 
     /**
@@ -136,12 +123,19 @@ class RoleController extends AdminController
     protected function deleteAction() : void
     {
         $this->deleteAction
-            ->execute($this, RoleActionEvent::class, __METHOD__);
+            ->execute($this, NULL, RoleActionEvent::class, __METHOD__);
     }
 
     protected function assignedAction()
     {
-        if (isset($this->formBuilder)) {
+        /*$this->editAction
+            ->execute($this, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->form($this->formRole)
+                            ->end();*/
+
+       /* if (isset($this->formBuilder)) {
             if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
                 if ($this->formBuilder->csrfValidate()) {
                 }
@@ -155,7 +149,7 @@ class RoleController extends AdminController
                 "permissions" => $this->permissionModel->getRepo()->findAll(),
                 "role_perm" => $this->rolePerm->getRepo()->findObjectBy(['role_id' => $this->thisRouteID()])
             ]
-        );
+        );*/
     }
 
     /**

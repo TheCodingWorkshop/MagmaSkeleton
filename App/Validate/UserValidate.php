@@ -61,7 +61,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                 /* Password Generated within admin panel */
                 $this->userPassword = (new RandomCharGenerator())->generate();
                 /* User created frontend password from registration form */
-                $clientPasswordHash = $cleanData['client_password_hash'] ? $cleanData['client_password_hash'] : $this->userPassword;
+                $clientPasswordHash = array_key_exists('client_password_hash', $cleanData) ? $cleanData['client_password_hash'] : $this->userPassword;
 
                 $encodedPassword = (new PasswordEncoder())->encode(
                     (isset($clientPasswordHash) ? $clientPasswordHash : $this->userPssword)
@@ -103,8 +103,7 @@ class UserValidate extends AbstractDataRepositoryValidation
             }
             return [
                 $newCleanData,
-                $this->validatedDataBag($newCleanData), /* User will need this send to their email address so they can activate their accounts */
-                $this->userPassword
+                $this->validatedDataBag(array_merge($newCleanData, ['random_pass' => $this->userPassword])),
             ];
         }
     }

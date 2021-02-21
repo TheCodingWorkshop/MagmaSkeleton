@@ -40,7 +40,7 @@ class ActivationController extends BaseController
          */
         $this->container(
             [
-                "activationRepo" => \App\Repository\ActivationRepository::class,
+                'repository' => \App\Repository\ActivationRepository::class,
             ]
         );
     }

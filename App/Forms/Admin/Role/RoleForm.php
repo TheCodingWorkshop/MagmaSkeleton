@@ -22,7 +22,6 @@ use MagmaCore\Auth\Model\RoleModel;
 class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
-
     /**
      * {@inheritdoc}
      * @param string $action - form action

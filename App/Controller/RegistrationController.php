@@ -16,7 +16,7 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use App\Event\NewUserEvent;
+use App\Event\UserActionEvent;
 use MagmaCore\Base\BaseController;
 
 class RegistrationController extends BaseController
@@ -41,10 +41,11 @@ class RegistrationController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
-                "formRegister" => \App\Forms\Client\Registration\RegistrationForm::class,
-                "repository" => \App\Model\UserModel::class
+                'formRegister' => \App\Forms\Client\Registration\RegistrationForm::class,
+                'repository' => \App\Model\UserModel::class,
+                'newAction' => \App\Actions\NewAction::class
             ]
         );
     }
@@ -90,32 +91,13 @@ class RegistrationController extends BaseController
      */
     protected function registerAction()
     {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('new-register')) :
-                if ($this->formBuilder->csrfValidate()) :
+        $this->newAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
+                ->render('client/registration/register.html.twig')
+                    ->with()
+                        ->form($this->formRegister)
+                            ->end();
 
-                    $action = $this->repository
-                        ->getRepo()->validateRepository(new UserEntity($this->formBuilder->getData()))->persistAfterValidation();
-                    if ($this->error) {
-                        $this->error->addError($this->repository->getRepo()->getValidationErrors(), $this)->dispatchError($this->onSelf());
-                    }
-                    if ($action) {
-                        if ($this->eventDispatcher) {
-                            $this->eventDispatcher->dispatch(new NewUserEvent($this->repository->getRepo()->validatedDataBag(), $this), NewUserEvent::NAME);
-                        }
-                        $this->flashMessage('Account Created');
-                        $this->redirect('/registration/registered');
-                    }
-                endif;
-            endif;
-        endif;
-
-        $this->render(
-            'client/registration/register.html.twig',
-            [
-                "form" => $this->formRegister->createForm('/registration/register')
-            ]
-        );
     }
 
     /**
@@ -125,6 +107,8 @@ class RegistrationController extends BaseController
      */
     protected function registeredAction()
     {
-        $this->render("client/registration/registered.html.twig", []);
+        $this->render(
+            "client/registration/registered.html.twig", []
+        );
     }
 }

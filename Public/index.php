@@ -45,7 +45,10 @@ if (is_file($autoload)) {
 
 use MagmaCore\Base\BaseApplication;
 use MagmaCore\Utility\Yaml;
-
+use Symfony\Component\ErrorHandler\Debug;
+use Symfony\Component\ErrorHandler\ErrorHandler;
+use Symfony\Component\ErrorHandler\DebugClassLoader;
+Debug::enable();
 $app = new BaseApplication();
 
 /**
@@ -103,7 +106,7 @@ $app->setRouter(
  * will be rendered as normal. This method provides a much more graceful way of 
  * displaying those errors and exceptions
  */
-$app->setErrorHandlers();
+//$app->setErrorHandlers();
 
 /**
  * Return the fully configured application

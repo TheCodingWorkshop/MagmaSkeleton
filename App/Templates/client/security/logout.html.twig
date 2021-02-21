@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block content_title %}Signing Out{% endblock %}
+{% block content_title %}Signing Out
+{% endblock %}
 {% block main %}
 	<div>
 		<div uk-grid>
@@ -20,14 +21,15 @@
 			<div class="uk-width-expand@m">
 				<ul id="component-tab-left" class="uk-switcher">
 					<li>
-                        <article class="uk-article">
-                            <h1 class="uk-article-title">You're about to sign out<br>sorry to see you go.</h1>
+						<article class="uk-article">
+							<h1 class="uk-article-title">You're about to sign out<br>sorry to see you go.</h1>
 
-                            <p class="uk-text-lead uk-margin-medium">
-                                <form method="post" action="/security/do-logout" class="uk-display-inline">
-                                <button type="submit" name="signout" class="uk-button uk-button-large uk-button-primary">Continue</button></form> Or <a href="/profile/account/index" class="uk-button uk-button-text uk-text-primary">Cancel</a>.
-                            </p>
-                        </article>
+							<p class="uk-text-lead uk-margin-medium">
+								{{ form|raw }}
+								Or
+								<a href="/profile/account/index" class="uk-button uk-button-text uk-text-primary">Cancel</a>.
+							</p>
+						</article>
 					</li>
 				</ul>
 			</div>

@@ -8,6 +8,14 @@ services:
             class: \App\EventSubscriber\RoleActionSubscriber
             props: 
                 - {}
+        permission.subscriber:
+            class: \App\EventSubscriber\PermissionActionSubscriber
+            props: 
+                - {}
+        login.subscriber:
+            class: \App\EventSubscriber\LoginActionSubscriber
+            props: 
+                - {}
     listeners:
         my.listener1:
             class: \App\EventListener\RoleListener

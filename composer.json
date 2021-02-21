@@ -35,7 +35,8 @@
         "ext-simplexml": "*",
         "magmacore/magmacore": "^1.0",
         "phpunit/phpunit": "^9.5",
-        "phpmailer/phpmailer": "^6.2"
+        "phpmailer/phpmailer": "^6.2",
+        "symfony/error-handler": "^5.2"
     },
     "autoload": {
         "psr-4": {

@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use MagmaCore\Base\Domain\DomainActionLogicInterface;
+use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\Domain\DomainTraits;
+use MagmaCore\Base\Domain\DomainActionLogicInterface;
 
 /**
  * Class which handles the domain logic when adding a new item to the database
@@ -22,7 +23,7 @@ use MagmaCore\Base\Domain\DomainTraits;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class NewAction implements DomainActionLogicInterface
+class PasswordAction implements DomainActionLogicInterface
 {
 
     use DomainTraits;
@@ -38,6 +39,7 @@ class NewAction implements DomainActionLogicInterface
      * @param Object $controller - The controller object implementing this object
      * @param string $eventDispatcher - the eventDispatcher for the current object
      * @param string $method - the name of the method within the current controller object
+     * @param array $additionalContext - additional data which can be passed to the event dispatcher
      * @return void
      */
     public function execute(
@@ -50,33 +52,18 @@ class NewAction implements DomainActionLogicInterface
 
         $this->controller = $controller;
         $this->method = $method;
+
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
-                
                 if ($controller->formBuilder->csrfValidate()) {
-                    $action = $controller->repository->getRepo()
-                        ->validateRepository(new $entityObject($controller->formBuilder->getData()))->persistAfterValidation();
-                    if ($controller->error) {
-                        $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError($controller->onSelf());
-                    }
-                    if ($action) {
-                        if ($controller->eventDispatcher) {
-                            $controller->eventDispatcher->dispatch(
-                                new $eventDispatcher(
-                                    $method,
-                                    array_merge(
-                                        $controller->repository->getRepo()->validatedDataBag(),
-                                        $additionalContext ? $additionalContext : []
-                                    ),
-                                    $controller
-                                ),
-                                $eventDispatcher::NAME
-                            );
-                        }
+                    $user = new $entityObject($controller->formBuilder->getData());
+                    if ($controller->userRepository->emailExists($user->email)) {
+                        $controller->repository->findByUser($user->email)->sendUserResetPassword();
                     }
                 }
             }
         endif;
+
         return $this;
     }
 }
