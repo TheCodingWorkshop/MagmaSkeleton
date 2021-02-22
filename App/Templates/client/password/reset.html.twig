@@ -24,16 +24,25 @@
 			<div class="uk-width-expand@m">
 				<ul id="component-tab-left" class="uk-switcher">
 					<li>
-						<h1 class="uk-heading-small">What's your New Password</h1>
-						<p>Passwords need to include...</p>
-						<p>
-							<ul>
-								<li>8 or more characters</li>
-								<li>At least 1 letter</li>
-								<li>At least 1 number</li>
-							</ul>
-						</p>
-						{{ form|raw }}
+						{% if token_valid is empty %}
+							<h1 class="uk-heading-small">What's your New Password</h1>
+							<p>Passwords need to include...</p>
+							<p>
+								<ul>
+									<li>8 or more characters</li>
+									<li>At least 1 letter</li>
+									<li>At least 1 number</li>
+								</ul>
+							</p>
+							{{ form|raw }}
+
+						{% else %}
+							<h1 class="uk-heading-small">Token Expired</h1>
+							<p>Password reset link invalid or expired, please click
+								<a href="/password/forgot">here</a>
+								to request another one.</p>
+
+						{% endif %}
 					</li>
 				</ul>
 			</div>

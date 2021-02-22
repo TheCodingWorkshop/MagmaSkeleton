@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\UserEntity;
+use App\Event\PasswordActionEvent;
 use MagmaCore\Base\BaseController;
 use LoaderError;
 use RuntimeError;
@@ -41,11 +42,11 @@ class PasswordController extends BaseController
          */
         $this->diContainer(
             [
-                'userRepository' => \App\Model\UserModel::class,
                 'repository' => \App\Repository\PasswordRepository::class,
                 'formPassword' => \App\Forms\Client\Password\PasswordForm::class,
                 'formResetPassword' => \App\Forms\Client\Password\ResetForm::class,
-                'passwordAction' => \App\Actions\PasswordAction::class,
+                'newPasswordAction' => \App\Actions\NewPasswordAction::class,
+                'resetPasswordAction' => \App\Actions\ResetPasswordAction::class,
             ]
         );
     }
@@ -62,39 +63,14 @@ class PasswordController extends BaseController
      */
     protected function forgotAction()
     { 
-        $this->passwordAction
-            ->execute($this, NULL, NULL, __METHOD__)
-                ->render('client/password/forgot.html.twig')
+        $this->newPasswordAction
+            ->execute($this, UserEntity::class, PasswordActionEvent::class, __METHOD__)
+                ->render()
                     ->with()
                         ->form($this->formPassword)
                             ->end();
     }
 
-    /**
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-   /* protected function requestResetAction()
-    {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('request-reset')) : {
-                if ($this->formBuilder->csrfValidate()) {
-                    $userEntity = new UserEntity($this->formBuilder->getData());
-                    if ($this->repository->emailExists($userEntity->email)) {
-                        $this->passwordRepo->findByUser($userEntity->email)->sendUserResetPassword();
-                        $this->render('client/password/reset_requested.html.twig');
-                        $this->redirect('/password/request-reset');
-                    } else {
-                        $this->flashMessage('Your email address could not be found!', $this->flashInfo());
-                        $this->redirect('/password/forgot');
-                    }    
-                }
-            }
-            endif;
-        endif;
-    }*/
 
     /**
      * @return Response
@@ -104,41 +80,13 @@ class PasswordController extends BaseController
      */
     protected function resetAction()
     {
-        $token = $this->passwordRepo->parsedUrlToken($this->thisRouteToken());
-        if ($token) {
-            $this->render('client/password/reset.html.twig',["form" => $this->formResetPassword->createForm('/password/reset-password', $this->thisRouteToken())]);
-        } else {
-            $this->render('client/password/token_expired.html.twig');
-            exit;    
-        }
+        $this->resetPasswordAction
+            ->execute($this, UserEntity::class, PasswordActionEvent::class, __METHOD__)
+                ->render()
+                    ->with(['token_valid' => $this->repository->parsedUrlToken($this->thisRouteToken())])
+                        ->form($this->formResetPassword, NULL, $this->thisRouteToken())
+                            ->end();
         
-    }
-
-    /**
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    protected function resetPasswordAction()
-    {
-        if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('reset-password')) : {
-                if ($this->formBuilder->csrfValidate()) {
-                    $userEntity = new UserEntity($this->formBuilder->getData());
-                    $repository = $this->passwordRepo->findByPasswordResetToken($userEntity->token);
-                    $action = $this->passwordRepo->validatePassword($userEntity, $repository)->reset();
-                    if ($action) {
-                        $this->render('client/password/reset_success.html.twig');
-                    } else {
-                        $this->flashMessage('Error saving new password.', $this->flashWarning());
-                        $this->redirect('/password/reset');
-                    }
-                }
-
-            }
-            endif;
-        endif;
     }
 
 }

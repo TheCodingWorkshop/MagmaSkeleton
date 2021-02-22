@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\Domain\DomainTraits;
 use MagmaCore\Base\Domain\DomainActionLogicInterface;
 
@@ -22,7 +23,7 @@ use MagmaCore\Base\Domain\DomainActionLogicInterface;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class ActivateAction implements DomainActionLogicInterface
+class NewPasswordAction implements DomainActionLogicInterface
 {
 
     use DomainTraits;
@@ -52,31 +53,33 @@ class ActivateAction implements DomainActionLogicInterface
         $this->controller = $controller;
         $this->method = $method;
 
-        $token = $controller->thisRouteToken();
-        if ($token) {
-            $repository = $controller->repository->findByActivationToken($token);
-            if ($repository) {
-                $action = $controller->repository->validateActivation($repository)->activate();
-                if (is_bool($action) && $action !== true) {
-                    if ($controller->error) {
-                        $controller->error->addError($controller->repository->getErrors(), $controller)->dispatchError();
+        if (isset($controller->formBuilder)) :
+            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
+                if ($controller->formBuilder->csrfValidate()) {
+                    $entity = new $entityObject($controller->formBuilder->getData());
+                    if ($controller->repository->emailExists($entity->email)) {
+                        $controller->repository->findByUser($entity->email)->sendUserResetPassword();
+                        if ($controller->eventDispatcher) {
+                            $controller->eventDispatcher->dispatch(
+                                new $eventDispatcher(
+                                    $method,
+                                    array_merge(
+                                        [], /* can return the user object as an array */
+                                        $additionalContext ? $additionalContext : []
+                                    ),
+                                    $controller
+                                ),
+                                $eventDispatcher::NAME
+                            );
+                        }
+                    } else {
+                        if ($controller->error) {
+                            $controller->error->addError(['invalid' => 'Your email address could not be found!'], $controller)->dispatchError($controller->onSelf());
+                        }
                     }
                 }
-                if ($controller->eventDispatcher) {
-                    $controller->eventDispatcher->dispatch(
-                        new $eventDispatcher(
-                            $method,
-                            array_merge(
-                                ['action' => $action],
-                                $additionalContext ? $additionalContext : []
-                            ),
-                            $controller
-                        ),
-                        $eventDispatcher::NAME
-                    );
-                }
             }
-        }
+        endif;
 
         return $this;
     }

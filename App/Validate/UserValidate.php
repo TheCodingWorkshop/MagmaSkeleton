@@ -80,7 +80,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                     "password_hash" => $encodedPassword,
                     "activation_token" => $tokenHash,
                     "status" => $this->setDefaultValue($cleanData, 'status', self::DEFAULT_STATUS),
-                    "created_byid" => $this->setDefaultValue($cleanData, 'created_byid', $_SESSION['user_id']),
+                    "created_byid" => $this->setDefaultValue($cleanData, 'created_byid', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0),
                     "gravatar" => $avatar,
                     "remote_addr" => $clientIP
                 ];

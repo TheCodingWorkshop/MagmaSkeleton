@@ -16,6 +16,14 @@ services:
             class: \App\EventSubscriber\LoginActionSubscriber
             props: 
                 - {}
+        password.subscriber:
+            class: \App\EventSubscriber\PasswordActionSubscriber
+            props: 
+                - {}
+        activate.subscriber:
+            class: \App\EventSubscriber\ActivateActionSubscriber
+            props: 
+                - {}
     listeners:
         my.listener1:
             class: \App\EventListener\RoleListener

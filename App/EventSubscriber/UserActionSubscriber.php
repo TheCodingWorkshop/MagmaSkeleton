@@ -48,7 +48,7 @@ class UserActionSubscriber implements EventSubscriberInterface
     protected const REGISTER_ACTION = 'register';
 
     protected const ACTION_ROUTES = [
-        'App\Controller\RegistrationController::registerAction' => ['msg' => 'New User Added!'],
+        'App\Controller\RegistrationController::registerAction' => ['msg' => 'Your Account is created!'],
         'App\Controller\Admin\UserController::newAction' => ['msg' => 'New User Added!'],
         'App\Controller\Admin\UserController::editAction' => ['msg' => 'User updated!'],
         'App\Controller\Admin\UserController::deleteAction' => ['msg' => 'User Deleted!', 'redirect' => self::REDIRECT_DELETE],

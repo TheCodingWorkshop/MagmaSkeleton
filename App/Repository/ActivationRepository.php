@@ -21,6 +21,8 @@ use MagmaCore\Mailer\MailerFacade;
 class ActivationRepository extends UserModel implements UserActivationInterface
 { 
 
+    protected array $errors = [];
+
     /**
      * Undocumented function
      *
@@ -68,8 +70,9 @@ class ActivationRepository extends UserModel implements UserActivationInterface
      */
     public function validateActivation(?Object $repository) : self
     { 
-        if ($repository == null) {
-            throw new \InvalidArgumentException();
+        if ($repository === null) {
+            $this->errors[] = 'Sorry no user was found!';
+            //throw new \InvalidArgumentException();
         }
         $this->userID = $repository->id;
         $this->fields = ['activation_token' => NULL, 'status' => 'active'];
@@ -88,6 +91,11 @@ class ActivationRepository extends UserModel implements UserActivationInterface
             return $update;
         }
         return false;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 
 

@@ -7,21 +7,23 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Repository;
 
-use InvalidArgumentException;
-
-use MagmaCore\Auth\Contracts\UserPasswordRecoveryInterface;
 use App\Model\UserModel;
-use MagmaCore\Utility\HashGenerator;
-use MagmaCore\Utility\Token;
+
+use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseView;
+use MagmaCore\Utility\Token;
+use InvalidArgumentException;
 use MagmaCore\Mailer\MailerFacade;
+use MagmaCore\Utility\HashGenerator;
+use MagmaCore\Auth\Contracts\UserPasswordRecoveryInterface;
 
 class PasswordRepository extends UserModel implements UserPasswordRecoveryInterface
-{ 
+{
 
     /**
      * Get the current user object via the method $email argument. Once object is located
@@ -31,12 +33,11 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      * @param string $email
      * @return self
      */
-    public function findByUser(string $email) : self
+    public function findByUser(string $email): self
     {
         $user = $this->getRepo()->findObjectBy(['email' => $email], ['email', 'id']);
         if (null !== $user) {
-            list(
-                $this->tokenReturned) = $this->resetPassword($user->id);
+            list($this->tokenReturned) = $this->resetPassword($user->id);
             if (null != $this->tokenReturned) {
                 $this->userEmail = $email;
                 return $this;
@@ -50,7 +51,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
             'Password Reset',
             'admin@magmacore.com',
             $this->userEmail,
-            (new BaseView())->getTemplate('client/password/reset_email.html.twig',["url" => "http://{$_SERVER['HTTP_HOST']}/password/reset/{$this->tokenReturned}"])
+            (new BaseView())->getTemplate('' . Yaml::file('routes')['client_dir'] . '/password/reset_email.html.twig', ["url" => "http://{$_SERVER['HTTP_HOST']}/password/reset/{$this->tokenReturned}"])
         );
         if ($mail) {
             return true;
@@ -67,7 +68,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      * @param integer $userID
      * @return array|null
      */
-    public function resetPassword(int $userID) : ?array
+    public function resetPassword(int $userID): ?array
     {
         list($tokenHash, $tokenValue) = (new HashGenerator())->hash();
         $timestampExpiry = time() + 60 * 60 * 2;
@@ -87,7 +88,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      * @param string $tokenHash
      * @return Object|null
      */
-    public function findByPasswordResetToken(string $tokenHash = null) : ?Object
+    public function findByPasswordResetToken(string $tokenHash = null): ?Object
     {
         $token = new Token($tokenHash);
         $_tokenHash = $token->getHash();
@@ -106,7 +107,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      *
      * @return boolean
      */
-    public function reset() : bool
+    public function reset(): bool
     {
         if (null === $this->tokenRepository) {
             throw new InvalidArgumentException('token repository returning null');
@@ -132,9 +133,8 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
     public function parsedUrlToken($tokenHash)
     {
         $user = $this->findByPasswordResetToken($tokenHash);
-        if ($user !=null) {
+        if ($user != null) {
             return $user;
         }
     }
-
 }

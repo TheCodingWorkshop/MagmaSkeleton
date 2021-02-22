@@ -87,7 +87,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     public function validatePassword(object $cleanData, Null|object $repository = null)
     {
         $cleanData = (array)$cleanData;
-        $validate = $this->get('validate.userValidate')->validate($cleanData);
+        $validate = $this->get('Validate.UserValidate')->validate($cleanData);
         if (empty($validate->errors)) {
             $this->validatedHashPassword = (new PasswordEncoder())->encode($cleanData['password_hash']);
             $this->tokenRepository = $repository;

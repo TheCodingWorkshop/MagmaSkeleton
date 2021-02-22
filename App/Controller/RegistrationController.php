@@ -93,7 +93,7 @@ class RegistrationController extends BaseController
     {
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
-                ->render('client/registration/register.html.twig')
+                ->render()
                     ->with()
                         ->form($this->formRegister)
                             ->end();

@@ -101,7 +101,7 @@ class SecurityController extends BaseController
     {
         $this->loginAction
             ->execute($this, NULL, LoginActionEvent::class, __METHOD__)
-                ->render('client/security/index.html.twig')
+                ->render()
                     ->with()
                         ->form($this->loginForm)
                             ->end();
@@ -118,7 +118,7 @@ class SecurityController extends BaseController
     {
         $this->logoutAction
             ->execute($this, NULL, LoginActionEvent::class, __METHOD__)
-                ->render('client/security/logout.html.twig')
+                ->render()
                     ->with()
                         ->form($this->logoutForm)
                             ->end();

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\Domain\DomainTraits;
 use MagmaCore\Base\Domain\DomainActionLogicInterface;
 
@@ -23,7 +22,7 @@ use MagmaCore\Base\Domain\DomainActionLogicInterface;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class PasswordAction implements DomainActionLogicInterface
+class ResetPasswordAction implements DomainActionLogicInterface
 {
 
     use DomainTraits;
@@ -56,9 +55,27 @@ class PasswordAction implements DomainActionLogicInterface
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
                 if ($controller->formBuilder->csrfValidate()) {
-                    $user = new $entityObject($controller->formBuilder->getData());
-                    if ($controller->userRepository->emailExists($user->email)) {
-                        $controller->repository->findByUser($user->email)->sendUserResetPassword();
+                    $entity = new $entityObject($controller->formBuilder->getData());
+                    /* The token is fetch from the hidden field 'token' within our form */
+                    $repository = $controller->repository->findByPasswordResetToken($entity->token);
+                    $action = $controller->repository->validatePassword($entity, $repository)->reset();
+                    if (is_bool($action) && $action !==true) {
+                        if ($controller->error) {
+                            $controller->error->addError(['error_saving' => 'Error saving new password.'], $controller)->dispatchError();
+                        }
+                    }
+                    if ($controller->eventDispatcher) {
+                        $controller->eventDispatcher->dispatch(
+                            new $eventDispatcher(
+                                $method,
+                                array_merge(
+                                    ['action' => $action],
+                                    $additionalContext ? $additionalContext : []
+                                ),
+                                $controller
+                            ),
+                            $eventDispatcher::NAME
+                        );
                     }
                 }
             }

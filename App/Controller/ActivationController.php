@@ -11,10 +11,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use MagmaCore\Base\BaseController;
 use LoaderError;
-use RuntimeError;
 use SyntaxError;
+use RuntimeError;
+use App\Event\ActivateActionEvent;
+use MagmaCore\Base\BaseController;
 
 class ActivationController extends BaseController
 {
@@ -38,9 +39,10 @@ class ActivationController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->container(
+        $this->diContainer(
             [
                 'repository' => \App\Repository\ActivationRepository::class,
+                'activateAction' => \App\Actions\ActivateAction::class,
             ]
         );
     }
@@ -52,46 +54,12 @@ class ActivationController extends BaseController
      */
     protected function activateAction()
     {
-        if (isset($this->routeParams['token'])) {
-            $repository = $this->activationRepo->findByActivationToken($this->routeParams['token']);
-            if (!$repository) {
-                $this->redirect('/profile/account/index');
-            }
-            $action = $this->activationRepo->validateActivation($repository)->activate();
-            if ($action) {
-                $this->flashMessage('Your account is now activated', $this->flashInfo());
-                $this->redirect('/activation/activated');
-            } else {
-                $this->flashMessage('Fail to activate your account.', $this->flashInfo());
-                $this->redirect('/activation/fail-activation');
-            }
-        }
+        $this->activateAction
+            ->execute($this, NULL, ActivateActionEvent::class, __METHOD__)
+                ->render()
+                    ->with(['token_valid' => '']) /* filter template to show fail validation */
+                        ->end();
         
     }
-
-    /**
-     * Show the activation response if the activation was successful.
-     * 
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    protected function activatedAction()
-    {
-        $this->render('client/activation/activation.html.twig');
-    }
-
-    /**
-     * Show the activation response if the activation was unsuccessful.
-     * 
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    protected function failActivationAction()
-    {
-        $this->render('client/activation/fail_activation.html.twig');
-    }
-
 
 }
