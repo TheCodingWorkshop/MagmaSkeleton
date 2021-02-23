@@ -31,13 +31,13 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Null|string $fieldName
      * @return boolean
      */
-    public function verifyPassword(Object $object, int $id, ?string $fieldName = null) : bool
+    public function verifyPassword(Object $object, int $id, ?string $fieldName = null): bool
     {
         if (array_key_exists('password_hash', $_POST)) {
             if (password_verify(
-                $object->request->handler()->get('password_hash'), 
-                $this->getRepo()->findObjectBy(['id' => $id], ['password_hash'])->password_hash)
-            ) {
+                $object->request->handler()->get('password_hash'),
+                $this->getRepo()->findObjectBy(['id' => $id], ['password_hash'])->password_hash
+            )) {
                 return true;
             } else {
                 return false;
@@ -53,7 +53,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object $cleanData
      * @return boolean
      */
-    public function isPasswordMatching(Object $object, Object $cleanData) : bool
+    public function isPasswordMatching(Object $object, Object $cleanData): bool
     {
         if ($cleanData->password_hash_new === $cleanData->password_hash_retype) {
             return true;
@@ -68,7 +68,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object $object
      * @return boolean
      */
-    public function isOwnAccount(Object $object) : bool
+    public function isOwnAccount(Object $object): bool
     {
         if ($object) {
             $userID = $object->formBuilder->getData()['user_id'];
@@ -100,70 +100,21 @@ class UserProfileModel extends UserModel implements UserProfileInterface
         return false;
     }
 
-    /**
-     * Update the user first and lastname fro their profile accounts page. Users name
-     * will be subject to the same validation as registering a new account meaning 
-     * users can only use valid and allowed characters
-     *
-     * @param object $cleanData
-     * @param object $repository
-     * @return array
-     */
-    public function updateProfileNameOnceValidated(Object $cleanData, ?Object $repository): array
+    public function updateProfileAfterValidation(Object $cleanData, Object $repository): array
     {
         $this->validateChanges($cleanData, $repository);
         if ($this->unsetValues($cleanData)) {
+            $data = $cleanData;
             $newCleanData = [
-                'firstname' => $cleanData->firstname ? $cleanData->firstname : $repository->firstname,
-                'lastname' => $cleanData->lastname ? $cleanData->lastname : $repository->lastname
+                'firstname' => isset($data->firstname) ? $data->firstname : $repository->firstname,
+                'lastname' => isset($data->lastname) ? $data->lastname : $repository->lastname,
+                'email' => isset($data->email) ? $data->email : $repository->email,
+            ];
+            return [
+                $newCleanData,
+                $this->getProfileErrors()
             ];
         }
-        return [
-            $newCleanData,
-            $this->getProfileErrors()
-        ];
-    }
-
-    /**
-     * Update the user profile email
-     *
-     * @param Object $cleanData
-     * @param Object|null $repository
-     * @return array
-     */
-    public function updateProfileEmailOnceValidated(Object $cleanData, Null|Object $repository) : array
-    {
-        $this->validateChanges($cleanData, $repository);
-        if ($this->unsetValues($cleanData)) {
-            $newCleanData = [
-                'email' => $cleanData->email ? $cleanData->email : $repository->email,
-            ];
-        }
-        return [
-            $newCleanData,
-            $this->getProfileErrors()
-        ];
-    }
-
-    /**
-     * Update the user profile password
-     *
-     * @param Object $cleanData
-     * @param Object|null $repository
-     * @return array
-     */
-    public function updateProfilePasswordOnceValidated(Object $cleanData, Null|Object $repository) : array
-    {
-        $this->validateChanges($cleanData, $repository);
-        if ($this->unsetValues($cleanData)) {
-            $newCleanData = [
-                'password_hash' => password_hash($cleanData->password_hash_new, PASSWORD_DEFAULT)
-            ];
-        }
-        return [
-            $newCleanData,
-            $this->getProfileErrors()
-        ];
     }
 
     /**
@@ -173,7 +124,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      * @param Object|null $repository
      * @return array
      */
-    public function deleteAccountOnceValidated(Object $cleanData, Null|Object $repository) : array
+    public function deleteAccountOnceValidated(Object $cleanData, Null|Object $repository): array
     {
         $this->validateChanges($cleanData, $repository);
         if ($this->unsetValues($cleanData)) {
@@ -185,7 +136,6 @@ class UserProfileModel extends UserModel implements UserProfileInterface
             $newCleanData,
             $this->getProfileErrors()
         ];
-
     }
 
     /**
@@ -216,13 +166,13 @@ class UserProfileModel extends UserModel implements UserProfileInterface
                         $this->profileError[] = '';
                     }
                     break;
-                case 'user_id' :
-                    
+                case 'user_id':
+
                     break;
-                default :
-                    if ($value === $repository->$key) {
+                default:
+                    /*if ($value === $repository->$key) {
                         $this->profileError[] = 'No changes made!';
-                    }
+                    }*/
                     break;
             }
         }

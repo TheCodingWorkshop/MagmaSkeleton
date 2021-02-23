@@ -10,12 +10,13 @@
 
 declare(strict_types=1);
 
-namespace App\Forms\Client\Profile;
+namespace App\Forms\Profile;
 
-use MagmaCore\FormBuilder\ClientFormBuilderInterface;
-use MagmaCore\FormBuilder\ClientFormBuilder;
+use MagmaCore\FormBuilder\Type\HiddenType;
 use MagmaCore\FormBuilder\Type\SubmitType;
+use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\Type\PasswordType;
+use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 
 class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -35,7 +36,7 @@ class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInt
 			->add([PasswordType::class => ['name' => 'password_hash', 'placeholder' => 'Current Password']], null, ['show_label' => false])
 			->add([PasswordType::class => ['name' => 'password_hash_new', 'placeholder' => 'New Password']], null, ['show_label' => false])
 			->add([PasswordType::class => ['name' => 'password_hash_retype', 'placeholder' => 'Retype Password']], null, ['show_label' => false])
-
+			->add([HiddenType::class => ['name' => 'id', 'value' => $repository->id]], null, ['show_label' => false])
 			->add([SubmitType::class => ['name' => 'edit-profile-password', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 			->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	}

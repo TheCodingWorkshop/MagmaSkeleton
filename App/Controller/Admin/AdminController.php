@@ -49,6 +49,7 @@ class AdminController extends BaseController
                 'editAction' => \App\Actions\EditAction::class,
                 'deleteAction' => \App\Actions\DeleteAction::class,
                 'indexAction' => \App\Actions\IndexAction::class,
+                'showAction' => \App\Actions\ShowAction::class,
 
             ]
         );

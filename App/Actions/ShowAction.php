@@ -46,6 +46,7 @@ class ShowAction implements DomainActionLogicInterface
         string|null $entityObject = null,
         string|null $eventDispatcher = null,
         string $method,
+        string|null $class = null,
         array $additionalContext = []
     ): self {
 

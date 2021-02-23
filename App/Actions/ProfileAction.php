@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use MagmaCore\Base\Domain\DomainActionLogicInterface;
 use MagmaCore\Base\Domain\DomainTraits;
+use MagmaCore\Base\Domain\DomainActionLogicInterface;
 
 /**
  * Class which handles the domain logic when adding a new item to the database
@@ -22,7 +22,7 @@ use MagmaCore\Base\Domain\DomainTraits;
  * event dispatching which provide usable data for event listeners to perform other
  * necessary tasks and message flashing
  */
-class NewAction implements DomainActionLogicInterface
+class ProfileAction implements DomainActionLogicInterface
 {
 
     use DomainTraits;
@@ -38,6 +38,7 @@ class NewAction implements DomainActionLogicInterface
      * @param Object $controller - The controller object implementing this object
      * @param string $eventDispatcher - the eventDispatcher for the current object
      * @param string $method - the name of the method within the current controller object
+     * @param array $additionalContext - additional data which can be passed to the event dispatcher
      * @return void
      */
     public function execute(
@@ -51,22 +52,22 @@ class NewAction implements DomainActionLogicInterface
 
         $this->controller = $controller;
         $this->method = $method;
+
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
-                
                 if ($controller->formBuilder->csrfValidate()) {
-                    $action = $controller->repository->getRepo()
-                        ->validateRepository(new $entityObject($controller->formBuilder->getData()))->persistAfterValidation();
+                    list($validatedData, $validationErrors) = $controller->repository->updateProfileAfterValidation(new $entityObject($controller->formBuilder->getData()), $controller->findOr404());
                     if ($controller->error) {
-                        $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError();
+                        $controller->error->addError($validationErrors, $controller)->dispatchError();
                     }
+                    $action = $controller->repository->getRepo()->findByIdAndUpdate($validatedData, $controller->findOr404()->id);
                     if ($action) {
                         if ($controller->eventDispatcher) {
                             $controller->eventDispatcher->dispatch(
                                 new $eventDispatcher(
                                     $method,
                                     array_merge(
-                                        $controller->repository->getRepo()->validatedDataBag(),
+                                        ['action' => $action, $validatedData],
                                         $additionalContext ? $additionalContext : []
                                     ),
                                     $controller
@@ -74,10 +75,11 @@ class NewAction implements DomainActionLogicInterface
                                 $eventDispatcher::NAME
                             );
                         }
-                    }
+                        }
                 }
-            }
+            } 
         endif;
+
         return $this;
     }
 }

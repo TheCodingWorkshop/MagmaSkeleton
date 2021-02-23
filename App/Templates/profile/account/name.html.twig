@@ -4,9 +4,8 @@
 {% set _app_name = app_name %}
 
 {% set profile_nav %}
-{% include 'client/profile/profile_menu.html.twig' %}
+{% include 'profile/profile_menu.html.twig' %}
 {% endset %}
-
 {% block content_title %}
 	My Account
 {% endblock content_title %}
@@ -20,21 +19,14 @@
 			<div class="uk-width-expand@m">
 				<ul id="component-tab-left" class="uk-switcher">
 					<li>
-						<h1 class="uk-heading-small">Edit Password</h1>
-						<p>Passwords need to include...</p>
-						<p>
-							<ul>
-								<li>8 or more characters</li>
-								<li>At least 1 letter</li>
-								<li>At least 1 number</li>
-							</ul>
-						</p>
-						{{ formPassword|raw }}
+						<h1 class="uk-heading-small">Edit Name</h1>
+						<p>Your display name is what people will see whenever you do anything public on our website or app. For example, if you comment on a story.</p>
+						{{ form|raw }}
 						<a class="uk-button uk-button-text uk-text-primary" href="{{ _profile_index }}">Cancel</a>
 					</li>
-					<li>{% include '/client/profile/profile_history.html.twig' %}</li>
-					<li>{% include '/client/profile/profile_cookies.html.twig' %}</li>
-					<li>{% include '/client/profile/profile_settings.html.twig' %}</li>
+					<li>{% include '/profile/profile_history.html.twig' %}</li>
+					<li>{% include '/profile/profile_cookies.html.twig' %}</li>
+					<li>{% include '/profile/profile_settings.html.twig' %}</li>
 				</ul>
 			</div>
 		</div>

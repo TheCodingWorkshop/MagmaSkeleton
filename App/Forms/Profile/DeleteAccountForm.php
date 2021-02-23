@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Forms\Client\Profile;
+namespace App\Forms\Profile;
 
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;

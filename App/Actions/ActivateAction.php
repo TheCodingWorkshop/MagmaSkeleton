@@ -46,6 +46,7 @@ class ActivateAction implements DomainActionLogicInterface
         string|null $entityObject = null,
         string|null $eventDispatcher = null,
         string $method,
+        string $class,
         array $additionalContext = []
     ): self {
 

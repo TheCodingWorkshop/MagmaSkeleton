@@ -4,7 +4,7 @@
 {% set _app_name = app_name %}
 
 {% set profile_nav %}
-{% include 'client/profile/profile_menu.html.twig' %}
+{% include 'profile/profile_menu.html.twig' %}
 {% endset %}
 
 {% block content_title %}
@@ -23,15 +23,15 @@
 						<li>
 							<h1 class="uk-heading-small">Personal Details</h1>
 							<p>Your account was created on
-								{{ profile.created_at }}. And your current status is
-								<span class="uk-text-success">{{ profile.status }}.</span>
+								{{ row.created_at }}. And your current status is
+								<span class="uk-text-success">{{ row.status }}.</span>
 								Your current role is set as
 								<i>Superadmin</i>
 							</p>
 							{% set details = {
-								email: {path: 'edit-email', value: profile.email},
-								password: {path: 'edit-password', value: 'Encrypted Password'},
-								name: {path: 'edit-name', value: profile.firstname ~ ' ' ~ profile.lastname},
+								email: {path: '' ~ row.id ~ '/email', value: row.email},
+								password: {path: '' ~ row.id ~ '/password', value: 'Encrypted Password'},
+								name: {path: '' ~ row.id ~ '/name', value: row.firstname ~ ' ' ~ row.lastname},
 							} %}
 
 							<dl class="uk-description-list uk-description-list-divider">
@@ -49,9 +49,9 @@
 							</p>
 
 						</li>
-						<li>{% include '/client/profile/profile_history.html.twig' %}</li>
-						<li>{% include '/client/profile/profile_cookies.html.twig' %}</li>
-						<li>{% include '/client/profile/profile_settings.html.twig' %}</li>
+						<li>{% include '/profile/profile_history.html.twig' %}</li>
+						<li>{% include '/profile/profile_cookies.html.twig' %}</li>
+						<li>{% include '/profile/profile_settings.html.twig' %}</li>
 					</ul>
 				</div>
 			</div>

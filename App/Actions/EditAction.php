@@ -27,6 +27,8 @@ class EditAction implements DomainActionLogicInterface
 
     use DomainTraits;
 
+    public bool $passwordRequired = false;
+
     /** @return void - not currently being used */
     public function __construct()
     {
@@ -46,16 +48,16 @@ class EditAction implements DomainActionLogicInterface
         string|null $entityObject = null,
         string|null $eventDispatcher = null,
         string $method,
+        string|null $class = null,
         array $additionalContext = []
     ): self {
 
         $this->controller = $controller;
         $this->method = $method;
-
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . $controller->thisRouteController())) {
                 if ($controller->formBuilder->csrfValidate()) {
-
+                    $this->runPasswordCheckIfRequired($class);
                     $action = $controller->repository->getRepo()
                         ->validateRepository(
                             new $entityObject($controller->formBuilder->getData()),

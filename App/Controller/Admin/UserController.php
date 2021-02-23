@@ -47,12 +47,6 @@ class UserController extends AdminController
                 'formUser' => \App\Forms\Admin\User\UserForm::class,
                 'perferencesForm' => \App\Forms\Admin\User\PerferencesForm::class,
                 'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
-                'newAction' => \App\Actions\NewAction::class,
-                'editAction' => \App\Actions\EditAction::class,
-                'indexAction' => \App\Actions\IndexAction::class,
-                'deleteAction' => \App\Actions\DeleteAction::class,
-                'showAction' => \App\Actions\ShowAction::class,
-
             ]
         );
     }
@@ -126,7 +120,7 @@ class UserController extends AdminController
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
                 ->render()
-                    ->with([])
+                    ->with()
                         ->form($this->formUser)
                             ->end();
     }
@@ -144,7 +138,7 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, ['user_id' => $this->thisRouteID()])
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, NULL, ['user_id' => $this->thisRouteID()])
                 ->render()
                     ->with(['user' => $this->toArray($this->findOr404())])
                         ->form($this->formUser)

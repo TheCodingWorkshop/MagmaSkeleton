@@ -25,6 +25,11 @@
 				<ul id="component-tab-left" class="uk-switcher">
 					<li>
 						{% if token_valid is empty %}
+							<h1 class="uk-heading-small">Token Expired</h1>
+							<p>Password reset link invalid or expired, please click
+								<a href="/password/forgot">here</a>
+								to request another one.</p>
+						{% else %}
 							<h1 class="uk-heading-small">What's your New Password</h1>
 							<p>Passwords need to include...</p>
 							<p>
@@ -36,11 +41,6 @@
 							</p>
 							{{ form|raw }}
 
-						{% else %}
-							<h1 class="uk-heading-small">Token Expired</h1>
-							<p>Password reset link invalid or expired, please click
-								<a href="/password/forgot">here</a>
-								to request another one.</p>
 
 						{% endif %}
 					</li>

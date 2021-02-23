@@ -29,14 +29,10 @@ class UserValidate extends AbstractDataRepositoryValidation
     protected array $errors = [];
     protected array $cleanData;
     protected array $dataBag = [];
-    protected ?string $randomPass = null;
-
-    protected const DEFAULT_STATUS = 'pending';
+    protected string|null $randomPassword = null;
 
     /**
-     * Validate the data before persisting to the database ensure
-     * the entity return valid email and password fields
-     * 
+     * @inheritdoc
      * @param object $cleanData - the incoming data
      * @param object|null $dataRepository - the repository for the entity
      * @return mixed
@@ -49,41 +45,24 @@ class UserValidate extends AbstractDataRepositoryValidation
 
         if (empty($this->errors)) {
 
-            /**
-             * getArr() method simple merges any data returned within the 
-             * $this->fields() method and the 
-             * $cleanData array and return a combine array of data
-             */
-            $cleanData = $this->getArr($this->cleanData);
+            $cleanData = $this->mergeWithFields($this->cleanData);
             if (null !== $cleanData) {
-                $clientIP = (new ClientIP())->getClientIp();
-                
-                /* Password Generated within admin panel */
-                $this->userPassword = (new RandomCharGenerator())->generate();
-                /* User created frontend password from registration form */
-                $clientPasswordHash = array_key_exists('client_password_hash', $cleanData) ? $cleanData['client_password_hash'] : $this->userPassword;
-
-                $encodedPassword = (new PasswordEncoder())->encode(
-                    (isset($clientPasswordHash) ? $clientPasswordHash : $this->userPssword)
-                );
-                $avatar = (new GravatarGenerator())->setGravatar($cleanData["email"] ? $cleanData['email'] : $dataRepository->email);
-
-                list(
-                    $tokenHash,
-                    $activationHash
-                ) = (new HashGenerator())->hash();
+                $email = $this->isSet('email', $cleanData, $dataRepository);
+                list($tokenHash, $activationHash) = (new HashGenerator())->hash();
 
                 $newCleanData = [
-                    "firstname" => $cleanData["firstname"],
-                    "lastname" => $cleanData["lastname"],
-                    "email" => $cleanData["email"] ? $cleanData['email'] : $dataRepository->email,
-                    "password_hash" => $encodedPassword,
-                    "activation_token" => $tokenHash,
-                    "status" => $this->setDefaultValue($cleanData, 'status', self::DEFAULT_STATUS),
-                    "created_byid" => $this->setDefaultValue($cleanData, 'created_byid', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0),
-                    "gravatar" => $avatar,
-                    "remote_addr" => $clientIP
+                    'firstname' => $this->isSet('firstname', $cleanData, $dataRepository),
+                    'lastname' => $this->isSet('lastname', $cleanData, $dataRepository),
+                    'email' => $email,
+                    'password_hash' => $this->userPassword($cleanData),
+                    'activation_token' => $tokenHash,
+                    'status' => $this->isSet('status', $cleanData, $dataRepository),
+                    'created_byid' => $this->setDefaultValue($cleanData, 'created_byid', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0),
+                    'gravatar' => (new GravatarGenerator())->setGravatar($email),
+                    'remote_addr' => (new ClientIP())->getClientIp()
                 ];
+
+                /* Settings additional data which will get merge with the dataBag */
                 $this->dataBag['activation_hash'] = $activationHash;
                 if (array_key_exists('role_id', $cleanData)) {
                     $this->dataBag['role_id'] = intval($cleanData['role_id']);
@@ -98,24 +77,48 @@ class UserValidate extends AbstractDataRepositoryValidation
                  */
                 if (!is_null($dataRepository)) {
                     unset($newCleanData['activation_token'], $newCleanData['password_hash']);
-                }     
-                    
+                }
             }
             return [
                 $newCleanData,
-                $this->validatedDataBag(array_merge($newCleanData, ['random_pass' => $this->userPassword])),
+                $this->validatedDataBag(array_merge($newCleanData, ['random_pass' => $this->randomPassword])),
             ];
         }
     }
 
-    public function validatedDataBag($newCleanData) : array
+    /**
+     * A user is required to type their password when creating an account on the
+     * frontend of the application. However when admin is creating a user from the 
+     * admin panel. A password will be automatically generated instead and send along
+     * with the user activation token via their registered email address. Either way the 
+     * password will be encoded before pass the database handler
+     *
+     * @param object|array $cleanData
+     * @param integer $length
+     * @return string
+     */
+    private function userPassword(object|array $cleanData, int $length = 12) : string
+    {
+        $userPassword = '';
+        $userPassword = $this->isSet('client_password_hash', $cleanData);
+        $encodedPassword = (new PasswordEncoder())->encode(
+            !empty($userPassword) ? $userPassword : ($this->randomPassword = (new RandomCharGenerator())->generate($length))
+        );
+        if ($encodedPassword)
+            return $encodedPassword;
+    }
+
+    /**
+     * @inheritdoc
+     * @return array
+     */
+    public function validatedDataBag($newCleanData): array
     {
         return array_merge($newCleanData, $this->dataBag);
     }
 
     /**
-     * Returns the error if any was generated
-     *
+     * @inheritdoc
      * @return array
      */
     public function getErrors(): array
@@ -123,19 +126,22 @@ class UserValidate extends AbstractDataRepositoryValidation
         return $this->errors;
     }
 
+    /**
+     * @inheritdoc
+     * @return array
+     */
     public function fields(): array
     {
         return [];
     }
 
     /**
-     * Validate the user data
-     *
+     * @inheritdoc
      * @param array $cleanData
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(array $cleanData, Null|Object $dataRepository = null): Null|array
+    public function validate(array $cleanData, Null|Object $dataRepository = null): array|null
     {
         if (null !== $cleanData) {
             if (is_array($cleanData) && count($cleanData) > 0) {
@@ -143,7 +149,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                     if (isset($key) && $key != '') :
                         switch ($key):
                             case "password_hash":
-                            case "client_password_hash" :
+                            case "client_password_hash":
                                 if (!empty($value)) {
                                     if (strlen($value) < 6) {
                                         $this->errors[Error::SHORT_PASSWORD] = "Please enter at least 6 characters for the password";
