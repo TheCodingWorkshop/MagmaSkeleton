@@ -73,7 +73,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                  * are not overwriting key aspects of the user object. ie. We don't wanna mess
                  * with the user password. And we don't wanna generate a new activation_token
                  * on user update so we will remove these two keys from the array. And !is_null
-                 * is simpel ensuring we have a user object that we are unsetting from.
+                 * is simple ensuring we have a user object that we are unsetting from.
                  */
                 if (!is_null($dataRepository)) {
                     unset($newCleanData['activation_token'], $newCleanData['password_hash']);

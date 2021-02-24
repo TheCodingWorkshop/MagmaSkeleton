@@ -45,15 +45,14 @@ class RoleValidate extends AbstractDataRepositoryValidation
              * getArr() method simple merges any data returned within the $this->fields() method and the 
              * $cleanData array and return a combine array of data
              */
-            $cleanData = $this->getArr($this->cleanData);
+            $cleanData = $this->mergeWithFields($this->cleanData);
             if (null !== $cleanData) {
-                $role = $this->setDefaultValue($cleanData, 'role_name', self::DEFAULT_ROLE);
                 $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
                 
                 $newCleanData = [
-                    "role_name" => $role,
-                    "role_description" => $cleanData["role_description"],
-                    "created_byid" => $createdById
+                    'role_name' => $this->isSet('role_name', $cleanData, $dataRepository),
+                    'role_description' => $this->isSet('role_description', $cleanData, $dataRepository),
+                    'created_byid' => $createdById
                 ];    
                 $this->dataBag = [];
         
@@ -65,7 +64,7 @@ class RoleValidate extends AbstractDataRepositoryValidation
         }
     }
 
-    public function validatedDataBag($newCleanData) 
+    public function validatedDataBag($newCleanData) : array
     {
         return array_merge($newCleanData, $this->dataBag);
     }

@@ -55,7 +55,7 @@ class UserProfileModel extends UserModel implements UserProfileInterface
      */
     public function isPasswordMatching(Object $object, Object $cleanData): bool
     {
-        if ($cleanData->password_hash_new === $cleanData->password_hash_retype) {
+        if ($cleanData->client_password_hash === $cleanData->password_hash_retype) {
             return true;
         }
         return false;

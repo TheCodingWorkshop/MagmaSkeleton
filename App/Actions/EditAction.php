@@ -48,7 +48,7 @@ class EditAction implements DomainActionLogicInterface
         string|null $entityObject = null,
         string|null $eventDispatcher = null,
         string $method,
-        string|null $class = null,
+        array $rules = [],
         array $additionalContext = []
     ): self {
 
@@ -57,7 +57,7 @@ class EditAction implements DomainActionLogicInterface
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . $controller->thisRouteController())) {
                 if ($controller->formBuilder->csrfValidate()) {
-                    $this->runPasswordCheckIfRequired($class);
+                    $this->enforceRules($rules, $controller);
                     $action = $controller->repository->getRepo()
                         ->validateRepository(
                             new $entityObject($controller->formBuilder->getData()),
@@ -66,7 +66,6 @@ class EditAction implements DomainActionLogicInterface
                                 ->findAndReturn($controller->thisRouteID())
                                 ->or404()
                         )->saveAfterValidation(['id' => $controller->thisRouteID()]);
-
                     if ($controller->error) {
                         $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError($controller->onSelf());
                     }
@@ -90,4 +89,6 @@ class EditAction implements DomainActionLogicInterface
         endif;
         return $this;
     }
+
+
 }

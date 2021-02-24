@@ -16,10 +16,14 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
+use MagmaCore\Utility\Yaml;
 use App\Event\UserActionEvent;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserController extends AdminController
 {
+
+    use DataLayerTrait;
 
     /**
      * Extends the base constructor method. Which gives us access to all the base
@@ -138,7 +142,7 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, NULL, ['user_id' => $this->thisRouteID()])
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, [], ['user_id' => $this->thisRouteID()])
                 ->render()
                     ->with(['user' => $this->toArray($this->findOr404())])
                         ->form($this->formUser)

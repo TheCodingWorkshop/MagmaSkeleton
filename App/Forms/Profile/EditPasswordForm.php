@@ -34,10 +34,10 @@ class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInt
 	{
 		return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
 			->add([PasswordType::class => ['name' => 'password_hash', 'placeholder' => 'Current Password']], null, ['show_label' => false])
-			->add([PasswordType::class => ['name' => 'password_hash_new', 'placeholder' => 'New Password']], null, ['show_label' => false])
+			->add([PasswordType::class => ['name' => 'client_password_hash', 'placeholder' => 'New Password']], null, ['show_label' => false])
 			->add([PasswordType::class => ['name' => 'password_hash_retype', 'placeholder' => 'Retype Password']], null, ['show_label' => false])
 			->add([HiddenType::class => ['name' => 'id', 'value' => $repository->id]], null, ['show_label' => false])
-			->add([SubmitType::class => ['name' => 'edit-profile-password', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+			->add([SubmitType::class => ['name' => 'password-account', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 			->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	}
 }

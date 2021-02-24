@@ -45,15 +45,14 @@ class PermissionValidate extends AbstractDataRepositoryValidation
              * getArr() method simple merges any data returned within the $this->fields() method and the 
              * $cleanData array and return a combine array of data
              */
-            $cleanData = $this->getArr($this->cleanData);
+            $cleanData = $this->mergeWithFields($this->cleanData);
             if (null !== $cleanData) {
-                $role = $this->setDefaultValue($cleanData, 'permission_name', self::DEFAULT_PERMISSION);
                 $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
                 
                 $newCleanData = [
-                    "permission_name" => $role,
-                    "permission_description" => $cleanData["permission_description"],
-                    "created_byid" => $createdById
+                    'permission_name' => $this->isSet('permission_name', $cleanData, $dataRepository),
+                    'permission_description' => $this->isSet('permission_description', $cleanData, $dataRepository),
+                    'created_byid' => $createdById
                 ];    
                 $this->dataBag = [];
         
@@ -65,7 +64,7 @@ class PermissionValidate extends AbstractDataRepositoryValidation
         }
     }
 
-    public function validatedDataBag($newCleanData) 
+    public function validatedDataBag($newCleanData) : array
     {
         return array_merge($newCleanData, $this->dataBag);
     }

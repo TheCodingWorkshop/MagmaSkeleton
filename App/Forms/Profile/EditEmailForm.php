@@ -32,9 +32,9 @@ class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterf
 	 */
     public function createForm(string $action,?Object $repository = null) 
 	{
-		return $this->form(['action' => $action, 'class' => 'uk-form-stacked uk-form-bolder']) 
+		return $this->form(['action' => $action, 'class' => 'uk-form-stacked uk-form-bolder', 'autocomplete' => false]) 
 		->add([EmailType::class => ['name' => 'email', 'value' => $repository->email]], null, ['show_label' => false])
-		->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
+		->add([PasswordType::class => ['name' => 'password_hash', 'autocomplete' => 'new-password', 'placeholder' => 'Password Required']], null, ['show_label' => false])
 		->add([HiddenType::class => ['name' => 'id', 'value' => $repository->id]], null, ['show_label' => false])
 		->add([SubmitType::class => ['name' => 'email-account', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);

@@ -145,7 +145,7 @@ class AccountController extends BaseController
     protected function emailAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, __CLASS__)
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__,['password_required'])
                 ->render()
                     ->with(['app_name' => 'LavaStudio'])
                         ->form($this->editEmailForm)
@@ -163,39 +163,12 @@ class AccountController extends BaseController
      */
     protected function passwordAction()
     {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-profile-password')) {
-                if ($this->formBuilder->csrfValidate()) {
-                    if ($this->repository->verifyPassword($this, $this->findOr404()->id)) {
-                        if ($this->repository->isPasswordMatching($this, $this->userEntity())) {
-                            list(
-                                $validatedData,
-                                $error
-                            ) = $this->repository->updateProfilePasswordOnceValidated($this->userEntity(),$this->findOr404());
-                            if ($this->erorr) {
-                                $this->error->addError($error, $this)->dispatchError($this->onSelf());
-                            }
-                            $action = $this->repository
-                                ->getRepo()
-                                ->findByIdAndUpdate($validatedData, $this->findOr404()->id);
-                            $this->flashAndRedirect($action, null, 'Changes Saved!');
-                        } else {
-                            $this->flashAndRedirect(false, null, 'Oops! Password did not match! Try again.', 'warning');
-                        }
-                    } else {
-                        $this->flashAndRedirect(false, null, 'Incorrect Password for this account.!', 'warning');
-                    }
-                }
-            }
-        }
-        $this->render(
-            'client/profile/edit_password.html.twig',
-            [
-                "profile" => $this->findOr404(),
-                "formPassword" => $this->editPasswordForm->createForm("/profile/account/edit-password", $this->findOr404()),
-                "app_name" => "LavaStudio"
-            ]
-        );
+        $this->editAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, ['password_equal'])
+                ->render()
+                    ->with()
+                        ->form($this->editPasswordForm)
+                            ->end();
     }
 
     /**
@@ -209,30 +182,11 @@ class AccountController extends BaseController
      */
     protected function deleteAction()
     {
-        if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('delete-profile')) {
-                if ($this->formBuilder->csrfValidate()) {
-                    if ($this->repository->isOwnAccount($this)) {
-                        list(
-                            $validatedData,
-                            $error
-                        ) = $this->repository->deleteAccountOnceValidated($this->userEntity(),$this->findOr404());
-                        if ($this->erorr) {
-                            $this->error->addError($error, $this)->dispatchError($this->onSelf());
-                        }
-                        $action = $this->repository->getRepo()->findByIdAndDelete($validatedData);
-                        $this->flashAndRedirect($action, '/', 'Account deleted successfully.');
-                    }
-                }
-            }
-        }
-        $this->render(
-            'client/profile/delete_account.html.twig',
-            [
-                "profile" => $this->findOr404(),
-                "deleteAccount" => $this->deleteAccount->createForm("/profile/account/delete",$this->findOr404()),
-            ]
-        );
-
+        $this->deleteAction 
+            ->execute($this, NULL, UserActionEvent::class, __METHOD__)
+                ->render()
+                    ->with()   
+                        ->form($this->deleteAccount)    
+                            ->end();
     }
 }

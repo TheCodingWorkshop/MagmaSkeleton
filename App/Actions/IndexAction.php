@@ -45,7 +45,7 @@ class IndexAction implements DomainActionLogicInterface
         string|null $entityObject = null,
         string|null $eventDispatcher = null,
         string $method,
-        string|null $class = null,
+        array $rules = [],
         array $additionalContext = []
     ): self {
         $this->controller = $controller;

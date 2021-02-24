@@ -52,6 +52,10 @@ class UserActionSubscriber implements EventSubscriberInterface
         'App\Controller\Admin\UserController::newAction' => ['msg' => 'New User Added!'],
         'App\Controller\Admin\UserController::editAction' => ['msg' => 'User updated!'],
         'App\Controller\Admin\UserController::deleteAction' => ['msg' => 'User Deleted!', 'redirect' => self::REDIRECT_DELETE],
+        'App\Controller\Profile\AccountController::nameAction' => ['msg' => 'Your name updated successfully!'],
+        'App\Controller\Profile\AccountController::emailAction' => ['msg' => 'Email Updated Successfully!'],
+        'App\Controller\Profile\AccountController::passwordAction' => ['msg' => 'Password updated successfully'],
+
     ];
 
     /**
@@ -123,7 +127,6 @@ class UserActionSubscriber implements EventSubscriberInterface
                 }
             }
         }
-
     }
 
     /**

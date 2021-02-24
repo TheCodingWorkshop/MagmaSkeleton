@@ -4,6 +4,15 @@ services:
             class: \App\EventSubscriber\UserActionSubscriber
             props:
                 - {}
+            register_route_feedback:
+                \App\Controller\Admin\UserController:
+                    newAction: 
+                        - { msg: New user added!}
+                    editAction: 
+                        - { msg: Changes saved!}
+                    deleteAction: 
+                        - { msg: User deleted successfully! }
+                
         role.subscriber:
             class: \App\EventSubscriber\RoleActionSubscriber
             props: 
