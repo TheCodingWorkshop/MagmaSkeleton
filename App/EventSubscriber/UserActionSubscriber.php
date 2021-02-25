@@ -47,17 +47,6 @@ class UserActionSubscriber implements EventSubscriberInterface
     protected const DELETE_ACTION = 'delete';
     protected const REGISTER_ACTION = 'register';
 
-    protected const ACTION_ROUTES = [
-        'App\Controller\RegistrationController::registerAction' => ['msg' => 'Your Account is created!'],
-        'App\Controller\Admin\UserController::newAction' => ['msg' => 'New User Added!'],
-        'App\Controller\Admin\UserController::editAction' => ['msg' => 'User updated!'],
-        'App\Controller\Admin\UserController::deleteAction' => ['msg' => 'User Deleted!', 'redirect' => self::REDIRECT_DELETE],
-        'App\Controller\Profile\AccountController::nameAction' => ['msg' => 'Your name updated successfully!'],
-        'App\Controller\Profile\AccountController::emailAction' => ['msg' => 'Email Updated Successfully!'],
-        'App\Controller\Profile\AccountController::passwordAction' => ['msg' => 'Password updated successfully'],
-
-    ];
-
     /**
      * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
@@ -91,7 +80,7 @@ class UserActionSubscriber implements EventSubscriberInterface
      */
     public function flashUserEvent(UserActionEvent $event)
     {
-        $this->flashingEvent($event, self::ACTION_ROUTES, self::FLASH_DEFAULT, self::DELETE_ACTION);
+        $this->flashingEvent($event, $this->trailingRoutes($event), self::FLASH_DEFAULT, self::DELETE_ACTION);
     }
 
     /**

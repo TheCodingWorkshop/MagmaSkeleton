@@ -40,11 +40,6 @@ class LoginActionSubscriber implements EventSubscriberInterface
     protected const INDEX_ACTION = 'index';
     protected const LOGOUT_ACTION = 'logout';
 
-    protected const ACTION_ROUTES = [
-        'App\Controller\SecurityController::indexAction' => ['msg' => 'Welcome Back!'],
-        'App\Controller\SecurityController::logoutAction' => ['msg' => 'Youv\'e successfully logged out'],
-    ];
-
     /**
      * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
@@ -76,7 +71,7 @@ class LoginActionSubscriber implements EventSubscriberInterface
      */
     public function flashLoginEvent(LoginActionEvent $event)
     {
-        $this->flashingEvent($event, self::ACTION_ROUTES, self::FLASH_DEFAULT, null,
+        $this->flashingEvent($event, $this->trailingRoutes($event), self::FLASH_DEFAULT, null,
             /**
              * As we are dealing with modal for adding and editing roles we want to redirect
              * back to the role index page.

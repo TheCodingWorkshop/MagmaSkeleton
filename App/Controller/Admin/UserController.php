@@ -53,6 +53,7 @@ class UserController extends AdminController
                 'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
             ]
         );
+
     }
 
     /**

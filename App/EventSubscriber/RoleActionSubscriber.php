@@ -33,22 +33,6 @@ class RoleActionSubscriber implements EventSubscriberInterface
     protected const REDIRECT_ON_INDEX = '/admin/role/index';
 
     /**
-     * Add other route index here in order for that route to flash properly. this array is index array
-     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to 
-     * load other routes for flashing
-     * @var int
-     */
-    protected const NEW_ACTION = 'new';
-    protected const EDIT_ACTION = 'edit';
-    protected const DELETE_ACTION = 'delete';
-
-    protected const ACTION_ROUTES = [
-        'App\Controller\Admin\RoleController::newAction' => ['msg' => 'New Role Added!'],
-        'App\Controller\Admin\RoleController::editAction' => ['msg' => 'Role updated!'],
-        'App\Controller\Admin\RoleController::deleteAction' => ['msg' => 'Role Deleted!'],
-    ];
-
-    /**
      * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
      * addtitional tasks on that return object.
@@ -79,7 +63,7 @@ class RoleActionSubscriber implements EventSubscriberInterface
      */
     public function flashRoleEvent(RoleActionEvent $event)
     {
-        $this->flashingEvent($event, self::ACTION_ROUTES, self::FLASH_DEFAULT, null,
+        $this->flashingEvent($event, $this->trailingRoutes($event), self::FLASH_DEFAULT, null,
             /**
              * As we are dealing with modal for adding and editing roles we want to redirect
              * back to the role index page.

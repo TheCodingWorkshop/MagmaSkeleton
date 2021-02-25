@@ -1,0 +1,15 @@
+'App\Controller\RegistrationController::registerAction':
+    msg: 'Your Account is created!'
+'App\Controller\Admin\UserController::newAction':
+    msg: 'New User Added!'
+'App\Controller\Admin\UserController::editAction':
+    msg: 'User updated!'
+'App\Controller\Admin\UserController::deleteAction':
+    msg: 'User Deleted!'
+    redirect: ''
+'App\Controller\Profile\AccountController::nameAction':
+    msg: 'Your name updated successfully!'
+'App\Controller\Profile\AccountController::emailAction':
+    msg: 'Email Updated Successfully!'
+'App\Controller\Profile\AccountController::passwordAction':
+    msg: 'Password updated successfully'
