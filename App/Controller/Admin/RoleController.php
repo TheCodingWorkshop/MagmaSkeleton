@@ -17,6 +17,7 @@ use SyntaxError;
 use RuntimeError;
 use App\Entity\RoleEntity;
 use App\Event\RoleActionEvent;
+use MagmaCore\Auth\Entity\RolePermissionEntity;
 
 class RoleController extends AdminController
 {
@@ -45,7 +46,7 @@ class RoleController extends AdminController
                 'repository' => \MagmaCore\Auth\Model\RoleModel::class,
                 'column' => \App\DataColumns\RoleColumn::class,
                 'formRole' => \App\Forms\Admin\Role\RoleForm::class,
-                'permissionModel' => \MagmaCore\Auth\Model\PermissionModel::class,
+                'permission' => \MagmaCore\Auth\Model\PermissionModel::class,
                 'rolePerm' => \MagmaCore\Auth\Model\RolePermissionModel::class,
             ]
         );
@@ -57,9 +58,9 @@ class RoleController extends AdminController
      *
      * @return mixed
      */
-    private function findRoleOr404()
+    public function findOr404()
     {
-        $repository = $this->roleRepository->getRepo()
+        $repository = $this->repository->getRepo()
             ->findAndReturn($this->thisRouteID())
             ->or404();
 
@@ -126,30 +127,30 @@ class RoleController extends AdminController
             ->execute($this, NULL, RoleActionEvent::class, __METHOD__);
     }
 
+    private function flat(array $arrays)
+    {
+        $arr = [];
+        foreach ($arrays as $array) 
+            $arr[] = $array;
+
+        return $arr;
+    }
+
     protected function assignedAction()
     {
-        /*$this->editAction
-            ->execute($this, NULL, NULL, __METHOD__)
+        $this->newAction
+            ->execute($this, RolePermissionEntity::class, NULL, __METHOD__)
                 ->render()
-                    ->with()
+                    ->with(
+                            [
+                                'role' => $this->toArray($this->findOr404()),
+                                'permissions' => $this->permission->getRepo()->findAll(),
+                                'role_perms' => $this->rolePerm->getRepo()->findBy(['permission_id', 'role_id'], ['role_id' => $this->thisRouteID()])
+                            ]
+                        )
                         ->form($this->formRole)
-                            ->end();*/
+                            ->end();
 
-       /* if (isset($this->formBuilder)) {
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('edit-' . $this->thisRouteController())) {
-                if ($this->formBuilder->csrfValidate()) {
-                }
-            }
-        }
-        $this->render(
-            "/admin/role/assigned.html.twig",
-            [
-                "this" => $this,
-                "role" => $this->toArray($this->findRoleOr404()),
-                "permissions" => $this->permissionModel->getRepo()->findAll(),
-                "role_perm" => $this->rolePerm->getRepo()->findObjectBy(['role_id' => $this->thisRouteID()])
-            ]
-        );*/
     }
 
     /**

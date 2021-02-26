@@ -1,131 +1,129 @@
 tag_index_path:
-    header:
-        header: Manage
-    categories:
-        title: Categories
-        path: /admin/category/index
-        icon: list
-    posts:
-        title: Posts
-        path: /admin/post/index
-        icon: location
-        divider: true
-    log:
-        title: Log
-        path: /admin/role/log
-        icon: file-text
+  header:
+    header: Manage
+  categories:
+    title: Categories
+    path: /admin/category/index
+    icon: list
+  posts:
+    title: Posts
+    path: /admin/post/index
+    icon: location
+    divider: true
+  log:
+    title: Log
+    path: /admin/role/log
+    icon: file-text
 
 category_index_path:
-    header:
-        header: Manage
-    tags:
-        title: Tags
-        path: /admin/tag/index
-        icon: tag
-    posts:
-        title: Posts
-        path: /admin/post/index
-        icon: location
-        divider: true
-    log:
-        title: Log
-        path: /admin/category/log
-        icon: file-text
-
+  header:
+    header: Manage
+  tags:
+    title: Tags
+    path: /admin/tag/index
+    icon: tag
+  posts:
+    title: Posts
+    path: /admin/post/index
+    icon: location
+    divider: true
+  log:
+    title: Log
+    path: /admin/category/log
+    icon: file-text
 
 permission_index_path:
-    header:
-        header: Manage
-    permission:
-        title: Roles
-        path: /admin/role/index
-        icon: plus
-    user:
-        title: Users
-        path: /admin/user/index
-        icon: user
-        divider: true
-    log:
-        title: Log
-        path: /admin/role/log
-        icon: file-text
-        
+  header:
+    header: Manage
+  permission:
+    title: Roles
+    path: /admin/role/index
+    icon: plus
+  user:
+    title: Users
+    path: /admin/user/index
+    icon: user
+    divider: true
+  log:
+    title: Log
+    path: /admin/role/log
+    icon: file-text
+
 user_index_sort:
-    header:
-        header: Sort By
-    
+  header:
+    header: Sort By
 
 user_index_path:
-    header:
-        header: Filter By
-    status:
-        title: Status
-        path: ''
-        children:
-            all:
-                title: All
-                path: /admin/user/index
-            active:
-                title: Active
-                path: '?status=active'
-            pending:
-                title: Pending
-                path: '?status=pending'
-            lock:
-                title: Lock
-                path: '?status=lock'
-            trash:
-                title: Trash
-                path: '?status=trash'
-        header: Manage
-    new:
-        title: Add New
-        path: /admin/user/new
-        icon: plus
-    roles:
-        title: Roles
-        path: /admin/role/index
-        icon: user
-    permission:
-        title: Permissions
-        path: /admin/permission/index
-        icon: lock
-        divider: true
-    log:
-        title: Log
-        path: /admin/user/log
-        icon: file-text
+  header:
+    header: Filter By
+  status:
+    title: Status
+    path: ""
+    children:
+      all:
+        title: All
+        path: /admin/user/index
+      active:
+        title: Active
+        path: "?status=active"
+      pending:
+        title: Pending
+        path: "?status=pending"
+      lock:
+        title: Lock
+        path: "?status=lock"
+      trash:
+        title: Trash
+        path: "?status=trash"
+    header: Manage
+  new:
+    title: Add New
+    path: /admin/user/new
+    icon: plus
+  roles:
+    title: Roles
+    path: /admin/role/index
+    icon: user
+  permission:
+    title: Permissions
+    path: /admin/permission/index
+    icon: lock
+    divider: true
+  log:
+    title: Log
+    path: /admin/user/log
+    icon: file-text
 
 role_index_path:
-    header:
-        header: Manage
-    permission:
-        title: Permissions
-        path: /admin/permission/index
-        icon: plus
-    user:
-        title: Users
-        path: /admin/user/index
-        icon: user
-        divider: true
-    log:
-        title: Log
-        path: /admin/role/log
-        icon: file-text
+  header:
+    header: Manage
+  permission:
+    title: Permissions
+    path: /admin/permission/index
+    icon: plus
+  user:
+    title: Users
+    path: /admin/user/index
+    icon: user
+    divider: true
+  log:
+    title: Log
+    path: /admin/role/log
+    icon: file-text
 
 role_assigned:
-    header:
-        header: Manage
-    role:
-        title: Roles
-        path: /admin/role/index
-        icon: users
-    permission:
-        title: Permissions
-        path: /admin/permission/index
-        icon: lock
-        divider: true
-    user:
-        title: Users
-        path: /admin/user/index
-        icon: user
+  header:
+    header: Manage
+  role:
+    title: Roles
+    path: /admin/role/index
+    icon: users
+  permission:
+    title: Permissions
+    path: /admin/permission/index
+    icon: lock
+    divider: true
+  user:
+    title: Users
+    path: /admin/user/index
+    icon: user

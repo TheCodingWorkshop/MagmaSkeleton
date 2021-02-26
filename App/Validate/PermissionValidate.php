@@ -23,8 +23,6 @@ class PermissionValidate extends AbstractDataRepositoryValidation
     protected array $cleanData;
     protected array $dataBag = [];
 
-    protected const DEFAULT_PERMISSION = 'read';
-
     /**
      * Validate the data before persisting to the database ensure
      * the entity return valid email and password fields

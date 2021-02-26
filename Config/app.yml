@@ -8,9 +8,9 @@ settings:
   default_charset: UTF-8
   default_locale: en
   default_timezone: Europe/London
-  favicon: ''
-  apple_icon: ''
-  secret_key: ''
+  favicon: ""
+  apple_icon: ""
+  secret_key: ""
   googleAnalytics: UA-XXXXX-Y
 
 system:
@@ -37,6 +37,16 @@ system:
   use_auto_password: false,
   use_auth: true
   activation_token_expiration: 3600
+  super_role:
+    props:
+      { name: Super, id: 1, description: Roles which contains all priviledges }
+  default_role:
+    props:
+      {
+        name: Subscriber,
+        id: 2,
+        description: Role which allows basic user access,
+      }
 
 gravatar:
   rating: r
@@ -45,13 +55,13 @@ gravatar:
 
 security:
   password_pattern: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-  url_pattern: 'https?://.+'
+  url_pattern: "https?://.+"
   search_pattern: "[^'\x22]+"
   email_pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-  tel_pattern: '[0-9]{3}-[0-9]{3}-[0-9]{4}'
+  tel_pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}"
 
 database:
   default_pdo_driver: mysql
 
 debug_error:
-  mode: 'dev'
+  mode: "dev"

@@ -1,10 +1,10 @@
 <?php
 /*
  * This file is part of the MagmaCore package.
- *
- * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
- *
- * For the full copyright and license information, please view the LICENSE
+             *
+             * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
+             *
+             * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use MagmaCore\Utility\Yaml;
 use App\Event\PermissionActionEvent;
-use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use MagmaCore\Auth\Model\RolePermissionModel;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
+use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -31,6 +33,16 @@ class PermissionActionSubscriber implements EventSubscriberInterface
     private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
     /** @var string */
     protected const REDIRECT_ON_INDEX = '/admin/permission/index';
+    /**
+     * Add other route index here in order for that route to flash properly. this array is index array
+     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to 
+     * load other routes for flashing
+     * @var int
+     */
+    protected const NEW_ACTION = 'new';
+    protected const EDIT_ACTION = 'edit';
+    protected const DELETE_ACTION = 'delete';
+
 
     /**
      * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
@@ -43,6 +55,7 @@ class PermissionActionSubscriber implements EventSubscriberInterface
     {
         return [
             PermissionActionEvent::NAME => [
+                ['assignedToSuperRole'],
                 ['flashPermissionEvent', self::FLASH_MESSAGE_PRIOIRTY],
             ]
         ];
@@ -63,7 +76,11 @@ class PermissionActionSubscriber implements EventSubscriberInterface
      */
     public function flashPermissionEvent(PermissionActionEvent $event)
     {
-        $this->flashingEvent($event, $this->trailingRoutes($event), self::FLASH_DEFAULT, null,
+        $this->flashingEvent(
+            $event,
+            $this->trailingRoutes($event),
+            self::FLASH_DEFAULT,
+            null,
             /**
              * As we are dealing with modal for adding and editing roles we want to redirect
              * back to the role index page.
@@ -74,4 +91,30 @@ class PermissionActionSubscriber implements EventSubscriberInterface
         );
     }
 
+    /**
+     * Automatically assign any newly created permission to the superadmin role
+     *
+     * @param PermissionActionEvent $event
+     * @return void
+     */
+    public function assignedToSuperRole(PermissionActionEvent $event)
+    {
+        if ($this->onRoute($event, self::NEW_ACTION)) {
+            $permission = $event->getContext();
+            $superRole = Yaml::file('app')['system']['super_role'];
+            if ($permission) {
+                $permID = $permission['last_id'];
+                $fields = ['role_id' => $superRole['props']['id'], 'permission_id' => $permID];
+                $push = (new RolePermissionModel())
+                    ->getRepo()
+                        ->getEm()
+                            ->getCrud()
+                                ->create($fields);
+
+                if (is_bool($push) && $push === true) {
+                    return $push;
+                }
+            }
+        }
+    }
 }

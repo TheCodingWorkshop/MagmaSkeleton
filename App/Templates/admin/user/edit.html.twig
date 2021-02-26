@@ -117,34 +117,32 @@
 		{% block body_javascript %}
 			{{ parent() }}
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-			<script src="{{ asset('/public/assets/js/hideShowPassword.min.js') }}"></script>
-			<script src="{{ asset('/public/assets/js/app.js') }}"></script>
 			<script>
 				$(document).ready(function() {
 
 					var userId = '{{ _row.id }}';
-
 					/**
 					 * Validate the form
 					 */
-					$('#formUser').validate({
+					$('').validate({
+						errorPlacement: function(label, element) {
+							label.addClass('arrow');
+							label.insertAfter(element);
+						},
+						wrapper: 'div',
 						rules: {
 							name: 'required',
 							email: {
 								required: true,
 								email: true,
 								remote: {
-									url: '/account/validate-email',
+									url: '/api/account/validate-email',
 									data: {
 										ignore_id: function() {
 											return userId;
 										}
 									}
 								}
-							},
-							password: {
-							minlength: 6,
-							validPassword: true
 							}
 						},
 						messages: {
@@ -154,15 +152,22 @@
 						}
 					});
 
-					/**
-					 * Show password toggle button
-					 */
-					$('#password_hash').hideShowPassword({
-						show: false,
-						innerToggle: 'focus'
-					});
-
 				});
+				//onclick="UIkit.notification({message: 'Notification message'})"
+			</script>
+			<script>
+				/*$(window).on("load", function () {
+					function UIkitNotify() {
+						//UIkit.notification("<span uk-icon='icon: check'></span> Message");
+						UIkit.notification({
+							message: 'Saving...',
+							status: 'primary',
+							pos: 'top-right',
+							timeout: 5000
+						});
+					}
+
+				});*/
 			</script>
 
 		{% endblock body_javascript %}

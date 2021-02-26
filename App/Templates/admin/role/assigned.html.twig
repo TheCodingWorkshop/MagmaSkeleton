@@ -1,4 +1,5 @@
 {% extends 'base_admin.html.twig' %}
+{% import "macros/multicheck.macro.html.twig" as multicheck %}
 
 {% set _this			= this %}
 {% set _form            = form %}
@@ -6,10 +7,8 @@
 {% set _table 			= table %}
 {% set _pagination 		= pagination %}
 {% set _total_records 	= total_records %}
-{% set _columns 		= columns %}
 {% set _results 		= results %}
 {% set _searchedQuery 	= search_query %}
-{% set _helpBlock 		= help_block %}
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size	    = 3 %}
 {% set _icon			= 'file-edit' %}
@@ -32,7 +31,7 @@
 	#}
 	{{ subHeader(
 		_searchedQuery,
-		_controller|capitalize,
+		_controller,
 		_total_records,
 		{
 			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
@@ -50,7 +49,8 @@
 		},
 		false,
 		null,
-		null
+		null,
+		_icon
 	)|raw }}
 {% endblock content_header_help %}
 
@@ -68,8 +68,11 @@
 				<div class="uk-card uk-card-default">
 					<div class="uk-card-body">
 						<h3 class="uk-card-title">{{ role.role_name }}</h3>
-						<p>{{ role.role_description }} - This role contains {{ role_perm.permission_id|length }}</p>
-						<p><span class="uk-badge uk-badge-primary">{{ getPermissionName(role_perm.permission_id) }}</span></p>
+						<p>{{ role.role_description }}
+							-
+							{{ role_permission.permission_id|length }}
+							permission(s) assigned to this role.</p>
+
 					</div>
 				</div>
 			</div>
@@ -78,28 +81,22 @@
 				<div class="uk-card uk-card-default">
 					<div class="uk-card-body">
 						<form method="POST" action="" class="uk-form-horizontal">
-							{% if permissions is empty %}
-								No Data!
-							{% else %}
-								{% for permission in permissions %}
-									{% if permission.id == role_perm.permission_id %}
-										{% set checked = 'checked' %}
-										{% set dis = 'disabled' %}
-									{% else %}
-										{% set checked = '' %}
-										{% set dis = '' %}
-									{% endif %}
-									<div>
-									<label for="{{ permission.permission_name }}">
-										<input type="checkbox" {{ dis }} class="uk-checkbox" name="permission_name" id="permission_name_{{ permission.permission_name }}" value="{{ permission.id }}" {{ checked }}>
-										{{ permission.permission_name }}
-									</label>
-
-									</div>
-								{% endfor %}
-							{% endif %}
 							<div class="uk-margin">
-								<input type="submit" class="uk-button uk-button-small uk-button-primary" value="Update" name="update-role">
+								<div class="uk-form-label">Permissions
+									<br>
+									<span class="uk-text-small uk-text-lighter">You can assign one or multiple permissions for this role.</span>
+								</div>
+								{{ multicheck._multicheck(
+										permissions,
+										'id',
+										role_perms,
+										'permission_id',
+										'permission_name'
+									) }}
+								<div class="uk-form-controls">
+									<input type="submit" class="uk-button uk-button-small uk-button-primary" value="Update" name="update-role">
+								</div>
+
 							</div>
 						</form>
 					</div>

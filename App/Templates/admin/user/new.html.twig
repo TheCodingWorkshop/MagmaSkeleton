@@ -61,52 +61,33 @@
 		{% block body_javascript %}
 			{{ parent() }}
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
-			<script src="{{ asset('/public/assets/js/hideShowPassword.min.js') }}"></script>
-			<script src="{{ asset('/public/assets/js/app.js') }}"></script>
 			<script>
 				$(document).ready(function() {
-
-					var userId = '{{ _row.id }}';
 
 					/**
 					 * Validate the form
 					 */
-					$('#formUser').validate({
+					$('#userForm').validate({
+						errorPlacement: function(label, element) {
+							label.addClass('arrow');
+							label.insertAfter(element);
+						},
+						wrapper: 'div',
 						rules: {
 							name: 'required',
 							email: {
 								required: true,
 								email: true,
-								remote: {
-									url: '/account/validate-email',
-									data: {
-										ignore_id: function() {
-											return userId;
-										}
-									}
-								}
+								remote: '/api/account/validate-email'
 							},
-							password: {
-							minlength: 6,
-							validPassword: true
-							}
 						},
 						messages: {
 							email: {
-								remote: 'email already taken'
+								remote: 'That email address is already registered.'
 							}
 						}
 					});
 
-					/**
-					 * Show password toggle button
-					 */
-					$('#password_hash').hideShowPassword({
-						show: false,
-						innerToggle: 'focus'
-					});
-
 				});
 			</script>
-
 		{% endblock body_javascript %}
