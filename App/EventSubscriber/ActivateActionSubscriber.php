@@ -32,17 +32,6 @@ class ActivateActionSubscriber extends EventDispatcherDefaulter implements Event
     private const FLASH_DEFAULT = self::DEFAULT_MESSAGES['new_activation'];
 
     /**
-     * Add other route index here in order for that route to flash properly. this array is index array
-     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to 
-     * load other routes for flashing
-     * @var int
-     */
-
-    protected const ACTION_ROUTES = [
-        'App\Controller\ActivationController::activateAction' => [],
-    ];
-
-    /**
      * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
      * addtitional tasks on that return object.
@@ -75,7 +64,7 @@ class ActivateActionSubscriber extends EventDispatcherDefaulter implements Event
     {
         $this->flashingEvent(
             $event, 
-            self::ACTION_ROUTES, 
+            $this->trailingRoutes($event), 
             self::FLASH_DEFAULT, 
             NULL, /* We will just let the script redirect back onSelf() */
             NULL /* Not using a Closure ie a callback function */

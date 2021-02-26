@@ -32,17 +32,6 @@ class PasswordActionSubscriber extends EventDispatcherDefaulter implements Event
     private const FLASH_DEFAULT = self::DEFAULT_MESSAGES['new_password'];
 
     /**
-     * Full namespace route with method name is defined as the key of the array. We can set a 
-     * flash message(msg) and redirect path on each individual routes. If we omit the redirect key
-     * then the route will redirect on itself or if the omit the flash message then the default message
-     * will be returned
-     */
-    protected const ACTION_ROUTES = [
-        'App\Controller\PasswordController::forgotAction' => [/* Using defaults */],
-        'App\Controller\PasswordController::resetAction' => ['msg' => self::DEFAULT_MESSAGES['password_reset'], 'redirect' =>'/login'],
-    ];
-
-    /**
      * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
      * addtitional tasks on that return object.
@@ -75,7 +64,7 @@ class PasswordActionSubscriber extends EventDispatcherDefaulter implements Event
     {
         $this->flashingEvent(
             $event, 
-            self::ACTION_ROUTES, 
+            $this->trailingRoutes($event), 
             self::FLASH_DEFAULT, 
             NULL, /* We will just let the script redirect back onSelf() */
             NULL /* Not using a Closure ie a callback function */

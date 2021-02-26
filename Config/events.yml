@@ -64,10 +64,20 @@ services:
       class: \App\EventSubscriber\PasswordActionSubscriber
       props:
         - {}
+      register_route_feedback:
+        App\Controller\PasswordController::forgotAction:
+          msg: Your request was successful. Please check your email address for reset link!
+        App\Controller\PasswordController::resetAction:
+          msg: Password reset successfully.
+
     activate.subscriber:
       class: \App\EventSubscriber\ActivateActionSubscriber
       props:
         - {}
+      register_route_feedback:
+        App\Controller\ActivateController::activateAction:
+          msg: You\'re now activated
+
   listeners:
     my.listener1:
       class: \App\EventListener\RoleListener
