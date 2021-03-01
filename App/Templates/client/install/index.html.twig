@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}Home
+{% endblock content_title %}
+
+{% block main %}
+	<div class="uk-container uk-container-xsmall">
+		<div>
+			<div uk-grid>
+				<div class="uk-width-auto@m">
+					{% set navs = {
+						server: {title: 'Server', path: '#'},
+						database: {title: 'Database', path: '#'},
+						user: {title: 'User Account', path: '#'},
+						done: {title: 'Complete', path: '#'},
+					} %}
+					<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+
+						{% for index, nav in navs %}
+							<li>
+								<a href="{{ nav.path }}">{{ nav.title }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="uk-width-expand@m">
+					<ul id="component-tab-left" class="uk-switcher">
+						<li>
+							<article class="uk-article">
+								<h1 class="uk-article-title">Magma Installation</h1>
+								<p class="uk-article-meta">Developed By
+									<a href="#">{{ app_author }}</a>
+									Current stable version
+									<a class="uk-text-primary uk-text-bolder" href="#">{{ app_version }}</a>
+								</p>
+								<p>Please note all fields are required. With the exception when developing on your local computer. Whilst you will require a database name. Most users will simple omit the password. But on your production server. This must be used.</p>
+								{{ form|raw }}
+							</article>
+						</li>
+						<li>{% include 'client/home/road_map.html.twig' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock main %}

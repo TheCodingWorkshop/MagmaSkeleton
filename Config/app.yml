@@ -62,6 +62,10 @@ security:
 
 database:
   default_pdo_driver: mysql
+  supported_drivers:
+    - mysql
+    - pgsql
+    - sqlite
 
 debug_error:
   mode: "dev"

@@ -17,10 +17,13 @@ use SyntaxError;
 use RuntimeError;
 use App\Entity\RoleEntity;
 use App\Event\RoleActionEvent;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\Auth\Entity\RolePermissionEntity;
 
 class RoleController extends AdminController
 {
+
+    use DataLayerTrait;
 
     /**
      * Extends the base constructor method. Which gives us access to all the base
@@ -138,6 +141,9 @@ class RoleController extends AdminController
 
     protected function assignedAction()
     {
+       /*$test = $this->rolePerm->getRepo()->findBy(['permission_id'],['role_id' => $this->thisRouteID()]);
+        var_dump($this->flattenArray($test));
+        die();*/
         $this->newAction
             ->execute($this, RolePermissionEntity::class, NULL, __METHOD__)
                 ->render()
@@ -145,7 +151,7 @@ class RoleController extends AdminController
                             [
                                 'role' => $this->toArray($this->findOr404()),
                                 'permissions' => $this->permission->getRepo()->findAll(),
-                                'role_perms' => $this->rolePerm->getRepo()->findBy(['permission_id', 'role_id'], ['role_id' => $this->thisRouteID()])
+                                'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'],['role_id' => $this->thisRouteID()]))
                             ]
                         )
                         ->form($this->formRole)

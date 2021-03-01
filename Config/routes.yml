@@ -48,3 +48,8 @@ api/{controller}/{action}:
 
 api/{controller}/{id:[\da-f]+}/{action}:
   namespace: API
+
+installer/{controller}/{action}:
+  namespace: Installer
+  controller: Install
+  action: index
