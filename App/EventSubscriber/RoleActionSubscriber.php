@@ -29,7 +29,7 @@ class RoleActionSubscriber implements EventSubscriberInterface
     private const FLASH_MESSAGE_PRIOIRTY = -1000;
     /** @var string - default flash message */
     private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
-    /** @var string */
+    /** @var string - Where we want to redirect to when a action is carried out */
     protected const REDIRECT_ON_INDEX = '/admin/role/index';
 
     /**
@@ -63,14 +63,11 @@ class RoleActionSubscriber implements EventSubscriberInterface
      */
     public function flashRoleEvent(RoleActionEvent $event)
     {
-        $this->flashingEvent($event, $this->trailingRoutes($event), self::FLASH_DEFAULT, null,
-            /**
-             * As we are dealing with modal for adding and editing roles we want to redirect
-             * back to the role index page.
-             */
-            function ($cbEvent, $actionRoutes) {
-                $cbEvent->getObject()->redirect(self::REDIRECT_ON_INDEX);
-            }
+        $this->flashingEvent(
+            $event, 
+            $this->trailingRoutes($event), 
+            self::FLASH_DEFAULT, 
+            self::REDIRECT_ON_INDEX
         );
     }
 

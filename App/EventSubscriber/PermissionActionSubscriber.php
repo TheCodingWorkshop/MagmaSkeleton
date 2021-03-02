@@ -80,14 +80,7 @@ class PermissionActionSubscriber implements EventSubscriberInterface
             $event,
             $this->trailingRoutes($event),
             self::FLASH_DEFAULT,
-            null,
-            /**
-             * As we are dealing with modal for adding and editing roles we want to redirect
-             * back to the role index page.
-             */
-            function ($cbEvent, $actionRoutes) {
-                $cbEvent->getObject()->redirect(self::REDIRECT_ON_INDEX);
-            }
+            self::REDIRECT_ON_INDEX
         );
     }
 

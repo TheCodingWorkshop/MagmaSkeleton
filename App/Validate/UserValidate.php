@@ -97,7 +97,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param integer $length
      * @return string
      */
-    private function userPassword(object|array $cleanData, int $length = 12) : string
+    private function userPassword(object|array $cleanData, int $length = 12): string
     {
         $userPassword = '';
         $userPassword = $this->isSet('client_password_hash', $cleanData);

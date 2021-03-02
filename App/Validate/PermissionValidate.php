@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Validate;
@@ -38,31 +39,25 @@ class PermissionValidate extends AbstractDataRepositoryValidation
         $this->validate($this->cleanData, $dataRepository);
 
         if (empty($this->errors)) {
-
-            /**
-             * getArr() method simple merges any data returned within the $this->fields() method and the 
-             * $cleanData array and return a combine array of data
-             */
             $cleanData = $this->mergeWithFields($this->cleanData);
             if (null !== $cleanData) {
                 $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
-                
+
                 $newCleanData = [
                     'permission_name' => $this->isSet('permission_name', $cleanData, $dataRepository),
                     'permission_description' => $this->isSet('permission_description', $cleanData, $dataRepository),
                     'created_byid' => $createdById
-                ];    
+                ];
                 $this->dataBag = [];
-        
             }
             return [
                 $newCleanData,
-                $this->validatedDataBag($newCleanData), 
+                $this->validatedDataBag($newCleanData),
             ];
         }
     }
 
-    public function validatedDataBag($newCleanData) : array
+    public function validatedDataBag($newCleanData): array
     {
         return array_merge($newCleanData, $this->dataBag);
     }
@@ -79,34 +74,32 @@ class PermissionValidate extends AbstractDataRepositoryValidation
 
     public function fields(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
      * Validate the role data
      *
      * @param array $cleanData
-     * @param Object|null $dataRepository
+     * @param object|null $dataRepository
      * @return void
      */
-    public function validate(array $cleanData, ?Object $dataRepository = null) : ?array
+    public function validate(array $cleanData, object|null $dataRepository = null): ?array
     {
-        if (null !== $cleanData) {    
+        if (null !== $cleanData) {
             if (is_array($cleanData) && count($cleanData) > 0) {
                 foreach ($cleanData as $key => $value) :
-                    if (isset($key) && $key !='') :
-                        switch ($key) :
-                            case "permission_name" :
-                            case "permission_description" :
-                                if (is_string($value) && empty($value)) {
-                                    $this->errors[] = "One ore more empty fields detected.";
+                    if (isset($key) && $key != '') :
+                        switch ($key):
+                            case "permission_name":
+                            case "permission_description":
+                                if (empty($value)) {
+                                    $this->errors['field_required'] = "One ore more empty fields detected.";
                                 }
                                 break;
-                            default :
+                            default:
                                 if ($cleanData === $dataRepository) {
-                                    $this->errors[] = "No changes was made.";
+                                    $this->errors['unchanged'] = "No changes was made.";
                                 }
                                 break;
                         endswitch;
@@ -117,6 +110,4 @@ class PermissionValidate extends AbstractDataRepositoryValidation
             }
         }
     }
-
-
 }

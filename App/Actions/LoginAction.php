@@ -57,13 +57,10 @@ class LoginAction implements DomainActionLogicInterface
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
                 if ($controller->formBuilder->csrfValidate()) {
-                    if ($authorized = $controller->authenticator->authenticate(
-                        $controller->formBuilder->getFormAttr('email'),
-                        $controller->formBuilder->getFormAttr('password_hash')
-                    )) {
-                        Authorized::login($authorized, $controller->formBuilder->getFormAttr('remember_me'));
+                    if ($controller->authenticator->getValidatedUser($controller)) {
+                        $controller->authenticator->getLogin();
                         if ($controller->error) {
-                            $controller->error->addError($controller->authenticator->getErrors(), $controller)->dispatchError($controller->onSelf());
+                            $controller->error->addError($controller->authenticator->getErrors(), $controller)->dispatchError();
                         }
                         if ($controller->authenticator->getAction() === true) {
                             if ($controller->eventDispatcher) {
