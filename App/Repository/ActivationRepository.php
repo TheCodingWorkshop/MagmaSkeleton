@@ -71,7 +71,7 @@ class ActivationRepository extends UserModel implements UserActivationInterface
     public function validateActivation(?Object $repository) : self
     { 
         if ($repository === null) {
-            $this->errors[] = 'Sorry no user was found!';
+            $this->errors['invalid_account'] = 'Sorry no user was found!';
             //throw new \InvalidArgumentException();
         }
         $this->userID = $repository->id;

@@ -1,10 +1,10 @@
 <?php
 /*
  * This file is part of the MagmaCore package.
-             *
-             * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
-             *
-             * For the full copyright and license information, please view the LICENSE
+ *
+ * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
@@ -100,9 +100,9 @@ class PermissionActionSubscriber implements EventSubscriberInterface
                 $fields = ['role_id' => $superRole['props']['id'], 'permission_id' => $permID];
                 $push = (new RolePermissionModel())
                     ->getRepo()
-                        ->getEm()
-                            ->getCrud()
-                                ->create($fields);
+                    ->getEm()
+                    ->getCrud()
+                    ->create($fields);
 
                 if (is_bool($push) && $push === true) {
                     return $push;

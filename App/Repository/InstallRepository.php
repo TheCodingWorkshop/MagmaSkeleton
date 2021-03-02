@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use MagmaCore\Error\Error;
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Utility\DirtyConnection;
 
@@ -84,13 +85,13 @@ class InstallRepository
                 switch ($key):
                     case 'db_driver':
                         if (!in_array($value, Yaml::file('app')['database']['supported_drivers'])) {
-                            $this->errors[] = 'Unsupported database driver selected.';
+                            $this->errors = Error::display('err_unsupport_driver');
                         }
                         break;
                     case 'db_host' :
                         if (isset($value)) {
                             if (empty($value)) {
-                                $this->errors[] = 'Server host name can not be left empty.';
+                                $this->errors = Error::display('err_empty_host');
                             }
                         }
                         break;
@@ -98,7 +99,7 @@ class InstallRepository
                     case 'db_user':
                         if (isset($value)) {
                             if (empty($value)) {
-                                $this->errors[] = 'Error: One or more fields are empty. Please fill in the required details.';
+                                $this->errorss = Error::display('err_field_require');
                             }
                             /*if ($key === 'db_name') {
                                 if (!isset($conn)) {
@@ -114,10 +115,10 @@ class InstallRepository
                     case 'db_prefix':
                         if (isset($value)) {
                             if (empty($value)) {
-                                $this->errors[] = '<strong>Table Prefix</strong> must not be empty';
+                                $this->errors = Error::display('err_empty_dbprefix');
                             }
                             if (preg_match('|[^a-z0-9_]|i', $value)) {
-                                $this->errrors[] = '<strong>Table Prefix</strong> can only contain numbers, letters and underscore';
+                                $this->errors = Error::display('err_invalid_dbprefix');
                             }
                         }
                         break;

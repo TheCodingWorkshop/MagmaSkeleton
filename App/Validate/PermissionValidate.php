@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use MagmaCore\Error\Error;
 use MagmaCore\Session\SessionTrait;
+use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class PermissionValidate extends AbstractDataRepositoryValidation
 {
@@ -94,12 +95,12 @@ class PermissionValidate extends AbstractDataRepositoryValidation
                             case "permission_name":
                             case "permission_description":
                                 if (empty($value)) {
-                                    $this->errors['field_required'] = "One ore more empty fields detected.";
+                                    $this->errors = Error::display('err_field_require');
                                 }
                                 break;
                             default:
                                 if ($cleanData === $dataRepository) {
-                                    $this->errors['unchanged'] = "No changes was made.";
+                                    $this->errors = Error::display('err_unchange');
                                 }
                                 break;
                         endswitch;

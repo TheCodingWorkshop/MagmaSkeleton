@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use MagmaCore\Error\Error;
 use MagmaCore\Auth\Contracts\UserProfileInterface;
 
 class UserProfileModel extends UserModel implements UserProfileInterface
@@ -153,12 +154,12 @@ class UserProfileModel extends UserModel implements UserProfileInterface
                 case 'firstname':
                 case 'lastname':
                     if (isset($value)) {
-                        $this->profileError[] = 'One or more empty fields detected.';
+                        $this->profileError = Error::display('err_field_require');
                     }
                     break;
                 case 'email':
                     if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-                        $this->profileError[] = 'Please enter a valid email address.';
+                        $this->profileError = Error::display('err_invalid_email');
                     }
                     break;
                 case 'password_hash':

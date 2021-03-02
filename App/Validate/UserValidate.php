@@ -152,32 +152,32 @@ class UserValidate extends AbstractDataRepositoryValidation
                             case "client_password_hash":
                                 if (!empty($value)) {
                                     if (strlen($value) < 6) {
-                                        $this->errors[Error::SHORT_PASSWORD] = "Please enter at least 6 characters for the password";
+                                        $this->errors = Error::display('err_password_length');
                                     }
                                     if (preg_match('/.*[a-z]+.*/i', $value) == 0) {
-                                        $this->errors[Error::PASSWORD_LETTER] = 'Password needs at least one letter';
+                                        $this->errors = Error::display('err_password_letter');
                                     }
                                     if (preg_match('/.*\d+.*/i', $value) == 0) {
-                                        $this->errors[Error::PASSWORD_LETTER] = 'Password needs at least one number';
+                                        $this->errors = Error::display('err_password_number');
                                     }
                                 }
                                 break;
                             case "email":
                                 if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-                                    $this->errors[Error::INVALID_EMAIL] = "Please enter a valid email address";
+                                    $this->errors = Error::display('err_invalid_email');
                                 }
                                 break;
                             case "firstame":
                             case "lastname":
                                 if (isset($value)) {
                                     if (is_string($value) && empty($value)) {
-                                        $this->errors[Error::EMPTY_FIELDS] = "Please enter your name this field can not be left empty.";
+                                        $this->errors = Error::display('err_field_require');
                                     }
                                 }
                                 break;
                             default:
                                 if ($cleanData === $dataRepository) {
-                                    $this->errors['no_changes'] = "No changes was made.";
+                                    $this->errors = Error::display('err_unchange');
                                 }
                                 break;
                         endswitch;
