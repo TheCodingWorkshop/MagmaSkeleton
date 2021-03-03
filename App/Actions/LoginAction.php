@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Model\UserModel;
 use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\Domain\DomainTraits;
 use MagmaCore\Base\Domain\DomainActionLogicInterface;
@@ -53,7 +54,7 @@ class LoginAction implements DomainActionLogicInterface
 
         $this->controller = $controller;
         $this->method = $method;
-
+        
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
                 if ($controller->formBuilder->csrfValidate()) {

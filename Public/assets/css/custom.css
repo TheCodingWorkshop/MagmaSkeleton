@@ -24,13 +24,12 @@ body {
     padding-top: 2px;
 }
 
-.uk-navbar-container {
-    color: inherit;
-}
-
 .uk-navbar-container a,
 .uk-navbar-container a:hover {
     color: #ffffff;
+}
+.uk-navbar-container {
+    background-color: #1e87f0 !important;
 }
 
 .user>#name {

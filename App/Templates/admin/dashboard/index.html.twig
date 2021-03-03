@@ -13,13 +13,13 @@
 
 {% block content_header_help %}
 	{#
-			string		$searchFilter = null, 
-			string 		$controller = null,
-			int 		$totalRecords = null,
-			array 		$actions = null,
-			bool 		$actionVertical = false,
-			array 		$row = null) : string
-			#}
+								string		$searchFilter = null, 
+								string 		$controller = null,
+								int 		$totalRecords = null,
+								array 		$actions = null,
+								bool 		$actionVertical = false,
+								array 		$row = null) : string
+								#}
 	{{ subHeader(
 		_searchedQuery,
 		_controller|capitalize,
@@ -33,63 +33,139 @@
 {% endblock content_header_help %}
 
 {% block main %}
-	<div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
-		<div>
-			<div class="uk-card uk-card-default uk-card-body">
-				<div class="uk-grid-small uk-flex-middle" uk-grid>
-					<div class="uk-width-auto">
-						<h2 class="uk-card-title">Users</h2>
+
+	<div class="uk-grid-match uk-grid-small uk-text-center" uk-grid>
+		<div class="uk-width-1-4@m">
+
+			<div>
+				<div class="uk-card uk-card-default uk-card-body">
+					<span class="statistics-text">New Registrations</span><br/>
+					<span class="statistics-number">
+						14.164
+						<span class="uk-label uk-label-success">
+							8%
+							<span class="ion-arrow-up-c"></span>
+						</span>
+					</span>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="uk-width-1-4@m">
+			<div>
+				<div class="uk-card uk-card-default uk-card-body">
+					<span class="statistics-text">Page Impression</span><br/>
+					<span class="statistics-number">
+						123.23
+						<span class="uk-label uk-label-danger">
+							13%
+							<span class="ion-arrow-down-c"></span>
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="uk-width-1-2@m">
+			<div>
+				<div class="uk-card uk-card-default uk-card-body">
+					<span class="statistics-text">System Report</span><br/>
+					<span class="statistics-number">
+						2.316
+						<span class="uk-label uk-label-success">
+							37%
+							<span class="ion-arrow-up-c"></span>
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="uk-width-1-3@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-media-top uk-text-left">
+						<div class="uk-card uk-card-body">
+							<div class="uk-card-badge uk-label">Website analytics</div>
+							<span class="statistics-text">New Registrations</span><br/>
+							<p>
+								<span class="statistics-number">
+									115
+									<span class="uk-label uk-label-success">
+										26%
+										<span class="ion-arrow-up-c"></span>
+									</span>
+								</span>
+							</p>
+							<p>+40 in last 28 days</p>
+							<hr>
+							<div>
+								<canvas id="chart1"></canvas>
+							</div>
+							<hr>
+						</div>
 					</div>
-					<div class="uk-width-expand">
-						<h3 class="uk-card-title uk-margin-remove-bottom uk-text-bold uk-text-teal-s4">89</h3>
-						<p class="uk-text-meta uk-margin-remove-top">
-							<span class="uk-text-bolder uk-text-teal-s4">Up 2.5% from last week</span>
-						</p>
+					<div class="uk-card-body uk-text-left">
+						<h6 class="uk-text-meta uk-text-bold">First 33 days 3 hours compared to your typical performance:</h6>
+						<div class="uk-column-1-3 uk-column-divider">
+							<p>Views
+								<span class="uk-label uk-label-primary">
+									569
+									<span class="ion-arrow-up-c"></span>
+								</span>
+
+							</p>
+
+							<p>
+								Click -TR
+								<span class="uk-label uk-label-primary">
+									4.2%
+									<span class="ion-arrow-up-c"></span>
+								</span>
+							</p>
+
+							<p>Avg-Time
+								<span class="uk-label uk-label-primary">
+									2:42
+									<span class="ion-arrow-up-c"></span>
+								</span>
+
+							</p>
+						</div>
 					</div>
 				</div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 			</div>
 		</div>
-		<div>
-			<div class="uk-card uk-card-default uk-card-body">
-				<div class="uk-grid-small uk-flex-middle" uk-grid>
-					<div class="uk-width-auto">
-						<h2 class="uk-card-title">Content</h2>
+
+		{#<div class="uk-width-1-5@m uk-hidden@l">
+		<div class="uk-card uk-card-secondary uk-card-body">1-5@m<br>hidden@l</div>
+	</div>#}
+
+
+		<div class="uk-width-3-5@m uk-width-2-3@l">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-header">
+						Website Traffic
 					</div>
-					<div class="uk-width-expand">
-						<h3 class="uk-card-title uk-margin-remove-bottom uk-text-bold uk-text-teal-s4">25</h3>
-						<p class="uk-text-meta uk-margin-remove-top">
-							<span class="uk-text-bolder uk-text-teal-s4">Up 2.5% from last week</span>
-						</p>
+					<div class="uk-height-large uk-card uk-card-default uk-card-body uk-flex uk-flex-center uk-flex-middle">
+						<canvas id="chart2"></canvas>
 					</div>
 				</div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 			</div>
 		</div>
-		<div>
-			<div class="uk-card uk-card-secondary uk-card-body">
-				<h3 class="uk-card-title">Secondary</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-			</div>
+
+		<div class="uk-width-1-5@m uk-width-1-3@l">
+			<div class="uk-card uk-card-default uk-card-body">1-5@m<br>1-3@l</div>
 		</div>
+
 	</div>
 
-	<div class="uk-child-width-1-2@s" uk-grid>
-		<div>
-			<div class="uk-card uk-card-default uk-card-small uk-card-body">
-				<h3 class="uk-card-title uk-button uk-button-text">At a Glance</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-			</div>
-		</div>
-		<div>
-			<div class="uk-card uk-card-default uk-card-large uk-card-body">
-				<h3 class="uk-card-title">Large</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-			</div>
-		</div>
-	</div>
 {% endblock main %}
 
 {% block body_javascript %}
 	{{ parent() }}
+	<script src="/public/assets/js/charts.js"></script>
 {% endblock body_javascript %}

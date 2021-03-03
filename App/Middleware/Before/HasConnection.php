@@ -29,13 +29,13 @@ class HasConnection extends BeforeMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {
-        $mysqli = new mysqli("localhost", "root", "", "lavacms");
+        /*$mysqli = new mysqli("localhost", "root", "", "lavacms");
         if ($mysqli->connect_errno) {
             echo "<div class=\"uk-alert-danger uk-margin-remove uk-text-center\" uk-alert>
             <a class=\"uk-alert-close\" uk-close></a>
             <p>Failed to connect to MySQL {$mysqli->connect_error}</p>
         </div>";
-        }
+        }*/
         return $next($object);
     }
 }

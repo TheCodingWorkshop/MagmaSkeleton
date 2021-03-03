@@ -27,7 +27,7 @@
 
 .uk-background-teal-s3,
 .uk-card-teal-s3 {
-    background-color: teal !important;
+    background-color: #1e87f0 !important;
 }
 
 .uk-navbar-container {}
@@ -37,4 +37,7 @@
 .uk-button-teal {
     background-color: teal !important;
     color: #ffffff !important;
+}
+.uk-background-blue {
+    background-color: #1e87f0 !important;
 }
