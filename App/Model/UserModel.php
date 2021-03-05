@@ -54,6 +54,16 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         ];
     }
 
+    public function getSchemaID()
+    {
+        return self::TABLESCHEMAID;
+    }
+
+    public function getSchema()
+    {
+        return self::TABLESCHEMA;
+    }
+
     /**
      * See if a user record already exists with the specified email
      *

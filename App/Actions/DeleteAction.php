@@ -61,7 +61,7 @@ class DeleteAction implements DomainActionLogicInterface
                         $controller->error->addError(['Error deleting!'], $controller)->dispatchError($controller->onSelf());
                     }
                 }
-                $action = $controller->repository->getRepo()->findByIdAndDelete(['id' => $controller->thisRouteID()]);
+                $action = $controller->repository->getRepo()->findByIdAndDelete([$controller->repository->getSchemaID() => $controller->thisRouteID()]);
                 if ($action) {
                     if ($controller->eventDispatcher) {
                         $controller->eventDispatcher->dispatch(

@@ -50,11 +50,11 @@ class UserSchema extends DataObjectSchema implements DataObjectSchemaBuilderInte
             ->row($schema->varchar('remote_addr', 64, true, 'null'))
             ->key($schema->getFromAutoID())
             ->unique('email')
-            ->foreign('user_permission', function ($baseSchema) {
+            ->constraint('user_permission', function ($baseSchema) {
                 $baseSchema->foreignKey('permission_id')->on('permission')->reference('id')
                     ->cascade(['onDelete' => true, 'onUpdate' => true]);
             })
-            ->foreign('user_role', function ($baseSchema) {
+            ->constraint('user_role', function ($baseSchema) {
                 $baseSchema->foreignKey('role_id')->on('role')->reference('id')
                     ->cascade(['onDelete' => true, 'onUpdate' => true]);
             })
