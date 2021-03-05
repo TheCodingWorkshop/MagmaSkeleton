@@ -10,10 +10,7 @@ gc_divisor: "1"
 use_cookies: "1"
 drivers:
   default_storage:
-    class: \Core\Session\SessionStorageDefault
+    class: \MagmaCore\Session\Storage\NativeSessionStorage
     alias: native_storage
     default: true
-  database_storage:
-    class: \Extension\Session\Driver\SessionStorageDefault
-    alias: database_storage
-    default: false
+globalized: false

@@ -15,6 +15,7 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Model\UserModel;
+use App\Schema\UserSchema;
 use MagmaCore\Collection\Collection;
 
 class DashboardController extends AdminController
@@ -35,6 +36,10 @@ class DashboardController extends AdminController
     public function __construct(array $routeParams)
     {
         parent::__construct($routeParams);
+        /*$schema = new UserSchema(new UserModel());
+        var_dump($schema);
+        die();*/
+
         /**
          * Dependencies are defined within a associative array like example below
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
@@ -64,12 +69,12 @@ class DashboardController extends AdminController
         $peakUsage = memory_get_peak_usage();
         echo 'Memory Usage: ' . $this->convert($usage) . "<br>";
         echo 'Peak Usage: ' . $this->convert($peakUsage) . "<br>";*/
-        /*$this->render(
+        $this->render(
             'admin/dashboard/index.html.twig',
             [
                 "this" => $this
             ] 
-        );*/
+        );
     }
 
 

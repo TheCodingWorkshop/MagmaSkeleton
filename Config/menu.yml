@@ -1,35 +1,44 @@
 dashboard:
   name: Dashboard
-  icon: home
+  icon: ion-speedometer
   path: /admin/dashboard/index
   roles: {}
   header: Manager
 authentication:
   name: Users
-  icon: user
+  icon: ion-person
   path: ""
   children:
     users:
       name: Users
-      icon: users
+      icon: ion-person-stalker
       path: "/admin/user/index"
       role:
         - developer
     role:
       name: Roles
-      icon: nut
+      icon: ion-locked
       path: "/admin/role/index"
       role:
         - developer
     permission:
       name: Permission
-      icon: settings
+      icon: ion-key
       path: "/admin/permission/index"
       role:
         - developer
     log:
       name: Log
-      icon: file-text
+      icon: ion-compose
       path: "/admin/log/index"
       role:
         - developer
+roles:
+  name: Roles
+  icon: ion-locked
+  path: ""
+permissions:
+  name: Permission
+  icon: ion-key
+  path: ""
+

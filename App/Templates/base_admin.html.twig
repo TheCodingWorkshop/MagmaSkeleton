@@ -30,7 +30,6 @@
 			{% block head_stylesheets %}
 				{{ asset._stylesheets(Config('assets').stylesheets) }}
 				<link rel="stylesheet" href="{{ asset('/public/assets/css/custom.css') }}">
-				<link rel="stylesheet" href="{{ asset('/public/assets/css/default_color.css') }}">
 				<style>
 					body {
 						font-family: 'Nunito', sans-serif;
@@ -45,7 +44,7 @@
 				});
 			</script>
 		</head>
-		<body class="uk-height-1-1">
+		<body class="uk-text-bold uk-height-1-1">
 			{% block body %}
 				{% include 'shared/loader.html.twig' %}
 				{% include 'shared/ie9.html.twig' %}

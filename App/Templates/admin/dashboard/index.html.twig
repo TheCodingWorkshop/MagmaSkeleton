@@ -5,7 +5,7 @@
 {% set _helpBlock 		= help_block %}
 {% set _nav_icon_size	= 1.5 %}
 {% set _icon_size	    = 3 %}
-{% set _icon			= 'home' %}
+{% set _icon			= 'ion-speedometer' %}
 
 {% block content_title %}
 	{{ _controller|capitalize }}
@@ -13,13 +13,13 @@
 
 {% block content_header_help %}
 	{#
-								string		$searchFilter = null, 
-								string 		$controller = null,
-								int 		$totalRecords = null,
-								array 		$actions = null,
-								bool 		$actionVertical = false,
-								array 		$row = null) : string
-								#}
+		string		$searchFilter = null, 
+		string 		$controller = null,
+		int 		$totalRecords = null,
+		array 		$actions = null,
+		bool 		$actionVertical = false,
+		array 		$row = null) : string
+		#}
 	{{ subHeader(
 		_searchedQuery,
 		_controller|capitalize,
@@ -35,24 +35,7 @@
 {% block main %}
 
 	<div class="uk-grid-match uk-grid-small uk-text-center" uk-grid>
-		<div class="uk-width-1-4@m">
-
-			<div>
-				<div class="uk-card uk-card-default uk-card-body">
-					<span class="statistics-text">New Registrations</span><br/>
-					<span class="statistics-number">
-						14.164
-						<span class="uk-label uk-label-success">
-							8%
-							<span class="ion-arrow-up-c"></span>
-						</span>
-					</span>
-				</div>
-			</div>
-
-
-		</div>
-		<div class="uk-width-1-4@m">
+		<div class="uk-width-1-2@m">
 			<div>
 				<div class="uk-card uk-card-default uk-card-body">
 					<span class="statistics-text">Page Impression</span><br/>
@@ -82,34 +65,25 @@
 			</div>
 		</div>
 
-
 		<div class="uk-width-1-3@m">
 			<div>
-				<div class="uk-card uk-card-default">
-					<div class="uk-card-media-top uk-text-left">
-						<div class="uk-card uk-card-body">
-							<div class="uk-card-badge uk-label">Website analytics</div>
-							<span class="statistics-text">New Registrations</span><br/>
-							<p>
-								<span class="statistics-number">
-									115
-									<span class="uk-label uk-label-success">
-										26%
-										<span class="ion-arrow-up-c"></span>
-									</span>
-								</span>
-							</p>
-							<p>+40 in last 28 days</p>
-							<hr>
-							<div>
-								<canvas id="chart1"></canvas>
-							</div>
-							<hr>
+				<div class="uk-card uk-card-default uk-text-left">
+					<div class="uk-card uk-card-body">
+						<div class="uk-card-badge">
+							<span class="ion-gear-b" style="font-size: 24px;"></span>
 						</div>
-					</div>
-					<div class="uk-card-body uk-text-left">
-						<h6 class="uk-text-meta uk-text-bold">First 33 days 3 hours compared to your typical performance:</h6>
-						<div class="uk-column-1-3 uk-column-divider">
+						<span class="statistics-text">New Registrations</span><br/>
+						<span class="statistics-number">
+							115
+							<span class="uk-label uk-label-success">
+								26%
+								<span class="ion-arrow-up-c"></span>
+							</span>
+						</span><br/>
+						<span>+40 in last 28 days</span>
+						<hr>
+						<h6 class="uk-text-meta uk-text-bold uk-margin-remove-top">First 33 days 3 hours compared to your typical performance:</h6>
+						<div class="uk-column-1-3">
 							<p>Views
 								<span class="uk-label uk-label-primary">
 									569
@@ -119,14 +93,14 @@
 							</p>
 
 							<p>
-								Click -TR
+								CTR
 								<span class="uk-label uk-label-primary">
 									4.2%
 									<span class="ion-arrow-up-c"></span>
 								</span>
 							</p>
 
-							<p>Avg-Time
+							<p>Avg
 								<span class="uk-label uk-label-primary">
 									2:42
 									<span class="ion-arrow-up-c"></span>
@@ -134,31 +108,77 @@
 
 							</p>
 						</div>
+						<hr>
+						<div>
+							<canvas id="chart3"></canvas>
+						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 
 		{#<div class="uk-width-1-5@m uk-hidden@l">
-		<div class="uk-card uk-card-secondary uk-card-body">1-5@m<br>hidden@l</div>
-	</div>#}
+												<div class="uk-card uk-card-secondary uk-card-body">1-5@m<br>hidden@l</div>
+											</div>#}
 
 
 		<div class="uk-width-3-5@m uk-width-2-3@l">
 			<div>
-				<div class="uk-card uk-card-default">
-					<div class="uk-card-header">
-						Website Traffic
+				<div class="uk-card uk-card-default uk-card-body">
+					<div class="uk-card-badge">
+						<span class="ion-gear-b" style="font-size: 24px;"></span>
 					</div>
-					<div class="uk-height-large uk-card uk-card-default uk-card-body uk-flex uk-flex-center uk-flex-middle">
+					<h3 class="uk-card-title">Website Traffic</h3>
+					<div class="uk-height-large">
 						<canvas id="chart2"></canvas>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="uk-width-1-5@m uk-width-1-3@l">
-			<div class="uk-card uk-card-default uk-card-body">1-5@m<br>1-3@l</div>
+		<div class="uk-width-1-1@m uk-width-1-1@l">
+			<div class="uk-flex uk-text-left uk-height-small">
+
+
+				<div class="uk-card uk-card-primary uk-card-body uk-width-1-4 uk-flex-last">
+					<div class="uk-card-badge uk-button uk-button-text">Manage Users</div>
+					<a href="/admin/user/index">
+						<span class="ion-person-stalker" style="font-size: 64px;"></span>
+					</a>
+				</div>
+
+				<div class="uk-card uk-card-secondary uk-card-body uk-width-1-5 uk-flex-first">
+					<div class="uk-card-badge uk-button uk-button-text">Support</div>
+					<a href="">
+						<span class="ion-help-buoy" style="font-size: 64px;"></span>
+					</a>
+
+				</div>
+				<div class="uk-card uk-background-muted uk-flex-last uk-card-body">
+					<div class="uk-card-badge uk-button uk-button-text">Fix</div>
+					<a href="">
+						<span class="ion-gear-b" style="font-size: 64px;"></span>
+					</a>
+				</div>
+
+				<div class="uk-card uk-card-default uk-card-body uk-width-1-5">
+					<div class="uk-card-badge uk-button uk-button-text">Report</div>
+					<a href="">
+						<span class="ion-arrow-graph-down-right" style="font-size: 64px;"></span>
+					</a>
+
+				</div>
+				<div class="uk-card uk-card-default uk-flex-last uk-card-body uk-width-1-4">
+					<div class="uk-card-badge uk-button uk-button-text">Messages</div>
+					<a href="">
+						<span class="ion-email" style="font-size: 64px;"></span>
+					</a>
+
+				</div>
+
+
+			</div>
 		</div>
 
 	</div>

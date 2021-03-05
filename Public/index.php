@@ -49,66 +49,14 @@ use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
 Debug::enable();
-$app = new BaseApplication();
 
-/**
- * Set the application main root path
- */
-$app->setPath(ROOT_PATH);
-
-/**
- * Set the application main app.yaml configuration file. Please see documentation
- * for list of defaults which must be returned. Or simple copy and paste the default
- * configuration from the application github wiki page
- * 
- * 1. array - application app.yaml file
- */
-$app->setConfig(
-    $app->getFromYaml('app')
-);
-
-/**
- * Set the application session environment
- * 1. array session environment variables from session.yaml file. Defaults to internal settings
- * 2. string session identifier
- * 3. string session storage defaults to NativeSessionStorage already set internally
- */
-$app->setSession(
-    Yaml::file('session'),
-    'my_application_session'
-);
-/*$app
-->setContainer(Yaml::file('providers'))
-    ->setConfig(Yaml::file('app'), Yaml::file('cache')['identifier'])
-    ->setCookie(Yaml::file('cookie'))
-    ->setSession(Yaml::file('session'), Yaml::file('session')['session_name'])
-    ->setCache(Yaml::file('cache'))
-    ->setRouter(Yaml::file('routes'), null, $_SERVER['QUERY_STRING'])
-    ->setErrorHandler()
+(new BaseApplication())
     ->setPath(ROOT_PATH)
-    ->run();
-*/
-/**
- * Setup the application router.
- * 1. array of routes from application routes.yaml file should located within te Config directory
- * 2. Object - an optional router object if different from default. Default is loaded otherwise
- * 3. string - an optional field the route query ie. $_SERVER['QUERY_STRING'] which is already default
- */
-$app->setRouter(
-    $app->getFromYaml('routes'),
-    null,
-    $_SERVER['QUERY_STRING']
-);
+        ->setConfig(Yaml::file('app'))
+            ->setSession(Yaml::file('session'))
+                ->setCookie([])
+                    ->setCache([])
+                        ->setRoutes(Yaml::file('routes'))
+                            ->setContainerProviders([])
+                                ->run();
 
-/**
- * Convert all errors to exception. By providing custom error and exception
- * handlers within the core. If we remove the below code then errors and exception
- * will be rendered as normal. This method provides a much more graceful way of 
- * displaying those errors and exceptions
- */
-//$app->setErrorHandlers();
-
-/**
- * Return the fully configured application
- */
-$app->run();

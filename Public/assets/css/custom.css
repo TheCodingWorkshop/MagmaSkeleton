@@ -28,8 +28,9 @@ body {
 .uk-navbar-container a:hover {
     color: #ffffff;
 }
+
 .uk-navbar-container {
-    background-color: #1e87f0 !important;
+    background-color: #2291F2 !important;
 }
 
 .user>#name {
@@ -307,6 +308,14 @@ tr .highlight {
 
 .z20000 {
     z-index: 20000!important;
+}
+
+.uk-background-lightred {
+    background-color: #DE6489!important;
+}
+
+.uk-background-purple {
+    background-color: #9D70E2!important;
 }
 
 
