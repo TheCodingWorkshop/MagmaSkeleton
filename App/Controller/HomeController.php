@@ -72,16 +72,7 @@ class HomeController extends BaseController
     protected function indexAction()
     { 
         $this->render(
-            'client/home/index.html.twig',
-            [
-                'app_name' => 'MagmaCore Framework',
-                'app_version' => '1.0.0',
-                'app_author' => 'LavaStudio',
-                'github_code' => 'https://github.com/TheCodingWorkshop/_MagmaCore.git',
-                'github_wiki' => 'https://github.com/TheCodingWorkshop/_MagmaCore/wiki',
-
-            ]
-        );
+            'client/home/index.html.twig', []);
     }
 
 }

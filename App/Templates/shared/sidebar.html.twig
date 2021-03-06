@@ -1,10 +1,49 @@
-<aside id="sidebar" class="tm-sidebar-left">
+{% import "macros/nav.macro.html.twig" as menu %}
+
+<aside id="sidebar" class="tm-sidebar-left uk-background-muted uk-inline">
 	{% block sidebar_wrapper %}
 		{% block sidebar_profile %}
-			{#{{ macros.sidebarUserProfile(current_user) }}#}
+			{% include 'shared/sidebar_profile.html.twig' %}
 		{% endblock sidebar_profile %}
-		{% block main_sidebar %}
-			{{ menu.navMenu(items) }}
-		{% endblock main_sidebar %}
+		<ul uk-tab>
+			<li>
+				<a uk-tooltip="Menu" href="#">
+					<span class="ion-ios-more" style="font-size:24px;"></span>
+				</a>
+			</li>
+			<li>
+				<a uk-tooltip="Notifications" href="#">
+					<span class="ion-ios-bell" style="font-size:24px;"></span>
+				</a>
+			</li>
+			<li>
+				<a uk-tooltip="My Contacts" href="#">
+					<span class="ion-ios-person" style="font-size:24px;"></span>
+				</a>
+			</li>
+			<li>
+				<a uk-tooltip="Quick Settings" href="#">
+					<span class="ion-gear-b" style="font-size:24px;"></span>
+				</a>
+			</li>
+		</ul>
+		<ul class="uk-switcher uk-margin">
+			<li>
+				{% block main_sidebar %}
+					{{ menu.navMenu(items) }}
+				{% endblock main_sidebar %}
+
+			</li>
+			<li>Notifications</li>
+			<li>My Contacts</li>
+			<li>Settings</li>
+		</ul>
+
 	{% endblock sidebar_wrapper %}
+	<div class="uk-position-medium uk-position-bottom-center uk-text-meta">
+		<div class"uk-text-center">
+			<span style="text-shadow: 2px 2px #fefefe;" class="uk-text-uppercase uk-text-baseline uk-text-emphasis uk-text-bolders uk-label uk-background-muted">MagmaCore 1.0.0</span>
+		</div>
+	</div>
+
 </aside>

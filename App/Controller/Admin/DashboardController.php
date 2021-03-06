@@ -65,6 +65,21 @@ class DashboardController extends AdminController
      */
     protected function indexAction()
     { 
+        /**$string = "name=firstname&length=190&null=false";
+        $pipes = explode("&", $string);
+        foreach ($pipes as $pipe) {
+            if ($pipe) {
+
+            }
+        }*/
+
+       // $colon = implode("@", $pipe);
+       // $args = explode("@", $colon);
+        /*return array_walk($args, function($value, $key, $args) {
+            var_dump($value);
+            die();
+    
+        }, $args);*/
         /*$usage = memory_get_usage();
         $peakUsage = memory_get_peak_usage();
         echo 'Memory Usage: ' . $this->convert($usage) . "<br>";

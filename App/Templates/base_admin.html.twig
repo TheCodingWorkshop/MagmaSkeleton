@@ -1,5 +1,4 @@
 {% import "macros/asset.macro.html.twig" as asset %}
-{% import "macros/nav.macro.html.twig" as menu %}
 {% import "macros/body_class.macro.html.twig" as bodyClass %}
 
 {% set _account_profile = '/admin/user/' ~ current_user.id ~ '/edit' %}
@@ -53,17 +52,10 @@
 					{% block header %}
 						{% include 'shared/header.html.twig' %}
 					{% endblock header %}
-
-					<aside id="sidebar" class="tm-sidebar-left uk-background-muted">
-						{% block sidebar_wrapper %}
-							{% block sidebar_profile %}
-								{% include 'shared/sidebar_profile.html.twig' %}
-							{% endblock sidebar_profile %}
-							{% block main_sidebar %}
-								{{ menu.navMenu(items) }}
-							{% endblock main_sidebar %}
-						{% endblock sidebar_wrapper %}
-					</aside>
+					{% block sidebar_wrapper %}
+						{% set vars = {} %}
+						{% include 'shared/sidebar.html.twig' with vars %}
+					{% endblock sidebar_wrapper %}
 
 					{% block content %}
 						<section class="content-padder content-background uk-flex uk-flex-column">
@@ -96,20 +88,20 @@
 					<script src="{{ asset('/public/assets/js/sidebar.js') }}"></script>
 					<script src="{{ asset('/public/assets/js/status.js') }}"></script>
 					{% if Config('app').settings.googleAnalytics is empty %}
-					<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-					<script>
-						window.ga = function () {
-						const googleAnalytics = '{{ Config('app').settings.googleAnalytics }}';
-						ga.q.push(arguments)
-						};
-						ga.q = [];
-						ga.l = + new Date;
-						ga('create', `${googleAnalytics}`, 'auto');
-						ga('set', 'anonymizeIp', true);
-						ga('set', 'transport', 'beacon');
-						ga('send', 'pageview')
-					</script>
-					<script src="https://www.google-analytics.com/analytics.js" async></script>
+						<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+						<script>
+							window.ga = function () {
+							const googleAnalytics = '{{ Config('app').settings.googleAnalytics }}';
+							ga.q.push(arguments)
+							};
+							ga.q = [];
+							ga.l = + new Date;
+							ga('create', `${googleAnalytics}`, 'auto');
+							ga('set', 'anonymizeIp', true);
+							ga('set', 'transport', 'beacon');
+							ga('send', 'pageview')
+						</script>
+						<script src="https://www.google-analytics.com/analytics.js" async></script>
 					{% endif %}
 
 				{% endblock body_javascript %}
