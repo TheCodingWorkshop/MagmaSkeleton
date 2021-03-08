@@ -12,20 +12,32 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Error\Error;
 use MagmaCore\Session\SessionTrait;
-use MagmaCore\Auth\Model\RoleModel;
-use MagmaCore\Error\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use MagmaCore\ValidationRule\ValidationRule;
 
 class RoleValidate extends AbstractDataRepositoryValidation
 {
 
+    /** @var trait */
     use SessionTrait;
 
+    /** @var array $errors */
     protected array $errors = [];
+    /** @var array $cleanData */
     protected array $cleanData;
+    /** @var array $dataBag */
     protected array $dataBag = [];
+    /** @var ValidationRule $rules */
+    protected ValidationRule $rules;
+
+    /**
+     * Undocumented function
+     */
+    public function __construct()
+    {
+        $this->rules = new ValidationRule(ContactController::class, $this);
+    }
 
     /**
      * Validate the data before persisting to the database ensure
@@ -57,6 +69,12 @@ class RoleValidate extends AbstractDataRepositoryValidation
         }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $newCleanData
+     * @return array
+     */
     public function validatedDataBag($newCleanData): array
     {
         return array_merge($newCleanData, $this->dataBag);
@@ -72,6 +90,11 @@ class RoleValidate extends AbstractDataRepositoryValidation
         return $this->errors;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
     public function fields(): array
     {
         return [];
@@ -89,15 +112,11 @@ class RoleValidate extends AbstractDataRepositoryValidation
         if (null !== $cleanData) {
             if (is_array($cleanData) && count($cleanData) > 0) {
                 foreach ($cleanData as $key => $value) :
+                    $this->validateKey = $key;
+                    $this->validateValue = $value;
                     if (isset($key) && $key != '') :
                         switch ($key):
                             case 'name':
-                            case 'phone' :
-                            case 'address' :
-                            case 'postcode' :
-                                if ($validationRule = new ValidationRule($this)) {
-                                    $validationRule->addRule('string|required|unique', $key, $value)->dispatchError()
-                                }
                                 break;
                         endswitch;
                     endif;

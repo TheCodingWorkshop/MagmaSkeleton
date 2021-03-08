@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace App\Validate;
 
 use MagmaCore\Error\Error;
-use MagmaCore\Session\SessionTrait;
 use MagmaCore\Auth\Model\RoleModel;
+use MagmaCore\Session\SessionTrait;
+use App\Controller\Admin\RoleController;
+use MagmaCore\ValidationRule\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class RoleValidate extends AbstractDataRepositoryValidation
@@ -27,6 +29,20 @@ class RoleValidate extends AbstractDataRepositoryValidation
     protected array $dataBag = [];
 
     protected const DEFAULT_ROLE = 'subscriber';
+    /** @var ValidationRule $rules */
+    protected ValidationRule $rules;
+
+    /**
+     * Undocumented function
+     */
+    public function __construct()
+    {
+        $this->rules = new ValidationRule(
+            RoleController::class, 
+            RoleModel::class,
+            $this
+        );
+    }
 
     /**
      * Validate the data before persisting to the database ensure
@@ -93,15 +109,18 @@ class RoleValidate extends AbstractDataRepositoryValidation
         if (null !== $cleanData) {
             if (is_array($cleanData) && count($cleanData) > 0) {
                 foreach ($cleanData as $key => $value) :
+                    $this->validateKey = $key;
+                    $this->validateValue = $value;
                     if (isset($key) && $key != '') :
                         switch ($key):
-                            case "role_name":
-                            case "role_description":
-                                if (is_string($value) && empty($value)) {
-                                    $this->errors = Error::display('err_field_require');
+                            case 'role_name' :
+                                if ($this->rules) {
+                                    $this->rules->addRule("required|unique");
                                 }
-                                if ($key === 'role_name') {
-                                    $this->errorIfExists(RoleModel::class, 'role_name', $value);
+                                break;
+                            case 'role_description' :
+                                if ($this->rules) {
+                                    $this->rules->addRule("required");
                                 }
                                 break;
                             default:
