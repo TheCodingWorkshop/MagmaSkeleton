@@ -15,6 +15,7 @@ namespace App\Validate;
 use MagmaCore\Error\Error;
 use MagmaCore\Session\SessionTrait;
 use MagmaCore\Auth\Model\RoleModel;
+use MagmaCore\Error\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class RoleValidate extends AbstractDataRepositoryValidation
@@ -25,8 +26,6 @@ class RoleValidate extends AbstractDataRepositoryValidation
     protected array $errors = [];
     protected array $cleanData;
     protected array $dataBag = [];
-
-    protected const DEFAULT_ROLE = 'subscriber';
 
     /**
      * Validate the data before persisting to the database ensure
@@ -45,13 +44,10 @@ class RoleValidate extends AbstractDataRepositoryValidation
         if (empty($this->errors)) {
             $cleanData = $this->mergeWithFields($this->cleanData);
             if (null !== $cleanData) {
-                $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
 
-                $newCleanData = [
-                    'role_name' => $this->isSet('role_name', $cleanData, $dataRepository),
-                    'role_description' => $this->isSet('role_description', $cleanData, $dataRepository),
-                    'created_byid' => $createdById
-                ];
+                /**
+                 * Your validation code here
+                 */
                 $this->dataBag = [];
             }
             return [
@@ -95,18 +91,12 @@ class RoleValidate extends AbstractDataRepositoryValidation
                 foreach ($cleanData as $key => $value) :
                     if (isset($key) && $key != '') :
                         switch ($key):
-                            case "role_name":
-                            case "role_description":
-                                if (is_string($value) && empty($value)) {
-                                    $this->errors = Error::display('err_field_require');
-                                }
-                                if ($key === 'role_name') {
-                                    $this->errorIfExists(RoleModel::class, 'role_name', $value);
-                                }
-                                break;
-                            default:
-                                if ($cleanData === $dataRepository) {
-                                    $this->errors = Error::display('err_unchange');
+                            case 'name':
+                            case 'phone' :
+                            case 'address' :
+                            case 'postcode' :
+                                if ($validationRule = new ValidationRule($this)) {
+                                    $validationRule->addRule('string|required|unique', $key, $value)->dispatchError()
                                 }
                                 break;
                         endswitch;

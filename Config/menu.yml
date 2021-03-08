@@ -34,11 +34,6 @@ authentication:
       role:
         - developer
 roles:
-  name: Roles
-  icon: ion-locked
-  path: ""
-permissions:
-  name: Permission
-  icon: ion-key
-  path: ""
-
+  name: Contacts
+  icon: ion-clipboard
+  path: "/admin/contact/index"

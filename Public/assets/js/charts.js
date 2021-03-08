@@ -1,7 +1,7 @@
 var ctx = $("#chart1");
 
 var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: ["CPU", "Memory", "HDD", "WSL"],
     datasets: [{
         label: "Summary",
         fill: false,
@@ -21,7 +21,7 @@ var data = {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: [103265, 128259, 85290, 115923, 91238, 108295, 102295],
+        data: [19.0, 2, 1, 2],
         spanGaps: false,
     }]
 };

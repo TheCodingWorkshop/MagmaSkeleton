@@ -77,3 +77,14 @@ category:
     - cat_name
     - created_at
     - modified_at
+contact:
+  additional_conditions: []
+  selectors: []
+  records_per_page: 10
+  query: ""
+  filter_by: ["name"]
+  filter_alias: s
+  sort_columns:
+    - name
+    - created_at
+    - modified_at

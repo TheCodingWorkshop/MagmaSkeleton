@@ -54,12 +54,22 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         ];
     }
 
-    public function getSchemaID()
+    /**
+     * Returns the databae table schema name
+     * 
+     * @return string
+     */
+    public function getSchemaID(): string
     {
         return self::TABLESCHEMAID;
     }
 
-    public function getSchema()
+    /**
+     * Returns the database table schema primary key 
+     * 
+     * @return string
+     */
+    public function getSchema(): string
     {
         return self::TABLESCHEMA;
     }

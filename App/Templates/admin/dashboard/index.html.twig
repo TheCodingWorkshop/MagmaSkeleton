@@ -12,14 +12,6 @@
 {% endblock content_title %}
 
 {% block content_header_help %}
-	{#
-		string		$searchFilter = null, 
-		string 		$controller = null,
-		int 		$totalRecords = null,
-		array 		$actions = null,
-		bool 		$actionVertical = false,
-		array 		$row = null) : string
-		#}
 	{{ subHeader(
 		_searchedQuery,
 		_controller|capitalize,
@@ -35,152 +27,12 @@
 {% block main %}
 
 	<div class="uk-grid-match uk-grid-small uk-text-center" uk-grid>
-		<div class="uk-width-1-2@m">
-			<div>
-				<div class="uk-card uk-card-default uk-card-body">
-					<span class="statistics-text">Page Impression</span><br/>
-					<span class="statistics-number">
-						123.23 
-						<span class="uk-label uk-label-danger">
-							13%
-							<span class="ion-arrow-down-c"></span>
-						</span>
-					</span>
-				</div>
-			</div>
-		</div>
+		{% include '/admin/dashboard/widgets/template_card.html.twig' %}
+		{% include '/admin/dashboard/widgets/system_health_card.html.twig' %}
+		{% include '/admin/dashboard/widgets/user_statistic_card.html.twig' %}
 
-		<div class="uk-width-1-2@m">
-			<div>
-				<div class="uk-card uk-card-default uk-card-body">
-					<span class="statistics-text">System Report</span><br/>
-					<span class="statistics-number">
-						2.316
-						<span class="uk-label uk-label-success">
-							37%
-							<span class="ion-arrow-up-c"></span>
-						</span>
-					</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="uk-width-1-3@m">
-			<div>
-				<div class="uk-card uk-card-default uk-text-left">
-					<div class="uk-card uk-card-body">
-						<div class="uk-card-badge">
-							<span class="ion-gear-b" style="font-size: 24px;"></span>
-						</div>
-						<span class="statistics-text">New Registrations</span><br/>
-						<span class="statistics-number">
-							115
-							<span class="uk-label uk-label-success">
-								26%
-								<span class="ion-arrow-up-c"></span>
-							</span>
-						</span><br/>
-						<span>+40 in last 28 days</span>
-						<hr>
-						<h6 class="uk-text-meta uk-text-bold uk-margin-remove-top">First 33 days 3 hours compared to your typical performance:</h6>
-						<div class="uk-column-1-3">
-							<p>Views
-								<span class="uk-display-block uk-label uk-label-primary">
-									569
-									<span class="ion-arrow-up-c"></span>
-								</span>
-
-							</p>
-
-							<p>
-								CTR
-								<span class="uk-display-block uk-label uk-label-primary">
-									4.2%
-									<span class="ion-arrow-up-c"></span>
-								</span>
-							</p>
-
-							<p>Avg
-								<span class="uk-display-block uk-label uk-label-primary">
-									2:42
-									<span class="ion-arrow-up-c"></span>
-								</span>
-
-							</p>
-						</div>
-						<hr>
-						<div>
-							<canvas id="chart3"></canvas>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-
-		{#<div class="uk-width-1-5@m uk-hidden@l">
-												<div class="uk-card uk-card-secondary uk-card-body">1-5@m<br>hidden@l</div>
-											</div>#}
-
-
-		<div class="uk-width-3-5@m uk-width-2-3@l">
-			<div>
-				<div class="uk-card uk-card-default uk-card-body">
-					<div class="uk-card-badge">
-						<span class="ion-gear-b" style="font-size: 24px;"></span>
-					</div>
-					<h3 class="uk-card-title">Website Traffic</h3>
-					<div class="uk-height-large">
-						<canvas id="chart2"></canvas>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="uk-width-1-1@m uk-width-1-1@l">
-			<div class="uk-flex uk-text-left uk-height-small">
-
-
-				<div class="uk-card uk-card-primary uk-card-body uk-width-1-4 uk-flex-last">
-					<div class="uk-card-badge uk-button uk-button-text uk-visible@m">Manage Users</div>
-					<a href="/admin/user/index">
-						<span class="ion-person-stalker" style="font-size: 64px;"></span>
-					</a>
-				</div>
-
-				<div class="uk-card uk-card-secondary uk-card-body uk-width-1-5 uk-flex-first">
-					<div class="uk-card-badge uk-button uk-button-text uk-visible@m">Support</div>
-					<a href="">
-						<span class="ion-help-buoy" style="font-size: 64px;"></span>
-					</a>
-
-				</div>
-				<div class="uk-card uk-background-muted uk-flex-last uk-card-body uk-visible@m">
-					<div class="uk-card-badge uk-button uk-button-text uk-visible@m">Fix</div>
-					<a href="">
-						<span class="ion-gear-b" style="font-size: 64px;"></span>
-					</a>
-				</div>
-
-				<div class="uk-card uk-card-default uk-card-body uk-width-1-5">
-					<div class="uk-card-badge uk-button uk-button-text uk-visible@m">Report</div>
-					<a href="">
-						<span class="ion-arrow-graph-down-right" style="font-size: 64px;"></span>
-					</a>
-
-				</div>
-				<div class="uk-card uk-card-default uk-flex-last uk-card-body uk-width-1-4">
-					<div class="uk-card-badge uk-button uk-button-text uk-visible@m">Messages</div>
-					<a href="">
-						<span class="ion-email" style="font-size: 64px;"></span>
-					</a>
-
-				</div>
-
-
-			</div>
-		</div>
-
+		{% include '/admin/dashboard/widgets/website_statistic_card.html.twig' %}
+		{% include '/admin/dashboard/widgets/mini_cards.html.twig' %}
 	</div>
 
 {% endblock main %}

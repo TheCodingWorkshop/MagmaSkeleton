@@ -14,6 +14,7 @@ namespace App\Validate;
 
 use MagmaCore\Error\Error;
 use MagmaCore\Session\SessionTrait;
+use MagmaCore\Auth\Model\PermissionModel;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class PermissionValidate extends AbstractDataRepositoryValidation
@@ -96,6 +97,9 @@ class PermissionValidate extends AbstractDataRepositoryValidation
                             case "permission_description":
                                 if (empty($value)) {
                                     $this->errors = Error::display('err_field_require');
+                                }
+                                if ($key === 'permission_name') {
+                                    $this->errorIfExists(PermissionModel::class, 'permission_name', $value);
                                 }
                                 break;
                             default:
