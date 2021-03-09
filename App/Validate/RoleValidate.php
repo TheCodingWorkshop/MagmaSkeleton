@@ -38,7 +38,7 @@ class RoleValidate extends AbstractDataRepositoryValidation
     public function __construct()
     {
         $this->rules = new ValidationRule(
-            RoleController::class, 
+            RoleController::class,
             RoleModel::class,
             $this
         );
@@ -58,23 +58,23 @@ class RoleValidate extends AbstractDataRepositoryValidation
         $this->cleanData = (array)$cleanData;
         $this->validate($this->cleanData, $dataRepository);
 
-        if (empty($this->errors)) {
-            $cleanData = $this->mergeWithFields($this->cleanData);
-            if (null !== $cleanData) {
-                $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
+        //if (empty($this->errors)) {
+        $cleanData = $this->mergeWithFields($this->cleanData);
+        if (null !== $cleanData) {
+            $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
 
-                $newCleanData = [
-                    'role_name' => $this->isSet('role_name', $cleanData, $dataRepository),
-                    'role_description' => $this->isSet('role_description', $cleanData, $dataRepository),
-                    'created_byid' => $createdById
-                ];
-                $this->dataBag = [];
-            }
-            return [
-                $newCleanData,
-                $this->validatedDataBag($newCleanData),
+            $newCleanData = [
+                'role_name' => $this->isSet('role_name', $cleanData, $dataRepository),
+                'role_description' => $this->isSet('role_description', $cleanData, $dataRepository),
+                'created_byid' => $createdById
             ];
+            $this->dataBag = [];
         }
+        return [
+            $newCleanData,
+            $this->validatedDataBag($newCleanData),
+        ];
+        // }
     }
 
     public function validatedDataBag($newCleanData): array
@@ -113,12 +113,12 @@ class RoleValidate extends AbstractDataRepositoryValidation
                     $this->validateValue = $value;
                     if (isset($key) && $key != '') :
                         switch ($key):
-                            case 'role_name' :
+                            case 'role_name':
                                 if ($this->rules) {
                                     $this->rules->addRule("required|unique");
                                 }
                                 break;
-                            case 'role_description' :
+                            case 'role_description':
                                 if ($this->rules) {
                                     $this->rules->addRule("required");
                                 }

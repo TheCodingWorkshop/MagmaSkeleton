@@ -57,9 +57,9 @@ class NewAction implements DomainActionLogicInterface
                 if ($controller->formBuilder->csrfValidate()) {
                     $action = $controller->repository->getRepo()
                         ->validateRepository(new $entityObject($controller->formBuilder->getData()))->persistAfterValidation();
-                    if ($controller->error) {
+                    /*if ($controller->error) {
                         $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError();
-                    }
+                    }*/
                     if ($action) {
                         if ($controller->eventDispatcher) {
                             $controller->eventDispatcher->dispatch(

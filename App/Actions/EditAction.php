@@ -66,9 +66,9 @@ class EditAction implements DomainActionLogicInterface
                                 ->findAndReturn($controller->thisRouteID())
                                 ->or404()
                         )->saveAfterValidation([$controller->repository->getSchemaID() => $controller->thisRouteID()]);
-                    if ($controller->error) {
+                    /*if ($controller->error) {
                         $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError($controller->onSelf());
-                    }
+                    }*/
                     if ($action) {
                         if ($controller->eventDispatcher) {
                             $controller->eventDispatcher->dispatch(

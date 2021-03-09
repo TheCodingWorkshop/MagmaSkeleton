@@ -13,3 +13,4 @@ err_unsupport_driver: Unsupported database driver selected.
 err_empty_host: Server host name can not be left empty.
 err_invalid_dbprefix: <strong>Table Prefix</strong> can only contain numbers, letters and underscore.
 err_empty_dbprefix: <strong>Table Prefix</strong> must not be empty.
+err_data_exists: ' already exists within the database'
