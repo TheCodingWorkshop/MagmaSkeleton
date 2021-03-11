@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use MagmaCore\Middleware\BeforeMiddleware;
-use App\Model\UserModel;
 use Closure;
+use App\Model\UserModel;
+use MagmaCore\Auth\Model\RoleModel;
+use MagmaCore\Middleware\BeforeMiddleware;
 
 class PreventionActions extends BeforeMiddleware
 {
@@ -20,15 +21,17 @@ class PreventionActions extends BeforeMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {
-        if ($guards = (new UserModel())->guardedID()) {#
-            if (is_array($guards) && count($guards) > 0) {
-                foreach ($guards as $guard) {
-                    if (intval($guard) === $object->thisRouteID()) {
-                        $object->flashMessage('That action is not allowed.', $object->flashWarning());
-                        $object->redirect($object->onSelf());
-                    }
-                }        
-            }
+        if ($object->thisRouteAction() === 'delete') {
+            if ($guards = (new RoleModel())->guardedID()) {    
+                if (is_array($guards) && count($guards) > 0) {
+                    foreach ($guards as $guard) {
+                        if ($object->toInt($guard) === $object->toInt($object->thisRouteID())) {
+                            $object->flashMessage('Deleting guarded actions is not allowed.<br><small>You will need to unguard first before you perform that action. <a href="">click here</a> to find out how to. </small>', $object->flashInfo());
+                            $object->redirect('/admin/role/index');
+                        }
+                    }        
+                }
+            }    
         }
 
         return $next($object);

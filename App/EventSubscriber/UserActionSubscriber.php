@@ -80,7 +80,11 @@ class UserActionSubscriber implements EventSubscriberInterface
      */
     public function flashUserEvent(UserActionEvent $event)
     {
-        $this->flashingEvent($event, $this->trailingRoutes($event), self::FLASH_DEFAULT, self::DELETE_ACTION);
+        $this->flashingEvent(
+            $event, 
+            $this->trailingRoutes($event), 
+            self::FLASH_DEFAULT
+        );
     }
 
     /**

@@ -30,10 +30,11 @@ Debug::enable();
 (new BaseApplication())
     ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
-            ->setSession(Yaml::file('session'))
-                ->setCookie([])
-                    ->setCache([])
-                        ->setRoutes(Yaml::file('routes'))
-                            ->setContainerProviders([])
-                                ->run();
+            ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
+                ->setSession(Yaml::file('session'))
+                    ->setCookie([])
+                        ->setCache([])
+                            ->setRoutes(Yaml::file('routes'))
+                                ->setContainerProviders([])
+                                    ->run();
 

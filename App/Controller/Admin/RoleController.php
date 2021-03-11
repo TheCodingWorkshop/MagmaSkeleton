@@ -56,6 +56,22 @@ class RoleController extends AdminController
     }
 
     /**
+     * Middleware which are executed before any action methods is called
+     * middlewares are return within an array as either key/value pair. Note
+     * array keys should represent the name of the actual class its loading ie
+     * upper camel case for array keys. alternatively array can be defined as 
+     * an index array omitting the key entirely
+     *
+     * @return array
+     */
+    protected function callBeforeMiddlewares(): array
+    {
+        return [
+            'PreventionActions' => \App\Middleware\Before\PreventionActions::class,
+        ];
+    }
+
+    /**
      * Returns a 404 error page if the data is not present within the database
      * else return the requested object
      *
@@ -141,9 +157,6 @@ class RoleController extends AdminController
 
     protected function assignedAction()
     {
-       /*$test = $this->rolePerm->getRepo()->findBy(['permission_id'],['role_id' => $this->thisRouteID()]);
-        var_dump($this->flattenArray($test));
-        die();*/
         $this->newAction
             ->execute($this, RolePermissionEntity::class, NULL, __METHOD__)
                 ->render()

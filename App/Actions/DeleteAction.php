@@ -57,9 +57,9 @@ class DeleteAction implements DomainActionLogicInterface
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest()) {
                 if ($controller->repository->getRepo()->findAndReturn($controller->thisRouteID())->or404() !== $controller->thisRouteID()) {
-                    /*if ($controller->error) {
+                    if ($controller->error) {
                         $controller->error->addError(['Error deleting!'], $controller)->dispatchError($controller->onSelf());
-                    }*/
+                    }
                 }
                 $action = $controller->repository->getRepo()->findByIdAndDelete([$controller->repository->getSchemaID() => $controller->thisRouteID()]);
                 if ($action) {

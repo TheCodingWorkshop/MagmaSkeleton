@@ -69,3 +69,7 @@ database:
 
 debug_error:
   mode: "dev"
+error_handler:
+  error: \MagmaCore\ErrorHandler\ErrorHandler::errorHandle
+  exception: \MagmaCore\ErrorHandler\ErrorHandler::exceptionHandle
+  log_path: ''

@@ -69,7 +69,6 @@ class AdminController extends BaseController
         return [
             'LoginRequired' => \App\Middleware\Before\LoginRequired::class,
             'AdminAuthentication' => \App\Middleware\Before\AdminAuthentication::class,
-            'PreventionActions' => \App\Middleware\Before\PreventionActions::class,
             'AuthorizedIsNull' => \App\Middleware\Before\AuthorizedIsNull::class,
             'SessionExpires' => \App\Middleware\Before\SessionExpires::class,
         ];
