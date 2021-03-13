@@ -56,10 +56,10 @@ class ResetPasswordAction implements DomainActionLogicInterface
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
                 if ($controller->formBuilder->csrfValidate()) {
-                    $entity = new $entityObject($controller->formBuilder->getData());
-                    /* The token is fetch from the hidden field 'token' within our form */
-                    $repository = $controller->repository->findByPasswordResetToken($entity->token);
-                    $action = $controller->repository->validatePassword($entity, $repository)->reset();
+                    $formData = $controller->formBuilder->getData();
+                    $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
+                    $repository = $controller->repository->findByPasswordResetToken($entityCollection['token']);
+                    $action = $controller->repository->validatePassword($entityCollection, $repository)->reset();
                     if (is_bool($action) && $action !==true) {
                         if ($controller->error) {
                             $controller->error->addError(['error_saving' => 'Error saving new password.'], $controller)->dispatchError();

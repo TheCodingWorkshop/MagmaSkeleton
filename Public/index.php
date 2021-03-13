@@ -20,8 +20,8 @@ $composer = ROOT_PATH . '/vendor/autoload.php';
 if (is_file($composer)) {
     require $composer;
 }
-use MagmaCore\Base\BaseApplication;
 use MagmaCore\Utility\Yaml;
+use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
@@ -38,3 +38,4 @@ Debug::enable();
                                 ->setContainerProviders([])
                                     ->run();
 
+                                    

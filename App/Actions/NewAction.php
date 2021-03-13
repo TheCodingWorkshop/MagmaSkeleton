@@ -52,14 +52,15 @@ class NewAction implements DomainActionLogicInterface
         $this->controller = $controller;
         $this->method = $method;
         if (isset($controller->formBuilder)) :
-            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
-                
+            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getSubmitValue())) {
+
                 if ($controller->formBuilder->csrfValidate()) {
-                    $action = $controller->repository->getRepo()
-                        ->validateRepository(new $entityObject($controller->formBuilder->getData()))->persistAfterValidation();
-                    /*if ($controller->error) {
-                        $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError();
-                    }*/
+                    $formData = $controller->formBuilder->getData(); /* data submitted from form */
+                    $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
+                    $action = $controller->repository
+                        ->getRepo()
+                        ->validateRepository($entityCollection, $entityObject)
+                        ->persistAfterValidation();
                     if ($action) {
                         if ($controller->eventDispatcher) {
                             $controller->eventDispatcher->dispatch(

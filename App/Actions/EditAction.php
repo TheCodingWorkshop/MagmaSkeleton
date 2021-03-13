@@ -55,20 +55,21 @@ class EditAction implements DomainActionLogicInterface
         $this->controller = $controller;
         $this->method = $method;
         if (isset($controller->formBuilder)) :
-            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . $controller->thisRouteController())) {
+            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getSubmitValue())) {
                 if ($controller->formBuilder->csrfValidate()) {
                     $this->enforceRules($rules, $controller);
+                    $formData = $controller->formBuilder->getData();
+                    $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
+
                     $action = $controller->repository->getRepo()
                         ->validateRepository(
-                            new $entityObject($controller->formBuilder->getData()),
+                            $entityCollection,
+                            $entityObject,
                             $controller->repository
                                 ->getRepo()
                                 ->findAndReturn($controller->thisRouteID())
                                 ->or404()
                         )->saveAfterValidation([$controller->repository->getSchemaID() => $controller->thisRouteID()]);
-                    /*if ($controller->error) {
-                        $controller->error->addError($controller->repository->getRepo()->getValidationErrors(), $controller)->dispatchError($controller->onSelf());
-                    }*/
                     if ($action) {
                         if ($controller->eventDispatcher) {
                             $controller->eventDispatcher->dispatch(
@@ -89,6 +90,4 @@ class EditAction implements DomainActionLogicInterface
         endif;
         return $this;
     }
-
-
 }

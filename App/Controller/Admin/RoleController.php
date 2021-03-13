@@ -47,6 +47,7 @@ class RoleController extends AdminController
         $this->diContainer(
             [
                 'repository' => \MagmaCore\Auth\Model\RoleModel::class,
+                'entity' => \App\Entity\RoleEntity::class,
                 'column' => \App\DataColumns\RoleColumn::class,
                 'formRole' => \App\Forms\Admin\Role\RoleForm::class,
                 'permission' => \MagmaCore\Auth\Model\PermissionModel::class,

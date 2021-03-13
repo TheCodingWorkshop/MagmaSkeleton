@@ -13,8 +13,7 @@ declare(strict_types=1);
 namespace App\Validate;
 
 use MagmaCore\Error\Error;
-use MagmaCore\Auth\Model\RoleModel;
-use MagmaCore\Session\SessionTrait;
+use MagmaCore\Collection\Collection;
 use App\Controller\Admin\RoleController;
 use MagmaCore\ValidationRule\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
@@ -22,51 +21,45 @@ use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 class RoleValidate extends AbstractDataRepositoryValidation
 {
 
-    use SessionTrait;
-
+    /** @var array $errors */
     protected array $errors = [];
-    protected array $cleanData;
+    /** @var array $dataBag */
     protected array $dataBag = [];
-
-    protected const DEFAULT_ROLE = 'subscriber';
     /** @var ValidationRule $rules */
     protected ValidationRule $rules;
 
+    /** @var string */
+    protected const REDIRECT_BACK_TO = '/admin/role/index';
+
     /**
      * Undocumented function
+     *
+     * @param ValidationRule $rules
+     * @return void
      */
-    public function __construct()
+    public function __construct(ValidationRule $rules)
     {
-        $this->rules = new ValidationRule(
-            RoleController::class,
-            RoleModel::class,
-            $this
-        );
+        $this->rules = $rules;
+        $this->rules->addObject(RoleController::class, $this);
     }
 
     /**
      * Validate the data before persisting to the database ensure
      * the entity return valid email and password fields
      * 
-     * @param object $cleanData - the incoming data
+     * @param Collection $entityCollection - the incoming data
      * @param object|null $dataRepository - the repository for the entity
      * @return mixed
      */
-    public function validateBeforePersist(object $cleanData, ?object $dataRepository = null)
+    public function validateBeforePersist(Collection $entityCollection, object|null $dataRepository = null)
     {
-        /* convert object to an array */
-        $this->cleanData = (array)$cleanData;
-        $this->validate($this->cleanData, $dataRepository);
-
-        //if (empty($this->errors)) {
-        $cleanData = $this->mergeWithFields($this->cleanData);
-        if (null !== $cleanData) {
-            $createdById = $this->setDefaultValue($cleanData, 'created_byid', SessionTrait::sessionFromGlobal()->get('user_id') ?? 0);
-
+        $this->validate($entityCollection, $dataRepository);
+        $dataCollection = $this->mergeWithFields($entityCollection->all());
+        if (null !== $dataCollection) {
             $newCleanData = [
-                'role_name' => $this->isSet('role_name', $cleanData, $dataRepository),
-                'role_description' => $this->isSet('role_description', $cleanData, $dataRepository),
-                'created_byid' => $createdById
+                'role_name' =>          $this->isSet('role_name', $dataCollection, $dataRepository),
+                'role_description' =>   $this->isSet('role_description', $dataCollection, $dataRepository),
+                'created_byid' =>       $this->getCreator($dataCollection)
             ];
             $this->dataBag = [];
         }
@@ -74,10 +67,15 @@ class RoleValidate extends AbstractDataRepositoryValidation
             $newCleanData,
             $this->validatedDataBag($newCleanData),
         ];
-        // }
     }
 
-    public function validatedDataBag($newCleanData): array
+    /**
+     * Returns the validated data which will be diaptched to any listeners
+     *
+     * @param array $newCleanData
+     * @return array
+     */
+    public function validatedDataBag(array $newCleanData): array
     {
         return array_merge($newCleanData, $this->dataBag);
     }
@@ -89,7 +87,9 @@ class RoleValidate extends AbstractDataRepositoryValidation
      */
     public function getErrors(): array
     {
-        return $this->errors;
+        return [
+
+        ];
     }
 
     public function fields(): array
@@ -97,22 +97,25 @@ class RoleValidate extends AbstractDataRepositoryValidation
         return [];
     }
 
+    public function validationRedirect(): string
+    {
+        return sprintf('%s', self::REDIRECT_BACK_TO);
+    }
+
     /**
-     * Validate the role data
+     * Validate the data collection fields
      *
-     * @param array $cleanData
+     * @param Collection $entityCollection
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(array $cleanData, ?Object $dataRepository = null): ?array
+    public function validate(Collection $entityCollection, ?Object $dataRepository = null): void
     {
-        if (null !== $cleanData) {
-            if (is_array($cleanData) && count($cleanData) > 0) {
-                foreach ($cleanData as $key => $value) :
-                    $this->validateKey = $key;
-                    $this->validateValue = $value;
-                    if (isset($key) && $key != '') :
-                        switch ($key):
+        if (null !== $entityCollection) {
+            if (is_object($entityCollection) && $entityCollection->count() > 0) {
+                foreach ($entityCollection as $this->key => $this->value) :
+                    if (isset($this->key) && $this->key != '') :
+                        switch ($this->key):
                             case 'role_name':
                                 if ($this->rules) {
                                     $this->rules->addRule("required|unique");
@@ -124,15 +127,13 @@ class RoleValidate extends AbstractDataRepositoryValidation
                                 }
                                 break;
                             default:
-                                if ($cleanData === $dataRepository) {
+                                if ($entityCollection === $dataRepository) {
                                     $this->errors = Error::display('err_unchange');
                                 }
                                 break;
                         endswitch;
                     endif;
                 endforeach;
-
-                return $this->errors;
             }
         }
     }

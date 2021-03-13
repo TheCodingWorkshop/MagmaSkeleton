@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\Domain\DomainTraits;
 use MagmaCore\Base\Domain\DomainActionLogicInterface;
 
@@ -57,9 +56,11 @@ class NewPasswordAction implements DomainActionLogicInterface
         if (isset($controller->formBuilder)) :
             if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getFileName() . '-' . strtolower($controller->thisRouteController()))) {
                 if ($controller->formBuilder->csrfValidate()) {
-                    $entity = new $entityObject($controller->formBuilder->getData());
-                    if ($controller->repository->emailExists($entity->email)) {
-                        $controller->repository->findByUser($entity->email)->sendUserResetPassword();
+                    $formData = $controller->formBuilder->getData();
+                    $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
+
+                    if ($controller->repository->emailExists($entityCollection['email'])) {
+                        $controller->repository->findByUser($entityCollection['email'])->sendUserResetPassword();
                         if ($controller->eventDispatcher) {
                             $controller->eventDispatcher->dispatch(
                                 new $eventDispatcher(

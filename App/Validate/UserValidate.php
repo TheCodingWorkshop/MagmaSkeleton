@@ -12,78 +12,94 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
+use MagmaCore\Error\Error;
 use MagmaCore\Utility\ClientIP;
-use MagmaCore\Session\SessionTrait;
+use MagmaCore\Collection\Collection;
 use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\PasswordEncoder;
+use App\Controller\Admin\UserController;
 use MagmaCore\Utility\GravatarGenerator;
 use MagmaCore\Utility\RandomCharGenerator;
+use MagmaCore\ValidationRule\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
-use MagmaCore\Error\Error;
 
 class UserValidate extends AbstractDataRepositoryValidation
 {
 
-    use SessionTrait;
-
+    /** @var array $errors */
     protected array $errors = [];
-    protected array $cleanData;
+    /** @var array $dataBag */
     protected array $dataBag = [];
-    protected string|null $randomPassword = null;
+    /** @var ValidationRule $rules */
+    protected ValidationRule $rules;
+
+    /** @var string - empty string will redirect on the same request */
+    protected const REDIRECT_BACK_TO = '';
+
+    /**
+     * Undocumented function
+     *
+     * @param ValidationRule $rules
+     * @return void
+     */
+    public function __construct(ValidationRule $rules)
+    {
+        $this->rules = $rules;
+        $this->rules->addObject(UserController::class, $this);
+    }
 
     /**
      * @inheritdoc
-     * @param object $cleanData - the incoming data
+     * @param Collection $entityCollection
      * @param object|null $dataRepository - the repository for the entity
      * @return mixed
      */
-    public function validateBeforePersist(object $cleanData, Null|object $dataRepository = null)
+    public function validateBeforePersist(Collection $entityCollection, Null|object $dataRepository = null)
     {
-        /* convert object to an array */
-        $this->cleanData = (array)$cleanData;
-        $this->validate($this->cleanData, $dataRepository);
+        $this->validate($entityCollection, $dataRepository);
+        $dataCollection = $this->mergeWithFields($entityCollection->all());
+        if (null !== $dataCollection) {
+            $email = $this->isSet('email', $dataCollection, $dataRepository);
+            list($tokenHash, $activationHash) = (new HashGenerator())->hash();
 
-        if (empty($this->errors)) {
-
-            $cleanData = $this->mergeWithFields($this->cleanData);
-            if (null !== $cleanData) {
-                $email = $this->isSet('email', $cleanData, $dataRepository);
-                list($tokenHash, $activationHash) = (new HashGenerator())->hash();
-
-                $newCleanData = [
-                    'firstname' => $this->isSet('firstname', $cleanData, $dataRepository),
-                    'lastname' => $this->isSet('lastname', $cleanData, $dataRepository),
-                    'email' => $email,
-                    'password_hash' => $this->userPassword($cleanData),
-                    'activation_token' => $tokenHash,
-                    'status' => $this->isSet('status', $cleanData, $dataRepository),
-                    'created_byid' => $this->setDefaultValue($cleanData, 'created_byid', isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0),
-                    'gravatar' => (new GravatarGenerator())->setGravatar($email),
-                    'remote_addr' => (new ClientIP())->getClientIp()
-                ];
-
-                /* Settings additional data which will get merge with the dataBag */
-                $this->dataBag['activation_hash'] = $activationHash;
-                if (array_key_exists('role_id', $cleanData)) {
-                    $this->dataBag['role_id'] = intval($cleanData['role_id']);
-                }
-
-                /**
-                 * When updatng we want to unset some key from the $newCleanData array so we
-                 * are not overwriting key aspects of the user object. ie. We don't wanna mess
-                 * with the user password. And we don't wanna generate a new activation_token
-                 * on user update so we will remove these two keys from the array. And !is_null
-                 * is simple ensuring we have a user object that we are unsetting from.
-                 */
-                if (!is_null($dataRepository)) {
-                    unset($newCleanData['activation_token'], $newCleanData['password_hash']);
-                }
-            }
-            return [
-                $newCleanData,
-                $this->validatedDataBag(array_merge($newCleanData, ['random_pass' => $this->randomPassword])),
+            $newCleanData = [
+                'firstname' =>          $this->isSet('firstname', $dataCollection, $dataRepository),
+                'lastname' =>           $this->isSet('lastname', $dataCollection, $dataRepository),
+                'email' =>              $email,
+                'password_hash' =>      $this->userPassword($dataCollection),
+                'activation_token' =>   $tokenHash,
+                'status' =>             $this->isSet('status', $dataCollection, $dataRepository),
+                'created_byid' =>       $this->getCreator($dataCollection),
+                'gravatar' =>           GravatarGenerator::setGravatar($email),
+                'remote_addr' =>        ClientIP::getClientIp()
             ];
+
+            /* Settings additional data which will get merge with the dataBag */
+            $this->dataBag['activation_hash'] = $activationHash;
+            if (array_key_exists('role_id', $dataCollection)) {
+                $this->dataBag['role_id'] = intval($dataCollection['role_id']);
+            }
+
+            /**
+             * When updatng we want to unset some key from the $newCleanData array so we
+             * are not overwriting key aspects of the user object. ie. We don't wanna mess
+             * with the user password. And we don't wanna generate a new activation_token
+             * on user update so we will remove these two keys from the array. And !is_null
+             * is simple ensuring we have a user object that we are unsetting from.
+             */
+            if (!is_null($dataRepository)) {
+                unset($newCleanData['activation_token'], $newCleanData['password_hash']);
+            }
         }
+        return [
+            $newCleanData,
+            $this->validatedDataBag(
+                array_merge(
+                    $newCleanData,
+                    ['random_pass' => $this->randomPassword]
+                )
+            )
+        ];
     }
 
     /**
@@ -101,8 +117,8 @@ class UserValidate extends AbstractDataRepositoryValidation
     {
         $userPassword = '';
         $userPassword = $this->isSet('client_password_hash', $cleanData);
-        $encodedPassword = (new PasswordEncoder())->encode(
-            !empty($userPassword) ? $userPassword : ($this->randomPassword = (new RandomCharGenerator())->generate($length))
+        $encodedPassword = PasswordEncoder::encode(
+            !empty($userPassword) ? $userPassword : ($this->randomPassword = RandomCharGenerator::generate($length))
         );
         if ($encodedPassword)
             return $encodedPassword;
@@ -123,7 +139,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      */
     public function getErrors(): array
     {
-        return $this->errors;
+        return [];
     }
 
     /**
@@ -137,54 +153,51 @@ class UserValidate extends AbstractDataRepositoryValidation
 
     /**
      * @inheritdoc
-     * @param array $cleanData
+     * @return array
+     */
+    public function validationRedirect(): string
+    {
+        return sprintf('%s', self::REDIRECT_BACK_TO);
+    }
+
+    /**
+     * @inheritdoc
+     * @param Collection $entityCollection
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(array $cleanData, Null|Object $dataRepository = null): array|null
+    public function validate(Collection $entityCollection, Null|Object $dataRepository = null): void
     {
-        if (null !== $cleanData) {
-            if (is_array($cleanData) && count($cleanData) > 0) {
-                foreach ($cleanData as $key => $value) :
-                    if (isset($key) && $key != '') :
-                        switch ($key):
-                            case "password_hash":
-                            case "client_password_hash":
-                                if (!empty($value)) {
-                                    if (strlen($value) < 6) {
-                                        $this->errors = Error::display('err_password_length');
-                                    }
-                                    if (preg_match('/.*[a-z]+.*/i', $value) == 0) {
-                                        $this->errors = Error::display('err_password_letter');
-                                    }
-                                    if (preg_match('/.*\d+.*/i', $value) == 0) {
-                                        $this->errors = Error::display('err_password_number');
-                                    }
+        if (null !== $entityCollection) {
+            if (is_object($entityCollection) && $entityCollection->count() > 0) {
+                foreach ($entityCollection as $this->key => $this->value) :
+                    if (isset($this->key) && $this->key != '') :
+                        switch ($this->key):
+                            case 'password_hash':
+                            case 'client_password_hash':
+                                if ($this->rules) {
+                                    $this->rules->addRule("required|unique|email");
                                 }
                                 break;
-                            case "email":
-                                if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-                                    $this->errors = Error::display('err_invalid_email');
+                            case 'email':
+                                if ($this->rules) {
+                                    $this->rules->addRule("required|unique|email");
                                 }
                                 break;
-                            case "firstame":
-                            case "lastname":
-                                if (isset($value)) {
-                                    if (is_string($value) && empty($value)) {
-                                        $this->errors = Error::display('err_field_require');
-                                    }
+                            case 'firstname':
+                            case 'lastname':
+                                if ($this->rules) {
+                                    $this->rules->addRule("required");
                                 }
                                 break;
                             default:
-                                if ($cleanData === $dataRepository) {
+                                if ($entityCollection === $dataRepository) {
                                     $this->errors = Error::display('err_unchange');
                                 }
                                 break;
                         endswitch;
                     endif;
                 endforeach;
-
-                return $this->errors;
             }
         }
     }

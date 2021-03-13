@@ -47,6 +47,7 @@ class UserController extends AdminController
         $this->diContainer(
             [
                 'repository' => \App\Model\UserModel::class,
+                'entity' => \App\Entity\UserEntity::class,
                 'column' => \App\DataColumns\UserColumn::class,
                 'formUser' => \App\Forms\Admin\User\UserForm::class,
                 'perferencesForm' => \App\Forms\Admin\User\PerferencesForm::class,

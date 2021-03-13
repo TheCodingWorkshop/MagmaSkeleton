@@ -50,12 +50,13 @@ class AccountController extends BaseController
         $this->diContainer(
             [
                 'repository' => \App\Model\UserProfileModel::class,
+                'entity' => \App\Entity\UserEntity::class,
                 'activateRepo' => \App\Repository\ActivationRepository::class,
                 'editNameForm' => \App\Forms\Profile\EditNameForm::class,
                 'editEmailForm' => \App\Forms\Profile\EditEmailForm::class,
                 'editPasswordForm' => \App\Forms\Profile\EditPasswordForm::class,
                 'deleteAccount' => \App\Forms\Profile\DeleteAccountForm::class,
-                'profileAction' => \App\Actions\ProfileAction::class,
+                'showAction' => \App\Actions\ShowAction::class,
                 'editAction' => \App\Actions\EditAction::class,
 
             ]
@@ -106,7 +107,7 @@ class AccountController extends BaseController
      */
     protected function indexAction()
     {
-        $this->profileAction
+        $this->showAction
             ->execute($this, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
