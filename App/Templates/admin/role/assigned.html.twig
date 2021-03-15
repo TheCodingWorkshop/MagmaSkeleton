@@ -23,13 +23,13 @@
 
 {% block content_header_help %}
 	{#
-		string		$searchFilter = null, 
-		string 		$controller = null,
-		int 		$totalRecords = null,
-		array 		$actions = null,
-		bool 		$actionVertical = false,
-		array 		$row = null) : string
-		#}
+			string		$searchFilter = null, 
+			string 		$controller = null,
+			int 		$totalRecords = null,
+			array 		$actions = null,
+			bool 		$actionVertical = false,
+			array 		$row = null) : string
+			#}
 	{{ subHeader(
 		_searchedQuery,
 		_controller,
@@ -70,7 +70,7 @@
 					<div class="uk-card-body">
 						<h3 class="uk-card-title">{{ role.role_name }}</h3>
 						{#<p>{{ role.role_description }} - {{ role_perms.permission_id|length }} permissions assigned to this role.</p>
-						<p><span class="uk-badge uk-badge-primary">{{ getPermissionName(role_perms.permission_id) }}</span></p>#}
+												<p><span class="uk-badge uk-badge-primary">{{ getPermissionName(role_perms.permission_id) }}</span></p>#}
 					</div>
 				</div>
 			</div>
@@ -95,7 +95,7 @@
 												{% endif %}
 												<li>
 													<label for="{{ permission.permission_name }}">
-														<input type="checkbox" class="uk-checkbox" name="permission_name" id="permission_name_{{ permission.permission_name }}" value="{{ permission.id }}"{{ checked }}>
+														<input type="checkbox" class="uk-checkbox" name="permission_name" id="permission_name_{{ permission.permission_name }}" value="{{ permission.id }}" {{ checked }}>
 														{{ permission.permission_name|replace({'_' : ' '})|upper }}
 													</label>
 
@@ -111,17 +111,19 @@
 							</div>
 						</form>
 					</div>
+
 				</div>
 			</div>
+		</div>
 
-			<div></section>
-		{% endblock main %}
+		<div></section>
+	{% endblock main %}
 
-		{% block body_javascript %}
-			{{ parent() }}
-			<script>
-				function saveChanges(Object) {
+	{% block body_javascript %}
+		{{ parent() }}
+		<script>
+			function saveChanges(Object) {
 alert(Object.value)
 }
-			</script>
-		{% endblock body_javascript %}
+		</script>
+	{% endblock body_javascript %}

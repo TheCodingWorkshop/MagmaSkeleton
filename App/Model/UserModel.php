@@ -23,8 +23,6 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     protected const TABLESCHEMA = 'users';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
-    protected const PROTECTED_SUPERADMIN = 1;
-    protected const PROTECTED_SUBSCRIBER = 2;
     /** */
     protected array $profileError = [];
     /** */

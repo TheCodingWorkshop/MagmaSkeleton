@@ -147,15 +147,11 @@ class RoleController extends AdminController
             ->execute($this, NULL, RoleActionEvent::class, __METHOD__);
     }
 
-    private function flat(array $arrays)
-    {
-        $arr = [];
-        foreach ($arrays as $array) 
-            $arr[] = $array;
-
-        return $arr;
-    }
-
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     protected function assignedAction()
     {
         $this->newAction

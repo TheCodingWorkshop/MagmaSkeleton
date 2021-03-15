@@ -9,6 +9,7 @@ user:
     - firstname
     - created_at
     - modified_at
+    
 role:
   additional_conditions: []
   selectors: []

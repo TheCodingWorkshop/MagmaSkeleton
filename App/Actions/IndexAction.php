@@ -48,10 +48,12 @@ class IndexAction implements DomainActionLogicInterface
         array $rules = [],
         array $additionalContext = []
     ): self {
+
         $this->controller = $controller;
         $this->method = $method;
 
         $controller->getSession()->set('redirect_parameters', $_SERVER['QUERY_STRING']);
+        
         $this->args = Yaml::file('controller')[$controller->thisRouteController()];
         $this->tableRepository = $controller->repository->getRepo()->findWithSearchAndPaging($controller->request->handler(), $this->args);
         $this->tableData = $controller->tableGrid;

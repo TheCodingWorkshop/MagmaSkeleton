@@ -71,6 +71,22 @@ class PermissionController extends AdminController
 
     }
 
+    protected function testAction()
+    {
+       if (isset($_POST['new-permission'])) {
+           $value = strip_tags(stripslashes(trim($_POST['permission_name'])));
+           if (str_contains($value, ',')) {
+               $vals = explode(',', $value);
+               if (is_array($vals) && count($vals) > 0) {
+                   $action = $this->repository->getRepo()->validateRepository()->persistAfterValidation();
+                   if ($action) {
+                       
+                   }
+               }
+           }
+       }
+    }
+
     /**
      * The new action request. is responsible for creating a new permission. By sending
      * post data to the relevant model. Which is turns sanitize and validate the the 

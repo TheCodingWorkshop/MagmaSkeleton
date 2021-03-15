@@ -1,0 +1,15 @@
+{% extends layout.html %}
+
+{% block title %}{{ $title }}{% endblock %}
+
+{% block content %}
+{% include form.html %}
+<h1>Home</h1>
+<p>Welcome to the home page, list of colors: Age is {{ $age }}</p>
+<ul>
+    {% foreach($colors as $color): %}
+    <li>{{{ $color }}}</li>
+    {% endforeach; %}
+</ul>
+
+{% endblock %}

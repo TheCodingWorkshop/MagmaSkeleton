@@ -25,8 +25,18 @@ use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
-Debug::enable();
+use App\Routes\Routes;
+//use MagmaCore\Ash\Template;
 
+Debug::enable();
+//$template = new Template(Yaml::file('template'));
+
+/*$template->view('index.html', [
+    'title' => 'Home Page',
+    'colors' => ['red','blue','green'],
+    'age' => 34
+]);*/
+//Template::clearCache();
 (new BaseApplication())
     ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))

@@ -16,7 +16,6 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use MagmaCore\Utility\Yaml;
 use App\Event\UserActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
@@ -56,6 +55,8 @@ class UserController extends AdminController
         );
 
     }
+
+    
 
     /**
      * Returns a 404 error page if the data is not present within the database

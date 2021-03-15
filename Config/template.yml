@@ -1,0 +1,5 @@
+template:
+  file_extension: .html
+  template_cache:
+    enable: false
+    path: cache/

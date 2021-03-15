@@ -31,7 +31,7 @@ class isAlreadyLogin extends BeforeMiddleware
         if ($object->thisRouteController() === 'Security' && $object->thisRouteAction() === 'index') {
             $userID = $object->getSession()->get('user_id');
             if (isset($userID) && $userID !== 0) {
-                $object->flashMessage("<strong class=\"uk-text-danger\">Action Rejected: </strong>You are already logged in.", $object->flashInfo());
+                $object->flashMessage(sprintf('%s You are already logged in.', '<strong class=\"uk-text-danger\">Action Rejected: </strong>'), $object->flashInfo());
                 $object->redirect(Authorized::getReturnToPage());
             }
         }
