@@ -16,6 +16,7 @@ use SyntaxError;
 use RuntimeError;
 use App\Model\UserModel;
 use App\Schema\UserSchema;
+use MagmaCore\Http\RequestHandler;
 use MagmaCore\Collection\Collection;
 
 class DashboardController extends AdminController

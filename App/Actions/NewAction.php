@@ -52,29 +52,28 @@ class NewAction implements DomainActionLogicInterface
         $this->controller = $controller;
         $this->method = $method;
         if (isset($controller->formBuilder)) :
-            if ($controller->formBuilder->canHandleRequest() && $controller->formBuilder->isSubmittable($this->getSubmitValue())) {
+            if ($controller->formBuilder->isFormValid($this->getSubmitValue())) {
+                $controller->formBuilder->validateCsrf($controller);
 
-                if ($controller->formBuilder->csrfValidate()) {
-                    $formData = $controller->formBuilder->getData(); /* data submitted from form */
-                    $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
-                    $action = $controller->repository
-                        ->getRepo()
-                        ->validateRepository($entityCollection, $entityObject)
-                        ->persistAfterValidation();
-                    if ($action) {
-                        if ($controller->eventDispatcher) {
-                            $controller->eventDispatcher->dispatch(
-                                new $eventDispatcher(
-                                    $method,
-                                    array_merge(
-                                        $controller->repository->getRepo()->validatedDataBag(),
-                                        $additionalContext ? $additionalContext : []
-                                    ),
-                                    $controller
+                $formData = $controller->formBuilder->getData(); /* data submitted from form */
+                $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
+                $action = $controller->repository
+                    ->getRepo()
+                    ->validateRepository($entityCollection, $entityObject)
+                    ->persistAfterValidation();
+                if ($action) {
+                    if ($controller->eventDispatcher) {
+                        $controller->eventDispatcher->dispatch(
+                            new $eventDispatcher(
+                                $method,
+                                array_merge(
+                                    $controller->repository->getRepo()->validatedDataBag(),
+                                    $additionalContext ? $additionalContext : []
                                 ),
-                                $eventDispatcher::NAME
-                            );
-                        }
+                                $controller
+                            ),
+                            $eventDispatcher::NAME
+                        );
                     }
                 }
             }
