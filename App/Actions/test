@@ -1,0 +1,28 @@
+$method = new \ReflectionMethod($this->controller, $this->action); 
+ 
+$args = []; 
+ 
+foreach ($method->getParameters() as $param) {
+ 
+    $name = $param->getName();
+ 
+    $class = $param->getClass();
+ 
+    if ($class === null) {  // No class type hint
+ 
+        $args[] = $route_params[$name];
+ 
+    } else {
+ 
+        if ($class->isInstance($request)) {
+ 
+            $args[] = $request;
+ 
+        } else {
+ 
+            // check other types, or throw exception if invalid
+ 
+        }   
+ 
+        return call_user_func_array([$this->controller, $this->action], $args);
+    }
