@@ -34,8 +34,9 @@ class UserSchema extends DataObjectSchema implements DataObjectSchemaBuilderInte
 
         return $this
             ->schema()
+            //->table(UserRepository::TABLESCHEMA)
             ->row($schema->autoID())
-            ->row($schema->varchar('firstname', 190, true))
+            ->row($schema->varchar('firstname', 190, false))
             ->row($schema->varchar('lastname', 190, false))
             ->row($schema->varchar('email', 190, false))
             ->row($schema->varchar('gravatar', 190, true))

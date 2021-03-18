@@ -92,6 +92,15 @@ class PermissionActionSubscriber implements EventSubscriberInterface
      */
     public function assignedToSuperRole(PermissionActionEvent $event)
     {
+        /*$push = (new DataManyToMany(RolePermissionModel::class))
+        ->tables()
+            ->set(
+                [
+                    'role_id' => $superRole['props']['id'], 
+                    'permission_id' => $permission['last_id']]
+                )
+                ->push();*/
+
         if ($this->onRoute($event, self::NEW_ACTION)) {
             $permission = $event->getContext();
             $superRole = Yaml::file('app')['system']['super_role'];
