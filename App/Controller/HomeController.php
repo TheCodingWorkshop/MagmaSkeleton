@@ -11,13 +11,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Schema\UserSchema;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
-use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseController;
-use MagmaCore\Http\RequestHandler;
-use MagmaCore\Http\ResponseHandler;
 
 class HomeController extends BaseController
 {
@@ -42,7 +40,9 @@ class HomeController extends BaseController
          * property for the userModel object like so $this->userModel->getRepo();
          */
         $this->diContainer(
-            [/** Dependencies goes here! */]
+            [
+                'schema' => UserSchema::class
+            ]
         );
     }
 
@@ -58,7 +58,6 @@ class HomeController extends BaseController
     protected function callBeforeMiddlewares(): array
     {
         return [
-            'HasConnection' => \App\Middleware\Before\HasConnection::class,
         ];
     }
 
@@ -74,6 +73,7 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     { 
+        var_dump($this->schema->createSchema());
         $this->render(
             'client/home/index.html.twig', []);
     }

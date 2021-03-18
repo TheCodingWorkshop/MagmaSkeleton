@@ -17,6 +17,9 @@ use SyntaxError;
 use RuntimeError;
 use App\Event\LoginActionEvent;
 use MagmaCore\Base\BaseController;
+use App\Middleware\Before\isAlreadyLogin;
+use App\Middleware\After\SessionExpiresCleanUp;
+use App\Middleware\Before\isUserAccountActivated;
 
 class SecurityController extends BaseController
 {
@@ -65,9 +68,8 @@ class SecurityController extends BaseController
     protected function callBeforeMiddlewares(): array
     {
         return [
-            'HasConnection' => \App\Middleware\Before\HasConnection::class,
-            'isUserAccountActivated' => \App\Middleware\Before\isUserAccountActivated::class,
-            'isAlreadyLogin' => \App\Middleware\Before\isAlreadyLogin::class,
+            'isUserAccountActivated' => isUserAccountActivated::class,
+            'isAlreadyLogin' => isAlreadyLogin::class,
         ];
     }
 
@@ -83,7 +85,7 @@ class SecurityController extends BaseController
     protected function callAfterMiddlewares(): array
     {
         return [
-            'SessionExpiresCleanUp' => \App\Middleware\After\SessionExpiresCleanUp::class,
+            'SessionExpiresCleanUp' => SessionExpiresCleanUp::class,
         ];
     }
 

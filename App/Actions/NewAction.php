@@ -33,7 +33,7 @@ class NewAction implements DomainActionLogicInterface
     }
 
     /**
-     * execute logic for adding new items to the database()
+     * execute logic for adding new items to the database(). Post data is returned as a collection
      * 
      * @param Object $controller - The controller object implementing this object
      * @param string $eventDispatcher - the eventDispatcher for the current object
@@ -52,11 +52,10 @@ class NewAction implements DomainActionLogicInterface
         $this->controller = $controller;
         $this->method = $method;
         if (isset($controller->formBuilder)) :
-            if ($controller->formBuilder->isFormValid($this->getSubmitValue())) {
-                $controller->formBuilder->validateCsrf($controller);
-
-                $formData = $controller->formBuilder->getData(); /* data submitted from form */
-                $entityCollection = $controller->entity->wash($formData)->rinse()->dry();
+            if ($controller->formBuilder->isFormValid($this->getSubmitValue())) { /* return true if form  is valid */
+                $controller->formBuilder->validateCsrf($controller); /* Checks for csrf validation token */
+                $formData = $controller->formBuilder->getData(); /* submitted data */
+                $entityCollection = $controller->entity->wash($formData)->rinse()->dry(); //* data sanitization */
                 $action = $controller->repository
                     ->getRepo()
                     ->validateRepository($entityCollection, $entityObject)

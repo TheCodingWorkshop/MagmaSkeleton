@@ -20,9 +20,6 @@ class SessionExpiresCleanUp extends AfterMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {
-        //if ($object->thisRouteController() === 'Security' && $object->thisRouteAction() === 'index') {
-            //$userID = $object->getSession()->get('user_id');
-        //}
         return $next($object);
     }
 }
