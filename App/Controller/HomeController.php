@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Schema\UserSchema;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
+use App\Schema\UserSchema;
 use MagmaCore\Base\BaseController;
 
 class HomeController extends BaseController
@@ -73,9 +73,13 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     { 
-        var_dump($this->schema->createSchema());
-        $this->render(
-            'client/home/index.html.twig', []);
+
+        $this->view('client/home/index.html', ['title' => 'home', 'age' => 34, 'colors' => ['red', 'blue', 'green']]);
+        /*$template = (
+            new Template(Yaml::file('template')))
+                ->view('index.html', ['title' => 'home', 'age' => 34, 'colors' => ['red', 'blue', 'green']]);*/
+       /* $this->render(
+            'client/home/index.html.twig', []);*/
     }
 
 }

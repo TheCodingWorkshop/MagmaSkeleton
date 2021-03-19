@@ -14,19 +14,22 @@ namespace App\Schema;
 
 use App\Model\UserModel;
 use MagmaCore\DataSchema\DataSchema;
-use MagmaCore\DataSchema\Types\NumericType;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
 class UserSchema implements DataSchemaBuilderInterface
 {
 
+    /** @var object - $schema for chaing the schema together */
     protected DataSchema $schema;
+    /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
+    /** @var object - the database model this schema is linked to */
     protected UserModel $userModel;
 
     /**
-     * Undocumented function
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
@@ -46,26 +49,24 @@ class UserSchema implements DataSchemaBuilderInterface
      */
     public function createSchema(): string
     {
-       return $this->schema
+        return $this->schema
             ->schema()
             ->table($this->userModel)
+            ->row($this->blueprint->autoID())
             ->row($this->blueprint->int('role_id', 10))
             ->row($this->blueprint->int('permission_id', 10))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
-                    ->addPrimaryKey('id')
-                        ->setUniqueKey(['role_id', 'permission_id'])
-                            ->setConstraintKeys(
-                                function() use($schema){
-                                    return $schema
-                                    ->foreignKey('role_id')
-                                    ->on('roles')
-                                    ->reference('id')
-                                    ->cascade(true, true);
-                                })
-                                ->addKeys();
+                    ->addPrimaryKey($this->blueprint->getPrimaryKey())
+                    ->setUniqueKey(['role_id', 'permission_id'])
+                    ->setConstraintKeys(
+                        function () use ($schema) {
+                            return $schema->foreignKey('role_id')->on('roles')
+                                ->reference('id')
+                                ->cascade(true, true);
+                        }
+                    )
+                    ->addKeys();
             });
-
-
     }
 }
