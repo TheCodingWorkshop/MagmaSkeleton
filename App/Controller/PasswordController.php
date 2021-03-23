@@ -45,8 +45,8 @@ class PasswordController extends BaseController
                 'repository' => \App\Repository\PasswordRepository::class,
                 'formPassword' => \App\Forms\Client\Password\PasswordForm::class,
                 'formResetPassword' => \App\Forms\Client\Password\ResetForm::class,
-                'newPasswordAction' => \App\Actions\NewPasswordAction::class,
-                'resetPasswordAction' => \App\Actions\ResetPasswordAction::class,
+                'newPasswordAction' => \MagmaCore\Base\Domain\Actions\NewPasswordAction::class,
+                'resetPasswordAction' => \MagmaCore\Base\Domain\Actions\ResetPasswordAction::class,
             ]
         );
     }

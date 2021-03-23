@@ -45,7 +45,7 @@ class RegistrationController extends BaseController
             [
                 'formRegister' => \App\Forms\Client\Registration\RegistrationForm::class,
                 'repository' => \App\Model\UserModel::class,
-                'newAction' => \App\Actions\NewAction::class
+                'newAction' => \MagmaCore\Base\Domain\Actions\NewAction::class
             ]
         );
     }

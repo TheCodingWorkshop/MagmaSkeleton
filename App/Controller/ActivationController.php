@@ -42,7 +42,7 @@ class ActivationController extends BaseController
         $this->diContainer(
             [
                 'repository' => \App\Repository\ActivationRepository::class,
-                'activateAction' => \App\Actions\ActivateAction::class,
+                'activateAction' => \MagmaCore\Base\Domain\Actions\ActivateAction::class,
             ]
         );
     }

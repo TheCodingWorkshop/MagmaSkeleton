@@ -50,8 +50,8 @@ class SecurityController extends BaseController
                 'loginForm' => \App\Forms\Client\Security\LoginForm::class,
                 'logoutForm' => \App\Forms\Client\Security\LogoutForm::class,
                 'authenticator' => \MagmaCore\Auth\Authenticator::class,
-                'loginAction' => \App\Actions\LoginAction::class,
-                'logoutAction' => \App\Actions\LogoutAction::class,
+                'loginAction' => \MagmaCore\Base\Domain\Actions\LoginAction::class,
+                'logoutAction' => \MagmaCore\Base\Domain\Actions\LogoutAction::class,
             ]
         );
     }

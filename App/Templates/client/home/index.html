@@ -10,7 +10,7 @@
 
 {% block content %} 
 
-    <h1>{{{ $title }}}</h1>
+    <h1>{@ f($title)->upper() @}</h1>
     <p>Welcome to the home page, list of colors: Age is {{ $age }}</p>
     <ul>
         {% foreach($colors as $color): %}

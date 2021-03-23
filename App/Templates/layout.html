@@ -26,10 +26,16 @@
 
 <body>
 
-	{% include header.html %}
-	{% include sidebar.html %}
-	{% include body.html %}
-	{% include footer.html %}
+	<div class="container-scroller">
+		{% include header_profile.html %} <!-- contains the header_logo -->
+		<div class="container-fluid page-body-wrapper">
+			{% include nav.html %}
+			<div class="main-panel">
+				{% include body.html %} <!-- contains the footer.html -->
+			</div>
+		</div>
+	</div>
+
 
 	{@ addjs(['sidebar', 'app']) @}
 

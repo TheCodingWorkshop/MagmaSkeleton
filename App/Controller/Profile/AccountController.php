@@ -56,8 +56,8 @@ class AccountController extends BaseController
                 'editEmailForm' => \App\Forms\Profile\EditEmailForm::class,
                 'editPasswordForm' => \App\Forms\Profile\EditPasswordForm::class,
                 'deleteAccount' => \App\Forms\Profile\DeleteAccountForm::class,
-                'showAction' => \App\Actions\ShowAction::class,
-                'editAction' => \App\Actions\EditAction::class,
+                'showAction' => \MagmaCore\Base\Domain\Actions\ShowAction::class,
+                'editAction' => \MagmaCore\Base\Domain\Actions\EditAction::class,
 
             ]
         );

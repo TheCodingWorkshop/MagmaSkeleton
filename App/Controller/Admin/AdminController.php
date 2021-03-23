@@ -12,11 +12,6 @@ declare (strict_types = 1);
 
 namespace App\Controller\Admin;
 
-use App\Actions\NewAction;
-use App\Actions\EditAction;
-use App\Actions\ShowAction;
-use App\Actions\IndexAction;
-use App\Actions\DeleteAction;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Datatable\Datatable;
 use MagmaCore\Session\SessionTrait;
@@ -55,11 +50,11 @@ class AdminController extends BaseController
         $this->diContainer(
             [
                 'tableGrid' => Datatable::class,
-                'newAction' => NewAction::class,
-                'editAction' => EditAction::class,
-                'deleteAction' => DeleteAction::class,
-                'indexAction' => IndexAction::class,
-                'showAction' => ShowAction::class,
+                'newAction' => \MagmaCore\Base\Domain\Actions\NewAction::class,
+                'editAction' => \MagmaCore\Base\Domain\Actions\EditAction::class,
+                'deleteAction' => \MagmaCore\Base\Domain\Actions\DeleteAction::class,
+                'indexAction' => \MagmaCore\Base\Domain\Actions\IndexAction::class,
+                'showAction' => \MagmaCore\Base\Domain\Actions\ShowAction::class,
 
             ]
         );
