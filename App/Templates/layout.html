@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>{% yield title %}</title>
-        <meta charset="utf-8">
-		<meta name="description" content="Default description goes here">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link type='image/x-icon' href="" rel='shortcut icon'>
-		<linkrel="apple-touch-icon" href="">
-		<link rel="stylesheet" href="/public/assets/css/custom.css">
+
+<head>
+	<title>{% yield title %}</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Default description goes here">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link type='image/x-icon' href="" rel='shortcut icon'>
+	<linkrel="apple-touch-icon" href="">
+		{@ addcss(['custom', 'default_color']) @}
 		{% yield css %}
-		<style>body {font-family: 'Nunito', sans-serif;}</style>
+		<style>
+			body {
+				font-family: 'Nunito', sans-serif;
+			}
+		</style>
 		<script>
 			$(window).on("load", function () {
-			$(".preloader").fadeOut("slow");
+				$(".preloader").fadeOut("slow");
 			});
 		</script>
 
-		
-	</head>
-	<body>
 
-		<main class="uk-section-small page-body">
-			<section class="uk-container uk-container-large">
-				{% yield content %}
-			</section>
-			<!--//.uk-container-large -->
-		</main>
-    
+</head>
 
-	<script src="/public/assets/js/sidebar.js"></script>
-	<script src="/public/assets/js/status.js"></script>
-		<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-		<script>
-			window.ga = function () {
-				const googleAnalytics = '';
-				ga.q.push(arguments)
-			};
-			ga.q = [];
-			ga.l = + new Date;
-			ga('create', `${googleAnalytics}`, 'auto');
-			ga('set', 'anonymizeIp', true);
-			ga('set', 'transport', 'beacon');
-			ga('send', 'pageview')
-		</script>
-		<script src="https://www.google-analytics.com/analytics.js" async></script>
+<body>
+
+	{% include header.html %}
+	{% include sidebar.html %}
+	{% include body.html %}
+	{% include footer.html %}
+
+	{@ addjs(['sidebar', 'app']) @}
+
+	<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+	<script>
+		window.ga = function () {
+			const googleAnalytics = '';
+			ga.q.push(arguments)
+		};
+		ga.q = [];
+		ga.l = + new Date;
+		ga('create', `${googleAnalytics}`, 'auto');
+		ga('set', 'anonymizeIp', true);
+		ga('set', 'transport', 'beacon');
+		ga('send', 'pageview')
+	</script>
+	<script src="https://www.google-analytics.com/analytics.js" async></script>
 
 	{% yield js %}
-    </body>
+</body>
 
 </html>

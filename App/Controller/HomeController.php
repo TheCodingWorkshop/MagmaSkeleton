@@ -78,8 +78,8 @@ class HomeController extends BaseController
         /*$template = (
             new Template(Yaml::file('template')))
                 ->view('index.html', ['title' => 'home', 'age' => 34, 'colors' => ['red', 'blue', 'green']]);*/
-       /*$this->render(
-            'client/home/index.html.twig', []);*/
+    //    $this->render(
+            // 'client/home/index.html.twig', []);
     }
 
 }
