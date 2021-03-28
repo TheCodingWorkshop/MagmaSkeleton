@@ -43,6 +43,7 @@ class PasswordController extends BaseController
         $this->diContainer(
             [
                 'repository' => \App\Repository\PasswordRepository::class,
+                'entity' => \App\Entity\UserEntity::class,
                 'formPassword' => \App\Forms\Client\Password\PasswordForm::class,
                 'formResetPassword' => \App\Forms\Client\Password\ResetForm::class,
                 'newPasswordAction' => \MagmaCore\Base\Domain\Actions\NewPasswordAction::class,

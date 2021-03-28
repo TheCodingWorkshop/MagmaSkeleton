@@ -51,7 +51,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
             'Password Reset',
             'admin@magmacore.com',
             $this->userEmail,
-            (new BaseView())->getTemplate('' . Yaml::file('routes')['client_dir'] . '/password/reset_email.html.twig', ["url" => "http://{$_SERVER['HTTP_HOST']}/password/reset/{$this->tokenReturned}"])
+            (new BaseView())->getTemplate('' . Yaml::file('routes')['client_dir'] . '/password/reset_email.html', ["url" => "http://{$_SERVER['HTTP_HOST']}/password/reset/{$this->tokenReturned}"])
         );
         if ($mail) {
             return true;
