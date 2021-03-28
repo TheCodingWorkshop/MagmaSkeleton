@@ -1,60 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-	<title>{% yield title %}</title>
-	<meta charset="utf-8">
-	<meta name="description" content="Default description goes here">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link type='image/x-icon' href="" rel='shortcut icon'>
-	<linkrel="apple-touch-icon" href="">
-		{@ addcss(['custom', 'default_color']) @}
-		{% yield css %}
-		<style>
-			body {
-				font-family: 'Nunito', sans-serif;
-			}
-		</style>
-		<script>
-			$(window).on("load", function () {
-				$(".preloader").fadeOut("slow");
-			});
-		</script>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{% yield description %}">
+    <meta name="author" content="">
+
+    <title>{% yield title %}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato|Nunito|Open+Sans+Condensed:300,700|Roboto|Oswald:wght@300&display=swap" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    {@ addcss(['all.min', 'sb-admin-2.min']) @}
 
 </head>
 
-<body>
+<body id="page-top">
 
-	<div class="container-scroller">
-		{% include header_profile.html %} <!-- contains the header_logo -->
-		<div class="container-fluid page-body-wrapper">
-			{% include nav.html %}
-			<div class="main-panel">
-				{% include body.html %} <!-- contains the footer.html -->
-			</div>
-		</div>
-	</div>
+    <!--[if IE]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+	<![endif]-->
 
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-	{@ addjs(['sidebar', 'app']) @}
+        <!-- Sidebar -->
+        {% include nav.html %}
+        <!-- End of Sidebar -->
 
-	<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-	<script>
-		window.ga = function () {
-			const googleAnalytics = '';
-			ga.q.push(arguments)
-		};
-		ga.q = [];
-		ga.l = + new Date;
-		ga('create', `${googleAnalytics}`, 'auto');
-		ga('set', 'anonymizeIp', true);
-		ga('set', 'transport', 'beacon');
-		ga('send', 'pageview')
-	</script>
-	<script src="https://www.google-analytics.com/analytics.js" async></script>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-	{% yield js %}
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include header_profile.html %}
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    {% include header_block.html %} {% yield content %}
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            {% include footer.html %}
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    {% include scroll.html %} {% include logout_modal.html %}
+
+    <!-- Custom scripts for all pages-->
+    {@ addjs(['jquery.min', 'jquery.easing.min', 'bootstrap.bundle.min', 'sb-admin-2.min']) @}
+
 </body>
 
 </html>

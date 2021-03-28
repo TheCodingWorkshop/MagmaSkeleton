@@ -1,0 +1,46 @@
+en:
+  title: Home
+  description: Meta description goes here
+  keywords: {}
+  header_main:
+    page_title: Get started with MagmaCore
+    page_content: Quickly and easily get started with Bootstrap's compiled, production-ready files with this barebones example featuring some basic HTML and helpful links. Download all our examples to get started.
+    page_button: Download Repository
+  columns:
+    column_left:
+      page_title: Starter projects
+      page_content: Ready to beyond the starter template? Check out these open source projects that you can quickly duplicate to a new GitHub repository.
+      lists:
+        https://github.com/TheCodingWorkshop/MagmaSkeleton: MagmaSkeleton
+        javascript:void(0): MagmaAdmin (coming soon!)
+    column_right:
+      page_title: Guides
+      page_content: Read more detailed instructions and documentation on using or contributing to Bootstrap.
+      lists:
+        /docs/5.0/getting-started/introduction/: Bootstrap quick start guide
+        /docs/5.0/getting-started/webpack/: Bootstrap Webpack guide
+        /docs/5.0/getting-started/parcel/: Bootstrap Parcel guide
+        /docs/5.0/getting-started/build-tools/: Contributing to Bootstrap
+fr:
+  title: Accueil
+  description: Meta description goes here
+  keywords: {}
+  header_main:
+    page_title: Démarrer avec MagmaCore
+    page_content: Démarrez rapidement et facilement avec les fichiers compilés et prêts pour la production de Bootstrap avec cet exemple barebones comportant quelques liens HTML de base et utiles.Téléchargez tous nos exemples pour commencer.
+    page_button: Télécharger Dépôt
+  columns:
+    column_left:
+      page_title: Projets de démarrage
+      page_content: Prêt à au-delà du modèle de démarrage? Découvrez ces projets open source que vous pouvez rapidement dupliquer sur un nouveau référentiel GitHub.
+      lists:
+        https://github.com/TheCodingWorkshop/MagmaSkeleton: MagmaSkeleton
+        javascript:void(0): MagmaAdmin (à venir!)
+    column_right:
+      page_title: Guides
+      page_content: Lisez des instructions et de la documentation plus détaillées sur l’utilisation ou la contribution à Bootstrap.
+      lists:
+        /docs/5.0/getting-started/introduction/: Guide de démarrage rapide Bootstrap
+        /docs/5.0/getting-started/webpack/: Guide de voyage Bootstrap Webpack
+        /docs/5.0/getting-started/parcel/: Guide de voyage Bootstrap Parcel
+        /docs/5.0/getting-started/build-tools/: Contribuer à Bootstrap

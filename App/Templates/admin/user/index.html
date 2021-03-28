@@ -1,0 +1,29 @@
+{% extends layout.html %} {% block title %}Users{% endblock %} {% block description %}Description{% endblock %} {% block css %} {% endblock %} {% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Users</h1>
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">124 Users</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                {{ $table }}
+            </div>
+        </div>
+    </div>
+    {{ $pagination }}
+
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %} {% block js %}
+<script src="test.js"></script>
+{% endblock %}

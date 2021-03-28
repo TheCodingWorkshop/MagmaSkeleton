@@ -15,6 +15,7 @@ namespace App\Controller;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
+use MagmaCore\Utility\Yaml;
 use App\Event\LoginActionEvent;
 use MagmaCore\Base\BaseController;
 use App\Middleware\Before\isAlreadyLogin;
@@ -23,8 +24,6 @@ use App\Middleware\Before\isUserAccountActivated;
 
 class SecurityController extends BaseController
 {
-
-    protected bool $isLoggedIn = false;
 
     /**
      * Extends the base constructor method. Which gives us access to all the base

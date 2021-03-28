@@ -1,5 +1,6 @@
 app:
-  app_name: MagmaCore
+  app_name: LavaStudio
+  core_name: Magma
   app_version: 1.0.0
   app_email: magmacore@lavastudio.co.uk
   app_author: Ricardo Miller

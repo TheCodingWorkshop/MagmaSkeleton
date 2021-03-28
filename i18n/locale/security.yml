@@ -1,0 +1,35 @@
+en:
+  title: Login
+  description: Meta description goes here
+  keywords: {}
+  logout:
+    page_title: Logout
+    page_content: You're about to sign out sorry to see you go.
+  form:
+    page_title: Welcome Back!
+    forgot_password: Forgot Password?
+    create_account: Create an Account!
+
+fr:
+  title: Connexion
+  description: Meta description goes here
+  keywords: {}
+  logout:
+    page_title: Déconnexion
+    page_content: Vous êtes sur le point de signer désolé de vous voir partir.
+  form:
+    page_title: Bienvenue!
+    forgot_password: Mot de passe oublié ?
+    create_account: Créez un compte !
+
+es:
+  title: Inicio de sesión
+  description: Meta description goes here
+  keywords: {}
+  logout:
+    page_title: CERRAR SESIÓN
+    page_content: Estás a punto de firmar siento verte ir.
+  form:
+    page_title: ¡Bienvenido!
+    forgot_password: ¿Olvidaste tu contraseña?
+    create_account: ¡Crea una cuenta!

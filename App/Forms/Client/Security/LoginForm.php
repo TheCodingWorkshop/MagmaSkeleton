@@ -32,11 +32,11 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 */
     public function createForm(string $action,?Object $repository = null) 
 	{
-		return $this->form(['action' => $action, 'class' => 'uk-form-stacked']) 
-		->add([EmailType::class => ['name' => 'email']], null, ['show_label' => false])
-		->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
+		return $this->form(['action' => $action, 'class' => 'user']) 
+		->add([EmailType::class => ['name' => 'email', 'class' => ['form-control form-control-user']]], null, ['show_label' => false])
+		->add([PasswordType::class => ['name' => 'password_hash', 'class' => ['form-control form-control-user']]], null, ['show_label' => false])
 		->add([CheckboxType::class => ['name' => 'remember_me', 'value' => false]], null, ['show_label' => false, 'checkbox_label' => 'Remember Me'])
-		->add([SubmitType::class => ['name' => 'index-security', 'value' => 'Login', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
-		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+		->add([SubmitType::class => ['name' => 'index-security', 'value' => 'Login', 'class' => ['btn btn-primary btn-user btn-block']]], null, ['show_label' => false])
+		->build(['before' => '<div class="form-group">', 'after' => '</div>']);
 	} 
 }

@@ -20,11 +20,17 @@ $composer = ROOT_PATH . '/vendor/autoload.php';
 if (is_file($composer)) {
     require $composer;
 }
+
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
+use MagmaCore\Migration\Drivers\MigrationMysql;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
+
+// $migrations = new MigrationMysql(UserSchema::class);
+// var_dump($migrations->createMigrationFromSchema());
+// die();
 
 Debug::enable();
 

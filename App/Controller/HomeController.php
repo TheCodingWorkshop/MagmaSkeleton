@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -15,6 +16,7 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Schema\UserSchema;
+use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseController;
 
 class HomeController extends BaseController
@@ -57,8 +59,7 @@ class HomeController extends BaseController
      */
     protected function callBeforeMiddlewares(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -72,14 +73,14 @@ class HomeController extends BaseController
      * @throws SyntaxError
      */
     protected function indexAction()
-    { 
-
-        $this->view('client/home/index.html', ['title' => 'home', 'age' => 34, 'colors' => ['red', 'blue', 'green']]);
-        /*$template = (
-            new Template(Yaml::file('template')))
-                ->view('index.html', ['title' => 'home', 'age' => 34, 'colors' => ['red', 'blue', 'green']]);*/
-    //    $this->render(
-            // 'client/home/index.html.twig', []);
+    {
+        $this->view(
+            'client/home/index.html',
+            [
+                'locale' => Yaml::file('index')['en'],
+                'app' => Yaml::file('app'),
+                'base' => Yaml::file('base')['en']
+            ]
+        );
     }
-
 }

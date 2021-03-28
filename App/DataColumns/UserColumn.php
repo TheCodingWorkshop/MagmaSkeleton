@@ -36,7 +36,8 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => 'uk-table-expand',
                 'show_column' => true,
                 'sortable' => true,
-                'formatter' => function ($row) {
+                'formatter' => ''
+                /*'formatter' => function ($row) {
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left">';
                     $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
@@ -50,7 +51,7 @@ class UserColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     $html .= '</div>';
                     return $html;
-                }
+                }*/
             ],
             [
                 'db_row' => 'lastname',
@@ -84,7 +85,7 @@ class UserColumn extends AbstractDatatableColumn
                 'sortable' => true,
                 'formatter' => function ($row, $twigExt) {
                     $html = $twigExt->tableDateFormat($row, "created_at");
-                    $html .= '<div><small>By Admin</small></div>';
+                    //$html .= '<div><small>By Admin</small></div>';
                     return $html;
                 }
             ],
@@ -99,7 +100,7 @@ class UserColumn extends AbstractDatatableColumn
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
                         //$html .= "$twig->getUserById($row[$row_name]);"
                         $html .= $twigExt->tableDateFormat($row, "modified_at");
-                        $html .= '<div><small>By Admin</small></div>';
+                       // $html .= '<div><small>By Admin</small></div>';
                     } else {
                         $html .= '<small>Never!</small>';
                     }
@@ -130,7 +131,8 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
-                'formatter' => function ($row, $twigExt) {
+                'formatter' => ''
+                /*'formatter' => function ($row, $twigExt) {
                     return $twigExt->action(
                         [
                             //'user' => [],
@@ -144,7 +146,7 @@ class UserColumn extends AbstractDatatableColumn
                         'Are You Sure!',
                         "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['firstname']}</strong> account."
                     );
-                }
+                }*/
             ],
 
         ];

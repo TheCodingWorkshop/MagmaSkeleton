@@ -4,11 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <title> <?php echo $locale['title'] ?> </title>
-    <meta name="description" content=" <?php echo $locale['description'] ?> ">
+    <title> <?php echo htmlentities($locale['title'], ENT_QUOTES, 'UTF-8') ?> </title>
+    <meta name="description" content=" <?php echo htmlentities($locale['description'], ENT_QUOTES, 'UTF-8') ?> ">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title> <?php echo $locale['title'] ?> </title>
+    <title> <?php echo htmlentities($locale['title'], ENT_QUOTES, 'UTF-8') ?> </title>
 
     <link href="https://fonts.googleapis.com/css?family=Lato|Nunito|Open+Sans+Condensed:300,700|Roboto|Oswald:wght@300&display=swap" rel="stylesheet">
 
@@ -21,41 +21,36 @@
 
     <!-- Outer Row -->
     
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
 
-<div class="col-lg-8 mx-auto p-3 py-md-5">
-    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
-        <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-            <span class="fs-4"><?php echo htmlentities($app['app']['app_name'], ENT_QUOTES, 'UTF-8') ?></span>
-        </a>
-    </header>
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4"><?php echo htmlentities($locale['form']['page_title'], ENT_QUOTES, 'UTF-8') ?></h1>
+                                </div>
+                                <?php echo $form ?>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small" href="/password/forgot"><?php echo htmlentities($locale['form']['forgot_password'], ENT_QUOTES, 'UTF-8') ?></a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="/register"><?php echo htmlentities($locale['form']['create_account'], ENT_QUOTES, 'UTF-8') ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <h1><?php echo htmlentities($locale['header_main']['page_title'], ENT_QUOTES, 'UTF-8') ?></h1>
-    <p class="fs-5 col-md-8"><?php echo htmlentities($locale['header_main']['page_content'], ENT_QUOTES, 'UTF-8') ?></p>
-
-    <div class="mb-5">
-        <a href="https://github.com/TheCodingWorkshop/_MagmaCore" class="btn btn-primary btn-lg px-4"><?php echo htmlentities($locale['header_main']['page_button'], ENT_QUOTES, 'UTF-8') ?></a>
-    </div>
-
-    <hr class="col-3 col-md-2 mb-5">
-
-    <div class="row g-5">
-        <?php foreach($locale['columns'] as $column): ?>
-        <div class="col-md-6">
-            <h2><?php echo htmlentities($column['page_title'], ENT_QUOTES, 'UTF-8') ?></h2>
-            <p><?php echo htmlentities($column['page_content'], ENT_QUOTES, 'UTF-8') ?></p>
-            <ul class="icon-list">
-                <?php foreach ($column['lists'] as $key => $text) : ?>
-                <li><a href="<?php echo htmlentities($key, ENT_QUOTES, 'UTF-8') ?>" rel="noopener" target="_blank"><?php echo htmlentities($text, ENT_QUOTES, 'UTF-8') ?></a></li>
-                <?php endforeach; ?>
-            </ul>
         </div>
-        <?php endforeach; ?>
 
     </div>
-
-    <footer class="pt-5 my-5 text-muted border-top">
-        <?php echo htmlentities($base['copyright'], ENT_QUOTES, 'UTF-8') ?> &middot; &copy; 2021
-    </footer>
 </div>
 
     <!-- Scroll to Top Button-->
@@ -88,4 +83,4 @@
 
 </body>
 
-</html>     
+</html>    
