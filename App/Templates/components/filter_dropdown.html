@@ -1,0 +1,10 @@
+<div class="input-group-append">
+    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-filter"></i> {{{ $base['filter'] }}}
+  </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">{{{ $base['action'] }}}</a> {% foreach($filters as $filter) : %} <a class="dropdown-item" href="#">Active</a> {% endforeach; %}
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Separated link</a>
+    </div>
+</div>

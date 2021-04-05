@@ -53,6 +53,7 @@ class AdminController extends BaseController
                 'newAction' => \MagmaCore\Base\Domain\Actions\NewAction::class,
                 'editAction' => \MagmaCore\Base\Domain\Actions\EditAction::class,
                 'deleteAction' => \MagmaCore\Base\Domain\Actions\DeleteAction::class,
+                'bulkDeleteAction' => \MagmaCore\Base\Domain\Actions\BulkDeleteAction::class,
                 'indexAction' => \MagmaCore\Base\Domain\Actions\IndexAction::class,
                 'showAction' => \MagmaCore\Base\Domain\Actions\ShowAction::class,
 

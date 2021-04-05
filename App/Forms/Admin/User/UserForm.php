@@ -39,53 +39,53 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             $dataRepository = (array) $dataRepository;
             extract($dataRepository);
         }
-        return $this->form(['action' => $action, 'class' => ['uk-form-horizontal'], "id" => "userForm"])
+        return $this->form(['action' => $action, 'class' => [''], "id" => "userForm"])
             ->add(
                 [TextType::class => [
                     'name' => 'firstname',
                     'value' => empty($firstname) ? '' : $firstname,
-                    'class' => ['uk-input', 'uk-form-width-large'],
+                    'class' => ['form-control'],
                 ]],
                 null,
-                ['inline_icon' => 'user', 'inline_flip_icon' => true]
+                []
             )
             ->add(
                 [TextType::class => [
                     'name' => 'lastname',
                     'value' => empty($lastname) ? '' : $lastname,
-                    'class' => ['uk-input', 'uk-form-width-large'],
+                    'class' => ['form-control'],
                 ]],
                 null,
-                ['inline_icon' => 'user', 'inline_flip_icon' => true]
+                []
             )
             ->add(
                 [EmailType::class => [
                     'name' => 'email',
                     'value' => empty($email) ? '' : $email,
-                    'class' => ['uk-input', 'uk-form-width-large'],
+                    'class' => ['form-control'],
                     'required' => false,
                     'pattern' => false
                 ]],
                 null,
-                ['inline_icon' => 'mail', 'inline_flip_icon' => true]
+                []
 
             )
             ->add(
                 [PasswordType::class => [
                     'name' => 'password_hash',
                     'value' => '',
-                    'class' => ['uk-input', 'uk-form-medium'],
+                    'class' => ['form-control'],
                     'autocomplete' => 'new-password',
                     'pattern' => false,
                     'disabled' => true,
                     'placeholder' => 'Auto-Generated'
                 ]],
                 null,
-                ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'Password']
+                ['new_label' => 'Password']
             )
             ->add(
                 [RadioType::class => [
-                'name' => 'roles', 'class' => ['uk-form-controls-text', 'uk-radio']
+                'name' => 'roles', 'class' => ['form-check-input']
                 ]],
                 [
                 'choices' => $this->flattenArrayRecursive(
@@ -99,7 +99,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 [RadioType::class => [
                     'name' => 'status',
                     'value' => empty($status) ? '' : $status,
-                    'class' => ['uk-radio']
+                    'class' => ['form-check-input']
                 ]],
                 ['choices' => [
                     'pending', 'active', 'lock', 'trash',
@@ -120,11 +120,11 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 [SubmitType::class => [
                     'name' => empty($id) ? 'new-user' : 'edit-user',
                     'value' => 'Save',
-                    'class' => ['uk-button uk-button-primary'],
+                    'class' => ['btn btn-primary'],
                 ]],
                 null,
                 ['show_label' => false, 'before_after_wrapper' => false]
             )
-            ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+            ->build(['before' => '<div class="form-group row">', 'after' => '</div>']);
     }
 }

@@ -1,12 +1,13 @@
 dashboard:
   name: Dashboard
-  icon: ion-speedometer
+  icon: tachometer-alt
   path: /admin/dashboard/index
   roles: {}
   header: Manager
 authentication:
+  title: Manage User
   name: Users
-  icon: ion-person
+  icon: user
   path: ""
   children:
     users:

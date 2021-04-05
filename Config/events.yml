@@ -11,6 +11,8 @@ services:
           msg: Changes saved!
         App\Controller\Admin\UserController::deleteAction:
           msg: User deleted successfully!
+        App\Controller\Admin\UserController::bulkAction:
+          msg: Bulk action successful!
         App\Controller\RegistrationController::registerAction:
           msg: Your account was created!
 

@@ -12,18 +12,18 @@
     <title>{% yield title %}</title>
 
     <link href="https://fonts.googleapis.com/css?family=Lato|Nunito|Open+Sans+Condensed:300,700|Roboto|Oswald:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b60c3fbedf.js"></script>
 
     <!-- Custom fonts for this template-->
-    {@ addcss(['all.min', 'sb-admin-2.min']) @}
+    {@ addcss(['all.min', 'sb-admin-2.min', 'default']) @}
 
 </head>
 
-<body id="page-top">
+<body class="font-weight-bold" id="page-top">
 
     <!--[if IE]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
 	<![endif]-->
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -45,7 +45,17 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    {% include header_block.html %} {% yield content %}
+                    {% include header_block.html %}
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                {@ flashMessages() @}
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% yield content %}
                 </div>
                 <!-- /.container-fluid -->
 
@@ -66,7 +76,7 @@
     {% include scroll.html %} {% include logout_modal.html %}
 
     <!-- Custom scripts for all pages-->
-    {@ addjs(['jquery.min', 'jquery.easing.min', 'bootstrap.bundle.min', 'sb-admin-2.min']) @}
+    {@ addjs(['jquery.min', 'jquery.easing.min', 'bootstrap.bundle.min', 'sb-admin-2.min']) @} {% yield js %}
 
 </body>
 

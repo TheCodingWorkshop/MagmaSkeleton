@@ -45,6 +45,7 @@ class UserActionSubscriber implements EventSubscriberInterface
     protected const NEW_ACTION = 'new';
     protected const EDIT_ACTION = 'edit';
     protected const DELETE_ACTION = 'delete';
+    protected const BULK_ACTION = 'bulk';
     protected const REGISTER_ACTION = 'register';
 
     /**
@@ -104,15 +105,16 @@ class UserActionSubscriber implements EventSubscriberInterface
                         "New Account",
                         "admin@example.com",
                         $user['email'],
-                        (new BaseView())->getTemplate(
-                            "client/registration/email_template.html.twig",
-                            [
-                                "activation_link" => $event->getObject()->getSiteUrl("/activation/activate/" . $user['activation_hash']),
-                                "accountee_name" => $user['firstname'] . " " . $user['lastname'],
-                                "website" => "LavaStudio",
-                                "random_pass" => $user['random_pass'] ? $user['random_pass'] : []
-                            ]
-                        )
+                        'testing'
+                        // (new BaseView())->getTemplate(
+                        //     "client/registration/email_template.html.twig",
+                        //     [
+                        //         "activation_link" => $event->getObject()->getSiteUrl("/activation/activate/" . $user['activation_hash']),
+                        //         "accountee_name" => $user['firstname'] . " " . $user['lastname'],
+                        //         "website" => "LavaStudio",
+                        //         "random_pass" => $user['random_pass'] ? $user['random_pass'] : []
+                        //     ]
+                        // )
                     );
                     if ($mail) {
                         return true;

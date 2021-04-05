@@ -88,7 +88,7 @@ class UserController extends AdminController
         $this->indexAction
             ->execute($this, NULL, NULL,__METHOD__)
                 ->render()
-                    ->with()
+                    ->with(['status' => ['pending', 'active', 'suspended', 'lock']])
                         ->table()
                             ->end();
     }
@@ -180,18 +180,10 @@ class UserController extends AdminController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function deleteBulkAction()
+    protected function bulkAction()
     {
-        $this->deleteAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
-                ->bulk();
-       /* if (isset($this->formBuilder)) :
-            if ($this->formBuilder->canHandleRequest() && $this->formBuilder->isSubmittable('bulk_delete')) :
-                var_dump($_POST['ids']);
-                die();
-                $action = $this->repository()->findAndDelete($_POST['ids']);
-            endif;
-        endif;*/
+        $this->bulkDeleteAction
+            ->execute($this, NULL, UserActionEvent::class, __METHOD__);
     }
 
     /**
