@@ -84,7 +84,7 @@ class UserColumn extends AbstractDatatableColumn
                 'sortable' => true,
                 'formatter' => function ($row, $twigExt) {
                     $html = $twigExt->tableDateFormat($row, "created_at");
-                    //$html .= '<div><small>By Admin</small></div>';
+                    $html .= '<div><small>By Admin</small></div>';
                     return $html;
                 }
             ],
@@ -99,7 +99,7 @@ class UserColumn extends AbstractDatatableColumn
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
                         //$html .= "$twig->getUserById($row[$row_name]);"
                         $html .= $twigExt->tableDateFormat($row, "modified_at");
-                       // $html .= '<div><small>By Admin</small></div>';
+                        $html .= '<div><small>By Admin</small></div>';
                     } else {
                         $html .= '<small>Never!</small>';
                     }

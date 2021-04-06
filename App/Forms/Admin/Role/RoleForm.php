@@ -34,18 +34,18 @@ class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
             $dataRepository = (array) $dataRepository;
             extract($dataRepository);
         }
-        return $this->form(['action' => $action, 'class' => [''], "id" => "roleForm"])
+        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "roleForm"])
             ->add(
                 [TextType::class => [
                     'name' => 'role_name',
-                    'class' => ['form-control'],
+                    'class' => ['uk-input', 'uk-form-width-large'],
                     'value' => (empty($role_name) ? '' : $role_name)
                 ]]
             )
             ->add(
                 [TextareaType::class => [
                     'name' => 'role_description',
-                    'class' => ['form-control'],
+                    'class' => ['uk-textarea', 'uk-form-width-large'],
                 ]],
                 empty($role_description) ? '' : $role_description
             )
@@ -53,11 +53,11 @@ class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 [SubmitType::class => [
                     'name' => empty($id) ? 'new-role' : 'edit-role',
                     'value' => 'Save',
-                    'class' => ['btn', 'btn-primary'],
+                    'class' => ['uk-button uk-button-primary'],
                 ]],
                 null,
                 ['show_label' => false, 'before_after_wrapper' => true]
             )
-            ->build(['before' => '<div class="">', 'after' => '</div>']);
+            ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 }

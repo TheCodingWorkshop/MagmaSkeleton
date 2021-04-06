@@ -1,13 +1,13 @@
 dashboard:
   name: Dashboard
-  icon: tachometer-alt
+  icon: ion-speedometer
   path: /admin/dashboard/index
   roles: {}
   header: Manager
 authentication:
   title: Manage User
   name: Users
-  icon: user
+  icon: ion-person-stalker
   path: ""
   children:
     users:
@@ -34,8 +34,3 @@ authentication:
       path: "/admin/log/index"
       role:
         - developer
-roles:
-  name: Roles
-  icon: user-tag
-  path: /admin/role/index
-  roles: {}
