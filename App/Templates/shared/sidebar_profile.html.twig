@@ -1,0 +1,14 @@
+<div class="uk-card uk-margin-remove">
+	<div class="uk-grid-small uk-flex-middle" uk-grid>
+		<div class="uk-width-auto">
+			<img id="avatar" width="40" height"40" class="uk-border-circle uk-visible@xl" src="{{ current_user.gravatar }}"/>
+		</div>
+		<div class="uk-width-expand">
+			<h3 class="uk-button uk-button-text uk-margin-remove-bottom">{{ current_user.name }}</h3>
+			<p class="uk-text-meta uk-margin-remove-top">Administrator
+				{#<small id="status" data-enabled="true" data-online-text="Online" data-away-text="Away" data-interval="10000" class="uk-label uk-label-success"></small>#}
+			</p>
+		</div>
+	</div>
+</div>
+<hr>

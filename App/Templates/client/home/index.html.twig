@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}Home
+{% endblock content_title %}
+
+{% block main %}
+	<div class="uk-container uk-container-xsmall">
+		<div>
+			<div uk-grid>
+				<div class="uk-width-auto@m">
+					{% set navs = {
+						home: {title: 'Home', path: '#'},
+						road_map: {title: 'RoadMap', path: '#'},
+					} %}
+					<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+
+						{% for index, nav in navs %}
+							<li>
+								<a href="{{ nav.path }}">{{ nav.title }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="uk-width-expand@m">
+					<ul id="component-tab-left" class="uk-switcher">
+						<li>
+							<article class="uk-article">
+								<h1 class="uk-article-title">MagmaCore Framework</h1>
+								<p class="uk-article-meta">Developed By
+									<a href="#">{{ app_author }}</a>
+									Current stable version
+									<a class="uk-text-primary uk-text-bolder" href="#">{{ app_version }}</a>
+								</p>
+
+								<p>
+									Straight out of the box you get built in user authentication and user role base management system. User friendly administration panel with dynamic table grid with full crud capabilities. Plus tons more features.
+									{% if current_user %}
+										<div class="uk-margin-small">
+											<a href="/logout" class="uk-button uk-button-text uk-text-danger uk-text-bolder">Signout</a> -
+											<a href="/profile/account/index" class="uk-button uk-button-text uk-text-danger uk-text-bolder">My Account</a>
+											-
+											<a href="/admin/dashboard/index" class="uk-button uk-button-text uk-text-danger uk-text-bolder">Admin Panel</a>
+
+										</div>
+									{% else %}
+										<div class="uk-margin-small">
+											<a href="/login" class="uk-button uk-button-text uk-text-danger uk-text-bolder">Signin</a>
+										{% endif %}
+									</p>
+								</p>
+							</article>
+						</li>
+						<li>{% include 'client/home/road_map.html.twig' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock main %}

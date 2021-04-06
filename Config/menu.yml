@@ -35,6 +35,7 @@ authentication:
       role:
         - developer
 roles:
-  name: Contacts
-  icon: ion-clipboard
-  path: "/admin/contact/index"
+  name: Roles
+  icon: user-tag
+  path: /admin/role/index
+  roles: {}

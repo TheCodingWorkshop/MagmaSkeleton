@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
+use App\Forms\Admin\Role\RoleForm;
+use MagmaCore\Utility\DateFormatter;
 use MagmaCore\Auth\Model\RolePermissionModel;
 use MagmaCore\Datatable\AbstractDatatableColumn;
-use App\Forms\Admin\Role\RoleForm;
 
 class RoleColumn extends AbstractDatatableColumn
 {
@@ -46,7 +47,7 @@ class RoleColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
                     $html .= $row["role_name"] . "<br/>";
-                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["role_description"] . '</small></div>';
+                    // $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["role_description"] . '</small></div>';
                     $html .= '</div>';
                     $html .= '</div>';
 
@@ -68,22 +69,19 @@ class RoleColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => true,
                 'formatter' => function ($row, $twigExt) {
-                    $html = $twigExt->tableDateFormat($row, "created_at");
-                    $html .= '<div><small>By Admin</small></div>';
-                    return $html;
+                    return DateFormatter::timeFormat(strtotime($row['created_at']), true);
                 }
             ],
             [
                 'db_row' => 'modified_at',
-                'dt_row' => 'Modified',
+                'dt_row' => 'Last Updated',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
                 'formatter' => function ($row, $twigExt) {
                     $html = '';
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
-                        $html .= $twigExt->tableDateFormat($row, "modified_at");
-                        $html .= '<div><small>By Admin</small></div>';
+                        $html .= '<a tabindex="0" class="popover-dismiss text-reset text-decoration-none" data-toggle="popover" data-trigger="focus" title="" data-placement="bottom" data-content="User account created by admin">' . DateFormatter::timeFormat(strtotime($row['modified_at']), true) . '</a>';
                     } else {
                         $html .= '<small>Never!</small>';
                     }
@@ -92,7 +90,7 @@ class RoleColumn extends AbstractDatatableColumn
             ],
             [
                 'db_row' => '',
-                'dt_row' => 'Action',
+                'dt_row' => '',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
@@ -101,7 +99,7 @@ class RoleColumn extends AbstractDatatableColumn
                         [
                             'has_permission' => $this->hasPermission($row),
                             'edit_modal' => [
-                                'icon' => 'file-edit',
+                                'icon' => 'pencil-alt',
                                 'tooltip' => 'Edit',
                                 'toggle_modal_edit' => true,
                                 'callback' => function ($row, $twigExt) {
@@ -136,12 +134,12 @@ class RoleColumn extends AbstractDatatableColumn
      * @param array $row
      * @return array
      */
-    private function hasPermission(array $row) : array
+    private function hasPermission(array $row): array
     {
         $rolePerm = (new RolePermissionModel())
-        ->getRepo()
-        ->findOneBy(['role_id' => $row['id']]);
-        if ($rolePerm !=null) {
+            ->getRepo()
+            ->findOneBy(['role_id' => $row['id']]);
+        if ($rolePerm != null) {
             $array = ['icon' => 'lock', 'tooltip' => 'Role Lock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-success'];
         } else {
             $array = ['icon' => 'unlock', 'tooltip' => 'Role Unlock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-warning'];

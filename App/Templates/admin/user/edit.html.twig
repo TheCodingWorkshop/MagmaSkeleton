@@ -1,0 +1,173 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController()|lower %}
+{% set _namespace		= _this.thisRouteNamespace()|lower %}
+{% set _action			= _this.thisRouteAction()|lower %}
+{% set _sep				= '/' %}
+{% set _table 			= table %}
+{% set _pagination 		= pagination %}
+{% set _totalRecords 	= total_records %}
+{% set _columns 		= columns %}
+{% set _row 			= user %}
+{% set _searchedQuery 	= search_query %}
+{% set _helpBlock 		= help_block %}
+{% set _path			= _sep ~ _namespace ~ _sep ~ _controller ~ _sep %}
+{% set _home_path		= _path ~ 'index' %}
+{% set _new_path		= _path ~ 'new' %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size		= 3 %}
+{% set _icon			= 'ion-compose' %}
+{% set _full_name		= _row.firstname ~ ' ' ~ _row.lastname %}
+{% set _prefix			= 'Edit `' ~ _full_name ~ '` Account' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
+
+{% block content_title %}Edit
+	{{ user.firstname }}
+{% endblock content_title %}
+
+{% block content_header_help %}
+	{#
+	string		$searchFilter = null, 
+	string 		$controller = null,
+	int 		$totalRecords = null,
+	array 		$actions = null,
+	bool 		$actionVertical = false,
+	array 		$row = null) : string
+	#}
+	{{ subHeader(
+		_searchedQuery,
+		_controller|capitalize,
+		_total_records,
+		{
+			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+			plus: {tooltip: 'Add New', icon: 'plus-circle', path: path(_this, 'new'), ratio: _nav_icon_size, color: 'uk-text-primary'},
+
+		},
+		false,
+		null,
+		null,
+		_icon
+	)|raw }}
+{% endblock content_header_help %}
+
+{% block main %}
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		{#<div class="uk-width-1-5">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				{{ submenu }}
+				{% set editCustomMenu = {
+					header: {header: 'Manage'},
+					preferences: {
+						title: 'Perferences', 
+						path: path(_this, 'perferences', _row.id),
+						header: '', 
+						icon: 'settings'
+					},
+					permission: {
+						title: 'Permission', 
+						path: _permission_path, 
+						header: '', 
+						icon: 'lock'
+					},
+					role: {
+						title: 'Roles', 
+						path: '', 
+						ratio: _nav_icon_size, 
+						icon: 'unlock', 
+						header: 'Actions'
+					},
+					file: {
+						title: 'Notes', 
+						path: path(_this, 'notes', _row.id), 
+						ratio: _nav_icon_size, 
+						icon: 'file-edit'
+					},
+					show: {
+						title: _full_name, 
+						path: path(_this, 'show', _row.id), 
+						ratio: _nav_icon_size, 
+						icon: 'user'
+					},
+					trash: {
+						title: 'Delete Acount', 
+						path: path(_this, 'delete', _row.id), 
+						ratio: _nav_icon_size, 
+						icon: 'trash'
+					}
+
+				} %}
+				{{ navMenu(editCustomMenu)|raw }}
+			</div>
+		</div>#}
+
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{{ form|raw }}
+					</div>
+				</div>
+			</div>
+			<div></section>
+		{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+			<script>
+				$(document).ready(function() {
+
+					var userId = '{{ _row.id }}';
+					/**
+					 * Validate the form
+					 */
+					$('').validate({
+						errorPlacement: function(label, element) {
+							label.addClass('arrow');
+							label.insertAfter(element);
+						},
+						wrapper: 'div',
+						rules: {
+							name: 'required',
+							email: {
+								required: true,
+								email: true,
+								remote: {
+									url: '/api/account/validate-email',
+									data: {
+										ignore_id: function() {
+											return userId;
+										}
+									}
+								}
+							}
+						},
+						messages: {
+							email: {
+								remote: 'email already taken'
+							}
+						}
+					});
+
+				});
+				//onclick="UIkit.notification({message: 'Notification message'})"
+			</script>
+			<script>
+				/*$(window).on("load", function () {
+					function UIkitNotify() {
+						//UIkit.notification("<span uk-icon='icon: check'></span> Message");
+						UIkit.notification({
+							message: 'Saving...',
+							status: 'primary',
+							pos: 'top-right',
+							timeout: 5000
+						});
+					}
+
+				});*/
+			</script>
+
+		{% endblock body_javascript %}

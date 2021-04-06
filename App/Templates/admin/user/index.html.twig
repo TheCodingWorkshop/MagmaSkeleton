@@ -1,0 +1,118 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController() %}
+{% set _table 			= table %}
+{% set _pagination 		= pagination %}
+{% set _total_records 	= total_records %}
+{% set _columns 		= columns %}
+{% set _results 		= results %}
+{% set _searchedQuery 	= search_query %}
+{% set _helpBlock 		= help_block %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size	    = 3 %}
+{% set _icon			= 'file-edit' %}
+{% set _header_icon		= 'ion-person-stalker' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
+
+{% block content_title %}
+	{{ _controller|capitalize }}
+{% endblock content_title %}
+
+{% block content_header_help %}
+	{#
+	string		$searchFilter = null, 
+	string 		$controller = null,
+	int 		$totalRecords = null,
+	array 		$actions = null,
+	bool 		$actionVertical = false,
+	array 		$row = null) : string
+	#}
+	{{ subHeader(
+		_searchedQuery,
+		_controller|capitalize,
+		_total_records,
+		{
+			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+			plus: {tooltip: 'Add New', icon: 'plus-circle', path: path(_this, 'new'), ratio: _nav_icon_size, color: 'uk-text-primary'},
+		},
+		false,
+		null,
+		null,
+		_header_icon
+	)|raw }}
+{% endblock content_header_help %}
+
+{% block main %}
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		{#<div class="uk-width-1-5">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				{{ submenu }}
+				{{ navMenu(Config('meta_nav').user_index_path)|raw }}
+			</div>
+		</div>#}
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{% if _results is empty %}
+							No Data!
+						{% else %}
+						<form method="POST" action="/admin/user/delete-bulk">
+							<div id="js-selector-container"></div>
+							{{ table|raw }}
+							</form>
+						{% endif %}
+					</div>
+				</div>
+				{{ _pagination|raw }}
+			</div>
+			<div></section>
+		{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+			<script>
+				function saveChanges(Object) {
+					alert(Object.value)
+				}
+
+				function checkUncheckAll() {
+					var rows = document.getElementsByName('id'); // *Columns name attribute 
+					var isCheck = false; // flag defaults to false 
+					rows.forEach((cb) => {
+						if (cb.type === 'checkbox') {
+							if (cb.checked === false) {
+								isCheck = true
+								cb.checked = true;
+							}
+							else {
+								if (cb.checked === true) {
+									isCheck = false;
+									cb.checked = false;
+								}
+							}
+						}
+					})
+					whenCheck(isCheck)
+
+				}
+
+				function whenCheck(isCheck) {
+					var toggle = document.getElementById("js-selector-container");
+					if (isCheck === true) {
+						toggle.innerHTML = `
+							<div class="uk-background-muted uk-margin-remove uk-padding-small">
+								<button uk-icon="icon: trash" class="uk-button uk-button-small uk-button-default" type="submit" name="bulk_delete"></button>
+							<button uk-icon="icon: file-edit" class="uk-button uk-button-small uk-button-default" type="submit" name="bulk_delete"></button>							
+
+							</div>
+						`;
+					} else {
+						toggle.innerHTML = "";
+					}
+				}
+			</script>
+		{% endblock body_javascript %}

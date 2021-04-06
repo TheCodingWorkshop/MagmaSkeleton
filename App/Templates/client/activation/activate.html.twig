@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content_title %}Your're Activated
+{% endblock %}
+{% block main %}
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					login: {title: 'Activated', path: '#'},
+					help: {title: 'Help', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+						<h1 class="uk-heading-small">You're Activated!</h1>
+                        <p>Welcome back</p>
+                        <p>Your account is now activated and you now have full access to our content and free to update your profile information.</p>
+                        <a href="/profile/account/index" class="uk-button uk-button-large uk-button-primary">My Account</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+{% endblock main %}

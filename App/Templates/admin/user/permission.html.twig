@@ -1,0 +1,72 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController()|lower %}
+{% set _namespace		= _this.thisRouteNamespace()|lower %}
+{% set _action			= _this.thisRouteAction()|lower %}
+{% set _sep				= '/' %}
+{% set _row 			= user %}
+{% set _helpBlock 		= help_block %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size		= 3 %}
+{% set _icon			= 'unlock' %}
+{% set _full_name		= _row.firstname ~ ' ' ~ _row.lastname %}
+{% set _prefix			= 'Edit `' ~ _full_name ~ '` Permission' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
+
+{% block content_title %}Permission
+	{{ user.firstname }}
+{% endblock content_title %}
+
+{% block content_header_help %}
+	{#
+	string		$searchFilter = null, 
+	string 		$controller = null,
+	int 		$totalRecords = null,
+	array 		$actions = null,
+	bool 		$actionVertical = false,
+	array 		$row = null) : string
+	#}
+	{{ subHeader(
+		_searchedQuery,
+		_controller|capitalize,
+		_total_records,
+		{
+			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+		},
+		false,
+		null,
+		null
+	)|raw }}
+{% endblock content_header_help %}
+
+{% block main %}
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		<div class="uk-width-1-5">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				{{ submenu }}
+				{% set editCustomMenu = {
+					header: {header: 'Manage'},
+					preferences: {title: 'Prefereces', path: _preference_path, header: '', icon: 'settings'},
+					permission: {title: 'Permission', path: '', header: '', icon: 'lock'}
+				} %}
+				{{ navMenu(editCustomMenu)|raw }}
+			</div>
+		</div>
+
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{{ form|raw }}
+					</div>
+				</div>
+			</div>
+			<div></section>
+		{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+		{% endblock body_javascript %}

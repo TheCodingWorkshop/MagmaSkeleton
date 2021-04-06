@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Forgot Password
+{% endblock %}
+
+{% block main %}
+	<div>
+		<div uk-grid>
+			<div class="uk-width-auto@m">
+				{% set navs = {
+					password_reset: {title: 'Password Reset', path: '#'},
+					info: {title: 'Help', path: '#'},
+
+				} %}
+				<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+					{% for index, nav in navs %}
+						<li>
+							<a href="{{ nav.path }}">{{ nav.title }}</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="uk-width-expand@m">
+				<ul id="component-tab-left" class="uk-switcher">
+					<li>
+						<h1 class="uk-heading-small">What's your email address</h1>
+						<p>Enter the email you used to register with the BBC and we'll send you a link to reset your password. If you're having problems or are under 13 years old, you can get help here.</p>
+						{{ form|raw }}
+						<div class="uk-margin">
+							<p>
+								No Account Yet?
+								<a href="/registration/register" class="uk-button uk-button-text">
+									Register
+								</a>
+
+							</p>
+						</div>
+
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

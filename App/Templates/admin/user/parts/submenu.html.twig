@@ -1,0 +1,13 @@
+<div class="uk-padding-small uk-padding-remove-bottom">
+	{{ iconNav(
+    {
+        push: {tooltip: 'Export', path: '', ratio: _nav_icon_size},
+        pull: { tooltip: 'Import', ratio: _nav_icon_size, path: _new_path },
+        cog: {tooltip: 'Settings', path: '/admin/user/settings', ratio: _nav_icon_size},
+    },
+    _results,
+    null,
+    _controller,
+    false
+)|raw }}
+</div>

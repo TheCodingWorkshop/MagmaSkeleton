@@ -1,0 +1,62 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set _this			= this %}
+{% set _controller 		= _this.thisRouteController()|lower %}
+{% set _namespace		= _this.thisRouteNamespace()|lower %}
+{% set _action			= _this.thisRouteAction()|lower %}
+{% set _sep				= '/' %}
+{% set _helpBlock 		= help_block %}
+{% set _nav_icon_size	= 1.5 %}
+{% set _icon_size		= 3 %}
+{% set _icon			= 'cog' %}
+{% set submenu %}
+	{% include 'admin/user/parts/submenu.html.twig' %}
+{% endset %}
+
+{% block content_title %}New User
+{% endblock content_title %}
+
+{% block content_header_help %}
+	{{ subHeader(
+		_searchedQuery,
+		_controller,
+		_total_records,
+		{
+			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+		},
+		false,
+		null,
+		null,
+		_icon
+	)|raw }}
+{% endblock content_header_help %}
+
+
+{% block main %}
+	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
+		<div class="uk-width-1-5">
+			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+				{{ submenu }}
+				{% set newCustomMenu = {
+					header: {header: 'Add New'},
+					role: {title: 'Role', path: '', icon: 'lock'},
+					permission: {title: 'Permission', path: '', icon: 'lock'}
+				} %}
+				{{ navMenu(newCustomMenu)|raw }}
+			</div>
+		</div>
+
+		<div class="uk-width-expand@m">
+			<div>
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-body">
+						{{ form|raw }}
+					</div>
+				</div>
+			</div>
+			<div></section>
+		{% endblock main %}
+
+		{% block body_javascript %}
+			{{ parent() }}
+		{% endblock body_javascript %}

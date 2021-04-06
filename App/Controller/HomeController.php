@@ -74,12 +74,9 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     {
-        $this->view(
-            'client/home/index.html',
+        $this->render(
+            'client/home/index.html.twig',
             [
-                'locale' => Yaml::file('index')['en'],
-                'app' => Yaml::file('app'),
-                'base' => Yaml::file('base')['en']
             ]
         );
     }

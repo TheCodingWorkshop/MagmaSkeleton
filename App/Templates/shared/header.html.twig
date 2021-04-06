@@ -1,0 +1,19 @@
+<header uk-sticky class="uk-navbar-container tm-navbar-container uk-active">
+	<section class="uk-container uk-container-expand">
+		<nav uk-navbar>
+			<div class="uk-navbar-left">
+				{% block header_logo %}
+					<a id="sidebar_toggle" class="uk-navbar-toggle" uk-navbar-toggle-icon></a>
+					<a href="/admin/dashboard/index" class="uk-navbar-item uk-logo">
+						{{ Config('app').app.app_name }}
+					</a>
+				{% endblock header_logo %}
+			</div>
+			<div class="uk-navbar-right uk-light"> 
+				{% block header_profile %}
+					{% include '/shared/header_profile.html.twig' %}
+				{% endblock header_profile %}
+			</div>
+		</nav>
+	</section>
+</header>
