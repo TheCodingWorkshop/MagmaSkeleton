@@ -102,19 +102,19 @@ class UserActionSubscriber implements EventSubscriberInterface
                 $user = $event->getcontext();
                 if (is_array($user) && count($user) > 0) {
                     $mail = (new MailerFacade())->basicMail(
-                        "New Account",
-                        "admin@example.com",
+                        'New Account',
+                        'admin@example.com',
                         $user['email'],
                         'testing'
-                        // (new BaseView())->getTemplate(
-                        //     "client/registration/email_template.html.twig",
-                        //     [
-                        //         "activation_link" => $event->getObject()->getSiteUrl("/activation/activate/" . $user['activation_hash']),
-                        //         "accountee_name" => $user['firstname'] . " " . $user['lastname'],
-                        //         "website" => "LavaStudio",
-                        //         "random_pass" => $user['random_pass'] ? $user['random_pass'] : []
-                        //     ]
-                        // )
+                        (new BaseView())->getTemplate(
+                            'client/registration/email_template.html.twig',
+                            [
+                                'activation_link' => $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']),
+                                'accountee_name' => $user['firstname'] . " " . $user['lastname'],
+                                'website' => 'LavaStudio',
+                                'random_pass' => $user['random_pass'] ? $user['random_pass'] : []
+                            ]
+                        )
                     );
                     if ($mail) {
                         return true;

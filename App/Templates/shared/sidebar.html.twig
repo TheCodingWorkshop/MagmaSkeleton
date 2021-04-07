@@ -1,6 +1,6 @@
 {% import "macros/nav.macro.html.twig" as menu %}
 
-<aside id="sidebar" class="tm-sidebar-left uk-background-muted uk-inline uk-responsive-width">
+<aside id="sidebar" class="tm-sidebar-left uk-sidebar-color uk-inline uk-responsive-width">
 	{% block sidebar_wrapper %}
 		{% block sidebar_profile %}
 			{% include 'shared/sidebar_profile.html.twig' %}
@@ -21,11 +21,11 @@
 					<span class="ion-ios-person ion-21"></span>
 				</a>
 			</li>
-			<li>
+			{# <li>
 				<a uk-tooltip="Reminders & Events" href="#">
 					<span class="ion-chatbubble-working ion-21"></span>
 				</a>
-			</li>
+			</li> #}
 		</ul>
 		<ul class="uk-switcher uk-margin">
 			<li>

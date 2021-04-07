@@ -317,17 +317,46 @@ tr .highlight {
 .uk-background-purple {
     background-color: #9D70E2!important;
 }
-ion-12 {font-size: 12px!important;}
-ion-14 {font-size: 14px!important;}
 
-.ion-16 {font-size: 16px!important;}
-.ion-18 {font-size: 18px!important;}
-.ion-21 {font-size: 21px!important;}
-.ion-24 {font-size: 24px!important;}
-.ion-32 {font-size: 32px!important;}
-.ion-48 {font-size: 48px!important;}
-.ion-64 {font-size: 64px!important;}
+ion-12 {
+    font-size: 12px!important;
+}
 
+ion-14 {
+    font-size: 14px!important;
+}
+
+.ion-16 {
+    font-size: 16px!important;
+}
+
+.ion-18 {
+    font-size: 18px!important;
+}
+
+.ion-21 {
+    font-size: 21px!important;
+}
+
+.ion-24 {
+    font-size: 24px!important;
+}
+
+.ion-32 {
+    font-size: 32px!important;
+}
+
+.ion-48 {
+    font-size: 48px!important;
+}
+
+.ion-64 {
+    font-size: 64px!important;
+}
+
+td.highlight {
+    background-color: #FFFFDD!important;
+}
 
 
 /*# sourceMappingURL=custom.css.map */

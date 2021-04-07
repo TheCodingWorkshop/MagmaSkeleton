@@ -6,7 +6,7 @@
 {% set _action			= _this.thisRouteAction()|lower %}
 {% set _sep				= '/' %}
 {% set _helpBlock 		= help_block %}
-{% set _nav_icon_size	= 1.5 %}
+{% set _nav_icon_size	= 32 %}
 {% set _icon_size		= 3 %}
 {% set _icon			= 'ion-ios-personadd' %}
 {% set submenu %}
@@ -22,7 +22,7 @@
 		_controller,
 		_total_records,
 		{
-			question: {tooltip: 'Help', path: '', ratio: _nav_icon_size},
+			question: {tooltip: 'Help', icon: 'ion-information-circled', path: '', ratio: _nav_icon_size}
 		},
 		false,
 		null,
@@ -36,7 +36,7 @@
 {{ breadcrumb|raw }}
 	<section uk-grid class="uk-child-width-1-1@s uk-child-width-1-1@l">
 		<div class="uk-width-1-5">
-			<div class="uk-card uk-card-body uk-padding-remove" uk-sticky="offset: 150; bottom: #top">
+			<div class="uk-card uk-card-body uk-padding-remove">
 				{{ submenu }}
 				{% set newCustomMenu = {
 					header: {header: 'Add New'},

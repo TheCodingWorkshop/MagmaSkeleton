@@ -1,10 +1,10 @@
 $(function() {
 
     // Sidebar Toggler
-    function sidebarToggle(toogle) {
+    function sidebarToggle(toggle) {
         var sidebar = $('#sidebar');
         var padder = $('.content-padder');
-        if (toogle) {
+        if (toggle) {
             $('.notyf').removeAttr('style');
             sidebar.css({ 'display': 'block', 'x': -300 });
             sidebar.transition({ opacity: 1, x: 0 }, 250, 'in-out', function() {

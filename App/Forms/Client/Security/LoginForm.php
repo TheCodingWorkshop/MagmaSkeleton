@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Forms\Client\Security;
@@ -30,13 +31,13 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 * @param Object|null $Repository
 	 * @return void
 	 */
-    public function createForm(string $action,?Object $repository = null) 
+	public function createForm(string $action, ?Object $repository = null)
 	{
-		return $this->form(['action' => $action, 'class' => 'user']) 
-		->add([EmailType::class => ['name' => 'email', 'class' => ['form-control form-control-user']]], null, ['show_label' => false])
-		->add([PasswordType::class => ['name' => 'password_hash', 'class' => ['form-control form-control-user']]], null, ['show_label' => false])
-		->add([CheckboxType::class => ['name' => 'remember_me', 'value' => false]], null, ['show_label' => false, 'checkbox_label' => 'Remember Me'])
-		->add([SubmitType::class => ['name' => 'index-security', 'value' => 'Login', 'class' => ['btn btn-primary btn-user btn-block']]], null, ['show_label' => false])
-		->build(['before' => '<div class="form-group">', 'after' => '</div>']);
-	} 
+		return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
+			->add([EmailType::class => ['name' => 'email']], null, ['show_label' => false])
+			->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
+			->add([CheckboxType::class => ['name' => 'remember_me', 'value' => false]], null, ['show_label' => false, 'checkbox_label' => 'Remember Me'])
+			->add([SubmitType::class => ['name' => 'index-security', 'value' => 'Login', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+			->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+	}
 }

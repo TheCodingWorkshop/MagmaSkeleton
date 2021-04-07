@@ -15,6 +15,7 @@ namespace App\Repository;
 use App\Model\UserModel;
 
 use MagmaCore\Utility\Yaml;
+use MagmaCore\Base\BaseView;
 use MagmaCore\Utility\Token;
 use InvalidArgumentException;
 use MagmaCore\Mailer\MailerFacade;
@@ -46,24 +47,18 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
 
     public function sendUserResetPassword(): UserPasswordRecoveryInterface
     {
-        $template = Yaml::file('template_email')['password_reset'];
-        $newContent = Yaml::replace(
-            '%s',
-            "http://{$_SERVER['HTTP_HOST']}/password/reset/{$this->tokenReturned}",
-            $template['content']
-        );
         $mail = (new MailerFacade())->basicMail(
-            $template['title'],
+            'Password Reset',
             'admin@magmacore.com',
             $this->userEmail,
-            $newContent
+            (new BaseView())->getTemplate('' . Yaml::file('routes')['client_dir'] . '/password/reset_email.html.twig', ["url" => "http://{$_SERVER['HTTP_HOST']}/password/reset/{$this->tokenReturned}"])
         );
         if ($mail) {
             return true;
         }
         return $this;
     }
-
+    
     /**
      * Add password reset record to the database table for the current user resetting their password
      * this will capture a reset token hash and the expiry timestamp. To validate against to ensure

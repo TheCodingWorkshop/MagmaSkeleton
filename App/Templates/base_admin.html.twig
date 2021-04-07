@@ -29,6 +29,7 @@
 			{% block head_stylesheets %}
 				{{ asset._stylesheets(Config('assets').stylesheets) }}
 				<link rel="stylesheet" href="{{ asset('/public/assets/css/custom.css') }}">
+				<link rel="stylesheet" href="{{ asset('/public/assets/css/default_color.css') }}">
 				<style>
 					body {
 						font-family: 'Nunito', sans-serif;
@@ -60,7 +61,7 @@
 					{% block content %}
 						<section class="content-padder content-background uk-flex uk-flex-column">
 							{% block content_header %}
-								<div class="uk-section-small uk-section-default header">
+								<div class="uk-section-small uk-section-default header uk-sidebar-color">
 									<div class="uk-container uk-container-large">
 										{% block content_header_help %}{% endblock content_header_help %}
 									</div>
@@ -86,6 +87,42 @@
 					{{ asset._scripts(Config('assets').scripts, 'footer') }}
 					<script src="{{ asset('/public/assets/js/sidebar.js') }}"></script>
 					<script src="{{ asset('/public/assets/js/status.js') }}"></script>
+					// <script>
+					// 	function checkUncheckAll() {
+					// 		var rows = document.getElementsByName('id[]'); // *Columns name attribute
+					// 		var isCheck = false; // flag defaults to false
+					// 		rows.forEach((cb) => {
+					// 		if (cb.type === 'checkbox') {
+					// 		if (cb.checked === false) {
+					// 		isCheck = true
+					// 		cb.checked = true;
+					// 		} else {
+					// 		if (cb.checked === true) {
+					// 		isCheck = false;
+					// 		cb.checked = false;
+					// 		}
+					// 		}
+					// 		}
+					// 		})
+					// 		whenCheck(isCheck)
+
+					// 		}
+
+					// 		function whenCheck(isCheck) {
+					// 		var toggle = document.getElementById("js-selector-container");
+					// 		if (isCheck === true) {
+					// 		toggle.innerHTML = `
+					// 					<div class="uk-background-muted uk-margin-remove uk-padding-small">
+					// 						<button uk-icon="icon: trash" class="uk-button uk-button-small uk-button-default" type="submit" name="bulk_delete"></button>
+					// 					<button uk-icon="icon: file-edit" class="uk-button uk-button-small uk-button-default" type="submit" name="bulk_delete"></button>							
+
+					// 					</div>
+					// 				`;
+					// 		} else {
+					// 		toggle.innerHTML = "";
+					// 		}
+					// 		}
+					// </script>
 					{% if Config('app').settings.googleAnalytics is empty %}
 						<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 						<script>

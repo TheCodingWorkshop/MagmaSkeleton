@@ -42,7 +42,8 @@ class UserColumn extends AbstractDatatableColumn
                     $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
-                    $html .= $this->status($row);
+                    $html .= '<div>' . $this->getStatus($row) . '</div>';
+                    $html .= '<div>' . $this->getRole($row) . '</div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
                     $html .= $row["firstname"] . ' ' . $row["lastname"] . "<br/>";
@@ -118,10 +119,10 @@ class UserColumn extends AbstractDatatableColumn
                 'db_row' => 'ip',
                 'dt_row' => 'IP',
                 'class' => 'uk-table-shrink',
-                'show_column' => false,
+                'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    return '<span uk-icon="icon: location" uk-tooltip="' . $row["remote_addr"] . '"></span>';
+                    return '<span class="ion-location ion-24" uk-tooltip="' . $row["remote_addr"] . '"></span>';
                 }
             ],
             [
@@ -133,9 +134,9 @@ class UserColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->action(
                         [
-                            'user' => [],
-                            'file-edit' => [],
-                            'trash' => []
+                            'user' => ['icon' => 'ion-person'],
+                            'file-edit' => ['icon' => 'ion-compose'],
+                            'trash' => ['icon' => 'ion-ios-trash']
                         ],
                         $row,
                         $twigExt,
@@ -150,25 +151,30 @@ class UserColumn extends AbstractDatatableColumn
         ];
     }
 
+    private function getRole(array $row)
+    {
+
+    }
+
     /**
      * @inheritDoc
      */
-    public function status(?array $row): string
+    private function getStatus(array $row): string
     {
         $html = '';
 
         switch ($row["status"]) {
             case "pending":
-                $html .= '<span class="uk-text-warning" uk-icon="icon: warning; ratio: .8" uk-tooltip="' . ($row["status"] == 'pending' ? 'pending' : '') . '"></span>';
+                $html .= '<span class="uk-text-warning ion-alert-circled" uk-tooltip="' . ($row["status"] == 'pending' ? 'Pending' : '') . '"></span>';
                 break;
             case "active":
-                $html .= '<span class="uk-text-success" uk-icon="icon: check; ratio: .8" uk-tooltip="' . ($row["status"] == 'active' ? 'active' : '') . '"></span>';
+                $html .= '<span class="uk-text-success ion-android-done" uk-tooltip="' . ($row["status"] == 'active' ? 'Active' : '') . '"></span>';
                 break;
             case "lock":
-                $html .= '<span class="uk-text-secondary" uk-icon="icon: lock; ratio: .8" uk-tooltip="' . ($row["status"] == 'lock' ? 'lock' : '') . '"></span>';
+                $html .= '<span class="uk-text-secondary ion-locked" uk-tooltip="' . ($row["status"] == 'lock' ? 'Lock' : '') . '"></span>';
                 break;
             case "trash":
-                $html .= '<span class="uk-text-danger" uk-icon="icon: trash; ratio: .8" uk-tooltip="' . ($row["status"] == 'trash' ? 'trash' : '') . '"></span>';
+                $html .= '<span class="uk-text-danger ion-ios-trash" uk-tooltip="' . ($row["status"] == 'trash' ? 'Trash' : '') . '"></span>';
                 break;
         }
         return $html;

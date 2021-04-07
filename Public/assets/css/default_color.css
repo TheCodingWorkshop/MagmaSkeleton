@@ -30,7 +30,26 @@
     background-color: #1e87f0 !important;
 }
 
-.uk-navbar-container {}
+.uk-navbar-container {
+    background-color: #263545!important;
+}
+
+.uk-logo-active {
+    background-color: #192532!important;
+}
+
+.uk-sidebar-color {
+    background-color: #F7F9FA!important;
+}
+
+.uk-card-dark {
+    background-color: #192532!important;
+}
+
+
+/* .uk-navbar-container {
+    background-color: #BBE5D6!important;
+} */
 
 .uk-background-teal,
 .uk-card-teal,
@@ -38,6 +57,7 @@
     background-color: teal !important;
     color: #ffffff !important;
 }
+
 .uk-background-blue {
     background-color: #1e87f0 !important;
 }

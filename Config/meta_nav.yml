@@ -57,7 +57,7 @@ user_index_path:
   header:
     header: Filter By
   status:
-    title: Status
+    title: Status (5)
     path: ""
     children:
       all:
@@ -79,20 +79,24 @@ user_index_path:
   new:
     title: Add New
     path: /admin/user/new
-    icon: plus
+    icon: ion-android-person-add
   roles:
     title: Roles
     path: /admin/role/index
-    icon: user
+    icon: ion-locked
   permission:
     title: Permissions
     path: /admin/permission/index
-    icon: lock
-    divider: true
+    icon: ion-key
   log:
     title: Log
     path: /admin/user/log
-    icon: file-text
+    icon: ion-clipboard
+    divider: true
+  setting:
+    title: Settings
+    path: /admin/permission/index
+    icon: ion-gear-b
 
 role_index_path:
   header:
