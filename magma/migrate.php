@@ -19,7 +19,8 @@ $composer = ROOT_PATH . '/vendor/autoload.php';
 if (is_file($composer)) {
     require $composer;
 }
+
 use MagmaCore\Migration\Driver\MigrationMysql;
 
 $migrations = new MigrationMysql();
-$migrations->createMigrationFromSchema();
+$migrations->migrate();

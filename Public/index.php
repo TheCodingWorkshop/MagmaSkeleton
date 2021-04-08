@@ -21,16 +21,17 @@ if (is_file($composer)) {
     require $composer;
 }
 
+use App\Schema\TestSchema;
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
-use MagmaCore\Migration\Drivers\MigrationMysql;
+use MagmaCore\Migration\Driver\MigrationMysql;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
 
-// $migrations = new MigrationMysql(UserSchema::class);
-// var_dump($migrations->createMigrationFromSchema());
-// die();
+$migrations = new MigrationMysql();
+var_dump($migrations->createMigrationFromSchema());
+die();
 
 Debug::enable();
 
