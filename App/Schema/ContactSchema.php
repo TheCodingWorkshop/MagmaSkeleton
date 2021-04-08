@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\TestModel;
+use App\Model\ContactModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class TestSchema implements DataSchemaBuilderInterface
+class ContactSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -25,7 +25,7 @@ class TestSchema implements DataSchemaBuilderInterface
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected TestModel $testModel;
+    protected ContactModel $contactModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -33,14 +33,14 @@ class TestSchema implements DataSchemaBuilderInterface
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
-     * @param UserModel $userModel
+     * @param ContactModel $contactModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, TestModel $testModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, ContactModel $contactModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
-        $this->testModel = $testModel;
+        $this->contactModel = $contactModel;
     }
 
     /**
@@ -51,14 +51,14 @@ class TestSchema implements DataSchemaBuilderInterface
     {
         return $this->schema
             ->schema()
-            ->table($this->testModel)
+            ->table($this->contactModel)
             ->row($this->blueprint->autoID())
-            ->row($this->blueprint->int('test_name', 10))
-            ->row($this->blueprint->int('test_description', 10))
+            ->row($this->blueprint->int('contact_name', 10))
+            ->row($this->blueprint->int('contact_description', 10))
             ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['test_name'])
+                    ->setUniqueKey(['contact_name'])
                     // ->setConstraintKeys(
                     //     function () use ($schema) {
                     //         return $schema->foreignKey('role_id')->on('roles')

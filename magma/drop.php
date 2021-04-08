@@ -22,4 +22,4 @@ if (is_file($composer)) {
 use MagmaCore\Migration\Driver\MigrationMysql;
 
 $migrations = new MigrationMysql();
-$migrations->dropMigration();
+$migrations->migrate('down');

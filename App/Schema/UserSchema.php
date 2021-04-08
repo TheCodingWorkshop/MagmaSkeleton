@@ -53,19 +53,20 @@ class UserSchema implements DataSchemaBuilderInterface
             ->schema()
             ->table($this->userModel)
             ->row($this->blueprint->autoID())
-            ->row($this->blueprint->int('role_id', 10))
-            ->row($this->blueprint->int('permission_id', 10))
+            ->row($this->blueprint->int('rolle_name', 10))
+            ->row($this->blueprint->int('rolle_description', 10))
             ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['role_id', 'permission_id'])
-                    ->setConstraintKeys(
-                        function () use ($schema) {
-                            return $schema->foreignKey('role_id')->on('roles')
-                                ->reference('id')
-                                ->cascade(true, true);
-                        }
-                    )
+                    ->setUniqueKey(['rolle_name'])
+                    // ->setConstraintKeys(
+                    //     function () use ($schema) {
+                    //         return $schema->foreignKey('role_id')->on('roles')
+                    //             ->reference('id')
+                    //             ->cascade(true, true);
+                    //     }
+                    // )
+
                     ->addKeys();
             });
     }
