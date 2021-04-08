@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\ContactModel;
+use MagmaCore\Auth\Model\RolePermissionModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class ContactSchema implements DataSchemaBuilderInterface
+class RolePermissionSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -25,7 +25,7 @@ class ContactSchema implements DataSchemaBuilderInterface
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected ContactModel $contactModel;
+    protected RolePermissionModel $rolePermModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -33,14 +33,14 @@ class ContactSchema implements DataSchemaBuilderInterface
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
-     * @param ContactModel $contactModel
+     * @param RolePermissionModel $rolePermModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, ContactModel $contactModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, RolePermissionModel $rolePermModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
-        $this->contactModel = $contactModel;
+        $this->rolePermModel = $rolePermModel;
     }
 
     /**
@@ -51,22 +51,22 @@ class ContactSchema implements DataSchemaBuilderInterface
     {
         return $this->schema
             ->schema()
-            ->table($this->contactModel)
-            ->row($this->blueprint->autoID())
-            ->row($this->blueprint->int('contact_name', 10))
-            ->row($this->blueprint->int('contact_description', 10))
-            ->build(function ($schema) {
+            ->table($this->rolePermModel)
+            ->row($this->blueprint->int('role_id', 10))
+            ->row($this->blueprint->int('permission_id', 10))
+            ->build(function($schema) {
                 return $schema
-                    ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['contact_name'])
-                    // ->setConstraintKeys(
-                    //     function () use ($schema) {
-                    //         return $schema->foreignKey('role_id')->on('roles')
-                    //             ->reference('id')
-                    //             ->cascade(true, true);
-                    //     }
-                    // )
-
+                    ->setUniqueKey(['role_id', 'permission_id'])
+                    ->setConstraintKeys(
+                        function () use ($schema) {
+                            return $schema->foreignKey('role_id')->on('roles')->reference('id')->cascade(true, true);
+                        }
+                    )
+                    ->setConstraintKeys(
+                        function () use ($schema) {
+                            return $schema->foreignKey('permission_id')->on('permission')->reference('id')->cascade(true, true);
+                        }
+                    )
                     ->addKeys();
             });
     }

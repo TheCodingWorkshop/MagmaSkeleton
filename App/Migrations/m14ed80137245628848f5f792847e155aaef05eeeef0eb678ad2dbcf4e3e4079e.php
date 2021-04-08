@@ -29,7 +29,7 @@ class m14ed80137245628848f5f792847e155aaef05eeeef0eb678ad2dbcf4e3e4079e implemen
 	{
 		return "
 CREATE TABLE IF NOT EXISTS `lavacms`.`users` (
-`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL DEFAULT NULL,`rolle_name` int(10) UNSIGNED ,`rolle_description` int(10) UNSIGNED ,PRIMARY KEY (`id`),UNIQUE KEY `rolle_name` (`rolle_name`))ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL,`firstname` varchar(190) NOT NULL,`lastname` varchar(190) NOT NULL,`email` varchar(190) NOT NULL,`gravatar` varchar(190) DEFAULT NULL,`status` varchar(24) NOT NULL,`password_hash` varchar(190) NOT NULL,`password_reset_hash` varchar(64) DEFAULT NULL,`password_reset_expires_at` datetime DEFAULT NULL,`activation_token` varchar(64) DEFAULT NULL,`created_byid` int(10) UNSIGNED  NOT NULL,`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,`modified_at` datetime ON UPDATE CURRENT_TIMESTAMP  DEFAULT NULL,`remote_addr` varchar(64) DEFAULT NULL,PRIMARY KEY (`id`),UNIQUE KEY `email` (`email`),UNIQUE KEY `password_reset_hash` (`password_reset_hash`),UNIQUE KEY `activation_token` (`activation_token`))ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
 		";
 	}
 

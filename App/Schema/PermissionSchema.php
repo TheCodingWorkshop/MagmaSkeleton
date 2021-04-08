@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\UserModel;
+use MagmaCore\Auth\Model\PermissionModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class UserSchema implements DataSchemaBuilderInterface
+class PermissionSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -25,7 +25,7 @@ class UserSchema implements DataSchemaBuilderInterface
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected UserModel $userModel;
+    protected PermissionModel $permissionModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -33,14 +33,14 @@ class UserSchema implements DataSchemaBuilderInterface
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
-     * @param UserModel $userModel
+     * @param PermissionModel $permissionModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, UserModel $userModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, PermissionModel $permissionModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
-        $this->userModel = $userModel;
+        $this->permissionModel = $permissionModel;
     }
 
     /**
@@ -51,25 +51,17 @@ class UserSchema implements DataSchemaBuilderInterface
     {
         return $this->schema
             ->schema()
-            ->table($this->userModel)
+            ->table($this->permissionModel)
             ->row($this->blueprint->autoID())
-            ->row($this->blueprint->varchar('firstname', 190))
-            ->row($this->blueprint->varchar('lastname', 190))
-            ->row($this->blueprint->varchar('email', 190))
-            ->row($this->blueprint->varchar('gravatar', 190, true, 'null'))
-            ->row($this->blueprint->varchar('status', 24))
-            ->row($this->blueprint->varchar('password_hash', 190))
-            ->row($this->blueprint->varchar('password_reset_hash', 64, true, 'null'))
-            ->row($this->blueprint->datetime('password_reset_expires_at', true, 'null'))
-            ->row($this->blueprint->varchar('activation_token', 64, true, 'null'))
+            ->row($this->blueprint->varchar('permission_name', 64))
+            ->row($this->blueprint->varchar('permission_description', 190))
             ->row($this->blueprint->int('created_byid', 10, false))
             ->row($this->blueprint->datetime('created_at', false, 'ct', ''))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
-            ->row($this->blueprint->varchar('remote_addr', 64, true, 'null'))
             ->build(function($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['email', 'password_reset_hash', 'activation_token'])
+                    ->setUniqueKey(['permission_name'])
                     ->addKeys();
             });
     }
