@@ -15,7 +15,6 @@ namespace App\Controller;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
-use MagmaCore\Utility\Yaml;
 use App\Event\LoginActionEvent;
 use MagmaCore\Base\BaseController;
 use App\Middleware\Before\isAlreadyLogin;

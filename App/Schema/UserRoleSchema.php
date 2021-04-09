@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
+use App\Model\UserModel;
 use MagmaCore\Auth\Model\RoleModel;
 use MagmaCore\DataSchema\DataSchema;
-use MagmaCore\Auth\Model\PermissionModel;
-use MagmaCore\Auth\Model\RolePermissionModel;
+use MagmaCore\Auth\Model\UserRoleModel;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class RolePermissionSchema implements DataSchemaBuilderInterface
+class UserRoleSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -27,7 +27,7 @@ class RolePermissionSchema implements DataSchemaBuilderInterface
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected RolePermissionModel $rolePermModel;
+    protected UserRoleModel $userRoleModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -35,14 +35,14 @@ class RolePermissionSchema implements DataSchemaBuilderInterface
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
-     * @param RolePermissionModel $rolePermModel
+     * @param UserRoleModel $userRoleModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, RolePermissionModel $rolePermModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, UserRoleModel $userRoleModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
-        $this->rolePermModel = $rolePermModel;
+        $this->userRoleModel = $userRoleModel;
     }
 
     /**
@@ -53,18 +53,18 @@ class RolePermissionSchema implements DataSchemaBuilderInterface
     {
         return $this->schema
             ->schema()
-            ->table($this->rolePermModel)
+            ->table($this->userRoleModel)
+            ->row($this->blueprint->int('user_id', 10))
             ->row($this->blueprint->int('role_id', 10))
-            ->row($this->blueprint->int('permission_id', 10))
             ->build(function($schema) {
                 return $schema
-                    ->setKey(['role_id', 'permission_id'])
+                    ->setKey(['user_id', 'role_id'])
                     ->setConstraints(
                         function ($trait) {
-                            $constraint = $trait->addModel(RoleModel::class)->foreignKey('role_id')
+                            $constraint = $trait->addModel(UserModel::class)->foreignKey('user_id')
                                 ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
                                 ->cascade(true,true)->add();   
-                            $constraint .= $trait->addModel(PermissionModel::class)->foreignKey('permission_id')
+                            $constraint .= $trait->addModel(RoleModel::class)->foreignKey('role_id')
                                 ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
                                 ->cascade(true,true)->add(); 
                             return $constraint;                   

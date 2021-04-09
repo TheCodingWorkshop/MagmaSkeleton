@@ -28,9 +28,15 @@ class m15342926985abd98ce0b09c83037d4b81b1267292114c35bf94803c8555670e9 implemen
 	public function up(): string
 	{
 		return "
-CREATE TABLE IF NOT EXISTS `lavacms`.`role_permission` (
-`role_id` int(10) UNSIGNED ,`permission_id` int(10) UNSIGNED ,UNIQUE KEY `role_id` (`role_id`),UNIQUE KEY `permission_id` (`permission_id`) FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`)
- ON DELETE CASCADE ON UPDATE CASCADE)ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+			CREATE TABLE IF NOT EXISTS `lavacms`.`role_permission`
+			(
+				`role_id` int(10) UNSIGNED ,
+				`permission_id` int(10) UNSIGNED ,
+				KEY `role_id` (`role_id`),
+KEY `permission_id` (`permission_id`), FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`)ON DELETE CASCADE ON UPDATE CASCADE
+			)
+			ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+
 		";
 	}
 

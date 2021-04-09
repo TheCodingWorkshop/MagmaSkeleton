@@ -6,3 +6,4 @@
 /App/Templates/.cache/
 /node_modules/
 /.cache/
+/App/Migrations/

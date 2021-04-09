@@ -16,7 +16,6 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Schema\UserSchema;
-use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseController;
 
 class HomeController extends BaseController

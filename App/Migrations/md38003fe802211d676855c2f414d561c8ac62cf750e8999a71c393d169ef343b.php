@@ -28,8 +28,19 @@ class md38003fe802211d676855c2f414d561c8ac62cf750e8999a71c393d169ef343b implemen
 	public function up(): string
 	{
 		return "
-CREATE TABLE IF NOT EXISTS `lavacms`.`permissions` (
-`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL,`permission_name` varchar(64) NOT NULL,`permission_description` varchar(190) NOT NULL,`created_byid` int(10) UNSIGNED  NOT NULL,`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,`modified_at` datetime ON UPDATE CURRENT_TIMESTAMP  DEFAULT NULL,PRIMARY KEY (`id`),UNIQUE KEY `permission_name` (`permission_name`))ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+			CREATE TABLE IF NOT EXISTS `lavacms`.`permissions`
+			(
+				`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL,
+				`permission_name` varchar(64) NOT NULL,
+				`permission_description` varchar(190) NOT NULL,
+				`created_byid` int(10) UNSIGNED  NOT NULL,
+				`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`modified_at` datetime ON UPDATE CURRENT_TIMESTAMP  DEFAULT NULL,
+				PRIMARY KEY (`id`),
+UNIQUE KEY `permission_name` (`permission_name`)
+			)
+			ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+
 		";
 	}
 

@@ -28,8 +28,19 @@ class m6417a8092168003fa41aaefdc406860c5066fe95fec35fe869ff35331944ddd3 implemen
 	public function up(): string
 	{
 		return "
-CREATE TABLE IF NOT EXISTS `lavacms`.`roles` (
-`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL,`role_name` varchar(64) NOT NULL,`role_description` varchar(190) NOT NULL,`created_byid` int(10) UNSIGNED  NOT NULL,`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,`modified_at` datetime ON UPDATE CURRENT_TIMESTAMP  DEFAULT NULL,PRIMARY KEY (`id`),UNIQUE KEY `role_name` (`role_name`))ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+			CREATE TABLE IF NOT EXISTS `lavacms`.`roles`
+			(
+				`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL,
+				`role_name` varchar(64) NOT NULL,
+				`role_description` varchar(190) NOT NULL,
+				`created_byid` int(10) UNSIGNED  NOT NULL,
+				`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`modified_at` datetime ON UPDATE CURRENT_TIMESTAMP  DEFAULT NULL,
+				PRIMARY KEY (`id`),
+UNIQUE KEY `role_name` (`role_name`)
+			)
+			ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+
 		";
 	}
 
