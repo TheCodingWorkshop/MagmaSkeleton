@@ -7,7 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 * =====================================================
-* File generated from \App\Schema\UserSchema
+* File generated from \App\Schema\AddAgeUserSchema
 */
 
 declare(strict_types=1);
@@ -22,35 +22,12 @@ class m14ed80137245628848f5f792847e155aaef05eeeef0eb678ad2dbcf4e3e4079e implemen
 	/**
 	* Migrate the query statement to the database
 	*
-	* @uses \App\Schema\UserSchema
+	* @uses \App\Schema\AddAgeUserSchema
 	* @return string
 	*/
 	public function up(): string
 	{
 		return "
-			CREATE TABLE IF NOT EXISTS `lavacms`.`users`
-			(
-				`id` int(10) UNSIGNED  AUTO_INCREMENT NOT NULL,
-				`firstname` varchar(190) NOT NULL,
-				`lastname` varchar(190) NOT NULL,
-				`email` varchar(190) NOT NULL,
-				`gravatar` varchar(190) DEFAULT NULL,
-				`status` varchar(24) NOT NULL,
-				`password_hash` varchar(190) NOT NULL,
-				`password_reset_hash` varchar(64) DEFAULT NULL,
-				`password_reset_expires_at` datetime DEFAULT NULL,
-				`activation_token` varchar(64) DEFAULT NULL,
-				`created_byid` int(10) UNSIGNED  NOT NULL,
-				`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`modified_at` datetime ON UPDATE CURRENT_TIMESTAMP  DEFAULT NULL,
-				`remote_addr` varchar(64) DEFAULT NULL,
-				PRIMARY KEY (`id`),
-UNIQUE KEY `email` (`email`),
-UNIQUE KEY `password_reset_hash` (`password_reset_hash`),
-UNIQUE KEY `activation_token` (`activation_token`)
-			)
-			ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
-
 		";
 	}
 
@@ -58,12 +35,27 @@ UNIQUE KEY `activation_token` (`activation_token`)
 	/**
 	* Migrate the query statement to the database
 	*
-	* @uses \App\Schema\UserSchema
+	* @uses \App\Schema\AddAgeUserSchema
 	* @return string
 	*/
 	public function down(): string
 	{
 		return "
+		";
+	}
+
+
+	/**
+	* Migrate the query statement to the database
+	*
+	* @uses \App\Schema\AddAgeUserSchema
+	* @return string
+	*/
+	public function change(): string
+	{
+		return "
+			ALTER TABLE `users`
+			ADD COLUMN`age` int(2) UNSIGNED  NOT NULL;
 		";
 	}
 }

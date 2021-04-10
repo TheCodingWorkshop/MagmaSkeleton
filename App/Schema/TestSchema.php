@@ -17,7 +17,7 @@ use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class DropTestSchema implements DataSchemaBuilderInterface
+class TestSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -32,12 +32,14 @@ class DropTestSchema implements DataSchemaBuilderInterface
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
+     * @param DataSchemaBlueprint $blueprint
      * @param UserModel $userModel
      * @return void
      */
-    public function __construct(DataSchema $schema, TestModel $testModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, TestModel $testModel)
     {
         $this->schema = $schema;
+        $this->blueprint = $blueprint;
         $this->testModel = $testModel;
     }
 
@@ -48,7 +50,16 @@ class DropTestSchema implements DataSchemaBuilderInterface
     public function createSchema(): string
     {
         return $this->schema
+            ->schema()
             ->table($this->testModel)
-                ->drop();
+            ->row($this->blueprint->autoID())
+            ->row($this->blueprint->int('test_name', 10))
+            ->row($this->blueprint->int('test_description', 10))
+            ->build(function ($schema) {
+                return $schema
+                    ->addPrimaryKey($this->blueprint->getPrimaryKey())
+                    ->setUniqueKey(['test_name'])
+                    ->addKeys();
+            });
     }
 }

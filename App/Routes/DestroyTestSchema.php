@@ -17,7 +17,7 @@ use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class TestSchema implements DataSchemaBuilderInterface
+class DestroyTestSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -32,14 +32,12 @@ class TestSchema implements DataSchemaBuilderInterface
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
-     * @param DataSchemaBlueprint $blueprint
      * @param UserModel $userModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, TestModel $testModel)
+    public function __construct(DataSchema $schema, TestModel $testModel)
     {
         $this->schema = $schema;
-        $this->blueprint = $blueprint;
         $this->testModel = $testModel;
     }
 
@@ -50,24 +48,7 @@ class TestSchema implements DataSchemaBuilderInterface
     public function createSchema(): string
     {
         return $this->schema
-            ->schema()
             ->table($this->testModel)
-            ->row($this->blueprint->autoID())
-            ->row($this->blueprint->int('test_name', 10))
-            ->row($this->blueprint->int('test_description', 10))
-            ->build(function ($schema) {
-                return $schema
-                    ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['test_name'])
-                    // ->setConstraintKeys(
-                    //     function () use ($schema) {
-                    //         return $schema->foreignKey('role_id')->on('roles')
-                    //             ->reference('id')
-                    //             ->cascade(true, true);
-                    //     }
-                    // )
-
-                    ->addKeys();
-            });
+                ->destroy();
     }
 }
