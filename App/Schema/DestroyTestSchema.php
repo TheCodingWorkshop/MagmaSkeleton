@@ -12,13 +12,9 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\UserModel;
-use MagmaCore\DataSchema\DataSchema;
-use MagmaCore\DataSchema\DataSchemaBlueprint;
-use MagmaCore\DataSchema\DataSchemaBuilderInterface;
-
-class DropAgeUserSchema extends UserSchema
+class DestroyTestSchema extends TestSchema
 {
+
     /**
      * @inheritdoc
      * @return string
@@ -26,10 +22,7 @@ class DropAgeUserSchema extends UserSchema
     public function createSchema(): string
     {
         return $this->schema
-            ->table($this->userModel)
-            ->alter('drop', function($schema){
-                return $schema->dropColumn('age');
-            });
-
+            ->table($this->testModel)
+                ->destroy();
     }
 }

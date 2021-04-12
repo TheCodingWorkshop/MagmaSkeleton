@@ -12,33 +12,37 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\TestModel;
+use App\Model\ExampleModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class DestroyTestSchema implements DataSchemaBuilderInterface
+class ExampleSchema implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
     protected DataSchema $schema;
+
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
+    
     /** @var object - the database model this schema is linked to */
-    protected TestModel $testModel;
+    protected ExampleModel $exampleModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
-     * @param UserModel $userModel
+     * @param DataSchemaBlueprint $blueprint
+     * @param ExampleModel $exampleModel
      * @return void
      */
-    public function __construct(DataSchema $schema, TestModel $testModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, ExampleModel $exampleModel)
     {
         $this->schema = $schema;
-        $this->testModel = $testModel;
+        $this->blueprint = $blueprint;
+        $this->exampleModel = $exampleModel;
     }
 
     /**
@@ -48,7 +52,20 @@ class DestroyTestSchema implements DataSchemaBuilderInterface
     public function createSchema(): string
     {
         return $this->schema
-            ->table($this->testModel)
-                ->destroy();
+            ->schema()
+            ->table($this->exampleModel)
+            ->row($this->blueprint->autoID())
+            ->row($this->blueprint->int('test_name', 10))
+            ->row($this->blueprint->int('test_description', 10))
+            ->build(function ($schema) {
+                return $schema
+                    ->addPrimaryKey($this->blueprint->getPrimaryKey())
+                    /*
+                        Optional foreign key constraints can be set here. See documentation
+                        for help or chaning on your constraints for your given schema
+                    */
+                    ->setUniqueKey(['test_name'])
+                    ->addKeys();
+            });
     }
 }

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-class ModifyIPUserSchema extends UserSchema
+class ModifyStatusTestSchema extends TestSchema
 {
     /**
      * @inheritdoc
@@ -21,10 +21,10 @@ class ModifyIPUserSchema extends UserSchema
     public function createSchema(): string
     {
         return $this->schema
-            ->table($this->userModel)
+            ->table($this->testModel)
             ->alter('modify', function($schema){
                 return $schema
-                    ->row($this->blueprint->varchar('remote_addr', 65, false))
+                    ->row($this->blueprint->longText('status'))
                         ->modifyColumn();
             });
 

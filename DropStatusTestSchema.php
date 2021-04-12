@@ -12,12 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\UserModel;
-use MagmaCore\DataSchema\DataSchema;
-use MagmaCore\DataSchema\DataSchemaBlueprint;
-use MagmaCore\DataSchema\DataSchemaBuilderInterface;
-
-class AddAgeUserSchema extends UserSchema
+class DropStatusTestSchema extends TestSchema
 {
     /**
      * @inheritdoc
@@ -26,11 +21,9 @@ class AddAgeUserSchema extends UserSchema
     public function createSchema(): string
     {
         return $this->schema
-            ->table($this->userModel)
-            ->alter('add', function($schema){
-                return $schema
-                    ->row($this->blueprint->int('age', 2, false))
-                        ->addColumn();
+            ->table($this->testModel)
+            ->alter('drop', function($schema){
+                return $schema->dropColumn('status');
             });
 
     }
