@@ -15,7 +15,7 @@ namespace App\Validate;
 use MagmaCore\Error\Error;
 use MagmaCore\Collection\Collection;
 use MagmaCore\ValidationRule\ValidationRule;
-use App\Controller\Admin\PermissionController;
+use App\Controller\Admin\ExampleController;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 /**

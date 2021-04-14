@@ -105,7 +105,6 @@ class UserActionSubscriber implements EventSubscriberInterface
                         'New Account',
                         'admin@example.com',
                         $user['email'],
-                        'testing'
                         (new BaseView())->getTemplate(
                             'client/registration/email_template.html.twig',
                             [

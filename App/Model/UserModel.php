@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Entity\UserEntity;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
@@ -23,10 +24,10 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     protected const TABLESCHEMA = 'users';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
-    /** */
-    protected array $profileError = [];
-    /** */
-    protected const PROFILE_FIELDS = ['firstname', 'lastname', 'email', 'password_hash'];
+    /** @var array - field casting */
+    protected array $cast = [
+        'firstname' => 'array_json'
+    ];
 
     /**
      * Main constructor class which passes the relevant information to the 
@@ -38,7 +39,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      */
     public function __construct()
     {
-        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID);
+        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, UserEntity::class);
     }
 
     /**
@@ -50,26 +51,6 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     {
         return [
         ];
-    }
-
-    /**
-     * Returns the databae table schema name
-     * 
-     * @return string
-     */
-    public function getSchemaID(): string
-    {
-        return self::TABLESCHEMAID;
-    }
-
-    /**
-     * Returns the database table schema primary key 
-     * 
-     * @return string
-     */
-    public function getSchema(): string
-    {
-        return self::TABLESCHEMA;
     }
 
     /**

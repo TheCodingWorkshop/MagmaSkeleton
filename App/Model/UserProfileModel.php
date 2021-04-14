@@ -15,7 +15,7 @@ namespace App\Model;
 class UserProfileModel extends UserModel
 {
 
- /**
+    /**
      * Verify the user password before making changes. Ensuring the correct user 
      * is making changes.
      *
@@ -73,6 +73,4 @@ class UserProfileModel extends UserModel
         }
         return false;
     }
-
-
 }

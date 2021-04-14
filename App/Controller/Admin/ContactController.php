@@ -43,8 +43,5 @@ class ContactController extends AdminController
                             ->end();
     }
 
-    protected function newAction()
-    {
-
 
 }

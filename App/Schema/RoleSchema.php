@@ -25,7 +25,7 @@ class RoleSchema implements DataSchemaBuilderInterface
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected RoleModel $roleModel;
+    protected $model;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -36,11 +36,11 @@ class RoleSchema implements DataSchemaBuilderInterface
      * @param RoleModel $roleModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, RoleModel $roleModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, RoleModel $model)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
-        $this->roleModel = $roleModel;
+        $this->model = $model;
     }
 
     /**
@@ -51,7 +51,7 @@ class RoleSchema implements DataSchemaBuilderInterface
     {
         return $this->schema
             ->schema()
-            ->table($this->roleModel)
+            ->table($this->model)
             ->row($this->blueprint->autoID())
             ->row($this->blueprint->varchar('role_name', 64))
             ->row($this->blueprint->varchar('role_description', 190))
