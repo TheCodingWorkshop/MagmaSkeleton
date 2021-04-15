@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-class ModifyStatusTestSchema extends TestSchema
+class ModifyStatus_TestSchema extends TestSchema
 {
     /**
      * @inheritdoc

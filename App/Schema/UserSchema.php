@@ -23,7 +23,7 @@ class UserSchema implements DataSchemaBuilderInterface
     /** @var object - $schema for chaing the schema together */
     protected DataSchema $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    public DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
     protected UserModel $userModel;
 

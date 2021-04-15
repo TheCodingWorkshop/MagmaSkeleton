@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Model\ExampleModel;
+use App\Model\{{ modelName }};
 
-class ExampleRepository extends ExampleModel
+class {{ RepositoryName }} extends {{ modelName }}
 { 
 
 

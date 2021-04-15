@@ -17,7 +17,7 @@ use SyntaxError;
 use RuntimeError;
 use MagmaCore\Base\BaseController;
 
-class ExampleController extends BaseController
+class {{ controllerName }} extends BaseController
 {
 
     /**

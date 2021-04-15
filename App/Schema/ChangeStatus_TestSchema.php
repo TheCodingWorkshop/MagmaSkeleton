@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-class DropStatusTestSchema extends TestSchema
+class ChangeStatus_TestSchema extends TestSchema
 {
     /**
      * @inheritdoc
@@ -22,8 +22,10 @@ class DropStatusTestSchema extends TestSchema
     {
         return $this->schema
             ->table($this->testModel)
-            ->alter('drop', function($schema){
-                return $schema->dropColumn('status');
+            ->alter('change', function($schema){
+                return $schema
+                    ->row($this->blueprint->varchar('status', 65, false))
+                        ->changeColumn('test_status');
             });
 
     }

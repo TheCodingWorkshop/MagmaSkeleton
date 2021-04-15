@@ -13,7 +13,7 @@ namespace App\Entity;
 
 use MagmaCore\Base\BaseEntity;
 
-class ExampleEntity extends BaseEntity
+class {{ entityName }} extends BaseEntity
 {
 
     public function __construct()

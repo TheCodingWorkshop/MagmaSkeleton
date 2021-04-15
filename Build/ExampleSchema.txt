@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\ExampleModel;
+use App\Model\{{ ExampleModel }};
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
-class ExampleSchema implements DataSchemaBuilderInterface
+class {{ ExampleSchema }} implements DataSchemaBuilderInterface
 {
 
     /** @var object - $schema for chaing the schema together */
@@ -27,7 +27,7 @@ class ExampleSchema implements DataSchemaBuilderInterface
     protected DataSchemaBlueprint $blueprint;
     
     /** @var object - the database model this schema is linked to */
-    protected ExampleModel $exampleModel;
+    protected {{ ExampleModel }} ${{ exampleModel }};
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -35,14 +35,14 @@ class ExampleSchema implements DataSchemaBuilderInterface
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
-     * @param ExampleModel $exampleModel
+     * @param {{ ExampleModel }} ${{ exampleModel }}
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, ExampleModel $exampleModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, {{ ExampleModel }} ${{ exampleModel }})
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
-        $this->exampleModel = $exampleModel;
+        $this->{{ exampleModel }} = ${{ exampleModel }};
     }
 
     /**
@@ -53,7 +53,7 @@ class ExampleSchema implements DataSchemaBuilderInterface
     {
         return $this->schema
             ->schema()
-            ->table($this->exampleModel)
+            ->table($this->{{ exampleModel }})
             ->row($this->blueprint->autoID())
             ->row($this->blueprint->int('test_name', 10))
             ->row($this->blueprint->int('test_description', 10))

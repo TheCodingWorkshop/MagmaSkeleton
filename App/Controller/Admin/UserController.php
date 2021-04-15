@@ -16,6 +16,7 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
+use App\Schema\UserSchema;
 use App\Event\UserActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
@@ -85,6 +86,9 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
+        // $var = new UserEntity();
+        // var_dump($var->create(UserSchema::class)->getSchemaAtts());
+        // die;
         $this->indexAction
             ->execute($this, NULL, NULL,__METHOD__)
                 ->render()

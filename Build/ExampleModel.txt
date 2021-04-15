@@ -14,13 +14,13 @@ namespace App\Model;
 
 use MagmaCore\Base\AbstractBaseModel;
 
-class ExampleModel extends AbstractBaseModel
+class {{ modelName }} extends AbstractBaseModel
 {
 
     /** @var string - database table name for your model*/
-    protected const TABLESCHEMA = 'example';
+    protected const TABLESCHEMA = '{{ modelDbName }}';
     /** @var string - database primary key for your model */
-    protected const TABLESCHEMAID = 'id';
+    protected const TABLESCHEMAID = '{{ modelDbPrimaryKey }}';
 
     /**
      * Main constructor class which passes the relevant information to the 

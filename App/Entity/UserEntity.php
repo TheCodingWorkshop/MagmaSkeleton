@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Schema\UserSchema;
 use MagmaCore\Base\BaseEntity;
 
 class UserEntity extends BaseEntity
@@ -18,7 +19,7 @@ class UserEntity extends BaseEntity
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct(UserSchema::class);
     }
 
 }

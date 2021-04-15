@@ -14,7 +14,7 @@ namespace App\DataColumns;
 
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
-class ExampleColumn extends AbstractDatatableColumn
+class {{ dataColumnName }} extends AbstractDatatableColumn
 {
 
     public function columns(): array
@@ -27,7 +27,7 @@ class ExampleColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="user-' . $row['id'] . '" name="id" value="' . $row['id'] . '">';
+                    return '<input type="checkbox" class="uk-checkbox" id="{{ singularModelName }}-' . $row['id'] . '" name="id" value="' . $row['id'] . '">';
                 }
             ],
             [
@@ -73,7 +73,7 @@ class ExampleColumn extends AbstractDatatableColumn
                         ],
                         $row,
                         $twigExt,
-                        'user',
+                        '{{ singularModelName }}',
                         false,
                         'Are You Sure!'
                     );
