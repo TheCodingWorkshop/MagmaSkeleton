@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Validate;
 
 use MagmaCore\Error\Error;
+use MagmaCore\Utility\Yaml;
 use MagmaCore\Utility\ClientIP;
 use MagmaCore\Collection\Collection;
 use MagmaCore\Utility\HashGenerator;
@@ -32,6 +33,7 @@ class UserValidate extends AbstractDataRepositoryValidation
     protected array $dataBag = [];
     /** @var ValidationRule $rules */
     protected ValidationRule $rules;
+    protected $randomPassword = null;
 
     /** @var string - empty string will redirect on the same request */
     protected const REDIRECT_BACK_TO = '';
@@ -56,6 +58,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      */
     public function validateBeforePersist(Collection $entityCollection, Null|object $dataRepository = null)
     {
+        $newCleanData = [];
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields($entityCollection->all());
         if (null !== $dataCollection) {
@@ -68,11 +71,12 @@ class UserValidate extends AbstractDataRepositoryValidation
                 'email' =>              $email,
                 'password_hash' =>      $this->userPassword($dataCollection),
                 'activation_token' =>   $tokenHash,
-                'status' =>             $this->isSet('status', $dataCollection, $dataRepository),
-                'created_byid' =>       $this->getCreator($dataCollection),
+                'status' =>             $this->isSet('status', $dataCollection, $dataRepository) ?? Yaml::file('app')['system']['default_status'],
+                'created_byid' =>       $this->getCreator($dataCollection) ?? 0,
                 'gravatar' =>           GravatarGenerator::setGravatar($email),
                 'remote_addr' =>        ClientIP::getClientIp()
             ];
+
 
             /* Settings additional data which will get merge with the dataBag */
             $this->dataBag['activation_hash'] = $activationHash;
@@ -90,6 +94,7 @@ class UserValidate extends AbstractDataRepositoryValidation
             if (!is_null($dataRepository)) {
                 unset($newCleanData['activation_token'], $newCleanData['password_hash']);
             }
+
         }
         return [
             $newCleanData,
@@ -168,37 +173,35 @@ class UserValidate extends AbstractDataRepositoryValidation
      */
     public function validate(Collection $entityCollection, Null|Object $dataRepository = null): void
     {
-        if (null !== $entityCollection) {
-            if (is_object($entityCollection) && $entityCollection->count() > 0) {
-                foreach ($entityCollection as $this->key => $this->value) :
-                    if (isset($this->key) && $this->key != '') :
-                        switch ($this->key):
-                            case 'password_hash':
-                            case 'client_password_hash':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required|unique|email");
-                                }
-                                break;
-                            case 'email':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required|unique|email");
-                                }
-                                break;
-                            case 'firstname':
-                            case 'lastname':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required");
-                                }
-                                break;
-                            default:
-                                if ($entityCollection === $dataRepository) {
-                                    $this->errors = Error::display('err_unchange');
-                                }
-                                break;
-                        endswitch;
-                    endif;
-                endforeach;
+        $this->doValidation(
+            $entityCollection, 
+            $dataRepository, 
+            function($key, $value, $entityCollection, $dataRepository){
+                switch ($key):
+                    case 'password_hash':
+                    case 'client_password_hash':
+                        if ($this->rules) {
+                            $this->rules->addRule("required");
+                        }
+                        break;
+                    case 'email':
+                        if ($this->rules) {
+                            $this->rules->addRule("required|email");
+                        }
+                        break;
+                    case 'firstname':
+                    case 'lastname':
+                        if ($this->rules) {
+                            $this->rules->addRule("required");
+                        }
+                        break;
+                    default:
+                        if ($entityCollection === $dataRepository) {
+                            $this->errors = Error::display('err_unchange');
+                        }
+                        break;
+                endswitch;
             }
-        }
+        );
     }
 }

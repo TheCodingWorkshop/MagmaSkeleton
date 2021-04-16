@@ -28,7 +28,7 @@
 			<style>body {font-family: 'Nunito', sans-serif;}</style>
 			{{ asset_macro._scripts(Config('assets').scripts, 'header') }}
 		{% endblock head_stylesheets %}
-
+<script src="https://unpkg.com/lodash@4.17.20"></script>
 		<script>
 			$(window).on("load", function () {
 				$(".preloader").fadeOut("slow");;
@@ -74,5 +74,6 @@
 				{% endif %}
 			{% endblock body %}
 		</body>
+		<script src="./src/index.js"></script>
 	</head>
 </html>

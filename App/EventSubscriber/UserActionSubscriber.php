@@ -120,7 +120,9 @@ class UserActionSubscriber implements EventSubscriberInterface
                     }
                 }
             }
+            //$event->stopPropgation();
         }
+        
     }
 
     /**

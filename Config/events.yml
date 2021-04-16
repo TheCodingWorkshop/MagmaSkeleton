@@ -72,13 +72,21 @@ services:
         App\Controller\PasswordController::resetAction:
           msg: Password reset successfully.
 
-    activate.subscriber:
+    activation.subscriber:
       class: \App\EventSubscriber\ActivateActionSubscriber
       props:
         - {}
       register_route_feedback:
         App\Controller\ActivateController::activateAction:
-          msg: You\'re now activated
+          msg: You're now activated
+    registration.subscriber:
+      class: \App\EventSubscriber\UserActionSubscriber
+      props:
+        - {}
+      register_route_feedback:
+        App\Controller\RegistrationController::registerAction:
+          msg: You're now registered
+          redirect: /registration/registered
 
   listeners:
     my.listener1:

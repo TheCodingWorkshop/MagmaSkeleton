@@ -74,10 +74,5 @@ class {{ controllerName }} extends BaseController
     {
         /* tip: You should name your template (HTML) files same as your action method
         name without the suffix ie. index.html.twig */
-        $this->render(
-            'client/home/index.html.twig',
-            [
-            ]
-        );
     }
 }
