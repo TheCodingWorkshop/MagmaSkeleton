@@ -100,7 +100,7 @@ class SecurityController extends BaseController
     protected function indexAction()
     {
         $this->loginAction
-            ->execute($this, NULL, LoginActionEvent::class, __METHOD__)
+            ->execute($this, NULL, LoginActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->loginForm)
@@ -117,7 +117,7 @@ class SecurityController extends BaseController
     protected function logoutAction(): void
     {
         $this->logoutAction
-            ->execute($this, NULL, LoginActionEvent::class, __METHOD__)
+            ->execute($this, NULL, LoginActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->logoutForm)

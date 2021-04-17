@@ -19,7 +19,7 @@ use MagmaCore\Datatable\AbstractDatatableColumn;
 class RoleColumn extends AbstractDatatableColumn
 {
 
-    public function columns(): array
+    public function columns(array $dbColumns = []): array
     {
         return [
             [
@@ -101,7 +101,7 @@ class RoleColumn extends AbstractDatatableColumn
                         [
                             'has_permission' => $this->hasPermission($row),
                             'edit_modal' => [
-                                'icon' => 'file-edit',
+                                'icon' => 'ion-compose',
                                 'tooltip' => 'Edit',
                                 'toggle_modal_edit' => true,
                                 'callback' => function ($row, $twigExt) {
@@ -115,7 +115,7 @@ class RoleColumn extends AbstractDatatableColumn
                                     );
                                 }
                             ],
-                            'trash' => ['tooltip' => 'Trash', 'icon' => 'trash']
+                            'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
                         ],
                         $row,
                         $twigExt,
@@ -142,9 +142,9 @@ class RoleColumn extends AbstractDatatableColumn
             ->getRepo()
             ->findOneBy(['role_id' => $row['id']]);
         if ($rolePerm != null) {
-            $array = ['icon' => 'lock', 'tooltip' => 'Role Lock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-success'];
+            $array = ['icon' => 'ion-locked', 'tooltip' => 'Role Lock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-success'];
         } else {
-            $array = ['icon' => 'unlock', 'tooltip' => 'Role Unlock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-warning'];
+            $array = ['icon' => 'ion-unlocked', 'tooltip' => 'Role Unlock', 'path' => "/admin/role/{$row['id']}/assigned", 'color' => 'uk-text-warning'];
         }
         return $array;
     }

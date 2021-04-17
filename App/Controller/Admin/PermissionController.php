@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\PermissionEntity;
-use App\Event\PermissionActionEvent;
 use LoaderError;
-use RuntimeError;
 use SyntaxError;
+use RuntimeError;
+use App\Entity\PermissionEntity;
+use App\Schema\PermissionSchema;
+use App\Event\PermissionActionEvent;
 
 class PermissionController extends AdminController
 {
@@ -63,7 +64,7 @@ class PermissionController extends AdminController
     protected function indexAction()
     { 
         $this->indexAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, PermissionSchema::class, __METHOD__)
                 ->render()
                     ->with(['form' => $this->formPermission->createForm($this->getRoute('new', $this))])
                         ->table()
@@ -97,7 +98,7 @@ class PermissionController extends AdminController
     protected function newAction() : void
     {
         $this->newAction
-            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, __METHOD__);
+            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -110,7 +111,7 @@ class PermissionController extends AdminController
     protected function editAction() : void
     {
         $this->editAction
-            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, __METHOD__);
+            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -124,7 +125,7 @@ class PermissionController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->execute($this, NULL, PermissionActionEvent::class, __METHOD__);
+            ->execute($this, NULL, PermissionActionEvent::class, NULL, __METHOD__);
     }
 
     /**

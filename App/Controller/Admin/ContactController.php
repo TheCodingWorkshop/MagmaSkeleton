@@ -36,7 +36,7 @@ class ContactController extends AdminController
     public function indexAction()
     {
         $this->indexAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->table()

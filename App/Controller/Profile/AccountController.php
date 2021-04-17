@@ -108,7 +108,7 @@ class AccountController extends BaseController
     protected function indexAction()
     {
         $this->showAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->singular()
@@ -127,7 +127,7 @@ class AccountController extends BaseController
     protected function nameAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with(['profile' => $this->findOr404(), 'app_name' => 'LavaStudio'])
                         ->form($this->editNameForm)
@@ -146,7 +146,7 @@ class AccountController extends BaseController
     protected function emailAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__,['password_required'])
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__,['password_required'])
                 ->render()
                     ->with(['app_name' => 'LavaStudio'])
                         ->form($this->editEmailForm)
@@ -165,7 +165,7 @@ class AccountController extends BaseController
     protected function passwordAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, ['password_equal'])
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, ['password_equal'])
                 ->render()
                     ->with()
                         ->form($this->editPasswordForm)
@@ -184,7 +184,7 @@ class AccountController extends BaseController
     protected function deleteAction()
     {
         $this->deleteAction 
-            ->execute($this, NULL, UserActionEvent::class, __METHOD__)
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()   
                         ->form($this->deleteAccount)    

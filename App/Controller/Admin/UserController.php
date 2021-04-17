@@ -86,11 +86,8 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-        // $var = new UserEntity();
-        // var_dump($var->create(UserSchema::class)->getSchemaAtts());
-        // die;
         $this->indexAction
-            ->execute($this, NULL, NULL,__METHOD__)
+            ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
                 ->render()
                     ->with(['status' => ['pending', 'active', 'suspended', 'lock']])
                         ->table()
@@ -109,7 +106,7 @@ class UserController extends AdminController
     protected function showAction()
     {
         $this->showAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->singular()
@@ -129,7 +126,7 @@ class UserController extends AdminController
     protected function newAction()
     {
         $this->newAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->formUser)
@@ -149,7 +146,7 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__, [], ['user_id' => $this->thisRouteID()])
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], ['user_id' => $this->thisRouteID()])
                 ->render()
                     ->with(['user' => $this->toArray($this->findOr404())])
                         ->form($this->formUser)
@@ -170,7 +167,7 @@ class UserController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->execute($this, NULL, UserActionEvent::class, __METHOD__);
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -187,7 +184,7 @@ class UserController extends AdminController
     protected function bulkAction()
     {
         $this->bulkDeleteAction
-            ->execute($this, NULL, UserActionEvent::class, __METHOD__);
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -202,7 +199,7 @@ class UserController extends AdminController
     protected function perferencesAction()
     {
         $this->editAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with(['user' => $this->toArray($this->findOr404())])
                         ->form($this->perferencesForm)
@@ -218,7 +215,7 @@ class UserController extends AdminController
     protected function settingsAction()
     {
         $this->newAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->formSettings)
@@ -228,7 +225,7 @@ class UserController extends AdminController
     protected function LogAction()
     {
         $this->indexAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->table(/* table_params, new_column_obj, new_repo_obj, table_data */)

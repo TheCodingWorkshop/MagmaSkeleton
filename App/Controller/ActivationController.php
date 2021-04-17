@@ -55,7 +55,7 @@ class ActivationController extends BaseController
     protected function activateAction()
     {
         $this->activateAction
-            ->execute($this, NULL, ActivateActionEvent::class, __METHOD__)
+            ->execute($this, NULL, ActivateActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with(['token_valid' => '']) /* filter template to show fail validation */
                         ->end();

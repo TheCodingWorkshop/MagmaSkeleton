@@ -16,6 +16,7 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\RoleEntity;
+use App\Schema\RoleSchema;
 use App\Event\RoleActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\Auth\Entity\RolePermissionEntity;
@@ -100,7 +101,7 @@ class RoleController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
-            ->execute($this, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
                 ->render()
                     ->with(['form' => $this->formRole->createForm($this->getRoute('new', $this))])
                         ->table()
@@ -117,7 +118,7 @@ class RoleController extends AdminController
     protected function newAction() : void
     {
         $this->newAction
-            ->execute($this, RoleEntity::class, RoleActionEvent::class, __METHOD__);
+            ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -130,7 +131,7 @@ class RoleController extends AdminController
     protected function editAction() : void
     {
         $this->editAction
-            ->execute($this, RoleEntity::class, RoleActionEvent::class, __METHOD__);
+            ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -144,7 +145,7 @@ class RoleController extends AdminController
     protected function deleteAction() : void
     {
         $this->deleteAction
-            ->execute($this, NULL, RoleActionEvent::class, __METHOD__);
+            ->execute($this, NULL, RoleActionEvent::class, NULL, __METHOD__);
     }
 
     /**
@@ -155,7 +156,7 @@ class RoleController extends AdminController
     protected function assignedAction()
     {
         $this->newAction
-            ->execute($this, RolePermissionEntity::class, NULL, __METHOD__)
+            ->execute($this, RolePermissionEntity::class, NULL, NULL, __METHOD__)
                 ->render()
                     ->with(
                             [

@@ -92,7 +92,7 @@ class RegistrationController extends BaseController
     protected function registerAction()
     {
         $this->newAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, __METHOD__)
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->formRegister)

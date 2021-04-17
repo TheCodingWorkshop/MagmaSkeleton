@@ -65,7 +65,7 @@ class PasswordController extends BaseController
     protected function forgotAction()
     { 
         $this->newPasswordAction
-            ->execute($this, UserEntity::class, PasswordActionEvent::class, __METHOD__)
+            ->execute($this, UserEntity::class, PasswordActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->formPassword)
@@ -82,7 +82,7 @@ class PasswordController extends BaseController
     protected function resetAction()
     {
         $this->resetPasswordAction
-            ->execute($this, UserEntity::class, PasswordActionEvent::class, __METHOD__)
+            ->execute($this, UserEntity::class, PasswordActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with(['token_valid' => $this->repository->parsedUrlToken($this->thisRouteToken())])
                         ->form($this->formResetPassword, NULL, $this->thisRouteToken())

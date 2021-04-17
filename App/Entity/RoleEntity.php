@@ -16,9 +16,15 @@ use MagmaCore\Base\BaseEntity;
 class RoleEntity extends BaseEntity
 {
 
-    public function __construct()
+    /**
+     * Return an array of database column name matching the object schema
+     *
+     * @param string $schema
+     * @return array
+     */
+    public function getColumns(string $schema): array
     {
-        parent::__construct();
+        return $this->create($schema)->getSchemaColumns();
     }
 
 }
