@@ -19,8 +19,6 @@ class UserColumn extends AbstractDatatableColumn
 
     public function columns(array $dbColumns = []): array
     {
-        var_dump($dbColumns);
-        die;
         return [
             [
                 'db_row' => 'id',

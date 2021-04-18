@@ -39,7 +39,7 @@ system:
   use_auto_password: false,
   use_auth: true
   activation_token_expiration: 3600
-  default_status: 'pending'
+  default_status: "pending"
   super_role:
     props:
       { name: Super, id: 1, description: Roles which contains all priviledges }
@@ -64,15 +64,18 @@ security:
   tel_pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}"
 
 database:
-  default_pdo_driver: mysql
-  supported_drivers:
-    - mysql
-    - pgsql
-    - sqlite
+  default_driver: "mysql"
+  drivers:
+    mysql:
+      class: \MagmaCore\DataObjectLayer\Drivers\MysqlDatabaseConnection
+    pgsql:
+      class: \MagmaCore\DataObjectLayer\Drivers\PgsqlDatabaseConnection
+    sqlite:
+      class: \MagmaCore\DataObjectLayer\Drivers\SqliteDatabaseConnection
 
 debug_error:
   mode: "dev"
 error_handler:
   error: \MagmaCore\ErrorHandler\ErrorHandler::errorHandle
   exception: \MagmaCore\ErrorHandler\ErrorHandler::exceptionHandle
-  log_path: ''
+  log_path: ""
