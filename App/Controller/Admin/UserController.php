@@ -18,6 +18,7 @@ use RuntimeError;
 use App\Entity\UserEntity;
 use App\Schema\UserSchema;
 use App\Event\UserActionEvent;
+use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserController extends AdminController
@@ -47,6 +48,7 @@ class UserController extends AdminController
         $this->diContainer(
             [
                 'repository' => \App\Model\UserModel::class,
+                'rolePermission' => \App\Model\RolePermissionModel::class,
                 'entity' => \App\Entity\UserEntity::class,
                 'column' => \App\DataColumns\UserColumn::class,
                 'formUser' => \App\Forms\Admin\User\UserForm::class,
@@ -86,6 +88,13 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
+        // $real = $this->rolePermission
+        //     ->hasRelationship()
+        //         ->manyToMany('id', 'permission_name', ['id', 'role_name'])
+        //             ->fetchAsCollection();
+
+        // var_dump($real->all());
+        // die;
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
                 ->render()

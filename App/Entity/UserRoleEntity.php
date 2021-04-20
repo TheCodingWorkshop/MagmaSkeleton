@@ -14,7 +14,7 @@ namespace App\Entity;
 
 use MagmaCore\Base\BaseEntity;
 
-class UserEntity extends BaseEntity
+class UserRoleEntity extends BaseEntity
 {
 
     /**

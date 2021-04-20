@@ -18,7 +18,7 @@ use App\Forms\Admin\Permission\PermissionForm;
 class PermissionColumn extends AbstractDatatableColumn
 {
 
-    public function columns(): array
+    public function columns(array $dbColumns = []): array
     {
         return [
             [
@@ -99,7 +99,7 @@ class PermissionColumn extends AbstractDatatableColumn
                     return $twigExt->action(
                         [
                             'edit_modal' => [
-                                'icon' => 'file-edit',
+                                'icon' => 'ion-compose',
                                 'tooltip' => 'Edit',
                                 'toggle_modal_edit' => true,
                                 'callback' => function ($row, $twigExt) {
@@ -113,7 +113,7 @@ class PermissionColumn extends AbstractDatatableColumn
                                     );
                                 }
                             ],
-                            'trash' => ['tooltip' => 'Trash', 'icon' => 'trash']
+                            'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
                         ],
                         $row,
                         $twigExt,

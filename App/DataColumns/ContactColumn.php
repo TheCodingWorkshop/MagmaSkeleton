@@ -17,7 +17,7 @@ use MagmaCore\Datatable\AbstractDatatableColumn;
 class ContactColumn extends AbstractDatatableColumn
 {
 
-    public function columns(): array
+    public function columns(array $dbColumns = []): array
     {
         return [
             [
@@ -88,9 +88,8 @@ class ContactColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->action(
                         [
-                            //'user' => [],
-                            'file-edit' => [],
-                            'trash' => []
+                            'file-edit' => ['icon' => 'ion-composer'],
+                            'trash' => ['icon' => 'ion-ios-trash']
                         ],
                         $row,
                         $twigExt,

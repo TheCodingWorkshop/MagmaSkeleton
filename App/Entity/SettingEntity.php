@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace App\Entity;
 
 use MagmaCore\Base\BaseEntity;
 
-class UserEntity extends BaseEntity
+/** @todo try and access the schema object to fetch the database column dynamically */
+class SettingEntity extends BaseEntity
 {
 
     /**
@@ -27,4 +27,5 @@ class UserEntity extends BaseEntity
     {
         return $this->create($schema)->getSchemaColumns();
     }
+
 }

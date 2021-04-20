@@ -91,7 +91,7 @@ class AccountController extends BaseController
     {
         return $this->repository
             ->getRepo()
-            ->findAndReturn($_SESSION['user_id'])
+            ->findAndReturn(isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0)
             ->or404();
     }
 
