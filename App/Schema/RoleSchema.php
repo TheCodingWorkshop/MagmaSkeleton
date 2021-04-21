@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use MagmaCore\Auth\Model\RoleModel;
+use App\Model\RoleModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;

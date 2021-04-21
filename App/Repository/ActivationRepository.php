@@ -13,7 +13,6 @@ namespace App\Repository;
 
 use MagmaCore\Auth\Contracts\UserActivationInterface;
 use App\Model\UserModel;
-use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\Token;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\MailerFacade;

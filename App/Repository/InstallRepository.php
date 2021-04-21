@@ -14,7 +14,6 @@ namespace App\Repository;
 
 use MagmaCore\Error\Error;
 use MagmaCore\Utility\Yaml;
-use MagmaCore\Utility\DirtyConnection;
 
 class InstallRepository
 {

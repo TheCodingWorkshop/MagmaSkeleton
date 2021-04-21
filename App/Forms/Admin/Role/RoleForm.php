@@ -17,7 +17,7 @@ use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\Type\TextType;
 use MagmaCore\FormBuilder\Type\TextareaType;
 use MagmaCore\FormBuilder\Type\SubmitType;
-use MagmaCore\Auth\Model\RoleModel;
+use App\Model\RoleModel;
 
 class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {

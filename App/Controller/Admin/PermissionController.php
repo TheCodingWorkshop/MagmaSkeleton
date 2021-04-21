@@ -42,7 +42,7 @@ class PermissionController extends AdminController
          */
         $this->diContainer(
             [
-                'repository' => \MagmaCore\Auth\Model\PermissionModel::class,
+                'repository' => \App\Model\PermissionModel::class,
                 'entity' => \App\Entity\PermissionEntity::class,
                 'column' => \App\DataColumns\PermissionColumn::class,
                 'formPermission' => \App\Forms\Admin\Permission\PermissionForm::class

@@ -14,7 +14,7 @@ namespace App\EventSubscriber;
 
 use MagmaCore\Utility\Yaml;
 use App\Event\PermissionActionEvent;
-use MagmaCore\Auth\Model\RolePermissionModel;
+use App\Model\RolePermissionModel;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 

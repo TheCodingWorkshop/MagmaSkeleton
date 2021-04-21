@@ -19,7 +19,7 @@ use MagmaCore\FormBuilder\Type\EmailType;
 use MagmaCore\FormBuilder\Type\RadioType;
 use MagmaCore\FormBuilder\Type\PasswordType;
 use MagmaCore\FormBuilder\Type\SubmitType;
-use MagmaCore\Auth\Model\RoleModel;
+use App\Model\RoleModel;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface

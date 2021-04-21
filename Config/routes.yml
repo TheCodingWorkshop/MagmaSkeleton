@@ -14,31 +14,70 @@ template_dir: Templates
 login:
   controller: Security
   action: index
+  method: GET
+  meta:
+    route_name: route.security
+    route_path: "/security"
+    parent_nav: false
+    redirect: '/account/profile/index'
 
 logout:
   controller: Security
   action: logout
+  method: GET
+  meta:
+    route_name: route.security
+    route_path: "/security"
+    parent_nav: false
+    redirect: /
 
 register:
   controller: Registration
   action: register
+  meta:
+    route_name: route.register
+    route_path: "/register"
+    parent_nav: false
+    redirect: /login
 
 password/reset/{token:[\da-f]+}:
   controller: Password
   action: reset
+  meta:
+    route_name: route.password_reset
+    route_path: "/password"
+    parent_nav: false
+    redirect: /
 
 activation/activate/{token:[\da-f]+}:
   controller: Activation
   action: activate
+  method: POST
+  meta:
+    route_name: route.activation
+    route_path: "/activate"
+    parent_nav: false
+    redirect: /
 
 profile/{controller}/{action}:
   namespace: Profile
+  meta:
+    route_name: route.profile
+    route_path: "/account/profile/index"
+    parent_nav: false
+    redirect: /
 
 profile/{controller}/{id:[\da-f]+}/{action}:
   namespace: Profile
 
 admin/{controller}/{action}:
   namespace: Admin
+  meta:
+    route_name: route.security
+    route_path: "/security"
+    parent_nav: true
+    redirect: /
+
 
 admin/{controller}/{id:[\da-f]+}/{action}:
   namespace: Admin
@@ -53,3 +92,8 @@ installer/{controller}/{action}:
   namespace: Installer
   controller: Install
   action: index
+  meta:
+    route_name: route.security
+    route_path: "/security"
+    parent_nav: false
+    redirect: /

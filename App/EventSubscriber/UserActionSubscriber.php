@@ -16,7 +16,7 @@ use MagmaCore\Base\BaseView;
 use App\Event\NewActionEvent;
 use App\Event\UserActionEvent;
 use MagmaCore\Mailer\MailerFacade;
-use MagmaCore\Auth\Model\UserRoleModel;
+use App\Model\UserRoleModel;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 

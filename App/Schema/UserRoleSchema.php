@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\UserModel;
-use MagmaCore\Auth\Model\RoleModel;
+use App\Model\RoleModel;
+use App\Model\UserRoleModel;
 use MagmaCore\DataSchema\DataSchema;
-use MagmaCore\Auth\Model\UserRoleModel;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 
@@ -28,6 +27,10 @@ class UserRoleSchema implements DataSchemaBuilderInterface
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
     protected UserRoleModel $userRoleModel;
+    /** @var string */
+    private const FIRST_COLUMN = 'user_id';
+    /** @var string */
+    private const SECOND_COLUMN = 'role_id';
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -54,23 +57,26 @@ class UserRoleSchema implements DataSchemaBuilderInterface
         return $this->schema
             ->schema()
             ->table($this->userRoleModel)
-            ->row($this->blueprint->int('user_id', 10))
-            ->row($this->blueprint->int('role_id', 10))
-            ->build(function($schema) {
+            ->row($this->blueprint->int(self::FIRST_COLUMN, 10))
+            ->row($this->blueprint->int(self::SECOND_COLUMN, 10))
+            ->build(function ($schema) {
                 return $schema
-                    ->setKey(['user_id', 'role_id'])
+                    ->setKey([self::FIRST_COLUMN, self::SECOND_COLUMN])
                     ->setConstraints(
                         function ($trait) {
-                            $constraint = $trait->addModel(UserModel::class)->foreignKey('user_id')
-                                ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
-                                ->cascade(true,true)->add();   
-                            $constraint .= $trait->addModel(RoleModel::class)->foreignKey('role_id')
-                                ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
-                                ->cascade(true,true)->add(); 
-                            return $constraint;                   
+                            $constraint = $trait->addModel(UserModel::class)
+                                ->foreignKey(self::FIRST_COLUMN)
+                                ->on($trait->getModel()->getSchema())
+                                ->reference($trait->getModel()->getSchemaID())
+                                ->cascade(true, true)->add();
+                            $constraint .= $trait->addModel(RoleModel::class)
+                                ->foreignKey(self::SECOND_COLUMN)
+                                ->on($trait->getModel()->getSchema())
+                                ->reference($trait->getModel()->getSchemaID())
+                                ->cascade(true, true)->add();
+                            return $constraint;
                         }
                     );
-                    
             });
     }
 }

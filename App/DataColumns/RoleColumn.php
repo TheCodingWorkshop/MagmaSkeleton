@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use App\Forms\Admin\Role\RoleForm;
-use MagmaCore\Auth\Model\RolePermissionModel;
+use App\Model\RolePermissionModel;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
 class RoleColumn extends AbstractDatatableColumn

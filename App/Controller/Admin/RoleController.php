@@ -51,8 +51,8 @@ class RoleController extends AdminController
                 'entity' => \App\Entity\RoleEntity::class,
                 'column' => \App\DataColumns\RoleColumn::class,
                 'formRole' => \App\Forms\Admin\Role\RoleForm::class,
-                'permission' => \MagmaCore\Auth\Model\PermissionModel::class,
-                'rolePerm' => \MagmaCore\Auth\Model\RolePermissionModel::class,
+                'permission' => \App\Model\PermissionModel::class,
+                'rolePerm' => \App\Model\RolePermissionModel::class,
             ]
         );
     }

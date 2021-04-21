@@ -14,7 +14,7 @@ namespace App\Model;
 
 use App\Model\UserModel;
 use App\Entity\UserRoleEntity;
-use MagmaCore\Auth\Model\RoleModel;
+use App\Model\RoleModel;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\DataObjectLayer\DataRelationship\ManyToMany;
 
