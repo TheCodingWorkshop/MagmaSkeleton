@@ -48,7 +48,7 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
             ->fill($this->blueprint->faker()->firstname())
             ->fill($this->blueprint->faker()->lastname())
             ->fill($this->blueprint->faker()->email())
-            ->fill('csnik86BGW')
+            ->fill('random_password')
             ->fill('pending')
             ->fill(1)
             ->fill('::1')
