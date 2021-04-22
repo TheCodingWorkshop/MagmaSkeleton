@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Entity\UserNoteEntity;
 use MagmaCore\Base\AbstractBaseModel;
 
 class UserNoteModel extends AbstractBaseModel

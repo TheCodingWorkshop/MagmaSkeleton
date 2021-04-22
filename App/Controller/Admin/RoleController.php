@@ -19,7 +19,7 @@ use App\Entity\RoleEntity;
 use App\Schema\RoleSchema;
 use App\Event\RoleActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
-use MagmaCore\Auth\Entity\RolePermissionEntity;
+use App\Entity\RolePermissionEntity;
 
 class RoleController extends AdminController
 {
@@ -47,7 +47,7 @@ class RoleController extends AdminController
          */
         $this->diContainer(
             [
-                'repository' => \MagmaCore\Auth\Model\RoleModel::class,
+                'repository' => \App\Model\RoleModel::class,
                 'entity' => \App\Entity\RoleEntity::class,
                 'column' => \App\DataColumns\RoleColumn::class,
                 'formRole' => \App\Forms\Admin\Role\RoleForm::class,

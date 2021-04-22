@@ -31,11 +31,11 @@ Debug::enable();
     ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
             ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
-                ->setSession(Yaml::file('session'))
+                ->setSession()
                     ->setCookie([])
-                        ->setCache([])
+                        ->setCache()
                             ->setRoutes(Yaml::file('routes'))
-                                ->setContainerProviders([])
+                                ->setContainerProviders(Yaml::file('providers'))
                                     ->run();
 
                                     

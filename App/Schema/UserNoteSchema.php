@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
+use App\Model\UserModel;
 use App\Model\UserNoteModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
@@ -37,7 +38,7 @@ class UserNoteSchema implements DataSchemaBuilderInterface
      * @return void
      */
     public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, 
-    $userNoteModel)
+    UserNoteModel $userNoteModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
@@ -45,6 +46,7 @@ class UserNoteSchema implements DataSchemaBuilderInterface
     }
 
     /**
+     * One to Many Relationship
      * @inheritdoc
      * @return string
      */
@@ -53,13 +55,22 @@ class UserNoteSchema implements DataSchemaBuilderInterface
         return $this->schema
             ->schema()
             ->table($this->userNoteModel)
+            ->row($this->blueprint->autoID())
+            ->row($this->blueprint->int('user_id', 10))
             ->row($this->blueprint->longText('notes', false))
             ->row($this->blueprint->datetime('created_at', false, 'ct', ''))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
             ->build(function($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->addKeys();
+                    ->setUniqueKey(['user_id'])
+                    ->setConstraints(
+                        function ($trait) {
+                            return $trait->addModel(UserModel::class)->foreignKey('user_id')
+                                ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
+                                ->cascade(true,true)->add();   
+                        }
+                    );
             });
     }
 }

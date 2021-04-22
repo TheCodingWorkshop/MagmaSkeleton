@@ -15,6 +15,7 @@ declare(strict_types=1);
  * and initialize the necessary components.
  */
 defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
+defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . '/' . "Config/");
 $composer = ROOT_PATH . '/vendor/autoload.php';
 if (is_file($composer)) {
     require $composer;

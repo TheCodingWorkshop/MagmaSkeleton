@@ -14,15 +14,10 @@ namespace App\Controller\Admin;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
-use App\Model\UserModel;
-use App\Schema\UserSchema;
-use MagmaCore\Http\RequestHandler;
-use MagmaCore\Collection\Collection;
 
 class DashboardController extends AdminController
 {
     
-
     /**
      * Extends the base constructor method. Which gives us access to all the base 
      * methods inplemented within the base controller class.

@@ -12,10 +12,12 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use ReflectionException;
 use App\Entity\UserEntity;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
 {
@@ -78,8 +80,8 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      * Once the password is validated it will then be hash using the
      * passing hash from our traits services
      *
-     * @param Object $cleanData - data returning from the user entity filtered and sanitized
-     * @param Object|null $dataRepository
+     * @param object $cleanData - data returning from the user entity filtered and sanitized
+     * @param object|null $dataRepository
      * @return self
      * @throws ReflectionException
      */

@@ -16,14 +16,9 @@ settings:
   googleAnalytics: UA-XXXXX-Y
 
 system:
+  use_resolvable_action: false
   use_session: true
   use_cookie: true
-  cache:
-    use_cache: true
-    storage: file
-    key: auto
-    cache_path: /Storage/Cache/
-    cache_expires: 3600
   logger:
     use_logger: true
     log:

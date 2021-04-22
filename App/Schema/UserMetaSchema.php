@@ -37,7 +37,7 @@ class UserMetaSchema implements DataSchemaBuilderInterface
      * @return void
      */
     public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, 
-    $userMetaModel)
+    UserMetaModel $userMetaModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
@@ -53,6 +53,8 @@ class UserMetaSchema implements DataSchemaBuilderInterface
         return $this->schema
             ->schema()
             ->table($this->userMetaModel)
+            ->row($this->blueprint->autoID())
+            ->row($this->blueprint->int('user_id', 10))
             ->row($this->blueprint->int('failed_logins', 10, false))
             ->row($this->blueprint->datetime('failed_login_timestamp', false, 'ct', ''))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
@@ -60,7 +62,7 @@ class UserMetaSchema implements DataSchemaBuilderInterface
             ->build(function($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['email', 'password_reset_hash', 'activation_token'])
+                    ->setUniqueKey(['user_id'])
                     ->addKeys();
             });
     }

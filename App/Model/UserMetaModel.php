@@ -14,6 +14,7 @@ namespace App\Model;
 
 use App\Entity\UserMetaEntity;
 use MagmaCore\Base\AbstractBaseModel;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class UserMetaModel extends AbstractBaseModel
 {
@@ -22,8 +23,6 @@ class UserMetaModel extends AbstractBaseModel
     protected const TABLESCHEMA = 'user_meta';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
-    /** @var object $relationship */
-    protected object $relationship;
 
     /**
      * Main constructor class which passes the relevant information to the 

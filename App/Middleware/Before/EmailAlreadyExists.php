@@ -29,6 +29,7 @@ class EmailAlreadyExists extends BeforeMiddleware
      */
     public function middleware(Object $object, Closure $next)
     {   
+
        // if ($object->thisRouteAction() === 'new') {
             if (isset($_POST))
                 return false;

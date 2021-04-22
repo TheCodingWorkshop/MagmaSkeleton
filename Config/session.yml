@@ -8,9 +8,14 @@ gc_maxlifetime: "1800"
 gc_probability: "1000"
 gc_divisor: "1"
 use_cookies: "1"
-drivers:
-  default_storage:
-    class: \MagmaCore\Session\Storage\NativeSessionStorage
-    alias: native_storage
-    default: true
 globalized: false
+default_driver: native_storage
+drivers:
+  native_storage:
+    class: \MagmaCore\Session\Storage\NativeSessionStorage
+    default: true
+  array_storage:
+    class: \MagmaCore\Session\Storage\ArraySessionStorage
+    default: false
+  pdo_storage:
+    class: \MagmaCore\Session\Storage\PdoSessionStorage
