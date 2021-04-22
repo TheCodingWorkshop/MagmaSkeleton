@@ -17,6 +17,7 @@ use SyntaxError;
 use RuntimeError;
 use App\Schema\UserSchema;
 use MagmaCore\Base\BaseController;
+use App\Database\Fillables\UserFillable;
 
 class HomeController extends BaseController
 {
@@ -42,7 +43,8 @@ class HomeController extends BaseController
          */
         $this->diContainer(
             [
-                'schema' => UserSchema::class
+                'schema' => UserSchema::class,
+                'userFillable' => UserFillable::class
             ]
         );
     }
@@ -73,6 +75,8 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     {
+        var_dump($this->userFillable->createFillable());
+        die;
         $this->render(
             'client/home/index.html.twig',
             [

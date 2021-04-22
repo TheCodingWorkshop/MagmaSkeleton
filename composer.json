@@ -36,7 +36,8 @@
         "magmacore/magmacore": "^1.0",
         "phpunit/phpunit": "^9.5",
         "phpmailer/phpmailer": "^6.2",
-        "symfony/error-handler": "^5.2"
+        "symfony/error-handler": "^5.2",
+        "fzaninotto/faker": "^1.5"
     },
     "autoload": {
         "psr-4": {
