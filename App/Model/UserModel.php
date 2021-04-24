@@ -30,6 +30,16 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     protected array $cast = [
         'firstname' => 'array_json'
     ];
+    /** @var array $fillable - an array of fields that should not be null */
+    protected array $fillable = [
+        'firstname',
+        'lastname',
+        'email',
+        'status',
+        'password_hash',
+        'created_byid',
+        'remote_addr',
+    ];
 
     /**
      * Main constructor class which passes the relevant information to the 

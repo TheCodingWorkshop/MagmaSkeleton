@@ -75,8 +75,8 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     {
-        var_dump($this->userFillable->createFillable());
-        die;
+        // var_dump($this->userFillable->createFillable());
+        // die;
         $this->render(
             'client/home/index.html.twig',
             [
