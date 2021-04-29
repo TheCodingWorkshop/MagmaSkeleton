@@ -18,6 +18,7 @@ use RuntimeError;
 use App\Schema\UserSchema;
 use MagmaCore\Base\BaseController;
 use App\Database\Fillables\UserFillable;
+use MagmaCore\Plugin\Test\HelloDolly;
 
 class HomeController extends BaseController
 {
@@ -75,11 +76,10 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     {
-        // var_dump($this->userFillable->createFillable());
-        // die;
         $this->render(
             'client/home/index.html.twig',
             [
+                'hello_dolly' => (new HelloDolly())->pluginDeploy()
             ]
         );
     }

@@ -24,7 +24,7 @@ if (is_file($composer)) {
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
-
+use MagmaCore\Plugin\Test\HelloDolly;
 Debug::enable();
 
 (new BaseApplication())
