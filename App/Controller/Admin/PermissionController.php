@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -47,8 +48,7 @@ class PermissionController extends AdminController
                 'column' => \App\DataColumns\PermissionColumn::class,
                 'formPermission' => \App\Forms\Admin\Permission\PermissionForm::class
             ]
-        );  
-
+        );
     }
 
     /**
@@ -62,30 +62,16 @@ class PermissionController extends AdminController
      * @throws SyntaxError
      */
     protected function indexAction()
-    { 
+    {
         $this->indexAction
             ->execute($this, NULL, NULL, PermissionSchema::class, __METHOD__)
                 ->render()
-                    ->with(['form' => $this->formPermission->createForm($this->getRoute('new', $this))])
-                        ->table()
-                            ->end();
-
-    }
-
-    protected function testAction()
-    {
-       if (isset($_POST['new-permission'])) {
-           $value = strip_tags(stripslashes(trim($_POST['permission_name'])));
-           if (str_contains($value, ',')) {
-               $vals = explode(',', $value);
-               if (is_array($vals) && count($vals) > 0) {
-                   $action = $this->repository->getRepo()->validateRepository()->persistAfterValidation();
-                   if ($action) {
-                       
-                   }
-               }
-           }
-       }
+                    ->with(
+                        [
+                            'form' => $this->formPermission->createForm($this->getRoute('new', $this))
+                        ]
+                    )->table()
+                        ->end();
     }
 
     /**
@@ -95,7 +81,7 @@ class PermissionController extends AdminController
      *
      * @return void
      */
-    protected function newAction() : void
+    protected function newAction(): void
     {
         $this->newAction
             ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__);
@@ -108,7 +94,7 @@ class PermissionController extends AdminController
      *
      * @return void
      */
-    protected function editAction() : void
+    protected function editAction(): void
     {
         $this->editAction
             ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__);
@@ -134,7 +120,7 @@ class PermissionController extends AdminController
      *
      * @return bool
      */
-    public function tableSettingsInsertAction() : bool
+    public function tableSettingsInsertAction(): bool
     {
         $this->tableSettingsInit($this->thisRouteController());
         $this->flashMessage('Changes Saved!');
@@ -147,12 +133,11 @@ class PermissionController extends AdminController
      *
      * @return boolean
      */
-    public function tableSettingsUpdateAction() : bool
+    public function tableSettingsUpdateAction(): bool
     {
         $this->tableSettingsUpdateInit($this->thisRouteController());
         $this->flashMessage('Settings Updated!');
         $this->redirect($this->selfPath('table-settings-update'));
         return true;
     }
-
 }

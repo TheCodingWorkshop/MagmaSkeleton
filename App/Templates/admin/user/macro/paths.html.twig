@@ -1,7 +1,0 @@
-{% macro link(controller, route, row_id = null) %}
-    {% if not _row_id %}
-        {% set _path = '/admin/' ~ controller ~ '/' ~ _row_id ~ '/' ~ route %}
-    {% else %}
-        {% set _path = '/admin/' ~ controller ~ '/' ~ route %}
-    {% endif %}
-{% endmacro %}

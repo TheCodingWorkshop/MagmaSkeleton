@@ -1,36 +1,42 @@
 dashboard:
   name: Dashboard
-  icon: ion-speedometer
+  icon: bi bi-speedometer2
   path: /admin/dashboard/index
   roles: {}
   header: Manager
 authentication:
   title: Manage User
   name: Users
-  icon: ion-person-stalker
+  icon: bi bi-person-fill
   path: ""
   children:
     users:
       name: Users
-      icon: ion-person-stalker
+      icon: ''
       path: "/admin/user/index"
       role:
         - developer
     role:
       name: Roles
-      icon: ion-locked
+      icon: ''
       path: "/admin/role/index"
       role:
         - developer
     permission:
       name: Permission
-      icon: ion-key
+      icon: ''
       path: "/admin/permission/index"
       role:
         - developer
     log:
       name: Log
-      icon: ion-compose
+      icon: ''
+      path: "/admin/log/index"
+      role:
+        - developer
+    setting:
+      name: Settings
+      icon: ''
       path: "/admin/log/index"
       role:
         - developer

@@ -1,0 +1,31 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4 flex-wrap">
+    <div class="d-flex align-items-end flex-wrap">
+
+        <div class="mr-md-3 mr-xl-5">
+            <h1 class="h3 mb-0 text-gray-800">{% yield content_title %}</h1>
+            <p class="mb-md-0">{% yield content_tagline %}</p>
+        </div>
+
+        <div class="d-none d-sm-inline-block">
+            <div class="d-flex">
+                <i class="bi bi-house-fill text-muted hover-cursor"></i>
+                <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard&nbsp;/&nbsp;</p>
+                <p class="text-primary mb-0 hover-cursor">Analytics</p>
+            </div>
+        </div>
+    </div>
+    <div class="d-none d-sm-inline-block">
+        <div class="d-flex justify-content-between align-items-end flex-wrap">
+            <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+            <i class="bi bi-download text-muted"></i>
+        </button>
+            <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+            <i class="bi bi-clock text-muted"></i>
+        </button>
+            <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+            <i class="bi bi-plus text-muted"></i>
+        </button>
+            <button class="btn btn-primary font-weight-bold mt-2 mt-xl-0"><i class="bi bi-person-plus-fill"></i> Create New</button>
+        </div>
+    </div>
+</div>

@@ -29,6 +29,12 @@ class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInter
      */
     public function createForm(string $action, $dataRepository = null)
     {
+
+        if ($dataRepository != null) {
+            $dataRepository = (array) $dataRepository;
+            extract($dataRepository);
+        }
+
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "permissionForm"])
             ->addRepository($dataRepository)
             ->add(

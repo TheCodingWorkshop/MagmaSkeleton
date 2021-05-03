@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Error\Error;
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Utility\ClientIP;
 use MagmaCore\Collection\Collection;
@@ -39,7 +38,12 @@ class UserValidate extends AbstractDataRepositoryValidation
     protected const REDIRECT_BACK_TO = '';
 
     /**
-     * Undocumented function
+     * Main class constructor. Uses the ValidateRule class has a dependency
+     * We are also declaring the $this->rules->addObject() method which takes two
+     * argument. First is a qualified namespace of the controller class which 
+     * calls this validation class and $this keyword which represents this 
+     * current object. This way we can actually get access to the controller
+     * class throw the ValidationRule object
      *
      * @param ValidationRule $rules
      * @return void
@@ -58,23 +62,24 @@ class UserValidate extends AbstractDataRepositoryValidation
      */
     public function validateBeforePersist(Collection $entityCollection, Null|object $dataRepository = null)
     {
+
         $newCleanData = [];
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields($entityCollection->all());
         if (null !== $dataCollection) {
             $email = $this->isSet('email', $dataCollection, $dataRepository);
             list($tokenHash, $activationHash) = (new HashGenerator())->hash();
-
+            $enCollect = $entityCollection;
             $newCleanData = [
-                'firstname' =>          $this->isSet('firstname', $dataCollection, $dataRepository),
-                'lastname' =>           $this->isSet('lastname', $dataCollection, $dataRepository),
-                'email' =>              $email,
-                'password_hash' =>      $this->userPassword($dataCollection),
-                'activation_token' =>   $tokenHash,
-                'status' =>             $this->isSet('status', $dataCollection, $dataRepository) ?? Yaml::file('app')['system']['default_status'],
-                'created_byid' =>       $this->getCreator($dataCollection) ?? 0,
-                'gravatar' =>           GravatarGenerator::setGravatar($email),
-                'remote_addr' =>        ClientIP::getClientIp()
+                'firstname' => $this->isSet('firstname', $dataCollection, $dataRepository),
+                'lastname' => $this->isSet('lastname', $dataCollection, $dataRepository),
+                'email' => $email,
+                'password_hash' => $this->userPassword($dataCollection),
+                'activation_token' => $tokenHash,
+                'status' => $this->isSet('status', $dataCollection, $dataRepository) ?? Yaml::file('app')['system']['default_status'],
+                'created_byid' => $this->getCreator($dataCollection) ?? 0,
+                'gravatar' => GravatarGenerator::setGravatar($email),
+                'remote_addr' => ClientIP::getClientIp()
             ];
 
 
@@ -94,7 +99,6 @@ class UserValidate extends AbstractDataRepositoryValidation
             if (!is_null($dataRepository)) {
                 unset($newCleanData['activation_token'], $newCleanData['password_hash']);
             }
-
         }
         return [
             $newCleanData,
@@ -174,33 +178,17 @@ class UserValidate extends AbstractDataRepositoryValidation
     public function validate(Collection $entityCollection, Null|Object $dataRepository = null): void
     {
         $this->doValidation(
-            $entityCollection, 
-            $dataRepository, 
-            function($key, $value, $entityCollection, $dataRepository){
-                switch ($key):
-                    case 'password_hash':
-                    case 'client_password_hash':
-                        if ($this->rules) {
-                            $this->rules->addRule("required");
-                        }
-                        break;
-                    case 'email':
-                        if ($this->rules) {
-                            $this->rules->addRule("required|email");
-                        }
-                        break;
-                    case 'firstname':
-                    case 'lastname':
-                        if ($this->rules) {
-                            $this->rules->addRule("required");
-                        }
-                        break;
-                    default:
-                        if ($entityCollection === $dataRepository) {
-                            $this->errors = Error::display('err_unchange');
-                        }
-                        break;
-                endswitch;
+            $entityCollection,
+            $dataRepository,
+            function ($key, $value, $entityCollection, $dataRepository) {
+                if ($rules = $this->rules) {
+                    return match ($key) {
+                        'password_hash', 'client_password_hash' => $rules->addRule("required"),
+                        'email' => $rules->addRule("required|email"),
+                        'firstname', 'lastname' => $rules->addRule("required"),
+                        default => NULL
+                    };
+                }
             }
         );
     }

@@ -22,12 +22,22 @@ class UserColumn extends AbstractDatatableColumn
         return [
             [
                 'db_row' => 'id',
-                'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="checkUncheckAll()">',
-                'class' => 'uk-table-shrink',
+                'dt_row' => '<div class="custom-control custom-checkbox">
+                <input class="custom-control-input" id="chkAll" type="checkbox" onclick="checkUncheckAll()">
+                <label class="custom-control-label" for="chkAll"></label>
+            </div>
+        ',
+                'class' => '',
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="user-' . $row['id'] . '" name="id" value="' . $row['id'] . '">';
+                    return '
+                    <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" name="id" id="user-' . $row['id'] . '" type="checkbox" value="' . $row['id'] . '">
+                    <label class="custom-control-label" for="user-' . $row['id'] . '"></label>
+                </div>
+            
+                    ';
                 }
             ],
             [
@@ -38,9 +48,9 @@ class UserColumn extends AbstractDatatableColumn
                 'sortable' => true,
                 'formatter' => function ($row) {
                     $html = '<div class="uk-clearfix">';
-                    $html .= '<div class="uk-float-left">';
-                    $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
-                    $html .= '</div>';
+                    // $html .= '<div class="uk-float-left">';
+                    // $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
+                    // $html .= '</div>';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<div>' . $this->getStatus($row) . '</div>';
                     $html .= '<div>' . $this->getRole($row) . '</div>';
@@ -85,7 +95,8 @@ class UserColumn extends AbstractDatatableColumn
                 'sortable' => true,
                 'formatter' => function ($row, $twigExt) {
                     $html = $twigExt->tableDateFormat($row, "created_at");
-                    $html .= '<div><small>By Admin</small></div>';
+                    //$html .= '<div><small></small></div>';
+                    $html .= '<br/><span class="badge badge-primary badge-pill">By Admin</span>';
                     return $html;
                 }
             ],
@@ -132,19 +143,34 @@ class UserColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    return $twigExt->action(
-                        [
-                            'user' => ['icon' => 'ion-person'],
-                            'file-edit' => ['icon' => 'ion-compose'],
-                            'trash' => ['icon' => 'ion-ios-trash']
-                        ],
-                        $row,
-                        $twigExt,
-                        'user',
-                        false,
-                        'Are You Sure!',
-                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['firstname']}</strong> account."
-                    );
+                    return '
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn btn-light"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-light"><i class="bi bi-trash-fill"></i></button>
+                  
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+                        <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+                      </ul>
+                    </div>
+                  </div>                    
+                  ';
+                    // return $twigExt->action(
+                    //     [
+                    //         'user' => ['icon' => 'ion-person'],
+                    //         'file-edit' => ['icon' => 'ion-compose'],
+                    //         'trash' => ['icon' => 'ion-ios-trash']
+                    //     ],
+                    //     $row,
+                    //     $twigExt,
+                    //     'user',
+                    //     false,
+                    //     'Are You Sure!',
+                    //     "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['firstname']}</strong> account."
+                    // );
                 }
             ],
 
@@ -153,7 +179,6 @@ class UserColumn extends AbstractDatatableColumn
 
     private function getRole(array $row)
     {
-
     }
 
     /**

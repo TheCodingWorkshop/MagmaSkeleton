@@ -16,9 +16,10 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Schema\UserSchema;
+use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseController;
-use App\Database\Fillables\UserFillable;
 use MagmaCore\Plugin\Test\HelloDolly;
+use App\Database\Fillables\UserFillable;
 
 class HomeController extends BaseController
 {
@@ -76,11 +77,14 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     {
-        $this->render(
-            'client/home/index.html.twig',
-            [
-                'hello_dolly' => (new HelloDolly())->pluginDeploy()
-            ]
+        // $this->render(
+        //     'client/home/index.html.twig',
+        //     [
+        //         'hello_dolly' => (new HelloDolly())->pluginDeploy()
+        //     ]
+        // );
+        $this->view(
+            'client/home/index.html', []
         );
     }
 }

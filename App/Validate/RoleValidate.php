@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Error\Error;
 use MagmaCore\Collection\Collection;
 use App\Controller\Admin\RoleController;
 use MagmaCore\ValidationRule\ValidationRule;
@@ -32,7 +31,12 @@ class RoleValidate extends AbstractDataRepositoryValidation
     protected const REDIRECT_BACK_TO = '/admin/role/index';
 
     /**
-     * Undocumented function
+     * Main class constructor. Uses the ValidateRule class has a dependency
+     * We are also declaring the $this->rules->addObject() method which takes two
+     * argument. First is a qualified namespace of the controller class which 
+     * calls this validation class and $this keyword which represents this 
+     * current object. This way we can actually get access to the controller
+     * class throw the ValidationRule object
      *
      * @param ValidationRule $rules
      * @return void
@@ -57,10 +61,11 @@ class RoleValidate extends AbstractDataRepositoryValidation
         $dataCollection = $this->mergeWithFields($entityCollection->all());
         if (null !== $dataCollection) {
             $newCleanData = [
-                'role_name' =>          $this->isSet('role_name', $dataCollection, $dataRepository),
-                'role_description' =>   $this->isSet('role_description', $dataCollection, $dataRepository),
-                'created_byid' =>       $this->getCreator($dataCollection)
+                'role_name' => $this->isSet('role_name', $dataCollection, $dataRepository),
+                'role_description' => $this->isSet('role_description', $dataCollection, $dataRepository),
+                'created_byid' => $this->getCreator($dataCollection)
             ];
+            /* We can return an empty dataBag even if we have nothing to send */
             $this->dataBag = [];
         }
         return [
@@ -87,19 +92,55 @@ class RoleValidate extends AbstractDataRepositoryValidation
      */
     public function getErrors(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
+    /**
+     * Add additonal fields
+     *
+     * @return array
+     */
     public function fields(): array
     {
         return [];
     }
 
+    /**
+     * Provides a redirect path for the validation class to use.
+     *
+     * @return string
+     */
     public function validationRedirect(): string
     {
         return sprintf('%s', self::REDIRECT_BACK_TO);
+    }
+
+    /**
+     * Return a feedback if the save button was click but no data was change or modified
+     * from the form
+     *
+     * @param Collection $entityCollection
+     * @param object $dataRepository
+     * @return void
+     */
+    private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository=null)
+    {
+        if ($dataRepository !==null) {
+            if (
+                $entityCollection['role_name'] === $dataRepository->role_name &&
+                $entityCollection['role_description'] === $dataRepository->role_description
+            ) {
+                if ($controller = $this->rules->getController()) {
+                    if ($controller->error) {
+                        $controller->error
+                            ->addError(['no_change' => 'No Changes'], $controller)
+                            ->dispatchError(self::REDIRECT_BACK_TO);
+                    }
+                }
+            }
+    
+        }
+        return null;
     }
 
     /**
@@ -111,30 +152,18 @@ class RoleValidate extends AbstractDataRepositoryValidation
      */
     public function validate(Collection $entityCollection, ?Object $dataRepository = null): void
     {
-        if (null !== $entityCollection) {
-            if (is_object($entityCollection) && $entityCollection->count() > 0) {
-                foreach ($entityCollection as $this->key => $this->value) :
-                    if (isset($this->key) && $this->key != '') :
-                        switch ($this->key):
-                            case 'role_name':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required|unique");
-                                }
-                                break;
-                            case 'role_description':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required");
-                                }
-                                break;
-                            default:
-                                if ($entityCollection === $dataRepository) {
-                                    $this->errors = Error::display('err_unchange');
-                                }
-                                break;
-                        endswitch;
-                    endif;
-                endforeach;
+        $this->doValidation(
+            $entityCollection,
+            $dataRepository,
+            function ($key, $value, $entityCollection, $dataRepository) {
+                if ($rules = $this->rules) {
+                    return match ($key) {
+                        'role_name' => $rules->addRule("required|unique"),
+                        'role_description' => $rules->addRule("required"),
+                        default => $this->throwWarningIfNoChange($entityCollection, $dataRepository)
+                    };
+                }
             }
-        }
+        );
     }
 }

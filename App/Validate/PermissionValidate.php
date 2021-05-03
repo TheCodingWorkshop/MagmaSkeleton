@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Error\Error;
 use MagmaCore\Collection\Collection;
 use MagmaCore\ValidationRule\ValidationRule;
 use App\Controller\Admin\PermissionController;
@@ -32,7 +31,12 @@ class PermissionValidate extends AbstractDataRepositoryValidation
     protected const REDIRECT_BACK_TO = '/admin/permission/index';
 
     /**
-     * Undocumented function
+     * Main class constructor. Uses the ValidateRule class has a dependency
+     * We are also declaring the $this->rules->addObject() method which takes two
+     * argument. First is a qualified namespace of the controller class which 
+     * calls this validation class and $this keyword which represents this 
+     * current object. This way we can actually get access to the controller
+     * class throw the ValidationRule object
      *
      * @param ValidationRule $rules
      * @return void
@@ -99,9 +103,36 @@ class PermissionValidate extends AbstractDataRepositoryValidation
         return sprintf('%s', self::REDIRECT_BACK_TO);
     }
 
+    /**
+     * Return a feedback if the save button was click but no data was change or modified
+     * from the form
+     *
+     * @param Collection $entityCollection
+     * @param object $dataRepository
+     * @return void
+     */
+    private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository=null)
+    {
+        if ($dataRepository !==null) {
+            if (
+                $entityCollection['permission_name'] === $dataRepository->permission_name &&
+                $entityCollection['permission_description'] === $dataRepository->permission_description
+            ) {
+                if ($controller = $this->rules->getController()) {
+                    if ($controller->error) {
+                        $controller->error
+                            ->addError(['no_change' => 'No Changes'], $controller)
+                            ->dispatchError(self::REDIRECT_BACK_TO);
+                    }
+                }
+            }
+    
+        }
+        return null;
+    }
 
     /**
-     * Validate the role data
+     * Validate the data collection fields
      *
      * @param Collection $entityCollection
      * @param Object|null $dataRepository
@@ -109,30 +140,18 @@ class PermissionValidate extends AbstractDataRepositoryValidation
      */
     public function validate(Collection $entityCollection, ?Object $dataRepository = null): void
     {
-        if (null !== $entityCollection) {
-            if (is_array($entityCollection) && $entityCollection->count() > 0) {
-                foreach ($entityCollection as $this->key => $this->value) :
-                    if (isset($this->key) && $this->key != '') :
-                        switch ($this->key):
-                            case 'permission_name':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required|unique");
-                                }
-                                break;
-                            case 'permission_description':
-                                if ($this->rules) {
-                                    $this->rules->addRule("required");
-                                }
-                                break;
-                            default:
-                                if ($entityCollection === $dataRepository) {
-                                    $this->errors = Error::display('err_unchange');
-                                }
-                                break;
-                        endswitch;
-                    endif;
-                endforeach;
+        $this->doValidation(
+            $entityCollection,
+            $dataRepository,
+            function ($key, $value, $entityCollection, $dataRepository) {
+                if ($rules = $this->rules) {
+                    return match ($key) {
+                        'permission_name' => $rules->addRule("required|unique"),
+                        'permission_description' => $rules->addRule("required"),
+                        default => $this->throwWarningIfNoChange($entityCollection, $dataRepository)
+                    };
+                }
             }
-        }
+        );
     }
 }

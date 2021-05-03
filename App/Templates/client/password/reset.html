@@ -1,0 +1,28 @@
+{% extends 'layout_auth.html' %}
+
+<!-- Block title -->
+{% block title %}Reset Password{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore reset password{% endblock %}
+<!-- Block description -->
+{% block keywords %}reset-password{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+<div class="col-lg-6">
+    <div class="p-5">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-2">Reset your Password?</h1>
+            <p class="mb-4">A new password confirmation will be sent your email address. YOu will need to activate your account again?</p>
+        </div>
+        {{ $form }}
+        <hr>
+        <div class="text-center">
+            <a class="small" href="/login">Remembered your password? Login!</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

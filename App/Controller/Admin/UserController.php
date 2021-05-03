@@ -95,15 +95,15 @@ class UserController extends AdminController
 
         // var_dump($real->all());
         // die;
-        $timeStart = microtime(true);
+        //$timeStart = microtime(true);
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
                 ->render()
                     ->with(['status' => ['pending', 'active', 'suspended', 'lock']])
                         ->table()
                             ->end();
-        $timeEnd = microtime(true);
-        print_r($timeEnd - $timeStart);
+       // $timeEnd = microtime(true);
+       // print_r($timeEnd - $timeStart);
     }
 
     /**
