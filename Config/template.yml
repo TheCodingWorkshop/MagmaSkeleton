@@ -1,5 +1,6 @@
 template:
-  file_extension: .html
+  template_ext:
+    - .html
   autoescaping: false
   cache_reset: 1800
   template_cache:

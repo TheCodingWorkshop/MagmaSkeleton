@@ -32,7 +32,7 @@ class DataValidatorController extends BaseController
     {
         $isValid = !$this->repository->check($name);
         header('Content-Type: application/json');
-        eacho json_encode($isValid);
+        echo json_encode($isValid);
     }
 
 }

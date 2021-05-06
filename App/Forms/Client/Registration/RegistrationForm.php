@@ -31,20 +31,17 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
      */
     public function createForm(string $action, $dataRepository = null)
     {
-        return $this->form(['action' => $action, 'class' => 'user'])
-
-            ->add([TextType::class => ['name' => 'firstname', 'class' => ['form-control-user', 'form-control'], 'placeholder' => 'First Name']], null, ['show_label' => false])
-            ->add([TextType::class => ['name' => 'lastname', 'placeholder' => 'Last Name', 'class' => ['form-control-user', 'form-control'],]], null, ['show_label' => false])
-
-            ->add([EmailType::class => ['name' => 'email', 'placeholder' => 'Email Address', 'class' => ['form-control-user', 'form-control'],]], null, ['show_label' => false])
-            ->add([PasswordType::class => ['name' => 'client_password_hash','autocomplete' => 'new-password', 'required' => true, 'placeholder' => 'Password', 'class' => ['form-control-user', 'form-control'],]], null, ['show_label' => false])
-
-            ->add([HiddenType::class => ['name' => 'role_id', 'value' => '2']], null, ['show_label' => false])
-
-            ->add([SubmitType::class => ['name' => 'register-registration', 'value' => 'Register Account', 'class' => 'btn btn-primary btn-user btn-block']], 
+        return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
+            ->add([TextType::class => ['name' => 'firstname']], null)
+            ->add([TextType::class => ['name' => 'lastname']], null)
+            ->add([EmailType::class => ['name' => 'email', 'class' => ['uk-input', 'uk-form-medium']]], null)
+            ->add([PasswordType::class => ['name' => 'client_password_hash','autocomplete' => 'new-password', 'required' => true]], null, ['new_label' => 'Password'])
+            ->add([HiddenType::class => ['name' => 'role_id', 'value' => '2']])
+            ->add([SubmitType::class => ['name' => 'register-registration', 'value' => 'Register new account', 'class' => 'uk-button uk-button-primary']], 
             null, 
-            ['show_label' => false, 'before_after_wrapper' => false])
-        ->build(['before' => '<div class="form-group">', 'after' => '</div>']);
+            ['show_label' => false, 'before_after_wrapper' => false]
+        )
+        ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 
     }
 

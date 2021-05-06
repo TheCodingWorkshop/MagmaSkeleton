@@ -8,25 +8,44 @@
 {% block keywords %}register, create an account{% endblock %}
 <!-- Block description -->
 {% block author %}Ricardo Miller{% endblock %}
-
 <!-- Start content header -->
-{% block content_title %}<span>Manage User</span>{% endblock %}
-<!-- Content tagline-->
-{% block content_tagline %}There are 123 currently registered users{% endblock %}
+{% block content_header %}${ title }{% endblock %}
 
 <!-- start content-->
 {% block content %}
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">User Manager</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            {{ $table }}
+<section>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <form method="POST" action="">
+                        {{ $table }}
+                    </form>
+                </div>
+            </div>
+            {@ templateExtension('uikit_pagination') @}
         </div>
     </div>
-</div>
-<div>
-    {{ $pagination }}
-</div>
+</section>
+
+{% endblock %}
+<!--  -->
+{% block extended_js %}
+<script>
+    const app = Vue.createApp({
+        delimiters: ['${', '}'],
+        data() {
+            return {
+                title: 'User Manager',
+                header: 'Users'
+            }
+        },
+        method: {
+            fetchData: function() {
+
+            }
+        }
+    })
+    app.mount('#application')
+</script>
 {% endblock %}

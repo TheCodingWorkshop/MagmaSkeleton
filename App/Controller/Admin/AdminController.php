@@ -56,6 +56,7 @@ class AdminController extends BaseController
                 'bulkDeleteAction' => \MagmaCore\Base\Domain\Actions\BulkDeleteAction::class,
                 'indexAction' => \MagmaCore\Base\Domain\Actions\IndexAction::class,
                 'showAction' => \MagmaCore\Base\Domain\Actions\ShowAction::class,
+                'apiResponse' => \MagmaCore\RestFul\RestHandler::class
 
             ]
         );

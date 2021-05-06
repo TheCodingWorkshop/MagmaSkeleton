@@ -81,7 +81,7 @@ class DashboardController extends AdminController
         echo 'Memory Usage: ' . $this->convert($usage) . "<br>";
         echo 'Peak Usage: ' . $this->convert($peakUsage) . "<br>";*/
         $this->render(
-            'admin/dashboard/index.html.twig',
+            'admin/dashboard/index.html',
             [
                 "this" => $this
             ] 

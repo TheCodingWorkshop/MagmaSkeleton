@@ -12,13 +12,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use LoaderError;
-use SyntaxError;
-use RuntimeError;
 use App\Entity\UserEntity;
 use App\Schema\UserSchema;
 use App\Event\UserActionEvent;
-use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserController extends AdminController
@@ -83,8 +79,6 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function indexAction()
     {
@@ -93,17 +87,12 @@ class UserController extends AdminController
         //         ->manyToMany('id', 'permission_name', ['id', 'role_name'])
         //             ->fetchAsCollection();
 
-        // var_dump($real->all());
-        // die;
-        //$timeStart = microtime(true);
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
                 ->render()
                     ->with(['status' => ['pending', 'active', 'suspended', 'lock']])
                         ->table()
                             ->end();
-       // $timeEnd = microtime(true);
-       // print_r($timeEnd - $timeStart);
     }
 
     /**
@@ -112,8 +101,6 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function showAction()
     {
@@ -132,8 +119,6 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function newAction()
     {
@@ -152,8 +137,6 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function editAction()
     {
@@ -173,8 +156,6 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function deleteAction()
     {
@@ -190,8 +171,6 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function bulkAction()
     {
@@ -205,8 +184,25 @@ class UserController extends AdminController
      *
      * @return Response
      * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     */
+    protected function notificationsAction()
+    {
+        $this->newAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->form($this->formUser)
+                            ->end();
+    }
+
+
+
+    /**
+     * The perferences action request. is responsible for updating setting and updating
+     * user perferences whatever that might be
+     *
+     * @return Response
+     * @throws LoaderError
      */
     protected function perferencesAction()
     {

@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 <!-- Block title -->
-{% block title %}Create An Account{% endblock %}
+{% block title %}Security{% endblock %}
 <!-- Block description -->
 {% block description %}MagmaCore create an account{% endblock %}
 <!-- Block description -->
@@ -22,16 +22,15 @@
     <div class="row">
         <div class="col-xl-8">
             <div class="card mb-4">
-                <div class="card-header">Account Details</div>
+                <div class="card-header">Change Password</div>
                 <div class="card-body">
-                    {{ $form }}
                 </div>
             </div>
         </div>
         <div class="col-xl-4">
             <!-- Profile picture card-->
             <div class="card">
-                <div class="card-header">Profile Picture</div>
+                <div class="card-header">Two Factor Authentication</div>
                 <div class="card-body text-center">
                     <!-- Profile picture image-->
                     <img class="img-account-profile rounded-circle mb-2" src="/public/assets/images/illustrations/profiles/profile-1.png" alt />
@@ -45,4 +44,6 @@
 
     </div>
 </div>
-{% endblock %} {% block js %} {% endblock %}
+{% endblock %}
+<!-- template JS -->
+{% block js %} {% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Create An Account{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore create an account{% endblock %}
+<!-- Block description -->
+{% block keywords %}register, create an account{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- Start content header -->
+{% block content_title %}<span>Manage Roles</span>{% endblock %}
+<!-- Content tagline-->
+{% block content_tagline %}There are 2 created roles{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Roles Manager</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {{ $table }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,59 +1,78 @@
-{% include '_partials/_header.html' %}
+<!DOCTYPE html>
+<html lang="{{ $app['settings']['default_locale'] }}">
 
-<body class="font-weight-bold" id="page-top">
+<head>
+    <title>{% yield title %}</title>
+    <meta charset="{{ $app['settings']['default_charset'] }}">
+    <meta name="description" content="{% yield description %}">
+    <meta name="keywords" content="{% yield keywords %}">
+    <meta name="author" content="{% yield author %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Main Styling -->
+    {@ addcss(['uikit/uikit.min', 'uikit/style', 'uikit/notyf.min', 'uikit/all.min']) @}
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+</head>
 
-        <!-- Sidebar -->
-        {% include 'sidebar.html' %}
-        <!-- End of Sidebar -->
+<body class="uk-text-bold uk-text-emphasis">
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                {% include 'navbar.html' %}
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    {% include '_partials/_content_header.html' %}
-                    <!-- end-->
-
-                    {% yield content %}
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            {% include 'footer.html' %}
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
+    {% include '_partials/_nav_header.html' %}
+    <div id="sidebar" class="tm-sidebar-left uk-background-default">
+        {% include '_partials/_sidebar_profile.html' %}
+        <!-- Main sidebar -->
+        {% include '_partials/_sidebar.html' %}
     </div>
-    <!-- End of Page Wrapper -->
+    <main id="application">
+        <div class="content-padder content-background">
+            <div class="uk-section-small uk-section-default header">
+                <div class="uk-container uk-container-large">
+                    <nav class="uk-navbar uk-margin" uk-navbar>
+                        <div class="uk-navbar-left">
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="bi bi-chevron-up"></i>
-    </a>
+                            <a class="uk-navbar-item uk-logo uk-text-large uk-text-muted" href="/admin/user/index"><span class="ion-person"></span> User Manager</a>
 
-    <!-- Logout Modal-->
-    {% include '_partials/_logout_modal.html' %}
-    <!-- end-->
+                            <ul class="uk-navbar-nav">
+                                <li class="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                            </ul>
 
-    {@ addjs(['jquery.min', 'bootstrap.bundle.min', 'jquery.easing.min', 'sb-admin-2.min']) @}
+                        </div>
+                        <div class="uk-navbar-right">
+
+                            <div>
+                                <a class="uk-navbar-toggle uk-text-muted" uk-search-icon href="#"></a>
+                                <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1">
+                                        <input class="uk-search-input" type="search" placeholder="Search" autofocus>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="uk-section-small">
+                <div class="uk-container uk-container-large">
+                    {% yield content %}
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <!-- Load More Javascript -->
+    {@ addjs(['uikit/jquery.min', 'uikit/uikit.min', 'uikit/uikit-icons.min', 'uikit/sidebar', 'uikit/all.min']) @}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js" integrity="sha256-rqEXy4JTnKZom8mLVQpvni3QHbynfjPmPxQVsPZgmJY=" crossorigin="anonymous"></script>
+    {% yield extended_js %}
 </body>
 
 </html>
