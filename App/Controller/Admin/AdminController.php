@@ -50,12 +50,15 @@ class AdminController extends BaseController
         $this->diContainer(
             [
                 'tableGrid' => Datatable::class,
+                'controllerSettings' => \App\Forms\Admin\Controller\ControllerSettingsForm::class,
+                'controllerRepository' => \App\Model\ControllerSettingsModel::class,
                 'newAction' => \MagmaCore\Base\Domain\Actions\NewAction::class,
                 'editAction' => \MagmaCore\Base\Domain\Actions\EditAction::class,
                 'deleteAction' => \MagmaCore\Base\Domain\Actions\DeleteAction::class,
                 'bulkDeleteAction' => \MagmaCore\Base\Domain\Actions\BulkDeleteAction::class,
                 'indexAction' => \MagmaCore\Base\Domain\Actions\IndexAction::class,
                 'showAction' => \MagmaCore\Base\Domain\Actions\ShowAction::class,
+                'settingsAction' => \MagmaCore\Base\Domain\Actions\SettingsAction::class,
                 'apiResponse' => \MagmaCore\RestFul\RestHandler::class
 
             ]
@@ -132,4 +135,5 @@ class AdminController extends BaseController
         }
         return false;
     }
+
 }

@@ -12,24 +12,23 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use date;
+use array_map;
+use serialize;
+use array_merge;
+use get_browser;
+use array_reduce;
 use MagmaCore\Auth\Authorized;
-use App\Event\LoginActionEvent;
+use App\Event\LogoutActionEvent;
 use App\Model\UserMetaDataModel;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
-
-use array_reduce;
-use array_map;
-use array_merge;
-use get_browser;
-use date;
-use serialize;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
  * protected constant
  */
-class LoginActionSubscriber implements EventSubscriberInterface
+class LogoutActionSubscriber implements EventSubscriberInterface
 {
 
     use EventDispatcherTrait;
@@ -45,7 +44,6 @@ class LoginActionSubscriber implements EventSubscriberInterface
      * load other routes for flashing
      * @var int
      */
-    protected const INDEX_ACTION = 'index';
     protected const LOGOUT_ACTION = 'logout';
 
     /**
@@ -58,10 +56,9 @@ class LoginActionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            LoginActionEvent::NAME => [
+            LogoutActionEvent::NAME => [
                 ['flashLoginEvent', self::FLASH_MESSAGE_PRIOIRTY],
-                ['afterLogin'],
-                ['afterLogout']
+                //['afterLogout']
             ]
         ];
     }
@@ -74,12 +71,12 @@ class LoginActionSubscriber implements EventSubscriberInterface
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
      * 
-     * @param Object $event
+     * @param LogoutActionEvent $event
      * @param string $msg
      * @param string|null $redirect
      * @return void
      */
-    public function flashLoginEvent(LoginActionEvent $event)
+    public function flashLoginEvent(LogoutActionEvent $event)
     {
         $this->flashingEvent(
             $event,
@@ -100,43 +97,10 @@ class LoginActionSubscriber implements EventSubscriberInterface
      * Log a user after they've successfully logged in. We are also logging failed
      * login attempts with timestamps
      *
-     * @param LoginActionEvent $event
+     * @param LogoutActionEvent $event
      * @return void
      */
-    public function afterLogin(LoginActionEvent $event)
-    {
-        if ($this->onRoute($event, self::INDEX_ACTION)) {
-            if ($event) {
-                $user = $event->getContext();
-                if ($user) {
-                    $value = array_unique(
-                        array_reduce(array_map('array_values', $user), 'array_merge', [])
-                    );
-                    $logLogin = ['last_login' => date('Y-m-d H:i:s'), 'login_from' => $_SERVER['HTTP_REFERER']];
-                    $userLog = new UserMetaDataModel();
-                    $userLog->getRepo()
-                        ->getEm()
-                        ->getCrud()
-                        ->update(
-                            [
-                                'user_id' => (isset($value[0]) ? $value[0] : false),
-                                'login' => serialize($logLogin)
-                            ],
-                            'user_id'
-                        );
-                }
-            }
-        }
-    }
-
-    /**
-     * Log a user after they've successfully logged in. We are also logging failed
-     * login attempts with timestamps
-     *
-     * @param LoginActionEvent $event
-     * @return void
-     */
-    public function afterLogout(LoginActionEvent $event)
+    public function afterLogout(LogoutActionEvent $event)
     {
         if ($this->onRoute($event, self::LOGOUT_ACTION)) {
             if ($event) {

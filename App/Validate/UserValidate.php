@@ -62,14 +62,13 @@ class UserValidate extends AbstractDataRepositoryValidation
      */
     public function validateBeforePersist(Collection $entityCollection, Null|object $dataRepository = null)
     {
-
         $newCleanData = [];
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields($entityCollection->all());
         if (null !== $dataCollection) {
             $email = $this->isSet('email', $dataCollection, $dataRepository);
             list($tokenHash, $activationHash) = (new HashGenerator())->hash();
-            $enCollect = $entityCollection;
+            //$enCollect = $entityCollection;
             $newCleanData = [
                 'firstname' => $this->isSet('firstname', $dataCollection, $dataRepository),
                 'lastname' => $this->isSet('lastname', $dataCollection, $dataRepository),
@@ -80,8 +79,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                 'created_byid' => $this->getCreator($dataCollection) ?? 0,
                 'gravatar' => GravatarGenerator::setGravatar($email),
                 'remote_addr' => ClientIP::getClientIp()
-            ];
-
+            ];    
 
             /* Settings additional data which will get merge with the dataBag */
             $this->dataBag['activation_hash'] = $activationHash;
@@ -99,6 +97,7 @@ class UserValidate extends AbstractDataRepositoryValidation
             if (!is_null($dataRepository)) {
                 unset($newCleanData['activation_token'], $newCleanData['password_hash']);
             }
+
         }
         return [
             $newCleanData,

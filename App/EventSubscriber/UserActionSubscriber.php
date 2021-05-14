@@ -12,13 +12,14 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Model\UserRoleModel;
 use MagmaCore\Base\BaseView;
 use App\Event\NewActionEvent;
 use App\Event\UserActionEvent;
+use App\Model\UserMetaDataModel;
 use MagmaCore\Mailer\MailerFacade;
-use App\Model\UserRoleModel;
-use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
+use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -61,6 +62,7 @@ class UserActionSubscriber implements EventSubscriberInterface
             UserActionEvent::NAME => [
                 ['flashUserEvent', self::FLASH_MESSAGE_PRIOIRTY],
                 ['assignedUserRole'],
+                ['createUserLog'],
                 ['sendActivationEmail'],
             ]
         ];
@@ -105,15 +107,16 @@ class UserActionSubscriber implements EventSubscriberInterface
                         'New Account',
                         'admin@example.com',
                         $user['email'],
-                        (new BaseView())->getTemplate(
-                            'client/registration/email_template.html.twig',
-                            [
-                                'activation_link' => $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']),
-                                'accountee_name' => $user['firstname'] . " " . $user['lastname'],
-                                'website' => 'LavaStudio',
-                                'random_pass' => $user['random_pass'] ? $user['random_pass'] : []
-                            ]
-                        )
+                        'testing'
+                        // (new BaseView())->templateRender(
+                        //     'client/registration/email_template.html',
+                        //     [
+                        //         'activation_link' => $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']),
+                        //         'accountee_name' => $user['firstname'] . " " . $user['lastname'],
+                        //         'website' => 'LavaStudio',
+                        //         'random_pass' => $user['random_pass'] ? $user['random_pass'] : []
+                        //     ]
+                        // )
                     );
                     if ($mail) {
                         return true;
@@ -123,6 +126,45 @@ class UserActionSubscriber implements EventSubscriberInterface
             //$event->stopPropgation();
         }
         
+    }
+
+    /**
+     * Initialize a user log when a brand new user is created. Either from the
+     * admin panel or created from the application front end. User log contains
+     * meta data ie snail trail of a user activitie across the application
+     *
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function createUserLog(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::NEW_ACTION) || $this->onRoute($event, self::REGISTER_ACTION)) {
+            if ($event) {
+                $user = $event->getContext();
+                if ($user) {
+                    $userLog = new UserMetaDataModel();
+                    if ($userLog) {
+                        $onLogin = ['last_login' => NULL, 'login_from' => NULL];
+                        $onLogout = ['last_logout' => NULL, 'logout_from' => NULL];
+                        $onBruteForce = ['failed_logins' => NULL, 'failed_login_timestamp' =>NULL];
+                        $push = $userLog->getRepo()
+                            ->getEm()
+                            ->getCrud()
+                            ->create(
+                                [
+                                    'user_id' => $user['last_id'],
+                                    'user_browser' => serialize(get_browser()),
+                                    'login' => serialize($onLogin),
+                                    'logout' => serialize($onLogout),
+                                    'brute_force' => serialize($onBruteForce)        
+                                ]
+                            );
+
+                        return ($push) ? true : false;
+                    }
+                }
+            }
+        }
     }
 
     /**

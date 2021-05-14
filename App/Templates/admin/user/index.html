@@ -1,51 +1,34 @@
 {% extends 'layout.html' %}
 
-<!-- Block title -->
-{% block title %}Create An Account{% endblock %}
-<!-- Block description -->
+<!-- title -->
+{% block title %}User Listings{% endblock %}
+<!-- description -->
 {% block description %}MagmaCore create an account{% endblock %}
-<!-- Block description -->
+<!-- keywords -->
 {% block keywords %}register, create an account{% endblock %}
-<!-- Block description -->
-{% block author %}Ricardo Miller{% endblock %}
-<!-- Start content header -->
-{% block content_header %}${ title }{% endblock %}
+<!-- commander bar -->
+{% block commander_bar %}{{ $commanderBar }}{% endblock %}
 
 <!-- start content-->
 {% block content %}
 <section>
     <div class="uk-width-expand@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    <form method="POST" action="">
-                        {{ $table }}
-                    </form>
+        <turbo-frame id="table_grid_paging_sorting">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        <form method="POST" action="">
+                            {{ $table }}
+                        </form>
+
+                    </div>
                 </div>
+                {@ templateExtension('uikit_pagination') @}
             </div>
-            {@ templateExtension('uikit_pagination') @}
-        </div>
+        </turbo-frame>
     </div>
 </section>
 
 {% endblock %}
 <!--  -->
-{% block extended_js %}
-<script>
-    const app = Vue.createApp({
-        delimiters: ['${', '}'],
-        data() {
-            return {
-                title: 'User Manager',
-                header: 'Users'
-            }
-        },
-        method: {
-            fetchData: function() {
-
-            }
-        }
-    })
-    app.mount('#application')
-</script>
-{% endblock %}
+{% block extended_js %} {% endblock %}

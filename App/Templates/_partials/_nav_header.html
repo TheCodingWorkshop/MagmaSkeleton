@@ -4,20 +4,21 @@
             <div class="uk-navbar-left">
                 <a id="sidebar_toggle" class="uk-navbar-toggle" uk-navbar-toggle-icon></a>
                 <a href="#" class="uk-navbar-item uk-logo">
-                        UI Admin
+                        LavaStudio
                     </a>
             </div>
             <div class="uk-navbar-right uk-light">
-                <ul class="uk-navbar-nav">
+                <ul class="uk-navbar-nav" style="z-index: 9999;">
                     <li class="uk-active">
-                        <a href="#">Èrik &nbsp;<span class="ion-ios-arrow-down"></span></a>
+                        {% if (isset($current_user)): %}
+                        <a href="/admin/profile/{{ $current_user->id }}/profile">Èrik &nbsp;<span class="ion-ios-arrow-down"></span></a> {% endif; %}
                         <div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                 <li class="uk-nav-header">Options</li>
                                 <li><a href="#">Edit Profile</a></li>
                                 <li class="uk-nav-header">Actions</li>
                                 <li><a href="#">Lock</a></li>
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="/logout">Logout</a></li>
                             </ul>
                         </div>
                     </li>

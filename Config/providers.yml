@@ -16,3 +16,5 @@ global:
   \MagmaCore\Session\GlobalManager\GlobalManager
 flatDb:
   \MagmaCore\DataObjectLayer\FileStorageRepository\FileStorage
+controllerSettingsModel:
+  \App\Model\ControllerSettingsModel

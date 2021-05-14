@@ -17,15 +17,17 @@ use MagmaCore\Datatable\AbstractDatatableColumn;
 class UserColumn extends AbstractDatatableColumn
 {
 
-    public function columns(array $dbColumns = []): array
+    public function columns(array $dbColumns = [], object|null $callingController = null): array
     {
         return [
             [
-                'db_row' => 'id',
-                'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
+                'db_row' => 'ID',
+                //'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
+                'dt_row' => 'ID',
                 'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
+                'searchable' => true,
                 'formatter' => function ($row) {
                     return '<input type="checkbox" class="uk-checkbox" id="users" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
                 }
@@ -36,6 +38,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => 'uk-table-expand',
                 'show_column' => true,
                 'sortable' => true,
+                'searchable' => true,
                 'formatter' => function ($row) {
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left">';
@@ -59,6 +62,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
+                'searchable' => true,
                 'formatter' => ''
             ],
             [
@@ -67,6 +71,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => ''
             ],
             [
@@ -75,6 +80,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => ''
             ],
             [
@@ -83,10 +89,10 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    $html = $twigExt->tableDateFormat($row, "created_at");
-                    //$html .= '<div><small></small></div>';
-                    $html .= '<br/><span class="badge badge-primary badge-pill">By Admin</span>';
+                    $html = $twigExt->tableDateFormat($row, "created_at", true);
+                    $html .= '<br/><small>By Admin</small>';
                     return $html;
                 }
             ],
@@ -96,11 +102,12 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
                     $html = '';
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
                         //$html .= "$twig->getUserById($row[$row_name]);"
-                        $html .= $twigExt->tableDateFormat($row, "modified_at");
+                        $html .= $twigExt->tableDateFormat($row, "modified_at", true);
                         $html .= '<div><small>By Admin</small></div>';
                     } else {
                         $html .= '<small>Never!</small>';
@@ -114,6 +121,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => ''
             ],
             [
@@ -122,6 +130,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
                     return '<span class="ion-location ion-24" uk-tooltip="' . $row["remote_addr"] . '"></span>';
                 }
@@ -132,12 +141,21 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
                     return $twigExt->action(
                         [
-                            'user' => ['icon' => 'ion-person'],
-                            'file-edit' => ['icon' => 'ion-compose'],
-                            'trash' => ['icon' => 'ion-ios-trash']
+                            'more' => [
+                                'icon' => 'ion-more',
+                                'callback' => function ($row, $twigExt) {
+                                    return $twigExt->getDropdown(
+                                        $this->itemsDropdown($row), 
+                                        $this->getDropdownStatus($row),
+                                        $row,
+                                        'user'
+                                    );
+                                }
+                            ],
                         ],
                         $row,
                         $twigExt,
@@ -150,6 +168,56 @@ class UserColumn extends AbstractDatatableColumn
             ],
 
         ];
+    }
+
+    private function getDropdownStatus(array $row): string
+    {
+        $stat = '';
+        if ($row['status'] === 'pending') {
+            $stat = 'Not Activated';
+        } elseif ($row['status'] === 'active') {
+            $stat = 'account active';
+        }
+
+        return $stat;
+
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $row
+     * @return array
+     */
+    private function itemsDropdown($row): array
+    {
+        $items = [
+            'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
+            'show' => ['name' => 'show','icon' => 'eye-outline'],
+            'clone' => ['name' => 'clone', 'icon' => 'copy-outline'],
+            'lock' => ['name' => 'lock account', 'icon' => 'lock-closed-outline'],
+            'trash' => ['name' => 'trash account', 'icon' => 'trash-bin-outline']
+        ];
+        return array_map(
+            fn($key, $value) => array_merge(['path' => $this->adminPath($row, $key)], $value), 
+            array_keys($items), $items
+        );
+    }
+
+    /**
+     * Return the generated path for the the current routes array defined
+     *
+     * @param array $row
+     * @param string|null $path
+     * @return string
+     */
+    private function adminPath(array $row, ?string $path = null): string
+    {
+        if ($path !==null) {
+            return "/admin/user/{$row['id']}/{$path}";
+        } else {
+            return "/admin/user/index";
+        }
     }
 
     private function getRole(array $row)

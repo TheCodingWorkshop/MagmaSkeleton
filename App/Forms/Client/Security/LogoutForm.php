@@ -7,16 +7,32 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace App\Forms\Client\Security;
 
-use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\Type\SubmitType;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
+use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class LogoutForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
+
+	/** @var FormBuilderBlueprintInterface $blueprint */
+	private FormBuilderBlueprintInterface $blueprint;
+
+	/**
+	 * Main class constructor
+	 *
+	 * @param FormBuilderBlueprint $blueprint
+	 * @return void
+	 */
+	public function __construct(FormBuilderBlueprint $blueprint)
+	{
+		$this->blueprint = $blueprint;
+	}
 
 	/**
 	 * Construct the security login form. The attribute name='{string}' must match 
@@ -27,10 +43,18 @@ class LogoutForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 * @param Object|null $Repository
 	 * @return void
 	 */
-    public function createForm(string $action,?Object $repository = null) 
+	public function createForm(string $action, ?Object $repository = null)
 	{
-		return $this->form(['action' => $action, 'class' => 'uk-display-inline']) 
-		->add([SubmitType::class => ['name' => 'logout-security', 'value' => 'Continue', 'class' => ['uk-button', 'uk-button-large', 'uk-button-primary']]], null, ['show_label' => false])
-		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
-	} 
+		return $this->form(['action' => $action, 'class' => 'uk-display-inline'])
+			->add(
+				$this->blueprint->submit(
+					'logout-security',
+					['uk-button', 'uk-button-primary'],
+					'Logout'
+				),
+				null,
+				$this->blueprint->settings(false, null, false, null, true, null)
+			)
+			->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+	}
 }

@@ -1,48 +1,56 @@
 {% extends 'layout.html' %}
 
-<!-- Block title -->
+<!-- title -->
 {% block title %}Create An Account{% endblock %}
-<!-- Block description -->
+<!-- description -->
 {% block description %}MagmaCore create an account{% endblock %}
-<!-- Block description -->
+<!-- keywords -->
 {% block keywords %}new-account, create-new{% endblock %}
-<!-- Block description -->
-{% block author %}Ricardo Miller{% endblock %}
-
-<!-- Start content header -->
-{% block content_title %}<span>Create New User</span>{% endblock %}
-<!-- Content tagline-->
-{% block content_tagline %}{% endblock %}
+<!-- commander -->
+{% block commander_bar %}{{ $commanderBar }}{% endblock %}
 
 <!-- start content-->
 {% block content %}
-<div class="container mt-4">
-
-    {% include 'admin/user/page_nav.html' %}
-    <div class="row">
-        <div class="col-xl-8">
-            <div class="card mb-4">
-                <div class="card-header">Account Details</div>
-                <div class="card-body">
-                    {{ $form }}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="user_form">
+                        {{ $form }}
+                    </turbo-frame>
+                    <turbo-stream action="append" target="flash_messages">
+                        <template>
+                            <div>{@ templateExtension('uikit_flash_message') @}</div>
+                        </template>
+                    </turbo-stream>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4">
-            <!-- Profile picture card-->
-            <div class="card">
-                <div class="card-header">Profile Picture</div>
-                <div class="card-body text-center">
-                    <!-- Profile picture image-->
-                    <img class="img-account-profile rounded-circle mb-2" src="/public/assets/images/illustrations/profiles/profile-1.png" alt />
-                    <!-- Profile picture help block-->
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                    <!-- Profile picture upload button-->
-                    <button class="btn btn-primary" type="button">Upload new image</button>
-                </div>
-            </div>
-        </div>
-
     </div>
-</div>
-{% endblock %} {% block js %} {% endblock %}
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <div class="uk-margin">
+                    <div class="uk-form-label"></div>
+                    <div class="uk-form-controls">
+                        <label><input class="uk-radio" type="radio" name="radio1"> Subscriber</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Superadmin</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Administrator</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Contributor</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Developer</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Editor</label><br>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

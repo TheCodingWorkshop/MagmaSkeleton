@@ -16,17 +16,17 @@ services:
         App\Controller\RegistrationController::registerAction:
           msg: Your account was created!
 
-    account.subscriber:
-      class: \App\EventSubscriber\UserActionSubscriber
-      props:
-        - {}
-      register_route_feedback:
-        App\Controller\Profile\AccountController::nameAction:
-          msg: You've successfully updated your name!
-        App\Controller\Profile\AccountController::emailAction:
-          msg: You've successfully updated your email address!
-        App\Controller\Profile\AccountController::passwordAction:
-          msg: You've successfully updated your password!
+    # account.subscriber:
+    #   class: \App\EventSubscriber\UserActionSubscriber
+    #   props:
+    #     - {}
+    #   register_route_feedback:
+    #     App\Controller\Profile\AccountController::nameAction:
+    #       msg: You've successfully updated your name!
+    #     App\Controller\Profile\AccountController::emailAction:
+    #       msg: You've successfully updated your email address!
+    #     App\Controller\Profile\AccountController::passwordAction:
+    #       msg: You've successfully updated your password!
 
     role.subscriber:
       class: \App\EventSubscriber\RoleActionSubscriber
@@ -62,6 +62,15 @@ services:
         App\Controller\SecurityController::logoutAction:
           msg: You've successfully logged out!
 
+    security_logout.subscriber:
+      class: \App\EventSubscriber\LogoutActionSubscriber
+      props:
+        - {}
+      register_route_feedback:
+        App\Controller\SecurityController::logoutAction:
+          msg: You've successfully logged out!
+
+
     password.subscriber:
       class: \App\EventSubscriber\PasswordActionSubscriber
       props:
@@ -79,14 +88,23 @@ services:
       register_route_feedback:
         App\Controller\ActivateController::activateAction:
           msg: You're now activated
-    registration.subscriber:
-      class: \App\EventSubscriber\UserActionSubscriber
+
+    controllerSettings.subscriber:
+      class: \App\EventSubscriber\ControllerSettingsActionSubscriber
       props:
         - {}
       register_route_feedback:
-        App\Controller\RegistrationController::registerAction:
-          msg: You're now registered
-          redirect: /registration/registered
+        App\Controller\UserController::settingsAction:
+          msg: Changes Saved
+
+    # registration.subscriber:
+    #   class: \App\EventSubscriber\UserActionSubscriber
+    #   props:
+    #     - {}
+    #   register_route_feedback:
+    #     App\Controller\RegistrationController::registerAction:
+    #       msg: You're now registered
+    #       redirect: /registration/registered
 
   listeners:
     my.listener1:

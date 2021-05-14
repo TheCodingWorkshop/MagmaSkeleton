@@ -1,0 +1,96 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Show Account{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore edit an account{% endblock %}
+<!-- Block description -->
+{% block keywords %}show-account, show-user{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+<!-- commander bar -->
+{% block commander_bar %}{{ $commanderBar }}{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <dl class="uk-description-list uk-description-list-divider">
+                        <dt>{@ locale('firstname') @}</dt>
+                        <dd>{{{ $row['firstname'] }}} (Subscriber)</dd>
+                        <dt>{@ locale('lastname') @}</dt>
+                        <dd>{{{ $row['lastname'] }}}</dd>
+                        <dt>{@ locale('email') @}</dt>
+                        <dd>{{{ $row['email'] }}}</dd>
+                        <dt>{@ locale('status') @}</dt>
+                        <dd>{{{ $row['status'] }}}</dd>
+                        <small class="uk-text-danger">
+                            {@ locale('account_still_pending') @}
+                        </small><br />
+                        <button type="submit" name="send-user-reminder" class="uk-button uk-button-danger uk-button-small">{@ locale('resend') @}</button> <small>{@ locale('resend_activation') @}</small>
+                        <dt>{@ locale('created') @}</dt>
+                        <dd>{@ formatDate($row['created_at']) @}</dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+
+                    <dt>{@ locale('last_login') @}</dt>
+                    <dd>
+                        {% if (isset($user_log[0]['last_login'])): %} {@ formatDate($user_log[0]['last_login']) @} {% else : %}
+                        <span>{@ locale('data_unavailable') @}!</span> {% endif; %}
+                    </dd>
+
+                    <dt>{@ locale('failed_logins') @}</dt>
+                    <dd>
+                        {% if (isset($user_log[2]['failed_logins'])): %} {{{ $user_log[2]['failed_login'] }}}
+                        <span>Failed Login</span> {% endif; %} {{{ $user_log[2]['failed_logins'] ?? '0 Failed Logins' }}}
+                        <!--  -->
+                        {% if (isset($user_log[2]['failed_login_timestamp'])): %}
+                        <small>{@ formatDate($user_log[2]['failed_login_timestamp']) @}</small>
+                        <!--  -->
+                        {% endif; %}
+                    </dd>
+                </dl>
+                <ul uk-tab>
+                    <li><a href="#">{@ locale('history') @}</a></li>
+                    <li><a href="#">{@ locale('recent_activity') @}</a></li>
+                    <li><a href="#">{@ locale('notes') @}</a></li>
+                </ul>
+
+                <ul class="uk-switcher uk-margin">
+                    <li>{@ locale('not_enough_data') @}
+                        <ion-icon name="help-outline"></ion-icon>
+                    </li>
+                    <li>{@ locale('not_enough_data') @}.
+                        <ion-icon name="help-outline"></ion-icon>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-bullet">
+                            <li><a href="#" class="uk-link-reset">Issue logging in</a> [log 1d ago @ 15:46]</li>
+                            <li><a href="#" class="uk-link-reset">Change user password</a> [log 1d ago @ 15:46]</li>
+                            <li><a href="#" class="uk-link-reset">User account locked</a> [log 1d ago @ 15:46]</li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

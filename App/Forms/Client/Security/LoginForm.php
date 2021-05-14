@@ -12,15 +12,27 @@ declare(strict_types=1);
 
 namespace App\Forms\Client\Security;
 
-use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\Type\PasswordType;
-use MagmaCore\FormBuilder\Type\CheckboxType;
-use MagmaCore\FormBuilder\Type\SubmitType;
-use MagmaCore\FormBuilder\Type\EmailType;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
+use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
+
+	/** @var FormBuilderBlueprintInterface $blueprint */
+	private FormBuilderBlueprintInterface $blueprint;
+
+	/**
+	 * Main class constructor
+	 *
+	 * @param FormBuilderBlueprint $blueprint
+	 * @return void
+	 */
+	public function __construct(FormBuilderBlueprint $blueprint)
+	{
+		$this->blueprint = $blueprint;
+	}
 
 	/**
 	 * Construct the security login form. The attribute name='{string}' must match 
@@ -28,16 +40,47 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 * any method checking if the form canHandleRequest and isSubmittable
 	 *
 	 * @param string $action
-	 * @param Object|null $Repository
+	 * @param object|null $userRepository
 	 * @return void
 	 */
-	public function createForm(string $action, ?Object $repository = null)
+	public function createForm(string $action, ?Object $userRepository = null)
 	{
 		return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
-			->add([EmailType::class => ['name' => 'email']], null, ['show_label' => false])
-			->add([PasswordType::class => ['name' => 'password_hash']], null, ['show_label' => false])
-			->add([CheckboxType::class => ['name' => 'remember_me', 'value' => false]], null, ['show_label' => false, 'checkbox_label' => 'Remember Me'])
-			->add([SubmitType::class => ['name' => 'index-security', 'value' => 'Login', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
+			->addRepository($userRepository)
+			->add(
+				$this->blueprint->email(
+					'email',
+					['uk-form-width-large']
+				),
+				null,
+				$this->blueprint->settings(false, null, false, null, true)
+			)
+			->add(
+				$this->blueprint->password(
+					'password_hash',
+					['uk-form-width-large']
+				),
+				null,
+				$this->blueprint->settings(false, null, false, null, true)
+			)
+			->add(
+				$this->blueprint->checkbox(
+					'remember_me',
+					[],
+					false
+				),
+				null,
+				$this->blueprint->settings(false, null, false, null, true)
+			)
+			->add(
+				$this->blueprint->submit(
+					'index-security',
+					['uk-button', 'uk-button-primary'],
+					'Login'
+				),
+				null,
+				$this->blueprint->settings(false, null, false, null, true, 'Remember Me')
+			)
 			->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 	}
 }

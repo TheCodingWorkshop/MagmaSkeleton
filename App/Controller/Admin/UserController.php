@@ -14,7 +14,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\UserEntity;
 use App\Schema\UserSchema;
+use MagmaCore\Utility\Yaml;
 use App\Event\UserActionEvent;
+use App\Entity\ControllerSettingsEntity;
+use App\Event\ControllerSettingsActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserController extends AdminController
@@ -41,21 +44,27 @@ class UserController extends AdminController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->diContainer(
+        $this->addDefinitions(
             [
                 'repository' => \App\Model\UserModel::class,
                 'rolePermission' => \App\Model\RolePermissionModel::class,
+                'userMeta' => \App\Model\UserMetaDataModel::class,
                 'entity' => \App\Entity\UserEntity::class,
                 'column' => \App\DataColumns\UserColumn::class,
                 'formUser' => \App\Forms\Admin\User\UserForm::class,
                 'perferencesForm' => \App\Forms\Admin\User\PerferencesForm::class,
                 'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
+                'tableSettings' => \App\Forms\Admin\Settings\TableSettingsForm::class
             ]
         );
+        /** Initialize database with table settings */
+        $this->initializeControllerSettings(
+            $this->thisRouteController(),
+            $this->column
+        );
+
 
     }
-
-    
 
     /**
      * Returns a 404 error page if the data is not present within the database
@@ -90,7 +99,10 @@ class UserController extends AdminController
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
                 ->render()
-                    ->with(['status' => ['pending', 'active', 'suspended', 'lock']])
+                    ->with(
+                        [
+                            'status' => ['pending', 'active', 'suspended', 'lock']
+                        ])
                         ->table()
                             ->end();
     }
@@ -107,7 +119,19 @@ class UserController extends AdminController
         $this->showAction
             ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
-                    ->with()
+                    ->with(
+                        [
+                            'user_log' => $this->userMeta->unsanitizeData(
+                                ['user_id' => $this->thisRouteID()], 
+                                [
+                                    'login', /* array index 0 */
+                                    'logout', /* array index 1 */
+                                    'brute_force', /* index 2 */
+                                    'user_browser' /* index 3 */
+                                ]
+                            )
+                        ]
+                        )
                         ->singular()
                             ->end();
     }
@@ -125,7 +149,7 @@ class UserController extends AdminController
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
-                    ->with()
+                    ->with(['userYml' => Yaml::file('user')])
                         ->form($this->formUser)
                             ->end();
     }
@@ -160,7 +184,23 @@ class UserController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->singular()
+                            ->end();
+
+    }
+
+    protected function hardDeleteAction()
+    {
+        $this->showAction
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->singular()
+                            ->end();
+
     }
 
     /**
@@ -179,91 +219,84 @@ class UserController extends AdminController
     }
 
     /**
-     * The perferences action request. is responsible for updating setting and updating
-     * user perferences whatever that might be
-     *
      * @return Response
      * @throws LoaderError
      */
-    protected function notificationsAction()
+    protected function cloneAction()
     {
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
-                        ->form($this->formUser)
+                        ->singular()
                             ->end();
     }
 
-
+    /**
+     * @return Response
+     * @throws LoaderError
+     */
+    protected function lockAction()
+    {
+        $this->editAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->singular()
+                            ->end();
+    }
 
     /**
-     * The perferences action request. is responsible for updating setting and updating
-     * user perferences whatever that might be
-     *
+     * @return Response
+     * @throws LoaderError
+     */
+    protected function trashAction()
+    {
+        $this->newAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->singular()
+                            ->end();
+    }
+
+    /**
      * @return Response
      * @throws LoaderError
      */
     protected function perferencesAction()
     {
-        $this->editAction
-            ->execute($this, NULL, NULL, NULL, __METHOD__)
+        $this->newAction
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
-                    ->with(['user' => $this->toArray($this->findOr404())])
-                        ->form($this->perferencesForm)
+                    ->with()
+                        ->singular()
                             ->end();
-
     }
 
     /**
-     * Undocumented function
-     *
-     * @return void
+     * @return Response
+     * @throws LoaderError
      */
-    protected function settingsAction()
+    protected function privilegesAction()
     {
         $this->newAction
-            ->execute($this, NULL, NULL, NULL, __METHOD__)
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
-                        ->form($this->formSettings)
+                        ->singular()
                             ->end();
     }
 
-    protected function LogAction()
+    protected function settingsAction()
     {
-        $this->indexAction
-            ->execute($this, NULL, NULL, NULL, __METHOD__)
-                ->render()
-                    ->with()
-                        ->table(/* table_params, new_column_obj, new_repo_obj, table_data */)
-                            ->end();
+        $action = $this->settingsAction  
+            ->execute($this, ControllerSettingsEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
+        
+        if ($action) {
+            $this->redirect('/admin/user/index');
+        }
     }
 
-    /**
-     * The table settings insert action request. Simple adds per table related
-     * configurable data. This provides customizable settings for each datatable
-     *
-     * @return bool
-     */
-    public function tableSettingsInsertAction(): bool
-    {
-        $this->tableSettingsInit($this->thisRouteController());
-        $this->flashMessage('Changes Saved!');
-        $this->redirect('/admin/user/index');
-        return true;
-    }
 
-    /**
-     * table settings for updating this entity. Stored in flat file database
-     *
-     * @return boolean
-     */
-    public function tableSettingsUpdateAction(): bool
-    {
-        $this->tableSettingsUpdateInit($this->thisRouteController());
-        $this->flashMessage('Settings Updated!');
-        $this->redirect('/admin/user/index');
-        return true;
-    }
 }

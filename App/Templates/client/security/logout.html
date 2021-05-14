@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Logout{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore secure login{% endblock %}
+<!-- Block description -->
+{% block keywords %}login{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+<div class="col-lg-6">
+    <div class="p-5">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-4">Logging Out!</h1>
+        </div>
+        {{ $form }} Or
+        <a href="/profile/account/index" class="uk-button uk-button-text uk-text-primary">Cancel</a>.
+
+        <hr>
+        <div class="text-center">
+            <a class="small" href="/password/forgot">Forgot Password?</a>
+        </div>
+        <div class="text-center">
+            <a class="small" href="/register">Create an Account!</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -22,20 +22,19 @@ if (is_file($composer)) {
 }
 
 use MagmaCore\Utility\Yaml;
-use MagmaCore\Themes\Uikit\Uikit;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
 Debug::enable();
 
 (new BaseApplication())
     ->setPath(ROOT_PATH)
-            ->setConfig(Yaml::file('app'))
-                ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
-                    ->setSession()
-                        ->setCookie([])
-                            ->setCache()
-                                ->setRoutes(Yaml::file('routes'))
-                                    ->setContainerProviders(Yaml::file('providers'))
-                                        ->run();
+        ->setConfig(Yaml::file('app'))
+            ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
+                ->setSession()
+                    ->setCookie([])
+                        ->setCache()
+                            ->setRoutes(Yaml::file('routes'))
+                                ->setContainerProviders(Yaml::file('providers'))
+                                    ->run();
 
                                     

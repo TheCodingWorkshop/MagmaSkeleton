@@ -12,20 +12,28 @@ declare (strict_types = 1);
 
 namespace App\Forms\Admin\User;
 
+use MagmaCore\Utility\Yaml;
 use MagmaCore\FormBuilder\ClientFormBuilder;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
-use MagmaCore\FormBuilder\Type\TextType;
-use MagmaCore\FormBuilder\Type\EmailType;
-use MagmaCore\FormBuilder\Type\RadioType;
-use MagmaCore\FormBuilder\Type\PasswordType;
-use MagmaCore\FormBuilder\Type\SubmitType;
-use App\Model\RoleModel;
-use MagmaCore\DataObjectLayer\DataLayerTrait;
+use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
-    use DataLayerTrait;
+    /** @var FormBuilderBlueprintInterface $blueprint */
+    private FormBuilderBlueprintInterface $blueprint;
+
+    /**
+     * Main class constructor
+     *
+     * @param FormBuilderBlueprint $blueprint
+     * @return void
+     */
+    public function __construct(FormBuilderBlueprint $blueprint)
+    {
+        $this->blueprint = $blueprint;
+    }
 
     /**
      * {@inheritdoc}
@@ -35,95 +43,44 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, $dataRepository = null)
     {
-        if ($dataRepository != null) {
-            $dataRepository = (array) $dataRepository;
-            extract($dataRepository);
-        }
-        return $this->form(['action' => $action, 'class' => ['uk-form-horizontal'], "id" => "userForm"])
-            ->add(
-                [TextType::class => [
-                    'name' => 'firstname',
-                    'value' => empty($firstname) ? '' : $firstname,
-                    'class' => ['uk-input', 'uk-form-width-large'],
-                ]],
-                null,
-                ['inline_icon' => 'user', 'inline_flip_icon' => true]
-            )
-            ->add(
-                [TextType::class => [
-                    'name' => 'lastname',
-                    'value' => empty($lastname) ? '' : $lastname,
-                    'class' => ['uk-input', 'uk-form-width-large'],
-                ]],
-                null,
-                ['inline_icon' => 'user', 'inline_flip_icon' => true]
-            )
-            ->add(
-                [EmailType::class => [
-                    'name' => 'email',
-                    'value' => empty($email) ? '' : $email,
-                    'class' => ['uk-input', 'uk-form-width-large'],
-                    'required' => false,
-                    'pattern' => false
-                ]],
-                null,
-                ['inline_icon' => 'mail', 'inline_flip_icon' => true]
 
-            )
-            ->add(
-                [PasswordType::class => [
-                    'name' => 'password_hash',
-                    'value' => '',
-                    'class' => ['uk-input', 'uk-form-medium'],
-                    'autocomplete' => 'new-password',
-                    'pattern' => false,
-                    'disabled' => true,
-                    'placeholder' => 'Auto-Generated'
-                ]],
+        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userForm", "leave_form_open" => true])
+            ->addRepository($dataRepository)
+            ->add($this->blueprint->text('firstname', [], $this->hasValue('firstname')))
+            ->add($this->blueprint->text('lastname', [], $this->hasValue('lastname')))
+            ->add($this->blueprint->email('email', [], $this->hasValue('email')))
+            ->add($this->blueprint->password(
+                'password_hash', 
+                ['uk-form-width-medium'], 
+                null, 
+                'new-password', 
+                false, 
+                false, 
+                true, 
+                'Auto Generated'),
                 null,
-                ['inline_icon' => 'lock', 'inline_flip_icon' => true, 'new_label' => 'Password']
+                $this->blueprint->settings(false, null, true, 'Password', false, null, 'Leaving this field blank will auto generate a random password')
             )
             ->add(
-                [RadioType::class => [
-                'name' => 'roles', 'class' => ['uk-form-controls-text', 'uk-radio']
-                ]],
-                [
-                'choices' => $this->flattenArrayRecursive(
-                    (new RoleModel())->getRepo()->findBy(['role_name'])
-                ),
-                'default' => 'Subscriber'
-                ],
-                ['inline_icon' => false, 'before_after_wrapper' => true]
-                )
-            ->add(
-                [RadioType::class => [
-                    'name' => 'status',
-                    'value' => empty($status) ? '' : $status,
-                    'class' => ['uk-radio']
-                ]],
-                ['choices' => [
-                    'pending', 'active', 'lock', 'trash',
-                ], 'default' => 'pending'],
-                ['inline_icon' => '', 'before_after_wrapper' => true]
+                $this->blueprint->radio('status', [], $this->hasValue('status')), 
+                $this->blueprint->choices(Yaml::file('controller')['user']['status_choices'], 'pending'),
+                $this->blueprint->settings(false, null, true, null, true)
             )
-            ->add(
-                [TextType::class => [
-                    'name' => 'remote_addr',
-                    'value' => empty($remote_addr) ? '' : $remote_addr,
-                    'class' => ['uk-input', 'uk-form-width-small'],
-                    'disabled' => true,
-                ]],
+            ->add($this->blueprint->text(
+                'remote_addr', 
+                ['uk-form-width-small'], 
+                $this->hasValue('remote_addr'), /* field value */
+                true, /* make field disabled */
+                'IP Address'),
                 null,
-                ['inline_icon' => false, 'new_label' => 'IP']
+                $this->blueprint->settings(false, null, false)
             )
-            ->add(
-                [SubmitType::class => [
-                    'name' => empty($id) ? 'new-user' : 'edit-user',
-                    'value' => 'Save',
-                    'class' => ['uk-button uk-button-primary'],
-                ]],
+            ->add($this->blueprint->submit(
+                $this->hasValue('id') ? 'edit-user' : 'new-user', 
+                ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
+                'Save'),
                 null,
-                ['show_label' => false, 'before_after_wrapper' => false]
+                $this->blueprint->settings(false, null, false, null, true)
             )
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }

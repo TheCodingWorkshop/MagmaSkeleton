@@ -1,0 +1,16 @@
+en:
+  last_login: Last Login
+  failed_logins: Failed Logins
+  data_unavailable: Data Unavailable
+  not_enough_data: Not Enough Data
+  history: History
+  recent_activity: Recent Activity
+  notes: Notes
+  firstname: Firstname
+  lastname: Lastname
+  email: Email
+  status: Status
+  created: Created
+  account_still_pending: This account has been pending for more than 5 days
+  resend_activation: Send reminder email!
+  resend: Resend
