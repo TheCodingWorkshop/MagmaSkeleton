@@ -12,15 +12,22 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Model\RoleModel as RM;
 use ReflectionException;
 use App\Entity\UserEntity;
+use App\Model\UserRoleModel;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
 {
+
+    public const REL_ASSOC = ['id' => 'user_id'];
+    public const REL_FIELDS = ['id', 'firstname'];
+    public const COLUMN_STATUS = ['status' => ['pending', 'active', 'trash', 'lock']];
 
     /** @var string */
     protected const TABLESCHEMA = 'users';
@@ -41,12 +48,6 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         'remote_addr',
     ];
 
-    protected const COLUMN_STATUS = 
-    [
-        'status' => [
-            'pending', 'active', 'trash', 'lock'
-        ]
-    ];
 
     /**
      * Main constructor class which passes the relevant information to the 
@@ -122,6 +123,23 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
 
             return $this;
         }
+    }
+
+    public function type()
+    {
+        return $this->addRelationship(ManyToMany::class)
+            ->tables(self::class, RoleModel::class)
+                ->pivot(UserRoleModel::class);
+    }
+
+    public function getRelationships(int $identifier)
+    {
+        return $this->type()
+        ->manyToMany(self::REL_FIELDS, RM::REL_FIELDS)->where(self::REL_ASSOC)
+            ->and(self::REL_ASSOC)
+                    //->limit([$this->getSchemaID() => $identifier])
+                        ->all();
+
     }
 
 }

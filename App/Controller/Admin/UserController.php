@@ -12,18 +12,15 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Model\RoleModel;
-use App\Model\UserModel;
+use App\Model\RoleModel as RM;
+use App\Model\UserModel as UM;
 use App\Entity\UserEntity;
 use App\Schema\UserSchema;
 use MagmaCore\Utility\Yaml;
-use App\Model\UserRoleModel;
 use App\Event\UserActionEvent;
 use App\Entity\ControllerSettingEntity;
 use App\Event\ControllerSettingsActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
-use MagmaCore\DataObjectLayer\DataRelationship\DataRelationship;
-use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 
 class UserController extends AdminController
 {
@@ -70,7 +67,6 @@ class UserController extends AdminController
             $this->column
         );
 
-
     }
 
     /**
@@ -97,47 +93,21 @@ class UserController extends AdminController
      * @throws LoaderError
      */
     protected function indexAction()
-    {
-        $test = new ManyToMany();
-        $rel = $test->tables(UserModel::class, RoleModel::class)->pivot(UserRoleModel::class);
-            
-        var_dump($rel->find()
-            ->where(['id' => 'user_id']) /* users table asscoication with user_role */
-                ->and(['id' => 'role_id']) /* roles table asscoication with user_role */
-                ->limit(['id' => 1])
-                ->get()
-        );
+    {           
+        var_dump($this->repository->getRelationships(32));
         die;
-
-        // $query = 'SELECT users.email, users.firstname, users.lastname AS users, role_name AS roles, permission_name AS permissions FROM users, roles, permissions, user_role WHERE users.id = user_role.user_id AND roles.id = user_role.role_id';
-
-        // $test = $this->repository->getRepo()->getEm()->getCrud()->rawQuery($query, [], 'fetch_all');
-        // var_dump($test);
-        // die;
-
-        // $rel = $this->repository
-        // ->hasRelationship()
-        // ->manyToMany()
-        // ->fetchAsCollection();
-
-
-        // $rel = $this->rolePermission
-        //     ->hasRelationship()
-        //         ->manyToMany('id', 'permission_name', ['id', 'role_name'])
-        //             ->fetchAsCollection();
-        // var_dump($rel);
-        // die;
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
-                ->mergeRelationship(function($repository) {
-                    $repository->type(ManyToMany::class)
-                        ->tables(UserModel::class, RoleModel::class)
-                            ->pivot(UserRoleModel::class);
+                ->mergeRelationship(function($repository){
+                    return $repository->type()
+                        ->manyToMany(UM::REL_FIELDS, RM::REL_FIELDS)->where(UM::REL_ASSOC)
+                            ->and(RM::REL_ASSOC)
+                                ->all();
                 })
                 ->render()
                     ->with(
                         [
-                            'status' => ['pending', 'active', 'suspended', 'lock']
+                            UM::COLUMN_STATUS
                         ])
                         ->table()
                             ->end();

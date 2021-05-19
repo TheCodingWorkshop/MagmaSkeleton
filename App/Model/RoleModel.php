@@ -20,6 +20,8 @@ use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 class RoleModel extends AbstractBaseModel
 {
 
+    public const REL_ASSOC = ['id' => 'role_id'];
+    public const REL_FIELDS = ['role_name'];
     /** @var string */
     protected const TABLESCHEMA = 'roles';
     /** @var string */

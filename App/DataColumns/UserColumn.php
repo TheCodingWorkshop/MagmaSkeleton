@@ -47,7 +47,7 @@ class UserColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<div>' . $this->displayStatus($callingController, $row) . '</div>';
-                    $html .= '<div>' . $this->getRole($row) . '</div>';
+                    $html .= '<div></div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
                     $html .= $row["firstname"] . ' ' . $row["lastname"] . "<br/>";
