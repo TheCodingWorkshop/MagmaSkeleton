@@ -12,13 +12,18 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Model\RoleModel;
+use App\Model\UserModel;
 use App\Entity\UserEntity;
 use App\Schema\UserSchema;
 use MagmaCore\Utility\Yaml;
+use App\Model\UserRoleModel;
 use App\Event\UserActionEvent;
-use App\Entity\ControllerSettingsEntity;
+use App\Entity\ControllerSettingEntity;
 use App\Event\ControllerSettingsActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
+use MagmaCore\DataObjectLayer\DataRelationship\DataRelationship;
+use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 
 class UserController extends AdminController
 {
@@ -47,12 +52,14 @@ class UserController extends AdminController
         $this->addDefinitions(
             [
                 'repository' => \App\Model\UserModel::class,
+                'commander' => \App\Commander\UserCommander::class,
                 'rolePermission' => \App\Model\RolePermissionModel::class,
                 'userMeta' => \App\Model\UserMetaDataModel::class,
                 'entity' => \App\Entity\UserEntity::class,
                 'column' => \App\DataColumns\UserColumn::class,
                 'formUser' => \App\Forms\Admin\User\UserForm::class,
-                'perferencesForm' => \App\Forms\Admin\User\PerferencesForm::class,
+                'userPerferenceRepo' => \App\Model\UserPerferenceModel::class,
+                'userPerferencesForm' => \App\Forms\Admin\User\UserPerferencesForm::class,
                 'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
                 'tableSettings' => \App\Forms\Admin\Settings\TableSettingsForm::class
             ]
@@ -91,13 +98,42 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-        // $real = $this->rolePermission
+        $test = new ManyToMany();
+        $rel = $test->tables(UserModel::class, RoleModel::class)->pivot(UserRoleModel::class);
+            
+        var_dump($rel->find()
+            ->where(['id' => 'user_id']) /* users table asscoication with user_role */
+                ->and(['id' => 'role_id']) /* roles table asscoication with user_role */
+                ->limit(['id' => 1])
+                ->get()
+        );
+        die;
+
+        // $query = 'SELECT users.email, users.firstname, users.lastname AS users, role_name AS roles, permission_name AS permissions FROM users, roles, permissions, user_role WHERE users.id = user_role.user_id AND roles.id = user_role.role_id';
+
+        // $test = $this->repository->getRepo()->getEm()->getCrud()->rawQuery($query, [], 'fetch_all');
+        // var_dump($test);
+        // die;
+
+        // $rel = $this->repository
+        // ->hasRelationship()
+        // ->manyToMany()
+        // ->fetchAsCollection();
+
+
+        // $rel = $this->rolePermission
         //     ->hasRelationship()
         //         ->manyToMany('id', 'permission_name', ['id', 'role_name'])
         //             ->fetchAsCollection();
-
+        // var_dump($rel);
+        // die;
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
+                ->mergeRelationship(function($repository) {
+                    $repository->type(ManyToMany::class)
+                        ->tables(UserModel::class, RoleModel::class)
+                            ->pivot(UserRoleModel::class);
+                })
                 ->render()
                     ->with(
                         [
@@ -121,7 +157,7 @@ class UserController extends AdminController
                 ->render()
                     ->with(
                         [
-                            'user_log' => $this->userMeta->unsanitizeData(
+                            'user_log' => $this->userMeta->unserializeData(
                                 ['user_id' => $this->thisRouteID()], 
                                 [
                                     'login', /* array index 0 */
@@ -269,8 +305,12 @@ class UserController extends AdminController
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
-                    ->with()
-                        ->singular()
+                    ->with(
+                        [
+                            'user_perference' => $this->userPerferenceRepo->getRepo()->findObjectBy(['user_id' => $this->thisRouteID()])
+                        ]
+                        )
+                        ->form($this->userPerferencesForm)
                             ->end();
     }
 
@@ -291,7 +331,7 @@ class UserController extends AdminController
     protected function settingsAction()
     {
         $action = $this->settingsAction  
-            ->execute($this, ControllerSettingsEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
+            ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
         
         if ($action) {
             $this->redirect('/admin/user/index');

@@ -28,7 +28,11 @@
             <div class="uk-section-xxsmall uk-section-default header">
                 <div class="uk-container uk-container-large">
                     <!--  -->
-                    {% yield commander_bar %}
+                    {% if ($current_user !==null) : %}
+                    <!--  -->
+                    {@ templateExtension('uikit_commander_bar') @}
+                    <!--  -->
+                    {% endif; %}
                 </div>
             </div>
             <div class="uk-section-small">
@@ -46,3 +50,5 @@
     <!-- Page specific scripts -->
     {% yield scripts %}
 </body>
+
+</html>

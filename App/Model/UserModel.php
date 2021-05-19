@@ -41,6 +41,13 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         'remote_addr',
     ];
 
+    protected const COLUMN_STATUS = 
+    [
+        'status' => [
+            'pending', 'active', 'trash', 'lock'
+        ]
+    ];
+
     /**
      * Main constructor class which passes the relevant information to the 
      * base model parent constructor. This allows the repsitory to fetch the
@@ -63,6 +70,16 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     {
         return [
         ];
+    }
+
+    /**
+     * Return an array of column values if table supports the column field
+     *
+     * @return array
+     */
+    public function getColumnStatus(): array
+    {
+        return self::COLUMN_STATUS;
     }
 
     /**
@@ -106,4 +123,5 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
             return $this;
         }
     }
+
 }

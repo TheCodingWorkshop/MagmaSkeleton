@@ -60,9 +60,9 @@ class AdminController extends BaseController
                 'showAction' => \MagmaCore\Base\Domain\Actions\ShowAction::class,
                 'settingsAction' => \MagmaCore\Base\Domain\Actions\SettingsAction::class,
                 'apiResponse' => \MagmaCore\RestFul\RestHandler::class
-
             ]
         );
+
     }
 
     /**

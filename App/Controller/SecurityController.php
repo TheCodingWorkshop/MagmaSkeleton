@@ -118,7 +118,7 @@ class SecurityController extends BaseController
     protected function logoutAction(): void
     {
         $this->logoutAction
-            ->execute($this, NULL, LogoutActionEvent::class, NULL, __METHOD__)
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->logoutForm)

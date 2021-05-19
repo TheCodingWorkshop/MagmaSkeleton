@@ -209,3 +209,27 @@ body {
 .border-bottom {
     border-bottom: 1px solid #E5E5E5;
 }
+
+.uk-text-white {
+    color: #ffffff !important;
+}
+
+.uk-badge-danger {
+    background-color: #F4766E;
+}
+
+.uk-badge-success {
+    background-color: #9CD7B1;
+}
+
+.uk-badge-warning {
+    background-color: #FCB864;
+}
+
+.uk-badge-secondary {
+    background-color: #5B5A53;
+}
+
+.highlight {
+    background-color: #ffffdd;
+}

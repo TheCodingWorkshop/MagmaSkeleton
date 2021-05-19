@@ -14,7 +14,7 @@ namespace App\Model;
 use App\Model\RoleModel;
 use App\Model\PermissionModel;
 use App\Entity\RolePermissionEntity;
-use App\Schema\RolePermissionSchema;
+use App\Schema\Pivot\RolePermissionSchema;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataRelationship\ManyToMany;
@@ -52,7 +52,7 @@ class RolePermissionModel extends AbstractBaseModel
 
     /**
      * Create an relation between the user and role models using the user_role
-     * pivot table as the glue between both relationships
+     * pivot table as the glue that hold both relationships
      *
      * @return ManyToMany
      */

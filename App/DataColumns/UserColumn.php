@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
+use MagmaCore\Utility\Stringify;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
 class UserColumn extends AbstractDatatableColumn
@@ -39,13 +40,13 @@ class UserColumn extends AbstractDatatableColumn
                 'show_column' => true,
                 'sortable' => true,
                 'searchable' => true,
-                'formatter' => function ($row) {
+                'formatter' => function ($row) use ($callingController) {
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left">';
                     $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
-                    $html .= '<div>' . $this->getStatus($row) . '</div>';
+                    $html .= '<div>' . $this->displayStatus($callingController, $row) . '</div>';
                     $html .= '<div>' . $this->getRole($row) . '</div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
@@ -71,7 +72,7 @@ class UserColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
-                'searchable' => false,
+                'searchable' => true,
                 'formatter' => ''
             ],
             [
@@ -149,7 +150,7 @@ class UserColumn extends AbstractDatatableColumn
                                 'icon' => 'ion-more',
                                 'callback' => function ($row, $twigExt) {
                                     return $twigExt->getDropdown(
-                                        $this->itemsDropdown($row), 
+                                        $this->itemsDropdown($row),
                                         $this->getDropdownStatus($row),
                                         $row,
                                         'user'
@@ -180,7 +181,6 @@ class UserColumn extends AbstractDatatableColumn
         }
 
         return $stat;
-
     }
 
     /**
@@ -193,14 +193,15 @@ class UserColumn extends AbstractDatatableColumn
     {
         $items = [
             'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
-            'show' => ['name' => 'show','icon' => 'eye-outline'],
+            'show' => ['name' => 'show', 'icon' => 'eye-outline'],
             'clone' => ['name' => 'clone', 'icon' => 'copy-outline'],
             'lock' => ['name' => 'lock account', 'icon' => 'lock-closed-outline'],
             'trash' => ['name' => 'trash account', 'icon' => 'trash-bin-outline']
         ];
         return array_map(
-            fn($key, $value) => array_merge(['path' => $this->adminPath($row, $key)], $value), 
-            array_keys($items), $items
+            fn ($key, $value) => array_merge(['path' => $this->adminPath($row, $key)], $value),
+            array_keys($items),
+            $items
         );
     }
 
@@ -213,7 +214,7 @@ class UserColumn extends AbstractDatatableColumn
      */
     private function adminPath(array $row, ?string $path = null): string
     {
-        if ($path !==null) {
+        if ($path !== null) {
             return "/admin/user/{$row['id']}/{$path}";
         } else {
             return "/admin/user/index";
@@ -225,26 +226,40 @@ class UserColumn extends AbstractDatatableColumn
     }
 
     /**
-     * @inheritDoc
+     * Return icon representation of the various column status
+     *
+     * @param object $controller
+     * @param array $row
+     * @return string
      */
-    private function getStatus(array $row): string
+    public function displayStatus(object $controller, array $row): string
     {
-        $html = '';
+        return $this->getStatusValues($controller, function ($key, $value) use ($row) {
+            if (!in_array($row[$key], $value)) {
+                throw new \Exception($row[$key] . ' is not a value specified within your model.');
+            }
+            $colors = ['warning', 'success', 'danger', 'secondary'];
+            $count = 0;
+            foreach ($value as $k => $val) {
+                $ret = '';
+                switch ($row[$key]) {
+                    case $val:
+                        $icon = '';
+                        $icon = match ($val) {
+                            'pending' => 'alert-circle-outline',
+                            'active' => 'checkmark-outline',
+                            'trash' => 'trash-outline',
+                            'lock' => 'lock-closed-outline'
+                        };
+                        $ret = '<span class="uk-text-' . $colors[$k] . '" uk-tooltip="' . Stringify::capitalize($val) . '"><ion-icon name="' . $icon . '"></ion-icon></span>';
+                        $count++;
 
-        switch ($row["status"]) {
-            case "pending":
-                $html .= '<span class="uk-text-warning ion-alert-circled" uk-tooltip="' . ($row["status"] == 'pending' ? 'Pending' : '') . '"></span>';
-                break;
-            case "active":
-                $html .= '<span class="uk-text-success ion-android-done" uk-tooltip="' . ($row["status"] == 'active' ? 'Active' : '') . '"></span>';
-                break;
-            case "lock":
-                $html .= '<span class="uk-text-secondary ion-locked" uk-tooltip="' . ($row["status"] == 'lock' ? 'Lock' : '') . '"></span>';
-                break;
-            case "trash":
-                $html .= '<span class="uk-text-danger ion-ios-trash" uk-tooltip="' . ($row["status"] == 'trash' ? 'Trash' : '') . '"></span>';
-                break;
-        }
-        return $html;
+                        return $ret;
+
+                        break;
+                }
+            }
+        });
     }
+
 }

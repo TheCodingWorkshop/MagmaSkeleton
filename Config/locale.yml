@@ -14,3 +14,5 @@ en:
   account_still_pending: This account has been pending for more than 5 days
   resend_activation: Send reminder email!
   resend: Resend
+  last_updated: Last Updated
+  address_book: Address Book

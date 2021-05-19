@@ -7,20 +7,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\UserMetaEntity;
+use App\Entity\UserPerferenceEntity;
 use MagmaCore\Base\AbstractBaseModel;
-use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
-class UserMetaModel extends AbstractBaseModel
-{
+class UserPerferenceModel extends AbstractBaseModel
+{ 
 
     /** @var string */
-    protected const TABLESCHEMA = 'user_meta';
+    protected const TABLESCHEMA = 'user_perferences';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
 
@@ -34,7 +32,7 @@ class UserMetaModel extends AbstractBaseModel
      */
     public function __construct()
     {
-        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, UserMetaEntity::class);
+        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, UserPerferenceEntity::class);
     }
 
     /**
@@ -42,10 +40,9 @@ class UserMetaModel extends AbstractBaseModel
      *
      * @return array
      */
-    public function guardedID(): array
+    public function guardedID() : array
     {
-        return [
-        ];
+        return [];
     }
 
 }

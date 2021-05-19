@@ -81,6 +81,13 @@ scripts:
     location: footer
     enable: true
     cdn: false
+  sparkline:
+    src: "/public/assets/js/uikit/sparkline.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    location: footer
+    enable: true
+    cdn: false
   ionicons:
     src: "https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"
     integrity: ""
