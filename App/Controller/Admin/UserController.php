@@ -18,8 +18,6 @@ use App\Entity\UserEntity;
 use App\Schema\UserSchema;
 use MagmaCore\Utility\Yaml;
 use App\Event\UserActionEvent;
-use App\Entity\ControllerSettingEntity;
-use App\Event\ControllerSettingsActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class UserController extends AdminController
@@ -94,8 +92,6 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {           
-        var_dump($this->repository->getRelationships(32));
-        die;
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
                 ->mergeRelationship(function($repository){
@@ -296,16 +292,6 @@ class UserController extends AdminController
                     ->with()
                         ->singular()
                             ->end();
-    }
-
-    protected function settingsAction()
-    {
-        $action = $this->settingsAction  
-            ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
-        
-        if ($action) {
-            $this->redirect('/admin/user/index');
-        }
     }
 
 

@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Create Role{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore create new role{% endblock %}
+<!-- keywords -->
+{% block keywords %}new-role, create-new{% endblock %}
+<!-- commander -->
+{% block commander_bar %}{{ $commanderBar }}{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="role_form">
+                        {{ $form }}
+                    </turbo-frame>
+                    <turbo-stream action="append" target="flash_messages">
+                        <template>
+                            <div>{@ templateExtension('uikit_flash_message') @}</div>
+                        </template>
+                    </turbo-stream>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

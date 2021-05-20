@@ -15,9 +15,11 @@ namespace App\Controller\Admin;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Datatable\Datatable;
 use MagmaCore\Session\SessionTrait;
+use App\Entity\ControllerSettingEntity;
 use App\Middleware\Before\LoginRequired;
 use App\Middleware\Before\SessionExpires;
 use App\Middleware\Before\AuthorizedIsNull;
+use App\Event\ControllerSettingsActionEvent;
 use MagmaCore\Base\Traits\TableSettingsTrait;
 use App\Middleware\Before\AdminAuthentication;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
@@ -135,5 +137,16 @@ class AdminController extends BaseController
         }
         return false;
     }
+
+    protected function settingsAction()
+    {
+        $action = $this->settingsAction  
+            ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
+        
+        if ($action) {
+            $this->redirect('/admin/' . $this->thisRouteController() . '/index');
+        }
+    }
+
 
 }

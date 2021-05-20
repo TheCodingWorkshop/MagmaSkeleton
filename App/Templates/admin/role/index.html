@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 <!-- Block title -->
-{% block title %}Create An Account{% endblock %}
+{% block title %}Roles{% endblock %}
 <!-- Block description -->
-{% block description %}MagmaCore create an account{% endblock %}
+{% block description %}MagmaCore roles{% endblock %}
 <!-- Block description -->
 {% block keywords %}register, create an account{% endblock %}
 <!-- Block description -->
@@ -16,14 +16,22 @@
 
 <!-- start content-->
 {% block content %}
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Roles Manager</h6>
+<section>
+
+    <div class="uk-width-expand@m">
+        <turbo-frame id="table_grid_paging_sorting">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        <form method="POST" action="">
+                            {{ $table }}
+                        </form>
+
+                    </div>
+                </div>
+                {@ templateExtension('uikit_pagination') @}
+            </div>
+        </turbo-frame>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            {{ $table }}
-        </div>
-    </div>
-</div>
+</section>
 {% endblock %}

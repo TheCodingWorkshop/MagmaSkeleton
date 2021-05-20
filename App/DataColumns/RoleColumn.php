@@ -19,15 +19,17 @@ use MagmaCore\Datatable\AbstractDatatableColumn;
 class RoleColumn extends AbstractDatatableColumn
 {
 
-    public function columns(array $dbColumns = []): array
+    public function columns(array $dbColumns = [], object|null $callingController = null): array
     {
         return [
             [
                 'db_row' => 'id',
-                'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
+                //'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
+                'dt_row' => 'ID',
                 'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => function ($row) {
                     return '<input type="checkbox" class="uk-checkbox" id="roles" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
                 }
@@ -37,7 +39,8 @@ class RoleColumn extends AbstractDatatableColumn
                 'dt_row' => 'Name',
                 'class' => '',
                 'show_column' => true,
-                'sortable' => false,
+                'sortable' => true,
+                'searchable' => true,
                 'formatter' => function ($row, $twigExt) {
                     $html = '';
                     $html .= '<div class="uk-clearfix">';
@@ -59,6 +62,7 @@ class RoleColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => ''
             ],
             [
@@ -67,6 +71,7 @@ class RoleColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
                     $html = $twigExt->tableDateFormat($row, "created_at");
                     $html .= '<div><small>By Admin</small></div>';
@@ -79,6 +84,7 @@ class RoleColumn extends AbstractDatatableColumn
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
                     $html = '';
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
@@ -92,38 +98,39 @@ class RoleColumn extends AbstractDatatableColumn
             ],
             [
                 'db_row' => '',
-                'dt_row' => '',
+                'dt_row' => 'Action',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
+                'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    return $twigExt->action(
-                        [
-                            'has_permission' => $this->hasPermission($row),
-                            'edit_modal' => [
-                                'icon' => 'ion-compose',
-                                'tooltip' => 'Edit',
-                                'toggle_modal_edit' => true,
-                                'callback' => function ($row, $twigExt) {
-                                    return $twigExt->getModal(
-                                        [
-                                            'toggle_id' => 'edit-modal-role-' . $row['id'],
-                                            'modal_title' => 'Edit ' . $row['role_name'],
-                                            'modal_content' => (new RoleForm())
-                                                ->createForm("/admin/role/{$row['id']}/edit", $row)
-                                        ]
-                                    );
-                                }
-                            ],
-                            'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
-                        ],
-                        $row,
-                        $twigExt,
-                        'role',
-                        false,
-                        'Are You Sure!',
-                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['role_name']}</strong> role."
-                    );
+                    // return $twigExt->action(
+                    //     [
+                    //         'has_permission' => $this->hasPermission($row),
+                    //         'edit_modal' => [
+                    //             'icon' => 'ion-compose',
+                    //             'tooltip' => 'Edit',
+                    //             'toggle_modal_edit' => true,
+                    //             'callback' => function ($row, $twigExt) {
+                    //                 return $twigExt->getModal(
+                    //                     [
+                    //                         'toggle_id' => 'edit-modal-role-' . $row['id'],
+                    //                         'modal_title' => 'Edit ' . $row['role_name'],
+                    //                         'modal_content' => (new RoleForm())
+                    //                             ->createForm("/admin/role/{$row['id']}/edit", $row)
+                    //                     ]
+                    //                 );
+                    //             }
+                    //         ],
+                    //         'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
+                    //     ],
+                    //     $row,
+                    //     $twigExt,
+                    //     'role',
+                    //     false,
+                    //     'Are You Sure!',
+                    //     "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['role_name']}</strong> role."
+                    // );
                 }
             ],
 

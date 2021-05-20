@@ -40,7 +40,7 @@ class UserPerferencesForm extends ClientFormBuilder implements ClientFormBuilder
      * @return string
      * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null)
+    public function createForm(string $action, $dataRepository = null, object $callingController = null)
     {
 
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userPerferencesForm"])

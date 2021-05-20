@@ -13,14 +13,26 @@ declare(strict_types=1);
 namespace App\Forms\Admin\Role;
 
 use MagmaCore\FormBuilder\ClientFormBuilder;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
-use MagmaCore\FormBuilder\Type\TextType;
-use MagmaCore\FormBuilder\Type\TextareaType;
-use MagmaCore\FormBuilder\Type\SubmitType;
-use App\Model\RoleModel;
+use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
+
+    /** @var FormBuilderBlueprintInterface $blueprint */
+    private FormBuilderBlueprintInterface $blueprint;
+
+    /**
+     * Main class constructor
+     *
+     * @param FormBuilderBlueprint $blueprint
+     * @return void
+     */
+    public function __construct(FormBuilderBlueprint $blueprint)
+    {
+        $this->blueprint = $blueprint;
+    }
 
     /**
      * {@inheritdoc}
@@ -28,35 +40,21 @@ class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
      * @return string
      * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null)
+    public function createForm(string $action, $dataRepository = null, object $callingController = null)
     {
-        if ($dataRepository != null) {
-            $dataRepository = (array) $dataRepository;
-            extract($dataRepository);
-        }
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "roleForm"])
+            ->addRepository($dataRepository)
+            ->add($this->blueprint->text('role_name', [], $this->hasValue('role_name')))
+            ->add($this->blueprint->text('role_slug', ['uk-form-width-medium'], $this->hasValue('role_slug')))
+            ->add($this->blueprint->textarea('role_description', ['uk-textarea'], 'role_description',))
             ->add(
-                [TextType::class => [
-                    'name' => 'role_name',
-                    'class' => ['uk-input', 'uk-form-width-large'],
-                    'value' => (empty($role_name) ? '' : $role_name)
-                ]]
-            )
-            ->add(
-                [TextareaType::class => [
-                    'name' => 'role_description',
-                    'class' => ['uk-textarea', 'uk-form-width-large'],
-                ]],
-                empty($role_description) ? '' : $role_description
-            )
-            ->add(
-                [SubmitType::class => [
-                    'name' => empty($id) ? 'new-role' : 'edit-role',
-                    'value' => 'Save',
-                    'class' => ['uk-button uk-button-primary'],
-                ]],
+                $this->blueprint->submit(
+                    $this->hasValue('id') ? 'edit-role' : 'new-role',
+                    ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
+                    'Save'
+                ),
                 null,
-                ['show_label' => false, 'before_after_wrapper' => true]
+                $this->blueprint->settings(false, null, false, null, true)
             )
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }

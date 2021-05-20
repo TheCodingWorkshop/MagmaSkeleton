@@ -14,12 +14,7 @@ namespace App\Forms\Admin\User;
 
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
-use MagmaCore\FormBuilder\Type\SelectType;
-use MagmaCore\FormBuilder\Type\EmailType;
 use MagmaCore\FormBuilder\Type\RadioType;
-use MagmaCore\FormBuilder\Type\PasswordType;
-use MagmaCore\FormBuilder\Type\SubmitType;
-use MagmaCore\Auth\Model\RoleModel;
 
 class SettingsForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -31,7 +26,7 @@ class SettingsForm extends ClientFormBuilder implements ClientFormBuilderInterfa
      * @return string
      * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null)
+    public function createForm(string $action, $dataRepository = null, object $callingController = null)
     {
         if ($dataRepository != null) {
             $dataRepository = (array) $dataRepository;

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Controller;
 
-use App\DataColumns\UserColumn;
 use MagmaCore\Base\BaseController;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
@@ -42,7 +41,7 @@ class ControllerSettingsForm extends ClientFormBuilder implements ClientFormBuil
      * @return string
      * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null)
+    public function createForm(string $action, $dataRepository = null, object $callingController = null)
     {
         $controller = new BaseController([]);
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
@@ -85,15 +84,15 @@ class ControllerSettingsForm extends ClientFormBuilder implements ClientFormBuil
                     $this->hasValue('searchable'),
                 ),
                 $this->blueprint->choices(
-                   array_reverse($searchable = $controller->getSearchableColumns(UserColumn::class)),
-                   $searchable['1']
+                    array_reverse($searchable = $controller->getSearchableColumns(isset($callingController->dataColumn) ? $callingController->dataColumn : $callingController->column)),
+                    $searchable['1']
                 ),
                 $this->blueprint->settings(false, null, true)
             )
 
             ->add(
                 $this->blueprint->submit(
-                    'settings-user',
+                    'settings-' . $callingController->thisRouteController() . '',
                     ['uk-button', 'uk-button-primary', 'uk-button-small'],
                     'Save'
                 ),

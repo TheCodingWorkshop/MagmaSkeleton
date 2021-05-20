@@ -41,7 +41,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
      * @return string
      * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null)
+    public function createForm(string $action, $dataRepository = null, object $callingController = null)
     {
 
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userForm", "leave_form_open" => true])

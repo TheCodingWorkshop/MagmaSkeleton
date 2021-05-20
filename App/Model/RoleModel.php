@@ -22,6 +22,8 @@ class RoleModel extends AbstractBaseModel
 
     public const REL_ASSOC = ['id' => 'role_id'];
     public const REL_FIELDS = ['role_name'];
+    public const COLUMN_STATUS = [];
+
     /** @var string */
     protected const TABLESCHEMA = 'roles';
     /** @var string */
@@ -52,5 +54,16 @@ class RoleModel extends AbstractBaseModel
             Yaml::file('app')['system']['default_role']['props']['id']
         ];
     }
+
+    /**
+     * Return an array of column values if table supports the column field
+     *
+     * @return array
+     */
+    public function getColumnStatus(): array
+    {
+        return self::COLUMN_STATUS;
+    }
+
 
 }

@@ -48,12 +48,18 @@ class RoleController extends AdminController
         $this->diContainer(
             [
                 'repository' => \App\Model\RoleModel::class,
+                'commander' => \App\Commander\RoleCommander::class,
                 'entity' => \App\Entity\RoleEntity::class,
                 'column' => \App\DataColumns\RoleColumn::class,
                 'formRole' => \App\Forms\Admin\Role\RoleForm::class,
                 'permission' => \App\Model\PermissionModel::class,
                 'rolePerm' => \App\Model\RolePermissionModel::class,
             ]
+        );
+        /** Initialize database with table settings */
+        $this->initializeControllerSettings(
+            $this->thisRouteController(),
+            $this->column
         );
     }
 
@@ -102,10 +108,10 @@ class RoleController extends AdminController
     {
         $this->indexAction
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
-                ->render()
-                    ->with(['form' => $this->formRole->createForm($this->getRoute('new', $this))])
-                        ->table()
-                            ->end();
+            ->render()
+            ->with(['form' => $this->formRole->createForm($this->getRoute('new', $this))])
+            ->table()
+            ->end();
     }
 
     /**
@@ -115,10 +121,14 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    protected function newAction() : void
+    protected function newAction(): void
     {
         $this->newAction
-            ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__);
+            ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
+            ->render()
+            ->with()
+            ->form($this->formRole)
+            ->end();
     }
 
     /**
@@ -128,7 +138,7 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    protected function editAction() : void
+    protected function editAction(): void
     {
         $this->editAction
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__);
@@ -142,7 +152,7 @@ class RoleController extends AdminController
      *
      * @return void
      */
-    protected function deleteAction() : void
+    protected function deleteAction(): void
     {
         $this->deleteAction
             ->execute($this, NULL, RoleActionEvent::class, NULL, __METHOD__);
@@ -157,43 +167,15 @@ class RoleController extends AdminController
     {
         $this->newAction
             ->execute($this, RolePermissionEntity::class, NULL, NULL, __METHOD__)
-                ->render()
-                    ->with(
-                            [
-                                'role' => $this->toArray($this->findOr404()),
-                                'permissions' => $this->permission->getRepo()->findAll(),
-                                'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'],['role_id' => $this->thisRouteID()]))
-                            ]
-                        )
-                        ->form($this->formRole)
-                            ->end();
-
-    }
-
-    /**
-     * The table settings insert action request. Simple adds per table related
-     * configurable data. This provides customizable settings for each datatable
-     *
-     * @return bool
-     */
-    public function tableSettingsInsertAction(): bool
-    {
-        $this->tableSettingsInit($this->thisRouteController());
-        $this->flashMessage('Changes Saved!');
-        $this->redirect('/admin/role/index');
-        return true;
-    }
-
-    /**
-     * table settings for updating this entity. Stored in flat file database
-     *
-     * @return boolean
-     */
-    public function tableSettingsUpdateAction(): bool
-    {
-        $this->tableSettingsUpdateInit($this->thisRouteController());
-        $this->flashMessage('Settings Updated!');
-        $this->redirect('/admin/role/index');
-        return true;
+            ->render()
+            ->with(
+                [
+                    'role' => $this->toArray($this->findOr404()),
+                    'permissions' => $this->permission->getRepo()->findAll(),
+                    'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()]))
+                ]
+            )
+            ->form($this->formRole)
+            ->end();
     }
 }
