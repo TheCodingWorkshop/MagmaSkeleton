@@ -12,14 +12,15 @@ declare(strict_types=1);
 
 namespace App\Commander;
 
-use App\Model\UserModel;
 use MagmaCore\Utility\Yaml;
+use App\Model\PermissionModel;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 
-class UserCommander extends UserModel implements ApplicationCommanderInterface
+class PermissionCommander extends PermissionModel implements ApplicationCommanderInterface
 {
 
+    /** @var trait - this is required */
     use ApplicationCommanderTrait;
 
     /**
@@ -30,10 +31,6 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
         'index',
         'new',
         'edit',
-        'show',
-        'hard-delete',
-        'perferences',
-        'privileges'
     ];
 
     /**
@@ -44,7 +41,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
      */
     public function getYml(): array
     {
-        return $this->findYml('user');
+        return $this->findYml('permission');
     }
 
     /**
@@ -67,16 +64,12 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
     {
         $this->getHeaderBuildException($controller, self::INNER_ROUTES);
         $this->controller = $controller;
-        $suffix = $this->getHeaderBuildEdit($controller, 'firstname');
 
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
-            'new' => 'Create New',
-            'edit' => "Edit " . $this,
-            'show' => "Viewing {$suffix}",
-            'hard-delete' => "Deleting {$suffix}",
-            'perferences' => "{$suffix} Perferences",
-            'privileges' => "{$suffix} Privileges",
+            'new' => 'Create New Role',
+            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'permission_name'),
+            'assigned' => 'Role Assignment',
             default => "Unknown"
         };
     }

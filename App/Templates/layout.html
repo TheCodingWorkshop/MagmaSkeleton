@@ -14,6 +14,12 @@
     {@ addjs([], 'header') @}
     <!-- Page Specific Css -->
     {% yield styles %}
+    <script>
+        $(window).on("load", function() {
+            $(".preloader").fadeOut("slow");
+        });
+    </script>
+
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">

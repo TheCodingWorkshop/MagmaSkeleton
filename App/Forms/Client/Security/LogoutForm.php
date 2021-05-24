@@ -43,7 +43,7 @@ class LogoutForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 * @param Object|null $Repository
 	 * @return void
 	 */
-	public function createForm(string $action, ?Object $repository = null)
+	public function createForm(string $action, ?Object $repository = null, object $callingController = null)
 	{
 		return $this->form(['action' => $action, 'class' => 'uk-display-inline'])
 			->add(

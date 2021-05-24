@@ -45,8 +45,7 @@ class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "roleForm"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('role_name', [], $this->hasValue('role_name')))
-            ->add($this->blueprint->text('role_slug', ['uk-form-width-medium'], $this->hasValue('role_slug')))
-            ->add($this->blueprint->textarea('role_description', ['uk-textarea'], 'role_description',))
+            ->add($this->blueprint->textarea('role_description', ['uk-textarea'], 'role_description'), $this->hasValue('role_description'))
             ->add(
                 $this->blueprint->submit(
                     $this->hasValue('id') ? 'edit-role' : 'new-role',

@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace App\Forms\Admin\Permission;
+namespace App\Forms\Admin\Role;
 
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
-class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /** @var FormBuilderBlueprintInterface $blueprint */
@@ -42,13 +42,18 @@ class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInter
      */
     public function createForm(string $action, $dataRepository = null, object $callingController = null)
     {
-        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "permissionForm"])
+        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "role_assigned_form"])
             ->addRepository($dataRepository)
-            ->add($this->blueprint->text('permission_name', [], $this->hasValue('permission_name')))
-            ->add($this->blueprint->textarea('permission_description', ['uk-textarea'], 'permission_name'), $this->hasValue('permission_description'))
+            ->add($this->blueprint->text(
+                'role_name', 
+                [], 
+                $this->hasValue('role_name'), 
+                true),
+                NULL,
+                $this->blueprint->settings(false, null, true, null, true, null, 'Role name cannot be changed here?'))
             ->add(
                 $this->blueprint->submit(
-                    $this->hasValue('id') ? 'edit-permission' : 'new-permission',
+                    'assigned-role',
                     ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
                     'Save'
                 ),

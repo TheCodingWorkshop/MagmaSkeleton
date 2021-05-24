@@ -32,18 +32,13 @@ class DashboardController extends AdminController
     public function __construct(array $routeParams)
     {
         parent::__construct($routeParams);
-        /*$schema = new UserSchema(new UserModel());
-        var_dump($schema);
-        die();*/
-
         /**
          * Dependencies are defined within a associative array like example below
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->diContainer(
+        $this->addDefinitions(
             [
-                "userRepo" => \App\Model\UserModel::class
             ]
         );  
 

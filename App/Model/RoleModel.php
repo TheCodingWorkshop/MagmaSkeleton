@@ -65,5 +65,4 @@ class RoleModel extends AbstractBaseModel
         return self::COLUMN_STATUS;
     }
 
-
 }

@@ -12,21 +12,18 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Model\RoleModel as RM;
 use ReflectionException;
 use App\Entity\UserEntity;
-use App\Model\UserRoleModel;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
-use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
 {
 
     public const REL_ASSOC = ['id' => 'user_id'];
-    public const REL_FIELDS = ['id', 'firstname'];
+    public const REL_FIELDS = ['firstname', 'lastname', 'email'];
     public const COLUMN_STATUS = ['status' => ['pending', 'active', 'trash', 'lock']];
 
     /** @var string */
@@ -69,8 +66,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      */
     public function guardedID(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -90,7 +86,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      * @param int|null $ignoreID
      * @return boolean  True if a record already exists with the specified email, false otherwise
      */
-    public function emailExists(string $email, int $ignoreID = null) : bool
+    public function emailExists(string $email, int $ignoreID = null): bool
     {
         if (!empty($email)) {
             $result = $this->getRepo()->findObjectBy(['email' => $email], ['*']);
@@ -113,7 +109,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      * @return self
      * @throws ReflectionException
      */
-    public function validatePassword(object $cleanData, Null|object $repository = null)
+    public function validatePassword(object $cleanData, object|null $repository = null)
     {
         $cleanData = (array)$cleanData;
         $validate = $this->get('Validate.UserValidate')->validate($cleanData);
@@ -123,23 +119,6 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
 
             return $this;
         }
-    }
-
-    public function type()
-    {
-        return $this->addRelationship(ManyToMany::class)
-            ->tables(self::class, RoleModel::class)
-                ->pivot(UserRoleModel::class);
-    }
-
-    public function getRelationships(int $identifier)
-    {
-        return $this->type()
-        ->manyToMany(self::REL_FIELDS, RM::REL_FIELDS)->where(self::REL_ASSOC)
-            ->and(self::REL_ASSOC)
-                    //->limit([$this->getSchemaID() => $identifier])
-                        ->all();
-
     }
 
 }

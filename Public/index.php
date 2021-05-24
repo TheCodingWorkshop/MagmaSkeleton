@@ -30,7 +30,7 @@ Debug::enable();
     ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
             ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
-                ->setSession()
+                ->setSession(Yaml::file('session'))
                     ->setCookie([])
                         ->setCache()
                             ->setRoutes(Yaml::file('routes'))

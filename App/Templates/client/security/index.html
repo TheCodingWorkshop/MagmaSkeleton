@@ -8,23 +8,21 @@
 {% block keywords %}login{% endblock %}
 <!-- Block description -->
 {% block author %}Ricardo Miller{% endblock %}
+<!--  -->
+{% block page_header %}{@ locale('sign_in') @}{% endblock %}
+<!--  -->
+{% block page_tagline %}{% endblock %}
 
 <!-- start content-->
 {% block content %}
-<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-<div class="col-lg-6">
-    <div class="p-5">
-        <div class="text-center">
-            <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-        </div>
-        {{ $form }}
-        <hr>
-        <div class="text-center">
-            <a class="small" href="/password/forgot">Forgot Password?</a>
-        </div>
-        <div class="text-center">
-            <a class="small" href="/register">Create an Account!</a>
-        </div>
+<div>
+    {{ $form }}
+    <div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
+        <p class="uk-text-lead">Don't have an account?
+            <a href="/register" class="uk-button uk-button-small uk-button-text uk-display-block uk-text-left">Register</a>
+        </p>
+        <a class="uk-link uk-text-right" href="/password/forgot">Forgotton your Password?</a>
     </div>
+    <hr>
 </div>
 {% endblock %}

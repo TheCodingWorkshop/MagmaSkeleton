@@ -41,14 +41,36 @@ class PermissionController extends AdminController
          * [ PermissionModel => \App\Model\PermissionModel::class ]. Where the key becomes the 
          * property for the PermissionModel object like so $this->PermissionModel->getRepo();
          */
-        $this->diContainer(
+        $this->addDefinitions(
             [
                 'repository' => \App\Model\PermissionModel::class,
                 'entity' => \App\Entity\PermissionEntity::class,
                 'column' => \App\DataColumns\PermissionColumn::class,
+                'commander' => \App\Commander\PermissionCommander::class,
                 'formPermission' => \App\Forms\Admin\Permission\PermissionForm::class
             ]
         );
+        /** Initialize database with table settings */
+        $this->initializeControllerSettings(
+            'permission',
+            $this->column
+        );
+
+    }
+
+    /**
+     * Returns a 404 error page if the data is not present within the database
+     * else return the requested object
+     *
+     * @return mixed
+     */
+    public function findOr404()
+    {
+        $repository = $this->repository->getRepo()
+            ->findAndReturn($this->thisRouteID())
+            ->or404();
+
+        return $repository;
     }
 
     /**
@@ -66,11 +88,8 @@ class PermissionController extends AdminController
         $this->indexAction
             ->execute($this, NULL, NULL, PermissionSchema::class, __METHOD__)
                 ->render()
-                    ->with(
-                        [
-                            'form' => $this->formPermission->createForm($this->getRoute('new', $this))
-                        ]
-                    )->table()
+                    ->with()
+                    ->table()
                         ->end();
     }
 
@@ -84,7 +103,11 @@ class PermissionController extends AdminController
     protected function newAction(): void
     {
         $this->newAction
-            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__);
+            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->form($this->formPermission)
+                            ->end();
     }
 
     /**
@@ -97,7 +120,15 @@ class PermissionController extends AdminController
     protected function editAction(): void
     {
         $this->editAction
-            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__);
+            ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with(
+                        [
+                            'permission' => $this->toArray($this->findOr404())
+                        ]
+                        )
+                        ->form($this->formPermission)
+                            ->end();
     }
 
     /**
@@ -114,30 +145,4 @@ class PermissionController extends AdminController
             ->execute($this, NULL, PermissionActionEvent::class, NULL, __METHOD__);
     }
 
-    /**
-     * The table settings insert action request. Simple adds per table related 
-     * configurable data. This provides customizable settings for each datatable
-     *
-     * @return bool
-     */
-    public function tableSettingsInsertAction(): bool
-    {
-        $this->tableSettingsInit($this->thisRouteController());
-        $this->flashMessage('Changes Saved!');
-        $this->redirect($this->selfPath('table-settings-insert'));
-        return true;
-    }
-
-    /**
-     * table settings for updating this entity. Stored in flat file database
-     *
-     * @return boolean
-     */
-    public function tableSettingsUpdateAction(): bool
-    {
-        $this->tableSettingsUpdateInit($this->thisRouteController());
-        $this->flashMessage('Settings Updated!');
-        $this->redirect($this->selfPath('table-settings-update'));
-        return true;
-    }
 }

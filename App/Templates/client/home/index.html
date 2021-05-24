@@ -7,29 +7,77 @@
 <!-- Block description -->
 {% block keywords %}login{% endblock %}
 <!-- Block description -->
-{% block author %}Ricardo Miller{% endblock %}
+{% block author %}{% endblock %}
+
+<!--  -->
+{% block page_header %}{@ locale('framework_name') @}{% endblock %}
+<!--  -->
+{% block page_tagline %} Welcome and thanks for choosing Magmacore framework. You are using the current stable version <small>v1.2</small> {% endblock %}
 
 <!-- start content-->
 {% block content %}
-<article class="uk-article">
 
-    <h1 class="uk-article-title"><a class="uk-link-reset" href="">MagmaCore Framework</a></h1>
-
-    <p class="uk-article-meta">Written by <a href="#">Super User</a> on 12 April 2012. Posted in <a href="#">Blog</a></p>
-
-    <p class="uk-text-lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-    <div class="uk-grid-small uk-child-width-auto" uk-grid>
-        <div>
-            <a class="uk-button uk-button-text" href="#">Read more</a>
-        </div>
-        <div>
-            <a class="uk-button uk-button-text" href="#">5 Comments</a>
-        </div>
+<div uk-grid>
+    <div class="uk-width-auto@m">
+        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+            <li><a href="#">{@ locale('getting_started') @}</a></li>
+            <li><a href="#">{@ locale('application') @}</a></li>
+            <li><a href="#">{@ locale('whats_next') @}</a></li>
+        </ul>
     </div>
+    <div class="uk-width-expand@m">
+        <ul id="component-tab-left" class="uk-switcher">
+            <li>
+                {% if ($current_user) : %}
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('current_user') @}</dt>
+                    <dd>
 
-</article>
+                        <ul class="uk-list uk-list-disc uk-list-muted uk-text-danger">
+                            <li>Name: {{{ $current_user->firstname . ' ' . $current_user->lastname }}}</li>
+                            <li>Email: {{{ $current_user->email }}}</li>
+                            <li>Role: ?</li>
+                        </ul>
+                    </dd>
+                    <a href="/logout">
+                        <ion-icon name="log-out-outline" size="large"></ion-icon>
+                    </a>
+                    <a href="/admin/dashboard/index">
+                        <ion-icon name="speedometer-outline" size="large"></ion-icon>
+                    </a>
+
+                </dl>
+                <!--  -->
+                {% else : %}
+                <p>There are no current active session</p>
+                <a href="/login">Login</a>
+                <!--  -->
+                {% endif; %}
+            </li>
+            <li class="uk-margin-bottom-medium">{@ locale('application_ready') @}
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('server_information') @}</dt>
+                    <dd>
+
+                        <ul class="uk-list uk-list-disc uk-list-muted uk-text-danger">
+                            <li>PHP Version: {{{ PHP_VERSION }}}</li>
+                            <li>Port: {{{ $_SERVER['SERVER_PORT'] }}}</li>
+                            <li>Server Name / Host: {{{ $_SERVER['SERVER_NAME'] }}}</li>
+                            <li>User Agent: {{{ $_SERVER['HTTP_USER_AGENT'] }}}</li>
+                            <li>Server Software: {{{ $_SERVER['SERVER_SOFTWARE'] }}}</li>
+                            <li>Script Name: {{{ $_SERVER['SCRIPT_NAME'] }}}</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <div>
+                    <img src="/public/assets/images/manual.png" width="70" height="70">
+                    <span class="uk-text-middle">Read the documentation to learn more. <a href="">How to create your first project</a></span>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
 {% endblock %}

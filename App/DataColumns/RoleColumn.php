@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
-use App\Forms\Admin\Role\RoleForm;
 use App\Model\RolePermissionModel;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
@@ -104,33 +103,19 @@ class RoleColumn extends AbstractDatatableColumn
                 'sortable' => false,
                 'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
-                    // return $twigExt->action(
-                    //     [
-                    //         'has_permission' => $this->hasPermission($row),
-                    //         'edit_modal' => [
-                    //             'icon' => 'ion-compose',
-                    //             'tooltip' => 'Edit',
-                    //             'toggle_modal_edit' => true,
-                    //             'callback' => function ($row, $twigExt) {
-                    //                 return $twigExt->getModal(
-                    //                     [
-                    //                         'toggle_id' => 'edit-modal-role-' . $row['id'],
-                    //                         'modal_title' => 'Edit ' . $row['role_name'],
-                    //                         'modal_content' => (new RoleForm())
-                    //                             ->createForm("/admin/role/{$row['id']}/edit", $row)
-                    //                     ]
-                    //                 );
-                    //             }
-                    //         ],
-                    //         'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
-                    //     ],
-                    //     $row,
-                    //     $twigExt,
-                    //     'role',
-                    //     false,
-                    //     'Are You Sure!',
-                    //     "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['role_name']}</strong> role."
-                    // );
+                    return $twigExt->action(
+                        [
+                            'has_permission' => $this->hasPermission($row),
+                            'file-edit' => ['tooltip' => 'Edit', 'icon' => 'ion-compose'],
+                            'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
+                        ],
+                        $row,
+                        $twigExt,
+                        'role',
+                        false,
+                        'Are You Sure!',
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['role_name']}</strong> role."
+                    );
                 }
             ],
 

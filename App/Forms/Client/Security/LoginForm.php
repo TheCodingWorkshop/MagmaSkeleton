@@ -43,7 +43,7 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 * @param object|null $userRepository
 	 * @return void
 	 */
-	public function createForm(string $action, ?Object $userRepository = null)
+	public function createForm(string $action, ?Object $userRepository = null, object $callingController = null)
 	{
 		return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
 			->addRepository($userRepository)

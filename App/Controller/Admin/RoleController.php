@@ -15,11 +15,13 @@ namespace App\Controller\Admin;
 use LoaderError;
 use SyntaxError;
 use RuntimeError;
+use App\Model\UserModel as UM;
 use App\Entity\RoleEntity;
 use App\Schema\RoleSchema;
 use App\Event\RoleActionEvent;
-use MagmaCore\DataObjectLayer\DataLayerTrait;
+use App\Model\RoleModel as RM;
 use App\Entity\RolePermissionEntity;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class RoleController extends AdminController
 {
@@ -45,15 +47,19 @@ class RoleController extends AdminController
          * [ roleModel => \App\Model\RoleModel::class ]. Where the key becomes the
          * property for the RoleModel object like so $this->roleModel->getRepo();
          */
-        $this->diContainer(
+        $this->addDefinitions(
             [
                 'repository' => \App\Model\RoleModel::class,
+                'userRepository' => \App\Model\UserModel::class,
                 'commander' => \App\Commander\RoleCommander::class,
                 'entity' => \App\Entity\RoleEntity::class,
                 'column' => \App\DataColumns\RoleColumn::class,
                 'formRole' => \App\Forms\Admin\Role\RoleForm::class,
+                'formRoleAssigned' => \App\Forms\Admin\Role\RoleAssignedForm::class,
                 'permission' => \App\Model\PermissionModel::class,
                 'rolePerm' => \App\Model\RolePermissionModel::class,
+                'userRole' => \App\Model\UserRoleModel::class,
+                'relationship' => \App\Relationships\RoleRelationship::class
             ]
         );
         /** Initialize database with table settings */
@@ -61,22 +67,6 @@ class RoleController extends AdminController
             $this->thisRouteController(),
             $this->column
         );
-    }
-
-    /**
-     * Middleware which are executed before any action methods is called
-     * middlewares are return within an array as either key/value pair. Note
-     * array keys should represent the name of the actual class its loading ie
-     * upper camel case for array keys. alternatively array can be defined as 
-     * an index array omitting the key entirely
-     *
-     * @return array
-     */
-    protected function callBeforeMiddlewares(): array
-    {
-        return [
-            'PreventionActions' => \App\Middleware\Before\PreventionActions::class,
-        ];
     }
 
     /**
@@ -108,10 +98,10 @@ class RoleController extends AdminController
     {
         $this->indexAction
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
-            ->render()
-            ->with(['form' => $this->formRole->createForm($this->getRoute('new', $this))])
-            ->table()
-            ->end();
+                ->render()
+                    ->with()
+                        ->table()
+                            ->end();
     }
 
     /**
@@ -125,10 +115,10 @@ class RoleController extends AdminController
     {
         $this->newAction
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
-            ->render()
-            ->with()
-            ->form($this->formRole)
-            ->end();
+                ->render()
+                    ->with()
+                        ->form($this->formRole)
+                            ->end();
     }
 
     /**
@@ -141,7 +131,15 @@ class RoleController extends AdminController
     protected function editAction(): void
     {
         $this->editAction
-            ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__);
+            ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with(
+                        [
+                            'role' => $this->toArray($this->findOr404())
+                        ]
+                    )
+                        ->form($this->formRole)
+                            ->end();
     }
 
     /**
@@ -167,6 +165,14 @@ class RoleController extends AdminController
     {
         $this->newAction
             ->execute($this, RolePermissionEntity::class, NULL, NULL, __METHOD__)
+            ->mergeRelationship(function ($_repo, $_rel) {
+                return $_rel->type()
+                    ->manyToMany(RM::REL_FIELDS, UM::REL_FIELDS)
+                    ->where(RM::REL_ASSOC)
+                    ->and(UM::REL_ASSOC)
+                    ->limit(['id' => $this->thisRouteID()])
+                    ->all();
+            })
             ->render()
             ->with(
                 [
@@ -175,7 +181,7 @@ class RoleController extends AdminController
                     'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()]))
                 ]
             )
-            ->form($this->formRole)
+            ->form($this->formRoleAssigned)
             ->end();
     }
 }

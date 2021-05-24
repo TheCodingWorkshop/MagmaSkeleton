@@ -1,32 +1,26 @@
 {% extends 'frontend_layout.html' %}
 
 <!-- Block title -->
-{% block title %}Logout{% endblock %}
+{% block title %}Sign Out{% endblock %}
 <!-- Block description -->
 {% block description %}MagmaCore secure login{% endblock %}
 <!-- Block description -->
-{% block keywords %}login{% endblock %}
+{% block keywords %}sign-out{% endblock %}
 <!-- Block description -->
 {% block author %}Ricardo Miller{% endblock %}
+<!--  -->
+{% block page_header %}{@ locale('sign_out') @}{% endblock %}
+<!--  -->
+{% block page_tagline %}You're about to sign out sorry to see you go.{% endblock %}
 
 <!-- start content-->
 {% block content %}
-<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-<div class="col-lg-6">
-    <div class="p-5">
-        <div class="text-center">
-            <h1 class="h4 text-gray-900 mb-4">Logging Out!</h1>
-        </div>
-        {{ $form }} Or
-        <a href="/profile/account/index" class="uk-button uk-button-text uk-text-primary">Cancel</a>.
-
-        <hr>
-        <div class="text-center">
-            <a class="small" href="/password/forgot">Forgot Password?</a>
-        </div>
-        <div class="text-center">
-            <a class="small" href="/register">Create an Account!</a>
-        </div>
-    </div>
+<div>
+    <article class="uk-article">
+        <p class="uk-text-lead uk-margin-medium">
+            {{ $form }} Or
+            <a href="/" class="uk-button uk-button-text uk-text-primary">Cancel</a>.
+        </p>
+    </article>
 </div>
 {% endblock %}

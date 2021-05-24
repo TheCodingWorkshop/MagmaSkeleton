@@ -56,7 +56,8 @@ class UserController extends AdminController
                 'userPerferenceRepo' => \App\Model\UserPerferenceModel::class,
                 'userPerferencesForm' => \App\Forms\Admin\User\UserPerferencesForm::class,
                 'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
-                'tableSettings' => \App\Forms\Admin\Settings\TableSettingsForm::class
+                'tableSettings' => \App\Forms\Admin\Settings\TableSettingsForm::class,
+                'relationship' => \App\Relationships\UserRelationship::class
             ]
         );
         /** Initialize database with table settings */
@@ -94,8 +95,8 @@ class UserController extends AdminController
     {           
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
-                ->mergeRelationship(function($repository){
-                    return $repository->type()
+                ->mergeRelationship(function($repository, $relationship){
+                    return $relationship->type()
                         ->manyToMany(UM::REL_FIELDS, RM::REL_FIELDS)->where(UM::REL_ASSOC)
                             ->and(RM::REL_ASSOC)
                                 ->all();

@@ -1,4 +1,5 @@
 en:
+  framework_name: Magmacore
   last_login: Last Login
   failed_logins: Failed Logins
   data_unavailable: Data Unavailable
@@ -16,3 +17,18 @@ en:
   resend: Resend
   last_updated: Last Updated
   address_book: Address Book
+  qualified_permission: Qualified Permissions
+  permissions: Permissions
+  permission_assigned: Permission Assigned
+  assigned_to: Assigned To
+  role: Role
+
+  getting_started: Getting Started
+  application: application
+  whats_next: What's Next
+  application_ready: Your application is now ready. You can start working on it.
+  current_user: Current User
+  server_information: Server Information
+  sign_in: Sign In
+  sign_out: Sign Out
+  register: Register

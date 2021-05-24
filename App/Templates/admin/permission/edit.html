@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Edit Permission{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore edit permission{% endblock %}
+<!-- keywords -->
+{% block keywords %}edit-role{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="role_form">
+                        {{ $form }}
+                    </turbo-frame>
+                    <turbo-stream action="append" target="flash_messages">
+                        <template>
+                            <div>{@ templateExtension('uikit_flash_message') @}</div>
+                        </template>
+                    </turbo-stream>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('last_updated') @}</dt>
+                    <dd>{@ formatDate($permission['modified_at']) @}</dd>
+                    <dt>{@ locale('created') @}</dt>
+                    <dd>{@ formatDate($permission['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created by: {{{ $permission['created_byid'] }}}</small></dd>
+                    <dt>{@ locale('assigned_to') @}</dt>
+                    <dd>Superadmin</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

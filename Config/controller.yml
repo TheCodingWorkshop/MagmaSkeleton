@@ -34,17 +34,18 @@ role:
 #   sort_columns:
 #     - role_id
 
-# permission:
-#   additional_conditions: []
-#   selectors: []
-#   records_per_page: 5
-#   query: ""
-#   filter_by: ["permission_name"]
-#   filter_alias: s
-#   sort_columns:
-#     - permission_name
-#     - created_at
-#     - modified_at
+permission:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["permission_name"]
+  filter_alias: s
+  sort_columns:
+    - permission_name
+    - created_at
+    - modified_at
 
 # post:
 #   additional_conditions: []
