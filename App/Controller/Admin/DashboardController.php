@@ -39,6 +39,7 @@ class DashboardController extends AdminController
          */
         $this->addDefinitions(
             [
+                'repository' => \App\Repository\DashboardRepository::class,
             ]
         );  
 
@@ -56,29 +57,20 @@ class DashboardController extends AdminController
      */
     protected function indexAction()
     { 
-        /**$string = "name=firstname&length=190&null=false";
-        $pipes = explode("&", $string);
-        foreach ($pipes as $pipe) {
-            if ($pipe) {
-
-            }
-        }*/
-
-       // $colon = implode("@", $pipe);
-       // $args = explode("@", $colon);
-        /*return array_walk($args, function($value, $key, $args) {
-            var_dump($value);
-            die();
-    
-        }, $args);*/
-        /*$usage = memory_get_usage();
-        $peakUsage = memory_get_peak_usage();
-        echo 'Memory Usage: ' . $this->convert($usage) . "<br>";
-        echo 'Peak Usage: ' . $this->convert($peakUsage) . "<br>";*/
         $this->render(
             'admin/dashboard/index.html',
             [
-                "this" => $this
+                "links" => $this->repository->getQuickLinks(),
+                'statistics' => $this->repository->getStatistics(),
+                'user_percentage' => $this->repository->userPercentage(),
+                'user_session' => $this->repository->userSession(),
+                'user_gained' => $this->repository->countLastMountUsers(),
+                'total_records' => $this->repository->totalUsers(),
+                'pending_users' => $this->repository->totalPendingUsers(),
+                'github' => $this->repository->getGithubStats(),
+                'nav_switcher' => $this->repository->getNavSwitcher(),
+
+                'unique_visits' => $this->repository->getSessionUniqueVisits()
             ] 
         );
     }

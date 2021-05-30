@@ -97,17 +97,17 @@ services:
         App\Controller\UserController::settingsAction:
           msg: Changes Saved
 
-    # registration.subscriber:
-    #   class: \App\EventSubscriber\UserActionSubscriber
-    #   props:
-    #     - {}
-    #   register_route_feedback:
-    #     App\Controller\RegistrationController::registerAction:
-    #       msg: You're now registered
-    #       redirect: /registration/registered
+    registration.subscriber:
+      class: \App\EventSubscriber\RegistrationActionSubscriber
+      props:
+        - {}
+      register_route_feedback:
+        App\Controller\RegistrationController::registerAction:
+          msg: You're now registered
+          redirect: /registration/registered
 
   listeners:
-    my.listener1:
-      class: \App\EventListener\RoleListener
+    send_registration_email.listener:
+      class: \App\EventListener\SendRegistrationEmailListener
       props:
-        - { name: "app.event.listener.role_listener", event: doUpdate }
+        - { name: "app.event.listener.send_registration_email_listener", event: '__invoke' }

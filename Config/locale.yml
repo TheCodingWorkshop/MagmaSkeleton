@@ -29,6 +29,35 @@ en:
   application_ready: Your application is now ready. You can start working on it.
   current_user: Current User
   server_information: Server Information
+  login: Login
   sign_in: Sign In
   sign_out: Sign Out
   register: Register
+  register_again: Register Again
+  no_current_session: There are no current active session
+  no_account: Don't have an account
+  create_an_account: Create an Account
+  already_register: Already register
+  register_terms: By clicking Register, you accept our Terms of Use. Find out about our Privacy and Cookies Policy.
+  forgotton_password: Forgotton your Password
+  name: Name
+  port: Port
+  server_name: Server Name
+  user_agent: User Agent
+  server_software: Server Software
+  script_name: Script Name
+  php_version: PHP Version
+  welcome: Welcome
+  your_activated: You're Activated
+  activation_failed: Activation Expired
+  time_expired: Time Expired
+
+  personal_details: Personal Details
+  edit_name: Edit Name
+  edit_email: Edit Email
+  edit_password: Edit Password
+  cancel: Cancel
+  session_expired: Session Expired
+
+  dashboard: Dashboard
+  user_still_pending: users account still pending

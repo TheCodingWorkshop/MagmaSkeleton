@@ -72,7 +72,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Create New',
-            'edit' => "Edit " . $this,
+            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'firstname'),
             'show' => "Viewing {$suffix}",
             'hard-delete' => "Deleting {$suffix}",
             'perferences' => "{$suffix} Perferences",

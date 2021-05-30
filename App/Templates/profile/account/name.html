@@ -1,0 +1,24 @@
+{% extends 'frontend_layout.html' %}
+
+<!-- Block title -->
+{% block title %}Update Your Name{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore update name{% endblock %}
+<!-- Block description -->
+{% block keywords %}update-name{% endblock %}
+<!-- Block description -->
+{% block author %}{% endblock %}
+<!--  -->
+{% block page_header %}{@ locale('edit_name') @}{% endblock %}
+<!--  -->
+{% block page_tagline %}{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<div>
+    <p>Your display name is what people will see whenever you do anything public on our website or app. For example, if you comment on a story.</p>
+    {{ $form }}
+    <a class="uk-button uk-button-text uk-text-primary" href="/profile/account/index">{@ locale('cancel') @}</a>
+
+</div>
+{% endblock %}

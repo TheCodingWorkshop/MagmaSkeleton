@@ -1,0 +1,25 @@
+<div>
+    <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+        {% include 'admin/dashboard/health/healthy.html' %}
+        <div>
+            <div class="uk-flex uk-flex-wrap uk-flex-wrap-around uk-flex-center uk-flex-wrap-stretch">
+                <div>
+                    <span>CPU</span>
+                    <div class="myBar ldBar label-center" data-unit="CPU" data-preset="circle" data-value="50"></div>
+
+                </div>
+                <div>
+                    <span>HDD</span>
+                    <div class="myBar2 ldBar label-center" data-unit="MEM" data-preset="circle" data-value="50"></div>
+
+                </div>
+                <div>
+                    <span>MEM</span>
+                    <div class="myBar3 ldBar label-center" data-unit="HDD" data-preset="circle" data-value="50"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

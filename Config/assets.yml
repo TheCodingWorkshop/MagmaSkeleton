@@ -23,12 +23,23 @@ stylesheets:
     href: "/public/assets/css/uikit/custom.css"
     enable: true
     cdn: false
+  guages:
+    href: "/public/assets/css/uikit/gauges.css"
+    enable: true
+    cdn: false
 
 scripts:
   jquery:
     src: "https://code.jquery.com/jquery-3.4.1.min.js"
     integrity: "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin: anonymous
+    location: footer
+    enable: true
+    cdn: true
+  charts:
+    src: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"
+    integrity: "sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc="
+    crossorigin: "anonymous"
     location: footer
     enable: true
     cdn: true
@@ -50,13 +61,6 @@ scripts:
     src: "https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/js/uikit-icons.min.js"
     integrity: ""
     crossorigin: ""
-    location: footer
-    enable: false
-    cdn: true
-  charts:
-    src: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"
-    integrity: "sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc="
-    crossorigin: "anonymous"
     location: footer
     enable: false
     cdn: true
@@ -100,5 +104,19 @@ scripts:
     integrity: ""
     crossorigin: ""
     location: header
-    enable: true
+    enable: false
     cdn: true
+  chart:
+    src: "/public/assets/js/uikit/charts.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    location: footer
+    enable: true
+    cdn: false
+  guages:
+    src: "/public/assets/js/uikit/gauges.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    location: footer
+    enable: true
+    cdn: false

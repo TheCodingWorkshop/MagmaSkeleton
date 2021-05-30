@@ -1,0 +1,51 @@
+<div>
+    <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+        <div>
+            <div class="uk-card uk-card-body uk-card-danger">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto ion-64">
+                            <ion-icon name="bar-chart-outline"></ion-icon>
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Sessions</h3>
+                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">+5698 V 0226%</time></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body">
+                    <p>{{{ $unique_visits }}}k unique visitors today.</p>
+                    <div class="uk-flex uk-flex-wrap uk-flex-wrap-around uk-flex-center uk-flex-wrap-stretch">
+                        {% foreach ($user_session as $key => $value) : %}
+                        <div>
+                            <span>{{{ $value['name'] }}}</span>
+                            <div class="userSession-{{ $key }} ldBar label-center" data-unit="CPU" data-preset="circle" data-stroke="#9C8FD3" data-stroke-width="5" data-value="{{ $value['count'] }}"></div>
+
+                        </div>
+                        {% endforeach; %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="uk-card uk-card-body">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto ion-64">
+                            <ion-icon name="cart-outline"></ion-icon>
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Purchases</h3>
+                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">+5698 V 0226%</time></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body">
+                    <p>The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

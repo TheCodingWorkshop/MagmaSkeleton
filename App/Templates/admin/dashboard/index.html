@@ -9,14 +9,52 @@
 <!-- Block description -->
 {% block author %}Ricardo Miller{% endblock %}
 
-<!-- Start content header -->
-{% block content_title %}<span>Welcome Back,</span>{% endblock %}
-<!-- Content tagline-->
-{% block content_tagline %}There are 123 currently registered users{% endblock %}
-
+<!-- Commander Bar  -->
+{% block dashboard_commander %}
+<!--  -->
+{% include 'admin/dashboard/commander_bar.html' %}
+<!--  -->
+{% endblock %} {% block styles %}
+<style>
+    .ldBar-label:after {
+        font-size: 0.6em;
+    }
+</style>
+{% endblock %}
 <!-- start content-->
 {% block content %}
-<div>
+<section>
+    <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
+        <div class="uk-card-badge ion-24">
+            <ion-icon name="settings-outline"></ion-icon>
+        </div>
+        <div>
+            <div>
+                <div uk-grid>
+                    <div class="uk-width-auto@m">
+                        {% include 'admin/dashboard/nav_switcher.html' %}
+                    </div>
+                    <div class="uk-width-expand@m">
+                        <ul id="component-tab-left" class="uk-switcher">
+                            <li>{% include 'admin/dashboard/block_links.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_session.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_github.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_response.html' %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <turbo-frame>
+        <div class="uk-card-body">
+            <canvas id="chart1"></canvas>
+        </div>
 
-</div>
+    </turbo-frame>
+
+</section>
 {% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

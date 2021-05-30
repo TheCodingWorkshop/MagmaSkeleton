@@ -49,8 +49,14 @@
                 </dl>
                 <!--  -->
                 {% else : %}
-                <p>There are no current active session</p>
-                <a href="/login">Login</a>
+                <p class="uk-text-lead">{@ locale('no_current_session') @}</p>
+                <div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
+                    <p class="">{@ locale('no_account') @}? <br>
+                        <a href="/register" class="uk-button uk-button-small uk-button-text uk-text-left">{@ locale('register') @}</a>
+                    </p>
+                    <a class="uk-link uk-text-right" href="/login">{@ locale('sign_in') @}</a>
+                </div>
+                <hr>
                 <!--  -->
                 {% endif; %}
             </li>
@@ -60,12 +66,12 @@
                     <dd>
 
                         <ul class="uk-list uk-list-disc uk-list-muted uk-text-danger">
-                            <li>PHP Version: {{{ PHP_VERSION }}}</li>
-                            <li>Port: {{{ $_SERVER['SERVER_PORT'] }}}</li>
-                            <li>Server Name / Host: {{{ $_SERVER['SERVER_NAME'] }}}</li>
-                            <li>User Agent: {{{ $_SERVER['HTTP_USER_AGENT'] }}}</li>
-                            <li>Server Software: {{{ $_SERVER['SERVER_SOFTWARE'] }}}</li>
-                            <li>Script Name: {{{ $_SERVER['SCRIPT_NAME'] }}}</li>
+                            <li>{@ locale('php_version') @}: {{{ PHP_VERSION }}}</li>
+                            <li>{@ locale('port') @}: {{{ $_SERVER['SERVER_PORT'] }}}</li>
+                            <li>{@ locale('server_name') @}: {{{ $_SERVER['SERVER_NAME'] }}}</li>
+                            <li>{@ locale('user_agent') @}: {{{ $_SERVER['HTTP_USER_AGENT'] }}}</li>
+                            <li>{@ locale('server_software') @}: {{{ $_SERVER['SERVER_SOFTWARE'] }}}</li>
+                            <li>{@ locale('script_name') @}: {{{ $_SERVER['SCRIPT_NAME'] }}}</li>
                         </ul>
                     </dd>
                 </dl>

@@ -48,6 +48,7 @@ class SecurityController extends BaseController
             [
                 'loginForm' => \App\Forms\Client\Security\LoginForm::class,
                 'logoutForm' => \App\Forms\Client\Security\LogoutForm::class,
+                'sessionExpiredAction' => \MagmaCore\Base\Domain\Actions\SessionExpiredAction::class,
                 'authenticator' => \MagmaCore\Auth\Authenticator::class,
                 'loginAction' => \MagmaCore\Base\Domain\Actions\LoginAction::class,
                 'logoutAction' => \MagmaCore\Base\Domain\Actions\LogoutAction::class,
@@ -123,6 +124,22 @@ class SecurityController extends BaseController
                     ->with()
                         ->form($this->logoutForm)
                             ->end();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    protected function sessionAction()
+    {
+        $this->render('client/security/session.html', []);
+        // $this->sessionExpiredAction
+        //     ->execute($this)
+        //         ->render()
+        //             ->with()
+        //                 ->notification()
+        //                     ->end();
     }
 
 }

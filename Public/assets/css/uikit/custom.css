@@ -242,3 +242,19 @@ body {
     height: 100%;
     z-index: 9999;
 }
+
+.uk-card-danger {
+    background-color: #FEF4F6;
+}
+
+.uk-card-purple {
+    background-color: #9C8FD3;
+}
+
+.uk-card-warning {
+    background-color: #FFF6EE;
+}
+
+.uk-card-success {
+    background-color: #EDFBF6;
+}

@@ -22,7 +22,7 @@ class isAlreadyLogin extends BeforeMiddleware
      * Prevent access to the login form is the user is already logged.
      * as this action doesn't need doing again
      *
-     * @param Object $object - contains the BaseController object
+     * @param object $object - contains the BaseController object
      * @param Closure $next
      * @return void
      */

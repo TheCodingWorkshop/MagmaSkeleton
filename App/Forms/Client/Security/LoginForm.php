@@ -45,24 +45,18 @@ class LoginForm extends ClientFormBuilder implements ClientFormBuilderInterface
 	 */
 	public function createForm(string $action, ?Object $userRepository = null, object $callingController = null)
 	{
-		return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
+		return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
 			->addRepository($userRepository)
-			->add(
-				$this->blueprint->email(
-					'email',
-					['uk-form-width-large']
-				),
-				null,
-				$this->blueprint->settings(false, null, false, null, true)
-			)
-			->add(
-				$this->blueprint->password(
-					'password_hash',
-					['uk-form-width-large']
-				),
-				null,
-				$this->blueprint->settings(false, null, false, null, true)
-			)
+			->add($this->blueprint->email('email',['uk-form-width-large']))
+            ->add($this->blueprint->password(
+                'password_hash', 
+                ['uk-form-width-large'], 
+                null, 
+                'autocomplete', 
+                true),
+                NULL,
+                $this->blueprint->settings(false, null, true, 'Password')
+            )
 			->add(
 				$this->blueprint->checkbox(
 					'remember_me',

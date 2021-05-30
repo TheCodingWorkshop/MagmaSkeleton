@@ -31,14 +31,14 @@
             {% include '_partials/_sidebar.html' %}
         </div>
         <div class="content-padder content-background">
-            <div class="uk-section-xxsmall uk-section-default header">
+            <div class="uk-section-default header">
                 <div class="uk-container uk-container-large">
                     <!--  -->
                     {% if ($current_user !==null) : %}
                     <!--  -->
                     {@ templateExtension('uikit_commander_bar') @}
                     <!--  -->
-                    {% endif; %}
+                    {% endif; %} {% yield dashboard_commander %}
                 </div>
             </div>
             <div class="uk-section-small">
@@ -50,7 +50,6 @@
             </div>
         </div>
     </div>
-
     <!-- Footer Js -->
     {@ addjs() @}
     <!-- Page specific scripts -->

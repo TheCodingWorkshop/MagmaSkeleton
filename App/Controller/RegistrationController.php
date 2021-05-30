@@ -16,8 +16,8 @@ use LoaderError;
 use SyntaxError;
 use RuntimeError;
 use App\Entity\UserEntity;
-use App\Event\UserActionEvent;
 use MagmaCore\Base\BaseController;
+use App\Event\RegistrationActionEvent;
 
 class RegistrationController extends BaseController
 {
@@ -41,7 +41,7 @@ class RegistrationController extends BaseController
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
          * property for the userModel object like so $this->userModel->getRepo();
          */
-        $this->diContainer(
+        $this->addDefinitions(
             [
                 'formRegister' => \App\Forms\Client\Registration\RegistrationForm::class,
                 'repository' => \App\Model\UserModel::class,
@@ -92,7 +92,7 @@ class RegistrationController extends BaseController
     protected function registerAction()
     {
         $this->newAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+            ->execute($this, UserEntity::class, RegistrationActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with()
                         ->form($this->formRegister)
@@ -108,7 +108,7 @@ class RegistrationController extends BaseController
     protected function registeredAction()
     {
         $this->render(
-            "client/registration/registered.html.twig", []
+            "client/registration/registered.html", []
         );
     }
 }

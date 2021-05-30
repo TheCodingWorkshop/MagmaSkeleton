@@ -14,7 +14,7 @@ class SessionExpiresCleanUp extends AfterMiddleware
      * and will attempt to clean up database and left over cookie crumbs
      * if needs doing else will just return the next middleare
      *
-     * @param Object $object
+     * @param object $object
      * @param Closure $next
      * @return void
      */

@@ -8,41 +8,66 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Forms\Client\Registration;
 
 use MagmaCore\FormBuilder\ClientFormBuilder;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
-use MagmaCore\FormBuilder\Type\PasswordType;
-use MagmaCore\FormBuilder\Type\EmailType;
-use MagmaCore\FormBuilder\Type\TextType;
-use MagmaCore\FormBuilder\Type\HiddenType;
-use MagmaCore\FormBuilder\Type\SubmitType;
+use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
-    /**
-     * {@inheritdoc}
-     * @param string $action - form action
-     * @return string
-     * @throws Exception
-     */
-    public function createForm(string $action, $dataRepository = null)
-    {
-        return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
-            ->add([TextType::class => ['name' => 'firstname']], null)
-            ->add([TextType::class => ['name' => 'lastname']], null)
-            ->add([EmailType::class => ['name' => 'email', 'class' => ['uk-input', 'uk-form-medium']]], null)
-            ->add([PasswordType::class => ['name' => 'client_password_hash','autocomplete' => 'new-password', 'required' => true]], null, ['new_label' => 'Password'])
-            ->add([HiddenType::class => ['name' => 'role_id', 'value' => '2']])
-            ->add([SubmitType::class => ['name' => 'register-registration', 'value' => 'Register new account', 'class' => 'uk-button uk-button-primary']], 
-            null, 
-            ['show_label' => false, 'before_after_wrapper' => false]
-        )
-        ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+    /** @var FormBuilderBlueprintInterface $blueprint */
+    private FormBuilderBlueprintInterface $blueprint;
 
+    /**
+     * Main class constructor
+     *
+     * @param FormBuilderBlueprint $blueprint
+     * @return void
+     */
+    public function __construct(FormBuilderBlueprint $blueprint)
+    {
+        $this->blueprint = $blueprint;
     }
 
+    /**
+     * Construct the security login form. The attribute name='{string}' must match 
+     * the string name pass to the $this->form->isSubmittable() method within the 
+     * any method checking if the form canHandleRequest and isSubmittable
+     *
+     * @param string $action
+     * @param object|null $userRepository
+     * @return void
+     */
+    public function createForm(string $action, ?Object $userRepository = null, object $callingController = null)
+    {
+        return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
+            ->addRepository($userRepository)
+            ->add($this->blueprint->text('firstname'))
+            ->add($this->blueprint->text('lastname'))
+            ->add($this->blueprint->email('email', ['uk-width-1-2'], null, true))
+            ->add($this->blueprint->password(
+                'client_password_hash', 
+                [], 
+                null, 
+                'new-password', 
+                true),
+                NULL,
+                $this->blueprint->settings(false, null, true, 'Password')
+            )
+			->add(
+				$this->blueprint->submit(
+					'register-registration',
+					['uk-button', 'uk-button-primary'],
+					'Register new account'
+				),
+				null,
+				$this->blueprint->settings(false, null, false, null, true, 'Remember Me')
+			)
+            ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+    }
 }

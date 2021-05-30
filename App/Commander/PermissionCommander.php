@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Commander;
 
-use MagmaCore\Utility\Yaml;
 use App\Model\PermissionModel;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;

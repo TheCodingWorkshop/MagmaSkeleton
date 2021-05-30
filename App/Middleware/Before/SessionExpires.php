@@ -19,14 +19,14 @@ class SessionExpires extends BeforeMiddleware
 {
 
     /** @var int */
-    protected const SESSION_TIMEOUT = 600; /* 10 min */
+    protected const SESSION_TIMEOUT = 600;
 
     /**
      * Expires the session if left idle for more than the specified allowed time set.
      * from the application session.yaml file. else will default to class constant which
      * defaults to 30min idle time;
      *
-     * @param Object $object - contains the BaseController object
+     * @param object $object - contains the BaseController object
      * @param Closure $next
      * @return void
      */
@@ -40,13 +40,31 @@ class SessionExpires extends BeforeMiddleware
             if ($duration > $expires) {
                 $session->invalidate();
                 /** @todo let the user know the session was expired */
-                $object->redirect('/login');
+                $object->redirect('/security/session');
             } else {
                 $session->set('timeout', time());
             }
         }
         $session->set('timeout', time());
+        //$this->expire($object);
         return $next($object);
+    }
+
+    public function expire(object $object)
+    {
+        // $session = $object->getSession();
+        // if ($session->get('user_id') !==null) {
+        //     if (isset($_SESSION['is_login']) && $_SESSION['is_login'] == true) {
+        //         if (time() - $session->get('last_login') > 60) {
+        //             $session->invalidate();
+        //             $object->redirect('/security/session');
+        //         }
+        //     }
+    
+        // } else {
+        //     $object->redirect('/login');
+        // }
+       // if (isset($session->get()))
     }
 
 }
