@@ -1,14 +1,15 @@
 dashboard:
   name: Dashboard
-  icon: bi bi-speedometer2
+  icon: speedometer-outline
   path: /admin/dashboard/index
   roles: {}
-  header: Manager
+  
 authentication:
   title: Manage User
   name: Users
-  icon: bi bi-person-fill
+  icon: person-outline
   path: ""
+  header: Manager
   children:
     users:
       name: Users
@@ -40,3 +41,15 @@ authentication:
       path: "/admin/log/index"
       role:
         - developer
+
+settings:
+  title: Settings
+  name: Settings
+  icon: settings-outline
+  path: "/admin/setting/index"
+  header: Tools
+plugins:
+  title: Plugins
+  name: Plugins
+  icon: extension-puzzle-outline
+  path: ""

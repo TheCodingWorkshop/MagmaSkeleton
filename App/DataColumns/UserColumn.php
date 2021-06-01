@@ -30,7 +30,7 @@ class UserColumn extends AbstractDatatableColumn
                 'sortable' => false,
                 'searchable' => true,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="users" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
+                    return '<input type="checkbox" class="uk-checkbox" id="users-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
                 }
             ],
             [
@@ -236,9 +236,11 @@ class UserColumn extends AbstractDatatableColumn
     {
         return $this->getStatusValues($controller, function ($key, $value) use ($row) {
             if (!in_array($row[$key], $value)) {
+                var_dump($value);
+                die;
                 throw new \Exception($row[$key] . ' is not a value specified within your model.');
             }
-            $colors = ['warning', 'success', 'danger', 'secondary'];
+            $colors = ['warning', 'success', 'danger', 'secondary', ''];
             $count = 0;
             foreach ($value as $k => $val) {
                 $ret = '';
@@ -249,7 +251,8 @@ class UserColumn extends AbstractDatatableColumn
                             'pending' => 'alert-circle-outline',
                             'active' => 'checkmark-outline',
                             'trash' => 'trash-outline',
-                            'lock' => 'lock-closed-outline'
+                            'lock' => 'lock-closed-outline',
+                            '' => 'help-outline'
                         };
                         $ret = '<span class="uk-text-' . $colors[$k] . '" uk-tooltip="' . Stringify::capitalize($val) . '"><ion-icon name="' . $icon . '"></ion-icon></span>';
                         $count++;

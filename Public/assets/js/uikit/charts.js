@@ -1,9 +1,9 @@
 var ctx = $("#chart1");
 
 var data = {
-    labels: ["CPU", "Memory", "HDD", "WSL"],
+    labels: ["Pending", "Active", "Trash", "Lock"],
     datasets: [{
-        label: "Summary",
+        label: "User Summary",
         fill: false,
         lineTension: 0.1,
         backgroundColor: "rgb(63, 126, 179)",
@@ -54,13 +54,6 @@ var myLineChart = new Chart(ctx, {
     data: data,
     options: options
 });
-
-
-
-
-
-
-
 
 var ctx = $("#chart2");
 
@@ -125,14 +118,14 @@ var myLineChart = new Chart(ctx, {
 var ctx = $("#chart3");
 
 var data = {
-    labels: ["Chrome", "Firefox", "Safari", "Opera", "IE", "Andriod", "Apple"],
+    labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     datasets: [{
-        label: "Browsers",
+        label: "Weekly",
         fill: false,
         lineTension: 0.1,
         barThickness: 14,
         maxBarThickness: 16,
-        backgroundColor: ["rgb(255,224,230)", "rgb(255,236,217)", "rgb(255,245,221)", "rgb(219,242,242)", "rgb(215,236,251)", "rgb(235,224,255)", "rgb(244,245,245)"],
+        backgroundColor: ["rgb(188,219,251)", "rgb(188,219,251)", "rgb(188,219,251)", "rgb(188,219,251)", "rgb(188,219,251)", "rgb(188,219,251)", "rgb(188,219,251)"],
         borderColor: "#1e87f0",
         borderCapStyle: 'butt',
         borderDash: [],

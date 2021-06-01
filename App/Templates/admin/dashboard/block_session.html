@@ -19,7 +19,7 @@
                         {% foreach ($user_session as $key => $value) : %}
                         <div>
                             <span>{{{ $value['name'] }}}</span>
-                            <div class="userSession-{{ $key }} ldBar label-center" data-unit="CPU" data-preset="circle" data-stroke="#9C8FD3" data-stroke-width="5" data-value="{{ $value['count'] }}"></div>
+                            <div class="userSession-{{ $key }} ldBar label-center" data-unit="CPU" data-preset="circle" data-stroke="#000000" data-stroke-width="5" data-value="{{ $value['count'] }}"></div>
 
                         </div>
                         {% endforeach; %}

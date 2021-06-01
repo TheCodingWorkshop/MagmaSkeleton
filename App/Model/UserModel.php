@@ -24,7 +24,7 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
 
     public const REL_ASSOC = ['id' => 'user_id'];
     public const REL_FIELDS = ['firstname', 'lastname', 'email'];
-    public const COLUMN_STATUS = ['status' => ['pending', 'active', 'trash', 'lock']];
+    public const COLUMN_STATUS = ['status' => ['pending', 'active', 'trash', 'lock', '']];
 
     /** @var string */
     protected const TABLESCHEMA = 'users';

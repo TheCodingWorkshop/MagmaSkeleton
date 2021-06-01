@@ -1,0 +1,61 @@
+<turbo-frame>
+    <div>
+        <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+            <div>
+                <div class="uk-card uk-card-body uk-card-primary uk-text-white">
+                    <div class="uk-card-badge ion-21">
+                        <a href="#offcanvas-usage" uk-toggle>
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </a>
+                    </div>
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto ion-68">
+                                <ion-icon name="person-outline"></ion-icon>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{{ $total_records }}} Users</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    You gained +{{{ $user_gained }}} new users in the last month
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p class="uk-text-small">-<a data-turbo="false" href="/admin/user/index?status=pending">{{{ $pending_users }}}</a> {@ locale('user_still_pending') @}
+                        </p>
+                        <div style="width:300px; height: 120px;">
+                            <canvas id="chart3"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card">
+                    {% foreach($main_cards as $key => $value) : %}
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto ion-64">
+                                <a href="" class="uk-link-reset">
+                                    <ion-icon name="{{ $value['icon'] }}"></ion-icon>
+                                </a>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">
+                                    {{ $key }}
+                                </h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    {% if (isset($value['desc']) && count($value['desc']) > 0) : %} {% foreach($value['desc'] as $desc) : %}
+                                    <span>{{ $desc }}</span> {% endforeach; %} {% endif; %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endforeach; %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'admin/dashboard/dashboard_toggle.html' %}
+
+</turbo-frame>

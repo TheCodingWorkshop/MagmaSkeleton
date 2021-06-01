@@ -258,3 +258,12 @@ body {
 .uk-card-success {
     background-color: #EDFBF6;
 }
+
+.turbo-progress-bar {
+    height: 5px;
+    background-color: green;
+}
+
+.turbo-progress-bar {
+    visibility: hidden;
+}

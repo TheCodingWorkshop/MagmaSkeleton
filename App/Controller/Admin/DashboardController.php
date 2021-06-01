@@ -70,6 +70,7 @@ class DashboardController extends AdminController
                 'github' => $this->repository->getGithubStats(),
                 'nav_switcher' => $this->repository->getNavSwitcher(),
 
+                'main_cards' => $this->repository->mainCards(),
                 'unique_visits' => $this->repository->getSessionUniqueVisits()
             ] 
         );

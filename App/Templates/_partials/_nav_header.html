@@ -3,26 +3,50 @@
         <nav uk-navbar>
             <div class="uk-navbar-left">
                 <a id="sidebar_toggle" class="uk-navbar-toggle" uk-navbar-toggle-icon></a>
-                <a href="#" class="uk-navbar-item uk-logo">
-                        LavaStudio
-                    </a>
+                <a href="{@ path('admin_dashboard_index') @}" class="uk-navbar-item uk-logo">
+                    LavaStudio
+                </a>
             </div>
             <div class="uk-navbar-right uk-light">
-                <ul class="uk-navbar-nav" style="z-index: 9999;">
-                    <li class="uk-active">
-                        {% if (isset($current_user)): %}
-                        <a href="/admin/profile/{{ $current_user->id }}/profile">Èrik &nbsp;<span class="ion-ios-arrow-down"></span></a> {% endif; %}
-                        <div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-nav-header">Options</li>
-                                <li><a href="#">Edit Profile</a></li>
-                                <li class="uk-nav-header">Actions</li>
-                                <li><a href="#">Lock</a></li>
-                                <li><a href="/logout">Logout</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+                <div>
+                    {% if (isset($current_user)) : %}
+                    <span class="ion-24">
+                        <ion-icon name="expand"></ion-icon>
+                    </span>
+                    <!--  -->
+                    {% else : %}
+                    <span class="ion-24">
+                        <ion-icon name="help-outline"></ion-icon>
+                    </span>
+                    <!--  -->
+                    {% endif; %}
+                    <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">
+                        <ul class="uk-navbar-nav">
+                            {% foreach($header_nav as $key => $val) : %}
+                            <li class="">
+                                <a href="{{ $val['path'] }}">
+                                    <span class="ion-24">
+                                        <ion-icon name="{{ $val['icon'] }}"></ion-icon>
+                                    </span>
+                                </a>
+                                {% if (isset($val['children']) && count($val['children']) > 0) : %}
+                                <div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
+                                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                                        {% foreach ($val['children'] as $k => $v) : %}
+                                        <li>
+                                            <a data-turbo="false" href="{{ $v['path'] }}">{{ $v['name'] }}</a>
+                                        </li>
+                                        {% endforeach; %}
+                                    </ul>
+                                </div>
+                                {% endif; %}
+                            </li>
+                            {% endforeach; %}
+                        </ul>
+
+                    </div>
+                </div>
+
             </div>
         </nav>
     </div>

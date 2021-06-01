@@ -175,6 +175,30 @@ class DashboardRepository
         ];
     }
 
+    public function mainCards()
+    {
+        return [
+            'Team' => [
+                'icon' => 'people-outline', 
+                'desc' => [
+                    'Found 2 superadmin account and 1 contributor account.',
+                ]
+            ],
+            'Tasks' => [
+                'icon' => 'clipboard-outline',
+                'desc' => [
+                    'There are 12 incomplete tasks and 3 completed tasks.'
+                ]
+            ],
+            'Events' => [
+                'icon' => 'calendar-outline', 
+                'desc' => [
+                    '2 events coming up next week'
+                ]
+            ]
+        ];
+    }
+
     /**
      * Return an percentage array of the pending and active users against the total
      * records of users account
@@ -206,7 +230,7 @@ class DashboardRepository
             'home' => ['icon' => 'home-outline', 'include' => 'block_links'],
             'session' => ['icon' => 'stats-chart-outline', 'include' => 'block_statistics'],
             'github' => ['icon' => 'logo-github', 'include' => 'block_github'],
-            'health' => ['icon' => 'medkit-outline', 'include' => 'block_health_status'],
+            'health' => ['icon' => 'pulse-outline', 'include' => 'block_health_status'],
             'news' => ['icon' => 'newspaper-outline', 'include' => 'block_response'],
         ];
     }
