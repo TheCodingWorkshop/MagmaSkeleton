@@ -105,6 +105,14 @@ services:
         App\Controller\RegistrationController::registerAction:
           msg: You're now registered
           redirect: /registration/registered
+          
+    setting.subscriber:
+      class: \App\EventSubscriber\SettingActionSubscriber
+      props:
+        - {}
+      register_route_feedback:
+        App\Controller\Admin\SettingController::indexAction:
+          msg: Changes Saved
 
   listeners:
     send_registration_email.listener:

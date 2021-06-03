@@ -9,21 +9,42 @@
                         </div>
                         <div class="uk-width-expand">
                             <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Sessions</h3>
-                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">+5698 V 0226%</time></p>
+                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">+1.4k visits today</time></p>
                         </div>
                     </div>
                 </div>
                 <div class="uk-card-body">
-                    <p>{{{ $unique_visits }}}k unique visitors today.</p>
-                    <div class="uk-flex uk-flex-wrap uk-flex-wrap-around uk-flex-center uk-flex-wrap-stretch">
-                        {% foreach ($user_session as $key => $value) : %}
-                        <div>
-                            <span>{{{ $value['name'] }}}</span>
-                            <div class="userSession-{{ $key }} ldBar label-center" data-unit="CPU" data-preset="circle" data-stroke="#000000" data-stroke-width="5" data-value="{{ $value['count'] }}"></div>
+                    <p>Your views are 2.5%<span><ion-icon name="arrow-up-outline"></ion-icon></span> higher than last week.</p>
+                    <ul class="uk-list uk-list-collapse uk-list-divider">
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Avg Session Duration</div>
+                                <div>44s</div>
+                            </div>
 
-                        </div>
-                        {% endforeach; %}
-                    </div>
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Bounce Rate</div>
+                                <div>5.41%</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>PageViews</div>
+                                <div>1.4k</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Unqiue Session</div>
+                                <div>48.7%</div>
+                            </div>
+
+                        </li>
+                    </ul>
 
                 </div>
             </div>
@@ -33,11 +54,11 @@
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto ion-64">
-                            <ion-icon name="cart-outline"></ion-icon>
+                            <ion-icon name="analytics-outline"></ion-icon>
                         </div>
                         <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Purchases</h3>
-                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">+5698 V 0226%</time></p>
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Website Traffic</h3>
+                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">Most popular traffic coming from Google</time></p>
                         </div>
                     </div>
                 </div>

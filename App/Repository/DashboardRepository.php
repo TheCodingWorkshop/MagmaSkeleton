@@ -180,18 +180,21 @@ class DashboardRepository
         return [
             'Team' => [
                 'icon' => 'people-outline', 
+                'path' => '/admin/team/index',
                 'desc' => [
                     'Found 2 superadmin account and 1 contributor account.',
                 ]
             ],
             'Tasks' => [
                 'icon' => 'clipboard-outline',
+                'path' => '/admin.task/index',
                 'desc' => [
                     'There are 12 incomplete tasks and 3 completed tasks.'
                 ]
             ],
             'Events' => [
                 'icon' => 'calendar-outline', 
+                'path' => '/admin/event/index',
                 'desc' => [
                     '2 events coming up next week'
                 ]
@@ -231,56 +234,29 @@ class DashboardRepository
             'session' => ['icon' => 'stats-chart-outline', 'include' => 'block_statistics'],
             'github' => ['icon' => 'logo-github', 'include' => 'block_github'],
             'health' => ['icon' => 'pulse-outline', 'include' => 'block_health_status'],
-            'news' => ['icon' => 'newspaper-outline', 'include' => 'block_response'],
+            'activities' => ['icon' => 'receipt-outline', 'include' => 'block_activities'],
+            'project' => ['icon' => 'git-branch-outline', 'include' => 'block_project'],
         ];
     }
 
-    public function getGithubSettings()
+    public function getBlockActivities()
     {
-        $plugin = 'Overlay';
-        $cachePath =  $_SERVER['DOCUMENT_ROOT'] . '/plugin-cache/';
-        $cacheFile = $plugin . '-github.txt';
-        return $this->getJsonRepository($cachePath . $cacheFile, $plugin);
-    }
-
-    public function getGithubContent(string $url)
-    {
-        if ($url) {
-            return Curl::get($url);
-        }
-    }
-
-    public function getJsonRepository($file, $plugin)
-    {
-        $currentTime = time();
-        $expireTime = 24 * 60 * 60;
-        $fileTime = filemtime($file);
-        if (file_exists($file) && ($currentTime - $expireTime < $fileTime)) {
-            return json_decode(file_get_contents($file));
-        } else {
-            $json = array();
-            $json['repo'] = json_decode($this->getGithubContent('http://github.com/api/v2/json/repos/show/darkwing/' . $plugin), true);
-            $json['commit'] = json_decode($this->getGithubContent('http://github.com/api/v2/json/commits/list/darkwing/' . $plugin . '/master'), true);
-            $json['readme'] = json_decode($this->getGithubContent('http://github.com/api/v2/json/blob/show/darkwing/' . $plugin . '/' . $json['commit']['commits'][0]['parents'][0]['id'] . '/Docs/' . $plugin . '.md'), true);
-            $json['js'] = json_decode($this->getGithubContent('http://github.com/api/v2/json/blob/show/darkwing/' . $plugin . '/' . $json['commit']['commits'][0]['parents'][0]['id'] . '/Source/' . $plugin . '.js'), true);
-            file_put_contents($file, json_encode($json));
-            return $json;
-        }
-    }
-
-
-    public function githubDump()
-    {
-        var_dump($this->getGithubSettings());
-        // if($this->githubJson) {
-
-        //     //get markdown
-        //     include($_SERVER['DOCUMENT_ROOT'].'/wp-content/themes/walshbook3/PHP-Markdown-Extra-1.2.4/markdown.php');
-
-        //     //build content
-        //     $content = '<p>'.$github_json['repo']['repository']['description'].'</p>';
-        //     $content.= '<h2>MooTools JavaScript Class</h2><pre class="js">'.$github_json['js']['blob']['data'].'</pre><br />';
-        //     $content.= trim(str_replace(array('<code>','</code>'),'',Markdown($github_json['readme']['blob']['data'])));
-        // }
+        return [
+            'Security' => [
+                'icon' => 'lock-closed-outline', 
+                'path' => '/admin/security/index',
+                'desc' => 'Ensure your application is protected by completing these steps.'
+            ],
+            'Report' => [
+                'icon' => 'hardware-chip-outline',
+                'path' => '/admin.task/index',
+                'desc' => 'System reports gathers information about your application environment.'
+            ],
+            'Settings' => [
+                'icon' => 'settings-outline', 
+                'path' => '/admin/event/index',
+                'desc' => 'Settings page allows customization of your application.'
+            ]
+        ];
     }
 }

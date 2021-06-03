@@ -39,11 +39,16 @@ class TaskController extends AdminController
             ]
         );
         /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'task',
-            $this->column
-        );
+        // $this->initializeControllerSettings(
+        //     'task',
+        //     $this->column
+        // );
 
+    }
+
+    protected function indexAction()
+    {
+        $this->render('admin/task/index.html');
     }
 
 

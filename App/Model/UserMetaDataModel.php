@@ -56,7 +56,7 @@ class UserMetaDataModel extends AbstractBaseModel
      *
      * @return OneToOne
      */
-    public function hasRelationship(): OneToOne
+    public function hasRelationship()
     {
         return $this->addRelationship(OneToOne::class)
             ->hasOne(UserMetaDataModel::class)->belongsToOne(UserModel::class)

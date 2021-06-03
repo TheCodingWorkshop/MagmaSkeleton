@@ -19,7 +19,6 @@
                     </turbo-frame>
                     <turbo-stream action="append" target="flash_messages">
                         <template>
-                            <div>Updated</div>
                         </template>
                     </turbo-stream>
                 </div>
@@ -31,7 +30,9 @@
             <div class="uk-card uk-card-body uk-padding-remove">
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('last_updated') @}</dt>
-                    <dd>{@ formatDate($role['modified_at']) @}</dd>
+                    <dd>
+                        {% if (isset($role['modified_at']) && $role['modified_at'] !==null) : %} {@ formatDate($role['modified_at']) @} {% else : %} Never {% endif %}
+                    </dd>
                     <dt>{@ locale('created') @}</dt>
                     <dd>{@ formatDate($role['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created by: {{{ $role['created_byid'] }}}</small></dd>
                     <dt>{@ locale('qualified_permission') @}</dt>

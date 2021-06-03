@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\SettingEntity;
+use App\Event\SettingActionEvent;
+
 class SettingController extends AdminController
 {
 
@@ -36,6 +39,22 @@ class SettingController extends AdminController
          */
         $this->addDefinitions(
             [
+                'repository' => \App\Model\SettingModel::class,
+                'settingsRepository' => \MagmaCore\Settings\Settings::class,
+                'column' => \App\DataColumns\SettingColumn::class,
+                'commander' => \App\Commander\SettingCommander::class,
+                'configAction' => \MagmaCore\Base\Domain\Actions\ConfigAction::class,
+                'applicationSettingForm' => \App\Forms\Admin\Settings\ApplicationSettingForm::class,
+                'generalSettingForm' => \App\Forms\Admin\Settings\GeneralSettingForm::class,
+                'formattingSettingForm' => \App\Forms\Admin\Settings\FormattingSettingForm::class,
+                'datetimeSettingForm' => \App\Forms\Admin\Settings\DatetimeSettingForm::class,
+                'securitySettingForm' => \App\Forms\Admin\Settings\SecuritySettingForm::class,
+                'purgeSettingForm' => \App\Forms\Admin\Settings\PurgeSettingForm::class,
+                'backupRestoreSettingForm' => \App\Forms\Admin\Settings\BackupRestoreSettingForm::class,
+                'localisationSettingForm' => \App\Forms\Admin\Settings\LocalisationSettingForm::class,
+                'brandingSettingForm' => \App\Forms\Admin\Settings\BrandingSettingForm::class,
+                'extensionSettingForm' => \App\Forms\Admin\Settings\ExtensionSettingForm::class,
+
             ]
         );
         /** Initialize database with table settings */
@@ -46,5 +65,105 @@ class SettingController extends AdminController
 
     }
 
+    /**
+     * Returns a 404 error page if the data is not present within the database
+     * else return the requested object
+     *
+     * @return mixed
+     */
+    public function findOr404()
+    {
+        $repository = $this->repository->getRepo()
+            ->findAndReturn($this->thisRouteID())
+            ->or404();
+
+        return $repository;
+    }
+
+    protected function indexAction()
+    {
+        $this->render('admin/setting/index.html');
+    }
+
+    protected function generalAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->generalSettingForm)
+                            ->end();
+    }
+
+    protected function securityAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->securitySettingForm)
+                            ->end();
+    }
+
+    protected function purgeAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->purgeSettingForm)
+                            ->end();
+    }
+
+    protected function backupRestoreAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->backuprestoreSettingForm)
+                            ->end();
+    }
+
+    protected function localisationAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->localisationSettingForm)
+                            ->end();
+    }
+
+    protected function brandingAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->brandingSettingForm)
+                            ->end();
+    }
+
+    protected function extensionAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with([])
+                        ->form($this->extensionSettingForm)
+                            ->end();
+    }
+
+
+    protected function applicationAction()
+    {
+        $this->configAction
+            ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
+                ->render()
+                    ->with()
+                        ->form($this->applicationSettingForm)
+                            ->end();
+    }
 
 }

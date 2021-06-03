@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\Model\UserMetaModel;
+use App\Model\UserMetaDataModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
 use MagmaCore\DataSchema\DataSchemaBuilderInterface;
@@ -25,7 +25,7 @@ class UserMetaSchema implements DataSchemaBuilderInterface
     /** @var object - provides helper function for quickly adding schema types */
     protected DataSchemaBlueprint $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected UserMetaModel $userMetaModel;
+    protected UserMetaDataModel $userMetaModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -33,11 +33,11 @@ class UserMetaSchema implements DataSchemaBuilderInterface
      *
      * @param DataSchema $schema
      * @param DataSchemaBlueprint $blueprint
-     * @param UserMetaModel $userMetaModel
+     * @param UserMetaDataModel $userMetaModel
      * @return void
      */
     public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, 
-    UserMetaModel $userMetaModel)
+    UserMetaDataModel $userMetaModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;

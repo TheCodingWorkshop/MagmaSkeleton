@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Team{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore team{% endblock %}
+<!-- Block description -->
+{% block keywords %}team{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- Commander Bar  -->
+{% block dashboard_commander %}
+<!--  -->
+{% include 'admin/dashboard/commander_bar.html' %}
+<!--  -->
+{% endblock %} {% block styles %} {% endblock %}
+<!-- start content-->
+{% block content %}
+<section>
+    <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
+        <div class="uk-card-badge ion-24">
+            <ion-icon name="settings-outline"></ion-icon>
+        </div>
+        <div>
+            <div>
+                <div uk-grid>
+                    <div class="uk-width-auto@m">
+                    </div>
+                    <div class="uk-width-expand@m">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

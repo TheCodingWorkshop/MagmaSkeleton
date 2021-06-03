@@ -3,7 +3,7 @@ dashboard:
   icon: speedometer-outline
   path: /admin/dashboard/index
   roles: {}
-  
+ 
 authentication:
   title: Manage User
   name: Users
@@ -41,6 +41,29 @@ authentication:
       path: "/admin/log/index"
       role:
         - developer
+
+project:
+  title: Project Manager
+  name: Projects
+  icon: person-outline
+  path: ""
+  children:
+    projects:
+      name: Projects
+      icon: ''
+      path: "/admin/project/index"
+    new:
+      name: New
+      icon: ''
+      path: "/admin/project/new"
+    show:
+      name: View
+      icon: ''
+      path: "/admin/project/show"
+    log:
+      name: Log
+      icon: ''
+      path: "/admin/project/log"
 
 settings:
   title: Settings

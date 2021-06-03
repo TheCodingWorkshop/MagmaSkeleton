@@ -1,5 +1,4 @@
 var ctx = $("#chart1");
-
 var data = {
     labels: ["Pending", "Active", "Trash", "Lock"],
     datasets: [{
@@ -25,7 +24,6 @@ var data = {
         spanGaps: false,
     }]
 };
-
 var options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -48,25 +46,25 @@ var options = {
         }]
     }
 }
-
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: data,
     options: options
 });
 
-var ctx = $("#chart2");
+/*============================================================================*/
 
+var ctx2 = $("#chart2");
 var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September"],
+    labels: ["Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Info", "Debug"],
     datasets: [{
-        label: "Website traffic",
+        label: "Logger",
         fill: false,
         lineTension: 0.1,
         barThickness: 14,
         maxBarThickness: 16,
-        backgroundColor: "#1e87f0",
-        borderColor: "#1e87f0",
+        backgroundColor: "#333333",
+        borderColor: "#333333",
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
@@ -80,11 +78,10 @@ var data = {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: [103265, 128259, 85290, 115923, 91238, 108295, 102295, 256333, 254789],
+        data: [5, 10, 0, 0, 0, 0, 0, 2],
         spanGaps: false,
     }]
 };
-
 var options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -107,16 +104,15 @@ var options = {
         }]
     }
 }
-
-var myLineChart = new Chart(ctx, {
-    type: 'horizontalBar',
+var myHorizontalBarChart = new Chart(ctx2, {
+    type: 'line',
     data: data,
     options: options
 });
 
+/*========================================================================*/
 
-var ctx = $("#chart3");
-
+var ctx3 = $("#chart3");
 var data = {
     labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     datasets: [{
@@ -168,7 +164,7 @@ var options = {
     }
 }
 
-var myLineChart = new Chart(ctx, {
+var myBarChart = new Chart(ctx3, {
     type: 'bar',
     data: data,
     options: options

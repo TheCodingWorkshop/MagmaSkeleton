@@ -62,6 +62,7 @@ class UserSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->varchar('password_reset_hash', 64, true, 'null'))
             ->row($this->blueprint->datetime('password_reset_expires_at', true, 'null'))
             ->row($this->blueprint->varchar('activation_token', 64, true, 'null'))
+            ->row($this->blueprint->int('is_admin', 2, false))
             ->row($this->blueprint->int('created_byid', 10, false))
             ->row($this->blueprint->datetime('created_at', false, 'ct', ''))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))

@@ -47,6 +47,44 @@ permission:
     - created_at
     - modified_at
 
+setting:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["setting_name"]
+  filter_alias: s
+  sort_columns:
+    - setting_name
+
+team:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["team_name"]
+  filter_alias: s
+  sort_columns:
+    - team_name
+    - created_at
+    - modified_at
+
+task:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["task_name"]
+  filter_alias: s
+  sort_columns:
+    - task_name
+    - created_at
+    - modified_at
+
+
 # post:
 #   additional_conditions: []
 #   selectors: []

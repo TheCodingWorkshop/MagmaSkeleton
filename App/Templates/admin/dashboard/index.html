@@ -40,7 +40,8 @@
                             <li>{% include 'admin/dashboard/block_session.html' %}</li>
                             <li>{% include 'admin/dashboard/block_github.html' %}</li>
                             <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_response.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_activities.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_project.html' %}</li>
                         </ul>
                     </div>
                 </div>
@@ -51,8 +52,21 @@
         <div class="uk-card-body">
             <canvas id="chart1"></canvas>
         </div>
-
     </turbo-frame>
+    <div>
+        <div uk-grid>
+            <div class="uk-width-expand@m">
+                <ul id="component-tab-left" class="uk-switcher">
+                    <li>Main</li>
+                    <li>Session</li>
+                    <li>Github</li>
+                    <li>Health Status</li>
+                    <li>Activities</li>
+                    <li>Project Extension</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
 </section>
 {% endblock %}

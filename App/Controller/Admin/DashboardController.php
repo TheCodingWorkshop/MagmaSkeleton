@@ -71,7 +71,8 @@ class DashboardController extends AdminController
                 'nav_switcher' => $this->repository->getNavSwitcher(),
 
                 'main_cards' => $this->repository->mainCards(),
-                'unique_visits' => $this->repository->getSessionUniqueVisits()
+                'unique_visits' => $this->repository->getSessionUniqueVisits(),
+                'block_activities' => $this->repository->getBlockActivities()
             ] 
         );
     }

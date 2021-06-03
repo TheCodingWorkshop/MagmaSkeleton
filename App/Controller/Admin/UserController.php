@@ -62,7 +62,7 @@ class UserController extends AdminController
         );
         /** Initialize database with table settings */
         $this->initializeControllerSettings(
-            $this->thisRouteController(),
+            'user',
             $this->column
         );
 
