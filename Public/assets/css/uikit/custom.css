@@ -267,3 +267,7 @@ body {
 .turbo-progress-bar {
     visibility: hidden;
 }
+
+.uk-border-bottom {
+    border-bottom: 1px solid #dddddd;
+}

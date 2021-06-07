@@ -44,13 +44,17 @@ class SettingController extends AdminController
                 'column' => \App\DataColumns\SettingColumn::class,
                 'commander' => \App\Commander\SettingCommander::class,
                 'configAction' => \MagmaCore\Base\Domain\Actions\ConfigAction::class,
+                'purgeAction' => \MagmaCore\Base\Domain\Actions\PurgeAction::class,
                 'applicationSettingForm' => \App\Forms\Admin\Settings\ApplicationSettingForm::class,
                 'generalSettingForm' => \App\Forms\Admin\Settings\GeneralSettingForm::class,
                 'formattingSettingForm' => \App\Forms\Admin\Settings\FormattingSettingForm::class,
+                'avatarSettingForm' => \App\Forms\Admin\Settings\AvatarSettingForm::class,
+                'defaultSettingForm' => \App\Forms\Admin\Settings\DefaultSettingForm::class,
+
                 'datetimeSettingForm' => \App\Forms\Admin\Settings\DatetimeSettingForm::class,
                 'securitySettingForm' => \App\Forms\Admin\Settings\SecuritySettingForm::class,
                 'purgeSettingForm' => \App\Forms\Admin\Settings\PurgeSettingForm::class,
-                'backupRestoreSettingForm' => \App\Forms\Admin\Settings\BackupRestoreSettingForm::class,
+                'toolsSettingForm' => \App\Forms\Admin\Settings\ToolsSettingForm::class,
                 'localisationSettingForm' => \App\Forms\Admin\Settings\LocalisationSettingForm::class,
                 'brandingSettingForm' => \App\Forms\Admin\Settings\BrandingSettingForm::class,
                 'extensionSettingForm' => \App\Forms\Admin\Settings\ExtensionSettingForm::class,
@@ -85,12 +89,24 @@ class SettingController extends AdminController
         $this->render('admin/setting/index.html');
     }
 
+
     protected function generalAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
                 ->render()
-                    ->with([])
+                    ->with([
+                        'form_formatting' => $this->formattingSettingForm->createForm(
+                            $this->getRoute('general', $this), 
+                            null
+                        ),
+                        'form_avatar' => $this->avatarSettingForm->createForm(
+                            $this->getRoute('avatar', $this)
+                        ),
+                        'form_default' => $this->defaultSettingForm->createForm(
+                            $this->getRoute('default', $this)
+                        ),
+                        ])
                         ->form($this->generalSettingForm)
                             ->end();
     }
@@ -107,21 +123,23 @@ class SettingController extends AdminController
 
     protected function purgeAction()
     {
-        $this->configAction
+        $this->purgeAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
                 ->render()
-                    ->with([])
+                    ->with([
+                        'template_files' => scandir(TEMPLATE_CACHE)
+                        ])
                         ->form($this->purgeSettingForm)
                             ->end();
     }
 
-    protected function backupRestoreAction()
+    protected function toolsAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with([])
-                        ->form($this->backuprestoreSettingForm)
+                        ->form($this->toolsSettingForm)
                             ->end();
     }
 

@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-
 <!-- Block title -->
 {% block title %}Purge Settings{% endblock %}
 <!-- Block description -->
@@ -18,7 +17,7 @@
             <div class="uk-width-1-4@m">
                 <div class="uk-card uk-card-body uk-card-default">
                     <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-                        <li><a href="#">General</a></li>
+                        <li><a href="#">{@ locale('general') @}</a></li>
                     </ul>
 
                 </div>
@@ -30,24 +29,33 @@
                             <ion-icon name="trash-outline"></ion-icon>
                         </div>
                         <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Purge</h3>
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{@ locale('purge') @}</h3>
                             <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
                         </div>
                     </div>
                 </div>
-                <div class="uk-card-body uk-card-default">
-                    <ul id="component-tab-left" class="uk-switcher">
-                        <li>{{ $form }}</li>
-                    </ul>
-                </div>
-
+                <ul id="component-tab-left" class="uk-switcher">
+                    <li>
+                        <p>Purge the template cache by releasing the old template files</p>
+                        <div class="uk-panel uk-panel-scrollable uk-margin uk-card-danger">
+                            <ul>
+                                {% foreach ($template_files as $key => $value) : %}
+                                <!--  -->
+                                {% if ($value == '.' || $value == '..') : %}
+                                <!--  -->
+                                {% continue; %}
+                                <!--  -->
+                                {% endif; %}
+                                <li>{{ $key }} {{ $value }}</li>
+                                {% endforeach; %}
+                            </ul>
+                        </div>
+                        {{ $form }}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-
-
-
-
 </section>
 {% endblock %}
 <!-- Footer scripts -->

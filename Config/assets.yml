@@ -43,7 +43,7 @@ scripts:
     crossorigin: ""
     type: javascript
     location: header
-    enable: false
+    enable: true
     cdn: true
   charts:
     src: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"

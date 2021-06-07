@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
+use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
@@ -22,6 +23,7 @@ class ApplicationSettingForm extends ClientFormBuilder implements ClientFormBuil
 
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
+    private Settings $settings;
 
     /**
      * Main class constructor
@@ -29,9 +31,10 @@ class ApplicationSettingForm extends ClientFormBuilder implements ClientFormBuil
      * @param FormBuilderBlueprint $blueprint
      * @return void
      */
-    public function __construct(FormBuilderBlueprint $blueprint)
+    public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
+        $this->settings = $settings;
     }
 
     /**
@@ -45,14 +48,49 @@ class ApplicationSettingForm extends ClientFormBuilder implements ClientFormBuil
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)
             ->add(
+                $this->blueprint->text(
+                    'app_id',
+                    ['uk-form-large', 'uk-border-bottom', 'uk-form-blank', 'uk-width-1-4'],
+                    $this->settings->get('app_id'),
+                    true,
+                    'App ID'
+                ),
+                null,
+                $this->blueprint->settings(false, null, false, 'App ID', true, null, 'This represent your site name.')
+            )
+            ->add(
+                $this->blueprint->text(
+                    'app_name',
+                    ['uk-form-large', 'uk-border-bottom', 'uk-form-blank'],
+                    '',
+                    false,
+                    'App Name'
+                ),
+                null,
+                $this->blueprint->settings(false, null, false, 'App Name', true, null, 'Provide a unique name for your application')
+            )
+            ->add(
+                $this->blueprint->text(
+                    'subscription_key',
+                    ['uk-form-large', 'uk-border-bottom', 'uk-form-blank'],
+                    $this->settings->get('subscription_key'),
+                    false,
+                    'Subscription Key'
+                ),
+                null,
+                $this->blueprint->settings(false, null, false, 'Subscription Key', true, null, 'This is an auto generated has key which the framework will use to identify your application.')
+            )
+
+            ->add(
                 $this->blueprint->submit(
-                    $this->hasValue('settings_id') ? 'edit-settings' : 'new-settings',
+                    'application-settings',
                     ['uk-button', 'uk-button-primary'],
                     'Save'
                 ),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
+
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 }

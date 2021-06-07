@@ -84,6 +84,19 @@ task:
     - created_at
     - modified_at
 
+plugin:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["plugin_name"]
+  filter_alias: s
+  sort_columns:
+    - plugin_name
+    - created_at
+    - modified_at
+
 
 # post:
 #   additional_conditions: []

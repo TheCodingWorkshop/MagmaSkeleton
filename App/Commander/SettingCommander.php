@@ -31,10 +31,16 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
         'general',
         'security',
         'purge',
-        'backup_restore',
+        'tools',
         'localisation',
         'branding',
         'extension'
+    ];
+
+    protected const DISABLE = [
+        'customizer',
+        'manager',
+        'filter'
     ];
 
     /**

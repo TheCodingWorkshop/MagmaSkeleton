@@ -17,7 +17,7 @@ use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
-class BackupRestoreSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class ToolsSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /** @var FormBuilderBlueprintInterface $blueprint */

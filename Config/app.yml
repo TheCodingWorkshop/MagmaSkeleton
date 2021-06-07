@@ -47,7 +47,7 @@ system:
       }
 
 gravatar:
-  rating: r
+  rating: R
   size: 200
   default: mystery #monsterid, identicon, wavatar, blank, default, mystery
 

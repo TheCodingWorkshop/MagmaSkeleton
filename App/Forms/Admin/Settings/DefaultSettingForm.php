@@ -12,16 +12,18 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
+use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
-class PurgeSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class DefaultSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
+    private Settings $settings;
 
     /**
      * Main class constructor
@@ -29,9 +31,10 @@ class PurgeSettingForm extends ClientFormBuilder implements ClientFormBuilderInt
      * @param FormBuilderBlueprint $blueprint
      * @return void
      */
-    public function __construct(FormBuilderBlueprint $blueprint)
+    public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
+        $this->settings = $settings;
     }
 
     /**
@@ -45,14 +48,26 @@ class PurgeSettingForm extends ClientFormBuilder implements ClientFormBuilderInt
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)
             ->add(
+                $this->blueprint->text(
+                    'default_role',
+                    ['uk-form-large', 'uk-border-bottom', 'uk-form-blank', 'uk-width-1-2'],
+                    $this->settings->get('default_role'),
+                    false,
+                    'Default Role'
+                ),
+                null,
+                $this->blueprint->settings(false, null, false, 'Default Role', true, null, 'This will be the default role assigned to a user when they register for your application.')
+            )
+            ->add(
                 $this->blueprint->submit(
-                    'purge-setting',
-                    ['uk-button', 'uk-button-primary', 'uk-button-large'],
-                    'Purge'
+                    'application-settings',
+                    ['uk-button', 'uk-button-primary'],
+                    'Save'
                 ),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
+
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 }

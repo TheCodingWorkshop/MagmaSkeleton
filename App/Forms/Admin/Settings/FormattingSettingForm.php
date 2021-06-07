@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
+use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
@@ -22,6 +23,7 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
 
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
+    private Settings $settings;
 
     /**
      * Main class constructor
@@ -29,9 +31,15 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
      * @param FormBuilderBlueprint $blueprint
      * @return void
      */
-    public function __construct(FormBuilderBlueprint $blueprint)
+    public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
+        $this->settings = $settings;
+    }
+
+    private function getDate(string $format)
+    {
+        return date($format);
     }
 
     /**
@@ -46,61 +54,77 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
             ->addRepository($dataRepository)
             ->add(
                 $this->blueprint->text(
-                    'site_name',
-                    [],
-                    $this->hasValue('site_name'),
+                    'timezone',
+                    ['uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('locale'),
                     false,
                     'Site Name'
                 ),
                 null,
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->settings(false, null, false, null, true, null, 'Choose your default locale when using this application.')
             )
             ->add(
                 $this->blueprint->text(
-                    'site_tagline',
-                    [],
-                    $this->hasValue('site_tagline'),
+                    'timezone',
+                    ['uk-form-large', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('timezone'),
                     false,
-                    'Tagline'
+                    'Site Name'
                 ),
                 null,
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->settings(false, null, false, null, true, null, 'Choose either a city in the same time zone as you or a UTC (Coordinated Universal Time) time offset.')
             )
             ->add(
-                $this->blueprint->text(
-                    'site_email',
-                    [],
-                    $this->hasValue('site_email'),
+                $this->blueprint->select(
+                    'week_starts_on',
+                    ['uk-select', 'uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('week_starts_on'),
                     false,
-                    'Administration Email Address'
+                    'Week Starts On'
                 ),
-                null,
-                $this->blueprint->settings(false, null, false, null, true, null, 'This address is used for admin purposes. If you change this, we will send you an email at your new address to confirm it. The new address will not become active until confirmed.')
+                $this->blueprint->choices(
+                    ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
+                    $this->settings->get('week_starts_on')
+                ),
+                $this->blueprint->settings(false, null, false, null, true, null, 'Choose what day the week starts on in your region.')
             )
             ->add(
-                $this->blueprint->text(
-                    'site_keywords',
-                    [],
-                    $this->hasValue('site_keywords'),
-                    false,
-                    'Keywords'
+                $this->blueprint->select(
+                    'date_format',
+                    ['uk-select', 'uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
+                    'date_format',
+                    $this->settings->get('date_format'),
                 ),
-                null,
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->choices(
+                    [
+                        'j F Y' => $this->getDate('j F Y'),
+                        'Y-m-d' => $this->getDate('Y-m-d'),
+                        'm/d/Y' => $this->getDate('m/d/Y'),
+                        'd/m/Y' => $this->getDate('d/m/Y')
+                    ]
+                ),
+                $this->blueprint->settings(false, null, false, null, true, null, 'Your date format is currently set to ' . $this->settings->get('date_format') . ' which results in this <span class="uk-text-primary uk-text-bolder">' . $this->getDate($this->settings->get('date_format') . '</span>'))
             )
             ->add(
-                $this->blueprint->textarea(
-                    'site_description',
-                    ['uk-textarea'],
-                    'site_description'
+                $this->blueprint->select(
+                    'time_format',
+                    ['uk-select', 'uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
+                    'time_format',
+                    $this->settings->get('time_format'),
                 ),
-                $this->hasValue('site_description'),
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->choices(
+                    [
+                        'g:i a' => $this->getDate('g:i a'),
+                        'g:i A' => $this->getDate('g:i A'),
+                        'H:i' => $this->getDate('H:i'),
+                    ]
+                ),
+                $this->blueprint->settings(false, null, false, null, true, null, 'Your time format is currently set to ' . $this->settings->get('time_format') . ' which results in this <span class="uk-text-primary uk-text-bolder">' . $this->getDate($this->settings->get('date_time') . '</span>'))
             )
 
             ->add(
                 $this->blueprint->submit(
-                    $this->hasValue('settings_id') ? 'edit-settings' : 'new-settings',
+                    'general-settings',
                     ['uk-button', 'uk-button-primary'],
                     'Save'
                 ),

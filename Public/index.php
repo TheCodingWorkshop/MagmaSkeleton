@@ -16,6 +16,8 @@ declare(strict_types=1);
  */
 defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
 defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . '/' . "Config/");
+defined('TEMPLATE_CACHE') or define("TEMPLATE_CACHE", ROOT_PATH . '/' . "App/Templates/Cache");
+
 $composer = ROOT_PATH . '/vendor/autoload.php';
 if (is_file($composer)) {
     require $composer;

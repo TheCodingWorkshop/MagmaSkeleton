@@ -16,7 +16,7 @@ use App\Model\UserModel;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 
-class UserCommander extends UserModel implements ApplicationCommanderInterface
+class PluginCommander extends UserModel implements ApplicationCommanderInterface
 {
 
     use ApplicationCommanderTrait;
@@ -29,10 +29,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
         'index',
         'new',
         'edit',
-        'show',
-        'hard-delete',
-        'perferences',
-        'privileges'
+        'assigned'
     ];
 
     /**
@@ -43,7 +40,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
      */
     public function getYml(): array
     {
-        return $this->findYml('user');
+        return $this->findYml('plugin');
     }
 
     /**
@@ -65,17 +62,12 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
     public function getHeaderBuild(object $controller): string
     {
         $this->getHeaderBuildException($controller, self::INNER_ROUTES);
-        $this->controller = $controller;
-        $suffix = $this->getHeaderBuildEdit($controller, 'firstname');
 
+        $this->controller = $controller;
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
-            'new' => 'Create New',
-            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'firstname'),
-            'show' => "Viewing {$suffix}",
-            'hard-delete' => "Deleting {$suffix}",
-            'perferences' => "{$suffix} Perferences",
-            'privileges' => "{$suffix} Privileges",
+            'new' => 'Add New',
+            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'plugin_name'),
             default => "Unknown"
         };
     }

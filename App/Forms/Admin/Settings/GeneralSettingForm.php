@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
+use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
@@ -22,6 +23,7 @@ class GeneralSettingForm extends ClientFormBuilder implements ClientFormBuilderI
 
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
+    private Settings $settings;
 
     /**
      * Main class constructor
@@ -29,9 +31,10 @@ class GeneralSettingForm extends ClientFormBuilder implements ClientFormBuilderI
      * @param FormBuilderBlueprint $blueprint
      * @return void
      */
-    public function __construct(FormBuilderBlueprint $blueprint)
+    public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
+        $this->settings = $settings;
     }
 
     /**
@@ -47,55 +50,84 @@ class GeneralSettingForm extends ClientFormBuilder implements ClientFormBuilderI
             ->add(
                 $this->blueprint->text(
                     'site_name',
-                    ['uk-form-large'],
-                    $this->hasValue('site_name'),
+                    ['uk-form-large', 'uk-border-bottom', 'uk-form-blank'],
+                    $this->settings->get('site_name'),
                     false,
-                    'Site Name'
+                    'Site Name...'
                 ),
                 null,
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->settings(false, null, false, 'Name', true, null, 'This represent your site name.')
+            )
+            ->add(
+                $this->blueprint->email(
+                    'site_email',
+                    ['uk-width-1-2', 'uk-form-large', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('site_email'),
+                    true,
+                    false,
+                    'Email Address'
+                ),
+                null,
+                $this->blueprint->settings(
+                    false,
+                    null,
+                    false,
+                    'Email',
+                    true,
+                    null,
+                    'This address is used for admin purposes. If you change this, we will send you an email at your new address to confirm it. The new address will not become active until confirmed.'
+                )
+            )
+            ->add(
+                $this->blueprint->text(
+                    'site_url',
+                    ['uk-width-1-2', 'uk-form-large', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('site_url'),
+                    false,
+                    'Application Address'
+                ),
+                null,
+                $this->blueprint->settings(
+                    false,
+                    null,
+                    false,
+                    'Application Address',
+                    true,
+                    null,
+                    'This is the domain where your application live.'
+                )
             )
             ->add(
                 $this->blueprint->text(
                     'site_tagline',
-                    ['uk-form-large'],
-                    $this->hasValue('site_tagline'),
+                    ['uk-form-large', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('site_tagline'),
                     false,
                     'Tagline'
                 ),
                 null,
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->settings(false, null, false, 'Tagline', true, null, 'In a few words, explain what this site is about.')
             )
-            ->add(
-                $this->blueprint->text(
-                    'site_email',
-                    ['uk-form-large'],
-                    $this->hasValue('site_email'),
-                    false,
-                    'Administration Email Address'
-                ),
-                null,
-                $this->blueprint->settings(false, null, false, null, true, null, 'This address is used for admin purposes. If you change this, we will send you an email at your new address to confirm it. The new address will not become active until confirmed.')
-            )
+
             ->add(
                 $this->blueprint->text(
                     'site_keywords',
-                    [],
-                    $this->hasValue('site_keywords'),
+                    ['uk-form-large', 'uk-form-blank', 'uk-border-bottom'],
+                    $this->settings->get('site_keywords'),
                     false,
                     'Keywords'
                 ),
                 null,
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->blueprint->settings(false, null, false, 'Keywords', true, null, 'Add your global site keywords here. These will be displayed across your application meta keywords tag.')
             )
             ->add(
                 $this->blueprint->textarea(
                     'site_description',
-                    ['uk-textarea'],
+                    ['uk-textarea', 'uk-form-blank', 'uk-border-bottom'],
                     'site_description'
                 ),
-                $this->hasValue('site_description'),
-                $this->blueprint->settings(false, null, false, null, true)
+                $this->settings->get('site_description'),
+                $this->blueprint->settings(false, null, false, null, true, null, 'Add some brief description about your application.')
             )
 
             ->add(

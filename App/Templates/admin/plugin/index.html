@@ -1,11 +1,11 @@
 {% extends 'layout.html' %}
 
 <!-- Block title -->
-{% block title %}Settings{% endblock %}
+{% block title %}Plugins{% endblock %}
 <!-- Block description -->
-{% block description %}MagmaCore settings{% endblock %}
+{% block description %}MagmaCore Plugins{% endblock %}
 <!-- Block description -->
-{% block keywords %}team{% endblock %}
+{% block keywords %}plugins{% endblock %}
 <!-- Block description -->
 {% block author %}Ricardo Miller{% endblock %}
 <!--  -->
@@ -19,7 +19,7 @@
                 <div class="uk-card uk-card-body uk-card-default">
                     <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
                         <li class="uk-nav-header">Options</li>
-                        {% foreach(['system', 'application', 'services'] as $option) : %}
+                        {% foreach(['activated', 'deactivated', 'trash'] as $option) : %}
                         <li><a href="#">{{ $option }}</a></li>
                         {% endforeach; %}
                     </ul>
@@ -27,11 +27,6 @@
                 </div>
             </div>
             <div class="uk-width-expand@m">
-                <ul id="component-tab-left" class="uk-switcher">
-                    <li>{% include 'admin/setting/_parts/general.html' %}</li>
-                    <li>{% include 'admin/setting/_parts/application.html' %}</li>
-                    <li>{% include 'admin/setting/_parts/services.html' %}</li>
-                </ul>
             </div>
         </div>
     </div>

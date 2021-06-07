@@ -75,4 +75,4 @@ plugins:
   title: Plugins
   name: Plugins
   icon: extension-puzzle-outline
-  path: ""
+  path: /admin/plugin/index
