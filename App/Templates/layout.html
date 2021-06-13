@@ -8,8 +8,8 @@
     <meta name="keywords" content="{% yield keywords %}">
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="turbo-cache-control" content="no-cache">
     <meta name="turbo-root" content="/">
+    <meta name="turbo-cache-control" content="no-cache">
     <!-- Header Css -->
     {@ addcss() @}
     <!-- Header JS -->
@@ -29,18 +29,14 @@
         <div class="content-padder content-background">
             <div class="uk-section-default header">
                 <div class="uk-container uk-container-large">
-                    <!--  -->
                     {% if ($current_user !==null) : %}
-                    <!--  -->
                     {@ templateExtension('uikit_commander_bar') @}
-                    <!--  -->
                     {% endif; %} {% yield dashboard_commander %}
                 </div>
             </div>
-            <div class="uk-section-small">
+            <div class="uk-section-small main">
                 <div class="uk-container uk-container-large">
                     <div id="flash_messages"></div>
-                    <!--  -->
                     {% yield content %}
                 </div>
             </div>
@@ -50,6 +46,19 @@
     {@ addjs() @}
     <!-- Page specific scripts -->
     {% yield scripts %}
+    <script>
+        $(document).ready(function() {
+            $("#user_account").sparkline([100, 155, 58, 68, -45, -20, 69], {
+                type: 'bar',
+                height: '50%',
+                barWidth: '50%',
+                barColor: "rgb(183,219,249)",
+                negBarColor: "rgb(48,61,75)",
+                zeroColor: 'green'
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Model\UserModel;
 use App\Entity\UserRoleEntity;
-use App\Model\RoleModel;
+use App\Schema\UserRoleSchema;
 use MagmaCore\Base\AbstractBaseModel;
-use MagmaCore\DataObjectLayer\DataRelationship\ManyToMany;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 
 class UserRoleModel extends AbstractBaseModel
 {
@@ -30,7 +30,7 @@ class UserRoleModel extends AbstractBaseModel
 
     /**
      * Main constructor class which passes the relevant information to the 
-     * base model parent constructor. This allows the repsitory to fetch the
+     * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
      * 
      * @throws BaseInvalidArgumentException

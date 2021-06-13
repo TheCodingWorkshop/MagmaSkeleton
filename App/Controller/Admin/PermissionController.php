@@ -12,9 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use LoaderError;
-use SyntaxError;
-use RuntimeError;
+use App\Commander\PermissionCommander;
+use App\DataColumns\PermissionColumn;
+use App\Forms\Admin\Permission\PermissionForm;
+use App\Model\PermissionModel;
+use MagmaCore\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use App\Entity\PermissionEntity;
 use App\Schema\PermissionSchema;
 use App\Event\PermissionActionEvent;
@@ -24,14 +27,14 @@ class PermissionController extends AdminController
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -43,11 +46,11 @@ class PermissionController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => \App\Model\PermissionModel::class,
-                'entity' => \App\Entity\PermissionEntity::class,
-                'column' => \App\DataColumns\PermissionColumn::class,
-                'commander' => \App\Commander\PermissionCommander::class,
-                'formPermission' => \App\Forms\Admin\Permission\PermissionForm::class
+                'repository' => PermissionModel::class,
+                'entity' => PermissionEntity::class,
+                'column' => PermissionColumn::class,
+                'commander' => PermissionCommander::class,
+                'formPermission' => PermissionForm::class
             ]
         );
         /** Initialize database with table settings */
@@ -59,29 +62,9 @@ class PermissionController extends AdminController
     }
 
     /**
-     * Returns a 404 error page if the data is not present within the database
-     * else return the requested object
-     *
-     * @return mixed
-     */
-    public function findOr404()
-    {
-        $repository = $this->repository->getRepo()
-            ->findAndReturn($this->thisRouteID())
-            ->or404();
-
-        return $repository;
-    }
-
-    /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is 
      * made.
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function indexAction()
     {
@@ -97,8 +80,6 @@ class PermissionController extends AdminController
      * The new action request. is responsible for creating a new permission. By sending
      * post data to the relevant model. Which is turns sanitize and validate the the 
      * incoming data. An event will be dispatched when a new permission is created.
-     *
-     * @return void
      */
     protected function newAction(): void
     {
@@ -112,7 +93,7 @@ class PermissionController extends AdminController
 
     /**
      * The edit action request. is responsible for updating a user record within
-     * the database. User data wille be sanitized and validated before upon re 
+     * the database. User data will be sanitized and validated before upon re
      * submitting new data. An event will be dispatched on this action
      *
      * @return void
@@ -136,8 +117,6 @@ class PermissionController extends AdminController
      * the database. This method is not a submittable method hence why this check has
      * been omitted. This a simple click based action. which is triggered within the
      * datatable. An event will be dispatch by this action
-     *
-     * @return void
      */
     protected function deleteAction()
     {

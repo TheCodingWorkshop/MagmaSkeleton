@@ -22,12 +22,12 @@ class IsEnvironmentReady extends BeforeMiddleware
      * Prevent unauthorized access to the administration panel. Only users with specific 
      * priviledges can access the admin area.
      *
-     * @param Object $object
+     * @param Object $middleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {
-        return $next($object);
+        return $next($middleware);
     }
 }

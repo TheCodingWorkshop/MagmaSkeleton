@@ -10,12 +10,11 @@
 
 declare(strict_types=1);
 
-namespace App\Schema;
+namespace App\Schema\Change;
 
 class ChangeStatus_TestSchema extends TestSchema
 {
     /**
-     * @inheritdoc
      * @return string
      */
     public function createSchema(): string

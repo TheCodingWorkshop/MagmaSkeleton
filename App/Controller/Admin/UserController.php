@@ -12,10 +12,22 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Commander\UserCommander;
+use App\DataColumns\UserColumn;
+use App\Forms\Admin\Settings\TableSettingsForm;
+use App\Forms\Admin\User\SettingsForm;
+use App\Forms\Admin\User\UserForm;
+use App\Forms\Admin\User\UserPreferencesForm;
 use App\Model\RoleModel as RM;
+use App\Model\RolePermissionModel;
+use App\Model\UserMetaDataModel;
 use App\Model\UserModel as UM;
 use App\Entity\UserEntity;
+use App\Model\UserPreferenceModel;
+use App\Relationships\UserRelationship;
 use App\Schema\UserSchema;
+use MagmaCore\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\Utility\Yaml;
 use App\Event\UserActionEvent;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
@@ -27,14 +39,14 @@ class UserController extends AdminController
 
     /**
      * Extends the base constructor method. Which gives us access to all the base
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -46,18 +58,18 @@ class UserController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => \App\Model\UserModel::class,
-                'commander' => \App\Commander\UserCommander::class,
-                'rolePermission' => \App\Model\RolePermissionModel::class,
-                'userMeta' => \App\Model\UserMetaDataModel::class,
-                'entity' => \App\Entity\UserEntity::class,
-                'column' => \App\DataColumns\UserColumn::class,
-                'formUser' => \App\Forms\Admin\User\UserForm::class,
-                'userPerferenceRepo' => \App\Model\UserPerferenceModel::class,
-                'userPerferencesForm' => \App\Forms\Admin\User\UserPerferencesForm::class,
-                'formSettings' => \App\Forms\Admin\User\SettingsForm::class,
-                'tableSettings' => \App\Forms\Admin\Settings\TableSettingsForm::class,
-                'relationship' => \App\Relationships\UserRelationship::class
+                'repository' => UM::class,
+                'commander' => UserCommander::class,
+                'rolePermission' => RolePermissionModel::class,
+                'userMeta' => UserMetaDataModel::class,
+                'entity' => UserEntity::class,
+                'column' => UserColumn::class,
+                'formUser' => UserForm::class,
+                'userPreferenceRepo' => UserPreferenceModel::class,
+                'userPreferencesForm' => UserPreferencesForm::class,
+                'formSettings' => SettingsForm::class,
+                'tableSettings' => TableSettingsForm::class,
+                'relationship' => UserRelationship::class
             ]
         );
         /** Initialize database with table settings */
@@ -74,22 +86,17 @@ class UserController extends AdminController
      *
      * @return mixed
      */
-    public function findOr404(): Object
+    public function findOr404(): mixed
     {
-        $repository = $this->repository->getRepo()
+        return $this->repository->getRepo()
             ->findAndReturn($this->thisRouteID())
             ->or404();
-
-        return $repository;
     }
 
     /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is
      * made.
-     *
-     * @return Response
-     * @throws LoaderError
      */
     protected function indexAction()
     {           
@@ -111,11 +118,8 @@ class UserController extends AdminController
     }
 
     /**
-     * The show action request displays singluar information about a user. This is a
-     * read only request. Information here cannot be editted.
-     *
-     * @return Response
-     * @throws LoaderError
+     * The show action request displays singular information about a user. This is a
+     * read only request. Information here cannot be edited.
      */
     protected function showAction()
     {
@@ -143,9 +147,6 @@ class UserController extends AdminController
      * The new action request. is responsible for creating a new user. By sending
      * post data to the relevant model. Which is turns sanitize and validate the the
      * incoming data. An event will be dispatched when a new user is created.
-     *
-     * @return Response
-     * @throws LoaderError
      */
     protected function newAction()
     {
@@ -159,11 +160,8 @@ class UserController extends AdminController
 
     /**
      * The edit action request. is responsible for updating a user record within
-     * the database. User data wille be sanitized and validated before upon re
+     * the database. User data will be sanitized and validated before upon re
      * submitting new data. An event will be dispatched on this action
-     *
-     * @return Response
-     * @throws LoaderError
      */
     protected function editAction()
     {
@@ -180,9 +178,6 @@ class UserController extends AdminController
      * the database. This method is not a submittable method hence why this check has
      * been omitted. This a simple click based action. which is triggered within the
      * datatable. An event will be dispatch by this action
-     *
-     * @return Response
-     * @throws LoaderError
      */
     protected function deleteAction()
     {
@@ -211,9 +206,6 @@ class UserController extends AdminController
      * the database. This method is not a submittable method hence why this check has
      * been omitted. This a simple click based action. which is triggered within the
      * datatable. An event will be dispatch by this action
-     *
-     * @return Response
-     * @throws LoaderError
      */
     protected function bulkAction()
     {
@@ -221,10 +213,6 @@ class UserController extends AdminController
             ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
     }
 
-    /**
-     * @return Response
-     * @throws LoaderError
-     */
     protected function cloneAction()
     {
         $this->newAction
@@ -235,10 +223,6 @@ class UserController extends AdminController
                             ->end();
     }
 
-    /**
-     * @return Response
-     * @throws LoaderError
-     */
     protected function lockAction()
     {
         $this->editAction
@@ -249,10 +233,6 @@ class UserController extends AdminController
                             ->end();
     }
 
-    /**
-     * @return Response
-     * @throws LoaderError
-     */
     protected function trashAction()
     {
         $this->newAction
@@ -263,28 +243,20 @@ class UserController extends AdminController
                             ->end();
     }
 
-    /**
-     * @return Response
-     * @throws LoaderError
-     */
-    protected function perferencesAction()
+    protected function preferencesAction()
     {
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
                 ->render()
                     ->with(
                         [
-                            'user_perference' => $this->userPerferenceRepo->getRepo()->findObjectBy(['user_id' => $this->thisRouteID()])
+                            'user_preference' => $this->userPerferenceRepo->getRepo()->findObjectBy(['user_id' => $this->thisRouteID()])
                         ]
                         )
                         ->form($this->userPerferencesForm)
                             ->end();
     }
 
-    /**
-     * @return Response
-     * @throws LoaderError
-     */
     protected function privilegesAction()
     {
         $this->newAction
@@ -292,6 +264,16 @@ class UserController extends AdminController
                 ->render()
                     ->with()
                         ->singular()
+                            ->end();
+    }
+
+    protected function logAction()
+    {
+        $this->indexAction
+            ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
+                ->render()
+                    ->with()
+                        ->table()
                             ->end();
     }
 

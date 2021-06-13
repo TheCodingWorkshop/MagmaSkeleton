@@ -31,21 +31,22 @@ class DatetimeSettingForm extends ClientFormBuilder implements ClientFormBuilder
      */
     public function __construct(FormBuilderBlueprint $blueprint)
     {
-        $this->blueprint = $blueprint;
+        $this->blueprint = $blueprint;#
+        parent::__construct();
     }
 
-    private function getDate(string $format)
+    private function getDate(string $format): string
     {
         return date($format) . ' (' . $format . ')';
     }
 
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)
@@ -54,8 +55,6 @@ class DatetimeSettingForm extends ClientFormBuilder implements ClientFormBuilder
                     'date_format',
                     [],
                     $this->hasValue('date_format'),
-                    false,
-                    'Date Format'
                 ),
                 $this->blueprint->choices(
                     [

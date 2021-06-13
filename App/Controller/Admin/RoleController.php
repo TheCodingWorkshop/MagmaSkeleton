@@ -12,9 +12,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use LoaderError;
-use SyntaxError;
-use RuntimeError;
+use App\Commander\RoleCommander;
+use App\DataColumns\RoleColumn;
+use App\Forms\Admin\Role\RoleAssignedForm;
+use App\Forms\Admin\Role\RoleForm;
+use App\Model\PermissionModel;
+use App\Model\RolePermissionModel;
+use App\Model\UserRoleModel;
+use App\Relationships\RoleRelationship;
+use MagmaCore\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use App\Model\UserModel as UM;
 use App\Entity\RoleEntity;
 use App\Schema\RoleSchema;
@@ -30,14 +37,14 @@ class RoleController extends AdminController
 
     /**
      * Extends the base constructor method. Which gives us access to all the base
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -49,17 +56,17 @@ class RoleController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => \App\Model\RoleModel::class,
-                'userRepository' => \App\Model\UserModel::class,
-                'commander' => \App\Commander\RoleCommander::class,
-                'entity' => \App\Entity\RoleEntity::class,
-                'column' => \App\DataColumns\RoleColumn::class,
-                'formRole' => \App\Forms\Admin\Role\RoleForm::class,
-                'formRoleAssigned' => \App\Forms\Admin\Role\RoleAssignedForm::class,
-                'permission' => \App\Model\PermissionModel::class,
-                'rolePerm' => \App\Model\RolePermissionModel::class,
-                'userRole' => \App\Model\UserRoleModel::class,
-                'relationship' => \App\Relationships\RoleRelationship::class
+                'repository' => RM::class,
+                'userRepository' => UM::class,
+                'commander' => RoleCommander::class,
+                'entity' => RoleEntity::class,
+                'column' => RoleColumn::class,
+                'formRole' => RoleForm::class,
+                'formRoleAssigned' => RoleAssignedForm::class,
+                'permission' => PermissionModel::class,
+                'rolePerm' => RolePermissionModel::class,
+                'userRole' => UserRoleModel::class,
+                'relationship' => RoleRelationship::class
             ]
         );
         /** Initialize database with table settings */
@@ -75,24 +82,17 @@ class RoleController extends AdminController
      *
      * @return mixed
      */
-    public function findOr404()
+    public function findOr404(): mixed
     {
-        $repository = $this->repository->getRepo()
+        return $this->repository->getRepo()
             ->findAndReturn($this->thisRouteID())
             ->or404();
-
-        return $repository;
     }
 
     /**
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is
      * made.
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function indexAction()
     {
@@ -108,8 +108,6 @@ class RoleController extends AdminController
      * The new action request. is responsible for creating a new role. By sending
      * post data to the relevant model. Which is turns sanitize and validate the the
      * incoming data. An event will be dispatched when a new role is created.
-     *
-     * @return void
      */
     protected function newAction(): void
     {
@@ -123,10 +121,8 @@ class RoleController extends AdminController
 
     /**
      * The edit action request. is responsible for updating a user record within
-     * the database. User data wille be sanitized and validated before upon re
+     * the database. User data will be sanitized and validated before upon re
      * submitting new data. An event will be dispatched on this action
-     *
-     * @return void
      */
     protected function editAction(): void
     {

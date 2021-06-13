@@ -26,8 +26,11 @@
 <section>
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
         <div class="uk-card-badge ion-24">
-            <ion-icon name="settings-outline"></ion-icon>
+            <a href="#offcanvas-usage" uk-toggle class="uk-link-reset">
+                <ion-icon name="settings-outline"></ion-icon>
+            </a>
         </div>
+
         <div>
             <div>
                 <div uk-grid>
@@ -42,17 +45,16 @@
                             <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
                             <li>{% include 'admin/dashboard/block_activities.html' %}</li>
                             <li>{% include 'admin/dashboard/block_project.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_notifications.html' %}</li>
                         </ul>
+                        {% include 'admin/dashboard/dashboard_toggle.html' %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <turbo-frame>
-        <div class="uk-card-body">
-            <canvas id="chart1"></canvas>
-        </div>
-    </turbo-frame>
+    <div class="uk-card-body chart-content">
+    </div>
     <div>
         <div uk-grid>
             <div class="uk-width-expand@m">
@@ -69,6 +71,7 @@
     </div>
 
 </section>
+
 {% endblock %}
 <!-- Footer scripts -->
 {% block scripts %} {% endblock %}

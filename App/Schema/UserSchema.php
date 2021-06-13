@@ -20,12 +20,12 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class UserSchema implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
-    protected DataSchema $schema;
+    /** @var object - $schema for chaining the schema together */
+    protected object $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    protected object $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected UserModel $userModel;
+    protected object $userModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -64,7 +64,7 @@ class UserSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->varchar('activation_token', 64, true, 'null'))
             ->row($this->blueprint->int('is_admin', 2, false))
             ->row($this->blueprint->int('created_byid', 10, false))
-            ->row($this->blueprint->datetime('created_at', false, 'ct', ''))
+            ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
             ->row($this->blueprint->varchar('remote_addr', 64, true, 'null'))
             ->build(function($schema) {

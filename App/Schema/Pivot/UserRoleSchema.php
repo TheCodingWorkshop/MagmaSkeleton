@@ -10,9 +10,10 @@
 
 declare(strict_types=1);
 
-namespace App\Schema;
+namespace App\Schema\Pivot;
 
 use App\Model\RoleModel;
+use App\Model\UserModel;
 use App\Model\UserRoleModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
@@ -21,12 +22,12 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class UserRoleSchema implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
-    protected DataSchema $schema;
+    /** @var object - $schema for chaining the schema together */
+    protected object $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    protected object $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected UserRoleModel $userRoleModel;
+    protected object $userRoleModel;
     /** @var string */
     private const FIRST_COLUMN = 'user_id';
     /** @var string */

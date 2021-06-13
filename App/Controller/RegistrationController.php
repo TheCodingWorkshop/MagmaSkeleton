@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use LoaderError;
-use SyntaxError;
-use RuntimeError;
+use App\Forms\Client\Registration\RegistrationForm;
+use App\Model\UserModel;
+use MagmaCore\Base\Domain\Actions\NewAction;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use App\Entity\UserEntity;
 use MagmaCore\Base\BaseController;
 use App\Event\RegistrationActionEvent;
@@ -24,7 +25,7 @@ class RegistrationController extends BaseController
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class
@@ -43,9 +44,9 @@ class RegistrationController extends BaseController
          */
         $this->addDefinitions(
             [
-                'formRegister' => \App\Forms\Client\Registration\RegistrationForm::class,
-                'repository' => \App\Model\UserModel::class,
-                'newAction' => \MagmaCore\Base\Domain\Actions\NewAction::class
+                'formRegister' => RegistrationForm::class,
+                'repository' => UserModel::class,
+                'newAction' => NewAction::class
             ]
         );
     }
@@ -83,11 +84,6 @@ class RegistrationController extends BaseController
      * all sub controller class as a default landing point when a request is 
      * made. The properties within the method below is extended from the parent
      * class AuthSecurityController
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function registerAction()
     {

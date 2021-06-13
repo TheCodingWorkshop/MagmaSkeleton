@@ -22,13 +22,12 @@ class ResetForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
-     * @param mixed $dataRepository - Within this context the returns the hash token
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
             ->add(

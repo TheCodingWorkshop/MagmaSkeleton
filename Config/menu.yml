@@ -29,18 +29,6 @@ authentication:
       path: "/admin/permission/index"
       role:
         - developer
-    log:
-      name: Log
-      icon: ''
-      path: "/admin/log/index"
-      role:
-        - developer
-    setting:
-      name: Settings
-      icon: ''
-      path: "/admin/log/index"
-      role:
-        - developer
 
 project:
   title: Project Manager

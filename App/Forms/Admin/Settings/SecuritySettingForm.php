@@ -32,15 +32,10 @@ class SecuritySettingForm extends ClientFormBuilder implements ClientFormBuilder
     public function __construct(FormBuilderBlueprint $blueprint)
     {
         $this->blueprint = $blueprint;
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     * @param string $action - form action
-     * @return string
-     * @throws Exception
-     */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)

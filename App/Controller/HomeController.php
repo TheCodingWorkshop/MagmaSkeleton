@@ -75,7 +75,7 @@ class HomeController extends BaseController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function indexAction()
+    protected function indexAction(): Response
     {
         $this->view(
             'client/home/index.html', []

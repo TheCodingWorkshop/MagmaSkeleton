@@ -29,21 +29,22 @@ class ApplicationSettingForm extends ClientFormBuilder implements ClientFormBuil
      * Main class constructor
      *
      * @param FormBuilderBlueprint $blueprint
-     * @return void
+     * @param Settings $settings
      */
     public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
         $this->settings = $settings;
+        parent::__construct();
     }
 
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)

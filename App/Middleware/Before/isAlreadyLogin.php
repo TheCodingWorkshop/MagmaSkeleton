@@ -22,20 +22,20 @@ class isAlreadyLogin extends BeforeMiddleware
      * Prevent access to the login form is the user is already logged.
      * as this action doesn't need doing again
      *
-     * @param object $object - contains the BaseController object
-     * @param Closure $next
+     * @param object $middleware - contains the BaseController object
+     * @param closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(object $middleware, Closure $next)
     {   
-        if ($object->thisRouteController() === 'Security' && $object->thisRouteAction() === 'index') {
-            $userID = $object->getSession()->get('user_id');
+        if ($middleware->thisRouteController() === 'Security' && $middleware->thisRouteAction() === 'index') {
+            $userID = $middleware->getSession()->get('user_id');
             if (isset($userID) && $userID !== 0) {
-                $object->flashMessage(sprintf('%s You are already logged in.', '<strong class=\"uk-text-danger\">Action Rejected: </strong>'), $object->flashInfo());
-                $object->redirect(Authorized::getReturnToPage());
+                $middleware->flashMessage(sprintf('%s You are already logged in.', '<strong class=\"uk-text-danger\">Action Rejected: </strong>'), $middleware->flashInfo());
+                $middleware->redirect(Authorized::getReturnToPage());
             }
         }
-        return $next($object);
+        return $next($middleware);
     }
 
 }

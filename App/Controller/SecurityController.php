@@ -12,11 +12,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use LoaderError;
-use SyntaxError;
-use RuntimeError;
+use App\Forms\Client\Security\LoginForm;
+use App\Forms\Client\Security\LogoutForm;
+use JetBrains\PhpStorm\ArrayShape;
+use MagmaCore\Auth\Authenticator;
+use MagmaCore\Base\Domain\Actions\LoginAction;
+use MagmaCore\Base\Domain\Actions\LogoutAction;
+use MagmaCore\Base\Domain\Actions\SessionExpiredAction;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use App\Event\LoginActionEvent;
-use App\Event\LogoutActionEvent;
 use MagmaCore\Base\BaseController;
 use App\Middleware\Before\isAlreadyLogin;
 use App\Middleware\After\SessionExpiresCleanUp;
@@ -27,7 +31,7 @@ class SecurityController extends BaseController
 
     /**
      * Extends the base constructor method. Which gives us access to all the base
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
@@ -46,12 +50,12 @@ class SecurityController extends BaseController
          */
         $this->diContainer(
             [
-                'loginForm' => \App\Forms\Client\Security\LoginForm::class,
-                'logoutForm' => \App\Forms\Client\Security\LogoutForm::class,
-                'sessionExpiredAction' => \MagmaCore\Base\Domain\Actions\SessionExpiredAction::class,
-                'authenticator' => \MagmaCore\Auth\Authenticator::class,
-                'loginAction' => \MagmaCore\Base\Domain\Actions\LoginAction::class,
-                'logoutAction' => \MagmaCore\Base\Domain\Actions\LogoutAction::class,
+                'loginForm' => LoginForm::class,
+                'logoutForm' => LogoutForm::class,
+                'sessionExpiredAction' => SessionExpiredAction::class,
+                'authenticator' => Authenticator::class,
+                'loginAction' => LoginAction::class,
+                'logoutAction' => LogoutAction::class,
             ]
         );
     }
@@ -65,7 +69,7 @@ class SecurityController extends BaseController
      *
      * @return array
      */
-    protected function callBeforeMiddlewares(): array
+    #[ArrayShape(['isUserAccountActivated' => "string", 'isAlreadyLogin' => "string"])] protected function callBeforeMiddlewares(): array
     {
         return [
             'isUserAccountActivated' => isUserAccountActivated::class,
@@ -82,7 +86,7 @@ class SecurityController extends BaseController
      *
      * @return array
      */
-    protected function callAfterMiddlewares(): array
+    #[ArrayShape(['SessionExpiresCleanUp' => "string"])] protected function callAfterMiddlewares(): array
     {
         return [
             'SessionExpiresCleanUp' => SessionExpiresCleanUp::class,
@@ -93,11 +97,6 @@ class SecurityController extends BaseController
      * Entry method which is hit on request. This method should be implement within
      * all sub controller class as a default landing point when a request is
      * made.
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function indexAction()
     {

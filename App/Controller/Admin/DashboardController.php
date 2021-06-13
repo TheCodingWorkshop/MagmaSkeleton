@@ -11,16 +11,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use LoaderError;
-use SyntaxError;
-use RuntimeError;
+use App\Repository\DashboardRepository;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class DashboardController extends AdminController
 {
-    
+    public DashboardRepository $repository;
+
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class
@@ -39,7 +39,7 @@ class DashboardController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => \App\Repository\DashboardRepository::class,
+                'repository' => DashboardRepository::class,
             ]
         );  
 
@@ -47,13 +47,8 @@ class DashboardController extends AdminController
 
     /**
      * Entry method which is hit on request. This method should be implement within
-     * all sub controller class as a default landing point when a request is 
+     * all sub controller class as a default landing point when a request is
      * made.
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function indexAction()
     { 
@@ -64,7 +59,7 @@ class DashboardController extends AdminController
                 'statistics' => $this->repository->getStatistics(),
                 'user_percentage' => $this->repository->userPercentage(),
                 'user_session' => $this->repository->userSession(),
-                'user_gained' => $this->repository->countLastMountUsers(),
+                'user_gained' => $this->repository->countlastMonthUsers(),
                 'total_records' => $this->repository->totalUsers(),
                 'pending_users' => $this->repository->totalPendingUsers(),
                 'github' => $this->repository->getGithubStats(),
@@ -72,7 +67,7 @@ class DashboardController extends AdminController
 
                 'main_cards' => $this->repository->mainCards(),
                 'unique_visits' => $this->repository->getSessionUniqueVisits(),
-                'block_activities' => $this->repository->getBlockActivities()
+                'block_activities' => $this->repository->getBlockActivities(),
             ] 
         );
     }

@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Middleware;
+namespace App\Middleware\Before;
 
 use MagmaCore\Middleware\BeforeMiddleware;
 use Closure;
@@ -20,19 +20,19 @@ class HasEnv extends BeforeMiddleware
 
     /**
      * Prevent unauthorized access to the administration panel. Only users with specific 
-     * priviledges can access the admin area.
+     * privileges can access the admin area.
      *
-     * @param Object $object
+     * @param Object $middleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {
         if (!file_exists(APP_ROOT . '/.env.lip')) {
-            if ($object->error) {
-                $object->error->addError(['missing_env' => 'Error locating the system .env file.'], $object)->dispatchError();
+            if ($middleware->error) {
+                $middleware->error->addError(['missing_env' => 'Error locating the system .env file.'], $middleware)->dispatchError();
             }
         }
-        return $next($object);
+        return $next($middleware);
     }
 }

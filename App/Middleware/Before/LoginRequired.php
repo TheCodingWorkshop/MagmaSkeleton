@@ -24,19 +24,19 @@ class LoginRequired extends BeforeMiddleware
     /**
      * Requires basic login when entering protected routes
      *
-     * @param Object $object - contains the BaseController object
+     * @param Object $middleware - contains the BaseController object
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {
         if (!Authorized::grantedUser()) {
-            $object->flashMessage(self::MESSAGE, $object->flashInfo());
+            $middleware->flashMessage(self::MESSAGE, $middleware->flashInfo());
             /* Hold the requested page so when the user logs in we can redirect them back */
             Authorized::rememberRequestedPage();
-            $object->redirect('/login');
+            $middleware->redirect('/login');
         }
 
-        return $next($object);
+        return $next($middleware);
     }
 }

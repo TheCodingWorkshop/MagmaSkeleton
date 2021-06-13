@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Settings\Settings;
-use MagmaCore\Utility\GravatarGenerator;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
@@ -30,21 +30,22 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
      * Main class constructor
      *
      * @param FormBuilderBlueprint $blueprint
-     * @return void
+     * @param Settings $settings
      */
     public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
         $this->settings = $settings;
+        parent::__construct();
     }
 
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)
@@ -72,8 +73,7 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
                 $this->blueprint->radio(
                     'gravatar_rating',
                     ['uk-radio'],
-                    'gravatar_rating',
-                    $this->settings->get('gravatar_rating'),
+                    'gravatar_rating'
                 ),
                 $this->blueprint->choices($this->gravatarRatings(), 'r'),
                 $this->blueprint->settings(false, null, false, 'Gravatar Rating', true, null, '')
@@ -82,11 +82,10 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
                 $this->blueprint->radio(
                     'gravatar_default',
                     ['uk-radio'],
-                    'gravatar_default',
-                    $this->settings->get('gravatar_default'),
+                    'gravatar_default'
                 ),
                 $this->blueprint->choices(
-                    $this->gravatarDefault(), 
+                    $this->gravatarDefault(),
                     'mystery'
                 ),
                 $this->blueprint->settings(
@@ -111,7 +110,7 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 
-    private function gravatarRatings()
+    #[ArrayShape(['g' => "string", 'pg' => "string", 'r' => "string", 'x' => "string"])] private function gravatarRatings(): array
     {
         return [
             'g' => 'G - Suitable for all audience',
@@ -121,7 +120,7 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
         ];
     }
 
-    private function gravatarDefault()
+    #[ArrayShape(['blank' => "string", 'mystery' => "string", 'identicon' => "string", 'monsterid' => "string", 'wavatar' => "string", 'retro' => "string"])] private function gravatarDefault(): array
     {
         return [
             'blank' => 'blank',
@@ -134,16 +133,7 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
 
     }
 
-    private function getGravatarDefault()
-    {
-        return array_map(fn($ava) => '<img alt="" src="' . GravatarGenerator::getGravatar(
-            $this->settings->get('site_email'),
-            $ava,
-            80
-        ) .  '" />', $this->gravatarDefault());
-    }
-
-    private function getSelectedAvatar()
+    private function getSelectedAvatar(): string
     {
         $size = 80;
         $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $this->settings->get('site_email') ) ) ) . "?d=" . urlencode( $this->settings->get('gravatar_default') ) . "&s=" . $size;

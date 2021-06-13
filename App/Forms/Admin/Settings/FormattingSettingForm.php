@@ -29,26 +29,27 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
      * Main class constructor
      *
      * @param FormBuilderBlueprint $blueprint
-     * @return void
+     * @param Settings $settings
      */
     public function __construct(FormBuilderBlueprint $blueprint, Settings $settings)
     {
         $this->blueprint = $blueprint;
         $this->settings = $settings;
+        parent::__construct();
     }
 
-    private function getDate(string $format)
+    private function getDate(string $format): string
     {
         return date($format);
     }
 
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "tableForm"])
             ->addRepository($dataRepository)
@@ -78,9 +79,7 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
                 $this->blueprint->select(
                     'week_starts_on',
                     ['uk-select', 'uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
-                    $this->settings->get('week_starts_on'),
-                    false,
-                    'Week Starts On'
+                    'week_starts_on',
                 ),
                 $this->blueprint->choices(
                     ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
@@ -93,7 +92,6 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
                     'date_format',
                     ['uk-select', 'uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
                     'date_format',
-                    $this->settings->get('date_format'),
                 ),
                 $this->blueprint->choices(
                     [
@@ -109,8 +107,7 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
                 $this->blueprint->select(
                     'time_format',
                     ['uk-select', 'uk-form-large', 'uk-width-1-2', 'uk-form-blank', 'uk-border-bottom'],
-                    'time_format',
-                    $this->settings->get('time_format'),
+                    'time_format'
                 ),
                 $this->blueprint->choices(
                     [

@@ -1,13 +1,8 @@
-<turbo-frame>
+<turbo-frame id="block_main">
     <div>
         <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
             <div>
                 <div class="uk-card uk-card-body uk-card-primary uk-text-white">
-                    <div class="uk-card-badge ion-21">
-                        <a href="#offcanvas-usage" uk-toggle>
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </a>
-                    </div>
                     <div class="uk-card-header">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto ion-68">
@@ -24,9 +19,16 @@
                     <div class="uk-card-body">
                         <p class="uk-text-small">-<a data-turbo="false" href="/admin/user/index?status=pending">{{{ $pending_users }}}</a> {@ locale('user_still_pending') @}
                         </p>
-                        <div style="width:300px; height: 120px;">
-                            <canvas id="chart3"></canvas>
-                        </div>
+                        <ul class="uk-list uk-list-collapse uk-list-divider">
+                            {% foreach ($user_percentage as $key => $value) : %}
+                            <li>
+                                <div class="uk-grid-small" uk-grid>
+                                    <div class="uk-width-expand" uk-leader>{{ $key }}</div>
+                                    <div>{{ $value['percentage'] }}%</div>
+                                </div>
+                            </li>
+                            {% endforeach; %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -56,6 +58,4 @@
             </div>
         </div>
     </div>
-    {% include 'admin/dashboard/dashboard_toggle.html' %}
-
 </turbo-frame>

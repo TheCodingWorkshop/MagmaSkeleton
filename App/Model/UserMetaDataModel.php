@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Model\UserModel;
+use App\Schema\UserRoleSchema;
 use MagmaCore\Base\AbstractBaseModel;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataRelationship\OneToOne;
 
 class UserMetaDataModel extends AbstractBaseModel
@@ -28,7 +29,7 @@ class UserMetaDataModel extends AbstractBaseModel
 
     /**
      * Main constructor class which passes the relevant information to the 
-     * base model parent constructor. This allows the repsitory to fetch the
+     * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
      * 
      * @throws BaseInvalidArgumentException
@@ -36,7 +37,7 @@ class UserMetaDataModel extends AbstractBaseModel
      */
     public function __construct()
     {
-        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, NULL);
+        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID);
     }
 
     /**
@@ -56,7 +57,7 @@ class UserMetaDataModel extends AbstractBaseModel
      *
      * @return OneToOne
      */
-    public function hasRelationship()
+    public function hasRelationship(): OneToOne
     {
         return $this->addRelationship(OneToOne::class)
             ->hasOne(UserMetaDataModel::class)->belongsToOne(UserModel::class)

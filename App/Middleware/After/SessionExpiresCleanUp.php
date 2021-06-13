@@ -12,14 +12,14 @@ class SessionExpiresCleanUp extends AfterMiddleware
     /**
      * Clean up after logout will only execute when the logout action called
      * and will attempt to clean up database and left over cookie crumbs
-     * if needs doing else will just return the next middleare
+     * if needs doing else will just return the next middleware
      *
-     * @param object $object
+     * @param object $middleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {
-        return $next($object);
+        return $next($middleware);
     }
 }

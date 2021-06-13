@@ -13,18 +13,19 @@ namespace App\Model;
 
 use App\Entity\UserPerferenceEntity;
 use MagmaCore\Base\AbstractBaseModel;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
-class UserPerferenceModel extends AbstractBaseModel
+class UserPreferenceModel extends AbstractBaseModel
 { 
 
     /** @var string */
-    protected const TABLESCHEMA = 'user_perferences';
+    protected const TABLESCHEMA = 'user_preferences';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
 
     /**
      * Main constructor class which passes the relevant information to the 
-     * base model parent constructor. This allows the repsitory to fetch the
+     * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
      * 
      * @throws BaseInvalidArgumentException

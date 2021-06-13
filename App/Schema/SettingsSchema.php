@@ -20,12 +20,12 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class SettingsSchema implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
-    protected DataSchema $schema;
+    /** @var object - $schema for chaining the schema together */
+    protected object $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    protected object $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected SettingModel $settingModel;
+    protected object $settingModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 

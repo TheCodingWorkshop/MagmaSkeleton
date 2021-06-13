@@ -14,6 +14,7 @@ namespace App\EventSubscriber;
 
 use date;
 use array_map;
+use JetBrains\PhpStorm\ArrayShape;
 use serialize;
 use array_merge;
 use get_browser;
@@ -33,23 +34,23 @@ class LogoutActionSubscriber implements EventSubscriberInterface
 
     use EventDispatcherTrait;
 
-    /** @var int - we want this to execute last so it doesn't interupt other process */
-    private const FLASH_MESSAGE_PRIOIRTY = -1000;
+    /** @var int - we want this to execute last so it doesn't interrupt other process */
+    private const FLASH_MESSAGE_PRIORITY = -1000;
     /** @var string - default flash message */
     private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
-     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to 
+     * which means the first item starts at 0. See ACTION_ROUTES constant for correct order of how to
      * load other routes for flashing
      * @var int
      */
     protected const LOGOUT_ACTION = 'logout';
 
     /**
-     * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
+     * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
-     * addtitional tasks on that return object.
+     * additional tasks on that return object.
      *
      * @return array
      */
@@ -57,7 +58,7 @@ class LogoutActionSubscriber implements EventSubscriberInterface
     {
         return [
             LogoutActionEvent::NAME => [
-                ['flashLoginEvent', self::FLASH_MESSAGE_PRIOIRTY],
+                ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
                 //['afterLogout']
             ]
         ];
@@ -65,15 +66,13 @@ class LogoutActionSubscriber implements EventSubscriberInterface
 
     /**
      * Event flash allows flashing of any specified route defined with the ACTION_ROUTES constants
-     * one can declare a message and a default route. if a default route isn't set then the script will 
-     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to 
+     * one can declare a message and a default route. if a default route isn't set then the script will
+     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to
      * redirect back to the index page. As this is the only logical route to redirect to. after we
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
-     * 
+     *
      * @param LogoutActionEvent $event
-     * @param string $msg
-     * @param string|null $redirect
      * @return void
      */
     public function flashLoginEvent(LogoutActionEvent $event)
@@ -116,7 +115,7 @@ class LogoutActionSubscriber implements EventSubscriberInterface
                         ->getCrud()
                         ->update(
                             [
-                                'user_id' => (isset($value[0]) ? $value[0] : false),
+                                'user_id' => ($value[0] ?? false),
                                 'logout' => serialize($logLogout)
                             ],
                             'user_id'

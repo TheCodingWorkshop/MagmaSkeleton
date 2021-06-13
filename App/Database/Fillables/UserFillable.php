@@ -25,13 +25,11 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
     private UserModel $userModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param FillableSchema $fillable
-     * @param FillableBlueprint $blueprint
      * @param UserModel $userModel
-     * @return void
      */
     public function __construct(FillableSchema $fillable, UserModel $userModel)
     {
@@ -40,10 +38,10 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
     }
 
     /**
-     * @inheritdoc
+     *
      * @return string
      */
-    public function createFillable()
+    public function createFillable(): string
     {
         $this->fillable->create(1, function($fillable){
             return $fillable

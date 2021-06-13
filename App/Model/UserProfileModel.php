@@ -46,7 +46,7 @@ class UserProfileModel extends UserModel
      * @param Object $cleanData
      * @return boolean
      */
-    public function isPasswordMatching(Object $object, Object $cleanData): bool
+    public function isPasswordMatching(object $object, object $cleanData): bool
     {
         if ($cleanData->client_password_hash === $cleanData->password_hash_retype) {
             return true;

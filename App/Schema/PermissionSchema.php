@@ -20,12 +20,12 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class PermissionSchema implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
-    protected DataSchema $schema;
+    /** @var object - $schema for chaining the schema together */
+    protected object $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    protected object $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected PermissionModel $permissionModel;
+    protected object $permissionModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -56,7 +56,7 @@ class PermissionSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->varchar('permission_name', 64))
             ->row($this->blueprint->varchar('permission_description', 190))
             ->row($this->blueprint->int('created_byid', 10, false))
-            ->row($this->blueprint->datetime('created_at', false, 'ct', ''))
+            ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
             ->build(function($schema) {
                 return $schema

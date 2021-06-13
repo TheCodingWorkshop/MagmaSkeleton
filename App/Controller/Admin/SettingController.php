@@ -12,22 +12,42 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Commander\SettingCommander;
+use App\DataColumns\SettingColumn;
 use App\Entity\SettingEntity;
 use App\Event\SettingActionEvent;
+use App\Forms\Admin\Settings\ApplicationSettingForm;
+use App\Forms\Admin\Settings\AvatarSettingForm;
+use App\Forms\Admin\Settings\BrandingSettingForm;
+use App\Forms\Admin\Settings\DatetimeSettingForm;
+use App\Forms\Admin\Settings\DefaultSettingForm;
+use App\Forms\Admin\Settings\ExtensionSettingForm;
+use App\Forms\Admin\Settings\FormattingSettingForm;
+use App\Forms\Admin\Settings\GeneralSettingForm;
+use App\Forms\Admin\Settings\LocalisationSettingForm;
+use App\Forms\Admin\Settings\PurgeSettingForm;
+use App\Forms\Admin\Settings\SecuritySettingForm;
+use App\Forms\Admin\Settings\ToolsSettingForm;
+use App\Model\SettingModel;
+use MagmaCore\Base\Domain\Actions\ConfigAction;
+use MagmaCore\Base\Domain\Actions\PurgeAction;
+use MagmaCore\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use MagmaCore\Settings\Settings;
 
 class SettingController extends AdminController
 {
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -39,25 +59,25 @@ class SettingController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => \App\Model\SettingModel::class,
-                'settingsRepository' => \MagmaCore\Settings\Settings::class,
-                'column' => \App\DataColumns\SettingColumn::class,
-                'commander' => \App\Commander\SettingCommander::class,
-                'configAction' => \MagmaCore\Base\Domain\Actions\ConfigAction::class,
-                'purgeAction' => \MagmaCore\Base\Domain\Actions\PurgeAction::class,
-                'applicationSettingForm' => \App\Forms\Admin\Settings\ApplicationSettingForm::class,
-                'generalSettingForm' => \App\Forms\Admin\Settings\GeneralSettingForm::class,
-                'formattingSettingForm' => \App\Forms\Admin\Settings\FormattingSettingForm::class,
-                'avatarSettingForm' => \App\Forms\Admin\Settings\AvatarSettingForm::class,
-                'defaultSettingForm' => \App\Forms\Admin\Settings\DefaultSettingForm::class,
+                'repository' => SettingModel::class,
+                'settingsRepository' => Settings::class,
+                'column' => SettingColumn::class,
+                'commander' => SettingCommander::class,
+                'configAction' => ConfigAction::class,
+                'purgeAction' => PurgeAction::class,
+                'applicationSettingForm' => ApplicationSettingForm::class,
+                'generalSettingForm' => GeneralSettingForm::class,
+                'formattingSettingForm' => FormattingSettingForm::class,
+                'avatarSettingForm' => AvatarSettingForm::class,
+                'defaultSettingForm' => DefaultSettingForm::class,
 
-                'datetimeSettingForm' => \App\Forms\Admin\Settings\DatetimeSettingForm::class,
-                'securitySettingForm' => \App\Forms\Admin\Settings\SecuritySettingForm::class,
-                'purgeSettingForm' => \App\Forms\Admin\Settings\PurgeSettingForm::class,
-                'toolsSettingForm' => \App\Forms\Admin\Settings\ToolsSettingForm::class,
-                'localisationSettingForm' => \App\Forms\Admin\Settings\LocalisationSettingForm::class,
-                'brandingSettingForm' => \App\Forms\Admin\Settings\BrandingSettingForm::class,
-                'extensionSettingForm' => \App\Forms\Admin\Settings\ExtensionSettingForm::class,
+                'datetimeSettingForm' => DatetimeSettingForm::class,
+                'securitySettingForm' => SecuritySettingForm::class,
+                'purgeSettingForm' => PurgeSettingForm::class,
+                'toolsSettingForm' => ToolsSettingForm::class,
+                'localisationSettingForm' => LocalisationSettingForm::class,
+                'brandingSettingForm' => BrandingSettingForm::class,
+                'extensionSettingForm' => ExtensionSettingForm::class,
 
             ]
         );
@@ -75,13 +95,11 @@ class SettingController extends AdminController
      *
      * @return mixed
      */
-    public function findOr404()
+    public function findOr404(): mixed
     {
-        $repository = $this->repository->getRepo()
+        return $this->repository->getRepo()
             ->findAndReturn($this->thisRouteID())
             ->or404();
-
-        return $repository;
     }
 
     protected function indexAction()

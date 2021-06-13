@@ -32,7 +32,7 @@ class UserValidate extends AbstractDataRepositoryValidation
     protected array $dataBag = [];
     /** @var ValidationRule $rules */
     protected ValidationRule $rules;
-    protected $randomPassword = null;
+    protected ?string $randomPassword = null;
 
     /** @var string - empty string will redirect on the same request */
     protected const REDIRECT_BACK_TO = '';
@@ -58,9 +58,9 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @inheritdoc
      * @param Collection $entityCollection
      * @param object|null $dataRepository - the repository for the entity
-     * @return mixed
+     * @return array
      */
-    public function validateBeforePersist(Collection $entityCollection, Null|object $dataRepository = null)
+    public function validateBeforePersist(Collection $entityCollection, ?object $dataRepository = null): array
     {
         $newCleanData = [];
         $this->validate($entityCollection, $dataRepository);
@@ -68,7 +68,6 @@ class UserValidate extends AbstractDataRepositoryValidation
         if (null !== $dataCollection) {
             $email = $this->isSet('email', $dataCollection, $dataRepository);
             list($tokenHash, $activationHash) = (new HashGenerator())->hash();
-            //$enCollect = $entityCollection;
             $newCleanData = [
                 'firstname' => $this->isSet('firstname', $dataCollection, $dataRepository),
                 'lastname' => $this->isSet('lastname', $dataCollection, $dataRepository),
@@ -88,7 +87,7 @@ class UserValidate extends AbstractDataRepositoryValidation
             }
 
             /**
-             * When updatng we want to unset some key from the $newCleanData array so we
+             * When updating we want to unset some key from the $newCleanData array so we
              * are not overwriting key aspects of the user object. ie. We don't wanna mess
              * with the user password. And we don't wanna generate a new activation_token
              * on user update so we will remove these two keys from the array. And !is_null
@@ -118,15 +117,14 @@ class UserValidate extends AbstractDataRepositoryValidation
      * password will be encoded before pass the database handler
      *
      * @param object|array $cleanData
-     * @param integer $length
      * @return string
      */
-    private function userPassword(object|array $cleanData, int $length = 12): string
+    private function userPassword(object|array $cleanData): string
     {
         $userPassword = '';
         $userPassword = $this->isSet('client_password_hash', $cleanData);
         $encodedPassword = PasswordEncoder::encode(
-            !empty($userPassword) ? $userPassword : ($this->randomPassword = RandomCharGenerator::generate($length))
+            !empty($userPassword) ? $userPassword : ($this->randomPassword = RandomCharGenerator::generate(12))
         );
         if ($encodedPassword)
             return $encodedPassword;
@@ -160,8 +158,7 @@ class UserValidate extends AbstractDataRepositoryValidation
     }
 
     /**
-     * @inheritdoc
-     * @return array
+     * @return string
      */
     public function validationRedirect(): string
     {
@@ -174,7 +171,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(Collection $entityCollection, Null|Object $dataRepository = null): void
+    public function validate(Collection $entityCollection, ?object $dataRepository = null): void
     {
         $this->doValidation(
             $entityCollection,

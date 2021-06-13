@@ -14,7 +14,7 @@ namespace App\API\Search;
 class UserSearch
 {
 
-    public function init()
+    public function init(): array
     {
         return [
         ];

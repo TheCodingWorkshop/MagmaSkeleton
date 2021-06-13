@@ -18,13 +18,6 @@ use App\Controller\Admin\UserController as APIUserController;
 class UserController extends APIUserController
 {
 
-    /**
-     * Return api response for the user index route which returns all queried
-     * database results
-     *
-     * @return RestHandler
-     * @throws \Exception
-     */
     protected function indexAction()
     {
         $repository = $this->repository->getRepo();
@@ -36,11 +29,6 @@ class UserController extends APIUserController
         } 
     }
 
-    /**
-     *
-     * @return RestHandler
-     * @throws \Exception
-     */
     public function newAction()
     {
         $this->newAction

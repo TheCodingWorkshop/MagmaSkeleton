@@ -45,6 +45,7 @@ class PermissionValidate extends AbstractDataRepositoryValidation
     {
         $this->rules = $rules;
         $this->rules->addObject(PermissionController::class, $this);
+        parent::__construct();
     }
 
     /**
@@ -53,12 +54,13 @@ class PermissionValidate extends AbstractDataRepositoryValidation
      * 
      * @param Collection $entityCollection - the incoming data
      * @param object|null $dataRepository - the repository for the entity
-     * @return mixed
+     * @return array
      */
-    public function validateBeforePersist(Collection $entityCollection, ?object $dataRepository = null)
+    public function validateBeforePersist(Collection $entityCollection, ?object $dataRepository = null): array
     {
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields($entityCollection->all());
+        $newCleanData = [];
         if (null !== $dataCollection) {
             $newCleanData = [
                 'permission_name' => $this->isSet('permission_name', $dataCollection, $dataRepository),
@@ -108,8 +110,8 @@ class PermissionValidate extends AbstractDataRepositoryValidation
      * from the form
      *
      * @param Collection $entityCollection
-     * @param object $dataRepository
-     * @return void
+     * @param object|null $dataRepository
+     * @return void|null
      */
     private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository=null)
     {
@@ -138,14 +140,14 @@ class PermissionValidate extends AbstractDataRepositoryValidation
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(Collection $entityCollection, ?Object $dataRepository = null): void
+    public function validate(Collection $entityCollection, ?object $dataRepository = null): void
     {
         $this->doValidation(
             $entityCollection,
             $dataRepository,
             function ($key, $value, $entityCollection, $dataRepository) {
                 if ($rules = $this->rules) {
-                    return match ($key) {
+                   return match ($key) {
                         'permission_name' => $rules->addRule("required|unique"),
                         'permission_description' => $rules->addRule("required"),
                         default => $this->throwWarningIfNoChange($entityCollection, $dataRepository)

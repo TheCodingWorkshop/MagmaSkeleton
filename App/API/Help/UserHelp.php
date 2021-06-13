@@ -15,7 +15,7 @@ namespace App\API\Help;
 class UserHelp
 {
 
-    public function init()
+    public function init(): array
     {
         return [
             [

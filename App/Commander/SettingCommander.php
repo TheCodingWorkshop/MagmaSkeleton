@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Commander;
 
 use App\Model\SettingModel;
+use Exception;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 
@@ -42,12 +43,14 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
         'manager',
         'filter'
     ];
+    private object $controller;
 
     /**
      * Get the specific yaml file which helps to render some text within the specified
      * html template.
      *
      * @return array
+     * @throws Exception
      */
     public function getYml(): array
     {
@@ -69,6 +72,7 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
      *
      * @param object $controller
      * @return string
+     * @throws Exception
      */
     public function getHeaderBuild(object $controller): string
     {

@@ -22,17 +22,17 @@ class AuthorizedIsNull extends BeforeMiddleware
      * Redirect to login if authorized object is null. As if you're not 
      * authorized then access cannot be granted.
      *
-     * @param Object $object - contains the BaseController object
+     * @param Object $middleware - contains the BaseController object
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {   
         $authorized = Authorized::grantedUser();
         if (is_null($authorized)) {
-            $object->redirect('/login');
+            $middleware->redirect('/login');
         }
-        return $next($object);
+        return $next($middleware);
     }
 
 }

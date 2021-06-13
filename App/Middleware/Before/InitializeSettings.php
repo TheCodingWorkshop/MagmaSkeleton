@@ -20,14 +20,14 @@ class InitializeSettings extends BeforeMiddleware
     /**
      * Undocumented function
      *
-     * @param Object $object - contains the BaseController object
+     * @param Object $middleware - contains the BaseController object
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {   
-        $object->tableSettingsInsertAction($object->thisRouteController());
-        return $next($object);
+        $middleware->tableSettingsInsertAction($middleware->thisRouteController());
+        return $next($middleware);
     }
 
 }

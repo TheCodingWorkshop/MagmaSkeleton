@@ -20,12 +20,12 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class RememberedLoginSchema implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
-    protected DataSchema $schema;
+    /** @var object - $schema for chaining the schema together */
+    protected object $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    protected object $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected RememberedLoginModel $rememberedLogin;
+    protected object $rememberedLogin;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -54,7 +54,7 @@ class RememberedLoginSchema implements DataSchemaBuilderInterface
             ->table($this->rememberedLogin)
             ->row($this->blueprint->autoID())
             ->row($this->blueprint->varchar('token_hash', 64))
-            ->row($this->blueprint->datetime('expires_at', false, 'none', ''))
+            ->row($this->blueprint->datetime('expires_at', false, 'none'))
             ->build(function($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())

@@ -21,8 +21,8 @@ class RoleRelationship extends UserModel
 {
 
     /**
-     * self::class referes to this current class UserModel::class. Create the connection
-     * between the different associated models and thier pivoting table. In order to 
+     * self::class refers to this current class UserModel::class. Create the connection
+     * between the different associated models and their pivoting table. In order to
      * establish a relationship. First we need to pass the type of possible 3 relationships
      * ManyToMany, OneToMany or OneToOne with the addRelationship method. Then add both
      * reference table within the table method then the pivot table to the pivot method.
@@ -31,7 +31,7 @@ class RoleRelationship extends UserModel
      *
      * @return object
      */
-    public function type()
+    public function type(): object
     {
         /* self::class refers to UserModel::class */
         return $this->addRelationship(ManyToMany::class)

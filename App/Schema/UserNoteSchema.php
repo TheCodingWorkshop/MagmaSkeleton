@@ -21,12 +21,12 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class UserNoteSchema implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
-    protected DataSchema $schema;
+    /** @var object - $schema for chaining the schema together */
+    protected object $schema;
     /** @var object - provides helper function for quickly adding schema types */
-    protected DataSchemaBlueprint $blueprint;
+    protected object $blueprint;
     /** @var object - the database model this schema is linked to */
-    protected UserNoteModel $userNoteModel;
+    protected object $userNoteModel;
 
     /**
      * Main constructor class. Any typed hinted dependencies will be autowired. As this 
@@ -58,7 +58,7 @@ class UserNoteSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->autoID())
             ->row($this->blueprint->int('user_id', 10))
             ->row($this->blueprint->longText('notes', false))
-            ->row($this->blueprint->datetime('created_at', false, 'ct', ''))
+            ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
             ->build(function($schema) {
                 return $schema

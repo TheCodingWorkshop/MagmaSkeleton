@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
+use Exception;
 use MagmaCore\Utility\Stringify;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
@@ -231,6 +232,7 @@ class UserColumn extends AbstractDatatableColumn
      * @param object $controller
      * @param array $row
      * @return string
+     * @throws Exception
      */
     public function displayStatus(object $controller, array $row): string
     {
@@ -238,7 +240,7 @@ class UserColumn extends AbstractDatatableColumn
             if (!in_array($row[$key], $value)) {
                 var_dump($value);
                 die;
-                throw new \Exception($row[$key] . ' is not a value specified within your model.');
+                throw new Exception($row[$key] . ' is not a value specified within your model.');
             }
             $colors = ['warning', 'success', 'danger', 'secondary', ''];
             $count = 0;

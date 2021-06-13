@@ -26,13 +26,13 @@ class SessionExpires extends BeforeMiddleware
      * from the application session.yaml file. else will default to class constant which
      * defaults to 30min idle time;
      *
-     * @param object $object - contains the BaseController object
+     * @param object $middleware - contains the BaseController object
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {   
-        $session = $object->getSession();
+        $session = $middleware->getSession();
         if(null !== $session->get('timeout')) {
             $duration = time() - (int)$session->get('timeout');
             $lifetime = Yaml::file('session')['lifetime']; /* Get session lifetime from yaml file */
@@ -40,14 +40,14 @@ class SessionExpires extends BeforeMiddleware
             if ($duration > $expires) {
                 $session->invalidate();
                 /** @todo let the user know the session was expired */
-                $object->redirect('/security/session');
+                $middleware->redirect('/security/session');
             } else {
                 $session->set('timeout', time());
             }
         }
         $session->set('timeout', time());
         //$this->expire($object);
-        return $next($object);
+        return $next($middleware);
     }
 
     public function expire(object $object)

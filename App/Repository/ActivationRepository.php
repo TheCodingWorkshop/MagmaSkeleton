@@ -21,14 +21,15 @@ class ActivationRepository extends UserModel implements UserActivationInterface
 { 
 
     protected array $errors = [];
+    private int $userID;
+    private array $fields;
+    private string $hash;
 
     /**
-     * Undocumented function
-     *
      * @param string $token
      * @return Object|null
      */
-    public function findByActivationToken(string $token) : ?Object
+    public function findByActivationToken(string $token) : ?object
     { 
         $token = new Token($token);
         $_tokenHash = $token->getHash();
@@ -41,33 +42,29 @@ class ActivationRepository extends UserModel implements UserActivationInterface
     }
 
     /**
-     * Undocumented function
-     *
      * @param string $hash
-     * @return self
+     * @return $this
      */
     public function sendUserActivationEmail(string $hash) : self
     { 
-        $mail = (new MailerFacade())->basicMail(
+        (new MailerFacade())->basicMail(
             'Activate Your Account',
             'admin@magmacore.com',
-            $this->userEmail,
-            (new BaseView())->getTemplate('client/registration/activation_email.html.twig',["url" => "http://{$_SERVER['HTTP_HOST']}/activation/activate/{$this->hash}"])
+            '',
+            (new BaseView())->templateRender(
+                'client/registration/activation_email.html.twig',
+                ["url" => "http:/" . $_SERVER['HTTP_HOST'] . "/activation/activate/" . $this->hash]
+            )
         );
-        if ($mail) {
-            return true;
-        }
         return $this;
 
     }
 
     /**
-     * Undocumented function
-     *
-     * @param Object|null $repository
-     * @return self
+     * @param object|null $repository
+     * @return $this
      */
-    public function validateActivation(?Object $repository) : self
+    public function validateActivation(?object $repository) : self
     { 
         if ($repository === null) {
             $this->errors['invalid_account'] = 'Sorry no user was found!';
@@ -79,9 +76,7 @@ class ActivationRepository extends UserModel implements UserActivationInterface
     }
 
     /**
-     * Undocumented function
-     *
-     * @return boolean
+     * @return bool
      */
     public function activate() : bool
     { 
@@ -92,7 +87,10 @@ class ActivationRepository extends UserModel implements UserActivationInterface
         return false;
     }
 
-    public function getErrors()
+    /**
+     * @return array
+     */
+    public function getErrors(): array
     {
         return $this->errors;
     }

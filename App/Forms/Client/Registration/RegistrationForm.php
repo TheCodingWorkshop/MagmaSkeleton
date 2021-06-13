@@ -32,21 +32,23 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
     public function __construct(FormBuilderBlueprint $blueprint)
     {
         $this->blueprint = $blueprint;
+        parent::__construct();
     }
 
     /**
-     * Construct the security login form. The attribute name='{string}' must match 
-     * the string name pass to the $this->form->isSubmittable() method within the 
+     * Construct the security login form. The attribute name='{string}' must match
+     * the string name pass to the $this->form->isSubmittable() method within the
      * any method checking if the form canHandleRequest and isSubmittable
      *
      * @param string $action
-     * @param object|null $userRepository
-     * @return void
+     * @param object|null $dataRepository
+     * @param object|null $callingController
+     * @return string
      */
-    public function createForm(string $action, ?Object $userRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
-            ->addRepository($userRepository)
+            ->addRepository($dataRepository)
             ->add($this->blueprint->text('firstname'))
             ->add($this->blueprint->text('lastname'))
             ->add($this->blueprint->email('email', ['uk-width-1-2'], null, true))

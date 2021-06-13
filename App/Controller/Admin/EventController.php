@@ -12,19 +12,22 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use MagmaCore\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+
 class EventController extends AdminController
 {
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -36,6 +39,7 @@ class EventController extends AdminController
          */
         $this->addDefinitions(
             [
+                'column' => ''
             ]
         );
         /** Initialize database with table settings */

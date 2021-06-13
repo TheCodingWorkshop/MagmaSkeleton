@@ -31,8 +31,8 @@ class UserActionSubscriber implements EventSubscriberInterface
 
     use EventDispatcherTrait;
 
-    /** @var int - we want this to execute last so it doesn't interupt other process */
-    private const FLASH_MESSAGE_PRIOIRTY = -1000;
+    /** @var int - we want this to execute last so it doesn't interrupt other process */
+    private const FLASH_MESSAGE_PRIORITY = -1000;
     /** @var string - default flash message */
     private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
     /** @var string */
@@ -43,7 +43,7 @@ class UserActionSubscriber implements EventSubscriberInterface
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
-     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to 
+     * which means the first item starts at 0. See ACTION_ROUTES constant for correct order of how to
      * load other routes for flashing
      * @var int
      */
@@ -67,37 +67,36 @@ class UserActionSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
+     * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
-     * addtitional tasks on that return object.
-     *
+     * additional tasks on that return object.
      * @return array
      */
+
     public static function getSubscribedEvents(): array
     {
         return [
             UserActionEvent::NAME => [
-                ['flashUserEvent', self::FLASH_MESSAGE_PRIOIRTY],
+                ['flashUserEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['assignedUserRole'],
                 //['createUserLog'],
                 ['sendActivationEmail'],
+                ['logRequest'],
             ]
         ];
     }
 
     /**
      * Event flash allows flashing of any specified route defined with the ACTION_ROUTES constants
-     * one can declare a message and a default route. if a default route isn't 
+     * one can declare a message and a default route. if a default route isn't
      * set then the script will
-     * 
-     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to 
+     *
+     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to
      * redirect back to the index page. As this is the only logical route to redirect to. after we
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
-     * 
-     * @param object $event
-     * @param string $msg
-     * @param string|null $redirect
+     *
+     * @param UserActionEvent $event
      * @return void
      */
     public function flashUserEvent(UserActionEvent $event)
@@ -133,9 +132,9 @@ class UserActionSubscriber implements EventSubscriberInterface
      * register for a new account.
      *
      * @param UserActionEvent $event
-     * @return void
+     * @return bool
      */
-    public function sendActivationEmail(UserActionEvent $event)
+    public function sendActivationEmail(UserActionEvent $event): bool
     {
         if ($this->onRoute($event, self::NEW_ACTION) || $this->onRoute($event, self::REGISTER_ACTION)) {
             if ($event) {
@@ -153,12 +152,13 @@ class UserActionSubscriber implements EventSubscriberInterface
                 }
             }
         }
+        return false;
     }
 
     /**
      * Initialize a user log when a brand new user is created. Either from the
      * admin panel or created from the application front end. User log contains
-     * meta data ie snail trail of a user activitie across the application
+     * meta data ie snail trail of a user activities across the application
      *
      * @param UserActionEvent $event
      * @return bool
@@ -187,7 +187,7 @@ class UserActionSubscriber implements EventSubscriberInterface
                                 ]
                             );
 
-                        return ($push) ? true : false;
+                        return (bool)$push;
                     }
                 }
             }
@@ -198,10 +198,10 @@ class UserActionSubscriber implements EventSubscriberInterface
      * Assign the user the subscriber role on public registration and assigned
      * the selected role from the admin panel
      *
-     * @param NewActionEvent $event
-     * @return void
+     * @param UserActionEvent $event
+     * @return bool
      */
-    public function assignedUserRole(UserActionEvent $event)
+    public function assignedUserRole(UserActionEvent $event): bool
     {
         if ($this->onRoute($event, self::NEW_ACTION)) {
             if ($event) {
@@ -213,10 +213,32 @@ class UserActionSubscriber implements EventSubscriberInterface
                             ->getEm()
                             ->getCrud()
                             ->create(['user_id' => $user['last_id'], 'role_id' => $user['role_id']]);
-                        return ($push) ? true : false;
+                        return (bool)$push;
                     }
                 }
             }
+        }
+        return false;
+    }
+
+    public function logRequest(UserActionEvent $event)
+    {
+        if ($event) {
+            $event->getObject()->flatDb->flatDatabase()
+                ->insert()
+                    ->in('users-log')
+                        ->set(
+                            [
+                                'message' => '',
+                                'context' => '',
+                                'level' => '',
+                                'level_name' => '',
+                                'channel' => '',
+                                'datetime' => '',
+                                'extra' => []
+                            ]
+                            )
+                            ->execute();
         }
     }
 }

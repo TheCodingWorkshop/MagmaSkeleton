@@ -28,11 +28,10 @@
     <div class="uk-width-expand@m">
         <ul id="component-tab-left" class="uk-switcher">
             <li>
-                {% if ($current_user) : %}
+                {% if (isset($current_user) && $current_user !==null) : %}
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('current_user') @}</dt>
                     <dd>
-
                         <ul class="uk-list uk-list-disc uk-list-muted uk-text-danger">
                             <li>Name: {{{ $current_user->firstname . ' ' . $current_user->lastname }}}</li>
                             <li>Email: {{{ $current_user->email }}}</li>

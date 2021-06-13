@@ -13,13 +13,14 @@ declare(strict_types=1);
 namespace App\Commander;
 
 use App\Model\PermissionModel;
+use Exception;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 
 class PermissionCommander extends PermissionModel implements ApplicationCommanderInterface
 {
 
-    /** @var trait - this is required */
+    /** @var ApplicationCommanderTrait - this is required */
     use ApplicationCommanderTrait;
 
     /**
@@ -31,12 +32,14 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
         'new',
         'edit',
     ];
+    private object $controller;
 
     /**
      * Get the specific yaml file which helps to render some text within the specified
      * html template.
      *
      * @return array
+     * @throws Exception
      */
     public function getYml(): array
     {
@@ -58,6 +61,7 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
      *
      * @param object $controller
      * @return string
+     * @throws Exception
      */
     public function getHeaderBuild(object $controller): string
     {

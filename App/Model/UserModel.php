@@ -44,11 +44,13 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         'created_byid',
         'remote_addr',
     ];
+    protected ?string $validatedHashPassword;
+    protected ?object $tokenRepository;
 
 
     /**
      * Main constructor class which passes the relevant information to the 
-     * base model parent constructor. This allows the repsitory to fetch the
+     * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
      * 
      * @throws BaseInvalidArgumentException
@@ -105,11 +107,10 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
      * passing hash from our traits services
      *
      * @param object $cleanData - data returning from the user entity filtered and sanitized
-     * @param object|null $dataRepository
+     * @param object|null $repository
      * @return self
-     * @throws ReflectionException
      */
-    public function validatePassword(object $cleanData, object|null $repository = null)
+    public function validatePassword(object $cleanData, ?object $repository = null): static
     {
         $cleanData = (array)$cleanData;
         $validate = $this->get('Validate.UserValidate')->validate($cleanData);

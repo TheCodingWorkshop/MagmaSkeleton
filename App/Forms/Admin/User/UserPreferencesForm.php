@@ -17,7 +17,7 @@ use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
-class UserPerferencesForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class UserPreferencesForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /** @var FormBuilderBlueprintInterface $blueprint */
@@ -32,24 +32,24 @@ class UserPerferencesForm extends ClientFormBuilder implements ClientFormBuilder
     public function __construct(FormBuilderBlueprint $blueprint)
     {
         $this->blueprint = $blueprint;
+        parent::__construct();
     }
 
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
 
-        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userPerferencesForm"])
+        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userPreferencesForm"])
             ->addRepository($dataRepository)
             ->add(
                 $this->blueprint->select(
                     'language',
-                    ['uk-select'],
-                    null
+                    ['uk-select']
                 ),
                 $this->blueprint->choices([]),
                 $this->blueprint->settings(false, null, true, 'Language', true, null, 'The language that the control panel should use.')
@@ -75,7 +75,7 @@ class UserPerferencesForm extends ClientFormBuilder implements ClientFormBuilder
             )
             ->add(
                 $this->blueprint->textarea(
-                    'user_addreess',
+                    'user_address',
                     ['uk-textarea'],
                     'user_address',
                     $this->getRepository()->firstname . ' address (optional)'

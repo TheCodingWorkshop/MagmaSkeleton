@@ -31,21 +31,23 @@ class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterf
 	public function __construct(FormBuilderBlueprint $blueprint)
 	{
 		$this->blueprint = $blueprint;
+		parent::__construct();
 	}
 
-	/**
-	 * Construct the security login form. The attribute name='{string}' must match 
-	 * the string name pass to the $this->form->isSubmittable() method within the 
-	 * any method checking if the form canHandleRequest and isSubmittable
-	 *
-	 * @param string $action
-	 * @param object|null $userRepository
-	 * @return void
-	 */
-	public function createForm(string $action, ?Object $userRepository = null, object $callingController = null)
+    /**
+     * Construct the security login form. The attribute name='{string}' must match
+     * the string name pass to the $this->form->isSubmittable() method within the
+     * any method checking if the form canHandleRequest and isSubmittable
+     *
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
+     * @return string
+     */
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
 	{
 		return $this->form(['action' => $action, 'class' => 'uk-form-stacked uk-form-bolder', 'autocomplete' => false])
-		->addRepository($userRepository)
+		->addRepository($dataRepository)
 		->add($this->blueprint->email('email',['uk-form-width-large'], $this->hasValue('email')))
 		->add($this->blueprint->password(
 			'password_hash', 
@@ -68,9 +70,5 @@ class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterf
 		)
 		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 
-		// ->add([PasswordType::class => ['name' => 'password_hash', 'autocomplete' => 'new-password', 'placeholder' => 'Password Required']], null, ['show_label' => false])
-		// ->add([HiddenType::class => ['name' => 'id', 'value' => $repository->id]], null, ['show_label' => false])
-		// ->add([SubmitType::class => ['name' => 'email-account', 'value' => 'Save and Continue', 'class' => ['uk-button', 'uk-button-primary']]], null, ['show_label' => false])
-		// ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
-	} 
+	}
 }

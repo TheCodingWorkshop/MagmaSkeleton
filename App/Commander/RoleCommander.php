@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Commander;
 
 use App\Model\RoleModel;
-use MagmaCore\Utility\Yaml;
+use Exception;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 
@@ -32,12 +32,14 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
         'edit',
         'assigned'
     ];
+    private object $controller;
 
     /**
      * Get the specific yaml file which helps to render some text within the specified
      * html template.
      *
      * @return array
+     * @throws Exception
      */
     public function getYml(): array
     {
@@ -59,6 +61,7 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
      *
      * @param object $controller
      * @return string
+     * @throws Exception
      */
     public function getHeaderBuild(object $controller): string
     {

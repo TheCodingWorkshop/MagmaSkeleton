@@ -23,40 +23,31 @@ class isUserAccountActivated extends BeforeMiddleware
      * Prevent login access if a user account is either pending, lock or suspended.
      * Only active account user will be allowed in.
      *
-     * @param Object $object - contains the BaseController object
-     * @param Closure $next
+     * @param object $middleware - contains the BaseController object
+     * @param closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(object $middleware, Closure $next)
     {
-        if ($email = $object->request->handler()->get('email')) {
+        $message = '';
+        if ($email = $middleware->request->handler()->get('email')) {
             if (isset($email)) {
                 $user = (new UserModel())->getRepo()->findObjectBy(['email' => $email]);
                 if (is_null($user)) {
-                    $object->flashMessage('Account not found.', $object->flashWarning());
-                    $object->redirect('/login');
+                    $middleware->flashMessage('Account not found.', $middleware->flashWarning());
+                    $middleware->redirect('/login');
                 }
-                $message = '';
-                switch ($user->status) {
-                    case 'pending':
-                        $message = 'Account not activated.';
-                        break;
-                    case 'lock':
-                        $message = 'Your account is locked. Please contact support for more information';
-                        break;
-                    case 'suspended':
-                        $message = 'Your account is suspended.';
-                        break;
-                    case 'active':
-                    default : 
-                        return;
-                        break;
-                }
-                $object->flashMessage($message, $object->flashWarning());
-                $object->redirect('/login');
+//                $message = match ($user->status) {
+//                    'pending' => 'Account not activated.',
+//                    'lock' => 'Your account is locked. Please contact support for more information',
+//                    'suspended' => 'Your account is suspended.',
+//                    'active' => 'Welcome',
+//                };
+//                $middleware->flashMessage($message, $middleware->flashWarning());
+//                $middleware->redirect('/login');
             }
         }
 
-        return $next($object);
+        return $next($middleware);
     }
 }

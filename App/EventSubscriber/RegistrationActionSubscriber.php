@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use MagmaCore\Base\BaseView;
+use JetBrains\PhpStorm\ArrayShape;
 use App\Model\UserMetaDataModel;
-use MagmaCore\Mailer\MailerFacade;
 use App\Event\RegistrationActionEvent;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
-use MagmaCore\Base\Contracts\BaseActionEventInterface;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -29,8 +27,8 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
 
     use EventDispatcherTrait;
 
-    /** @var int - we want this to execute last so it doesn't interupt other process */
-    private const FLASH_MESSAGE_PRIOIRTY = -1000;
+    /** @var int - we want this to execute last so it doesn't interrupt other process */
+    private const FLASH_MESSAGE_PRIORITY = -1000;
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
@@ -41,9 +39,9 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     protected const INDEX_ACTION = 'registered';
 
     /**
-     * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
+     * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
-     * addtitional tasks on that return object.
+     * additional tasks on that return object.
      *
      * @return array
      */
@@ -51,7 +49,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     {
         return [
             RegistrationActionEvent::NAME => [
-                ['flashLoginEvent', self::FLASH_MESSAGE_PRIOIRTY],
+                ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['sendUserActivationEmail'],
                 // ['afterLogout']
             ]
@@ -60,15 +58,13 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
 
     /**
      * Event flash allows flashing of any specified route defined with the ACTION_ROUTES constants
-     * one can declare a message and a default route. if a default route isn't set then the script will 
-     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to 
+     * one can declare a message and a default route. if a default route isn't set then the script will
+     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to
      * redirect back to the index page. As this is the only logical route to redirect to. after we
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
-     * 
+     *
      * @param RegistrationActionEvent $event
-     * @param string $msg
-     * @param string|null $redirect
      * @return void
      */
     public function flashLoginEvent(RegistrationActionEvent $event)
@@ -82,7 +78,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     /**
      * Undocumented function
      *
-     * @param RegistrationActionSubscriber $event
+     * @param RegistrationActionEvent $event
      * @return void
      */
     public function sendUserActivationEmail(RegistrationActionEvent $event)
@@ -112,7 +108,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
                         ->getCrud()
                         ->update(
                             [
-                                'user_id' => (isset($value[0]) ? $value[0] : false),
+                                'user_id' => ($value[0] ?? false),
                                 'login' => serialize($logLogin)
                             ],
                             'user_id'

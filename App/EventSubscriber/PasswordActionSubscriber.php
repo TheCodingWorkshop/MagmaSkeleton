@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Event\PasswordActionEvent;
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventDispatcherDefaulter;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
@@ -26,15 +27,15 @@ class PasswordActionSubscriber extends EventDispatcherDefaulter implements Event
 
     use EventDispatcherTrait;
 
-    /** @var int - we want this to execute last so it doesn't interupt other process */
-    private const FLASH_MESSAGE_PRIOIRTY = -1000;
+    /** @var int - we want this to execute last so it doesn't interrupt other process */
+    private const FLASH_MESSAGE_PRIORITY = -1000;
     /** @var string - default flash message */
     private const FLASH_DEFAULT = self::DEFAULT_MESSAGES['new_password'];
 
     /**
-     * Subscibe multiple listeners to listen for the NewActionEvent. This will fire
+     * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
      * each time a new user is added to the database. Listeners can then perform
-     * addtitional tasks on that return object.
+     * additional tasks on that return object.
      *
      * @return array
      */
@@ -42,22 +43,20 @@ class PasswordActionSubscriber extends EventDispatcherDefaulter implements Event
     {
         return [
             PasswordActionEvent::NAME => [
-                ['flashPasswordEvent', self::FLASH_MESSAGE_PRIOIRTY],
+                ['flashPasswordEvent', self::FLASH_MESSAGE_PRIORITY],
             ]
         ];
     }
 
     /**
      * Event flash allows flashing of any specified route defined with the ACTION_ROUTES constants
-     * one can declare a message and a default route. if a default route isn't set then the script will 
-     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to 
+     * one can declare a message and a default route. if a default route isn't set then the script will
+     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to
      * redirect back to the index page. As this is the only logical route to redirect to. after we
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
-     * 
-     * @param Object $event
-     * @param string $msg
-     * @param string|null $redirect
+     *
+     * @param PasswordActionEvent $event
      * @return void
      */
     public function flashPasswordEvent(PasswordActionEvent $event)

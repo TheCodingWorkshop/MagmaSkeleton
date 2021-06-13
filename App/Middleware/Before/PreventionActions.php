@@ -14,25 +14,25 @@ class PreventionActions extends BeforeMiddleware
     /**
      * Undocumented function
      *
-     * @param Object $object
+     * @param Object $middleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $object, Closure $next)
+    public function middleware(Object $middleware, Closure $next)
     {
-        if ($object->thisRouteAction() === 'delete') {
+        if ($middleware->thisRouteAction() === 'delete') {
             if ($guards = (new RoleModel())->guardedID()) {    
                 if (is_array($guards) && count($guards) > 0) {
                     foreach ($guards as $guard) {
-                        if ($object->toInt($guard) === $object->toInt($object->thisRouteID())) {
-                            $object->flashMessage('Deleting guarded actions is not allowed.<br><small>You will need to unguard first before you perform that action. <a href="">click here</a> to find out how to. </small>', $object->flashInfo());
-                            $object->redirect('/admin/role/index');
+                        if ($middleware->toInt($guard) === $middleware->toInt($middleware->thisRouteID())) {
+                            $middleware->flashMessage('Deleting guarded actions is not allowed.<br><small>You will need to guard first before you perform that action. <a href="">click here</a> to find out how to. </small>', $middleware->flashInfo());
+                            $middleware->redirect('/admin/role/index');
                         }
                     }        
                 }
             }    
         }
 
-        return $next($object);
+        return $next($middleware);
     }
 }

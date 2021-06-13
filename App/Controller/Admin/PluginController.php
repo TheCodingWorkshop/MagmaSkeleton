@@ -12,19 +12,25 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Commander\PluginCommander;
+use App\DataColumns\PluginColumn;
+use App\Model\PluginModel;
+use MagmaCore\Base\Exception\BaseException;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+
 class PluginController extends AdminController
 {
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -36,9 +42,9 @@ class PluginController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => \App\Model\PluginModel::class,
-                'commander' => \App\Commander\PluginCommander::class,
-                'column' => \App\DataColumns\PluginColumn::class
+                'repository' => PluginModel::class,
+                'commander' => PluginCommander::class,
+                'column' => PluginColumn::class
             ]
         );
         /** Initialize database with table settings */

@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Model\UserModel;
-use MagmaCore\Utility\Curl;
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Numbers\Number;
 
 class DashboardRepository
@@ -29,43 +29,37 @@ class DashboardRepository
         $this->number->addNumber($this->user->getRepo()->count());
     }
 
-    public function countlastMountUsers()
+    public function countlastMonthUsers(): int
     {
         $query = $this->user->getRepo()->getEm()->getCrud();
-        $userLastMonth = $query->rawQuery("SELECT COUNT(*) as created_at 
+        return $query->rawQuery("SELECT COUNT(*) as created_at 
         FROM {$this->user->getSchema()}
         WHERE created_at BETWEEN DATE_SUB(DATE_SUB(CURRENT_DATE(), INTERVAL DAY(CURRENT_DATE())-1 DAY), INTERVAL 1 MONTH)
         AND DATE_SUB(CURRENT_DATE(), INTERVAL DAY(CURRENT_DATE()) DAY)", [], 'column');
 
-        if ($userLastMonth)
-            return $userLastMonth;
     }
 
-    public function countlastWeekUsers()
+//    public function countlastWeekUsers(): string
+//    {
+//        $query = $this->user->getRepo()->getEm()->getCrud();
+//        return $query->rawQuery("SELECT COUNT(*) as created_at
+//        FROM {$this->user->getSchema()}
+//        WHERE created_at BETWEEN SUBDATE(CURRENT_DATE(), INTERVAL 7 + WEEKDAY(CURRENT_DATE()) DAY)
+//  AND SUBDATE(CURRENT_DATE(), INTERVAL 1+WEEKDAY(CURRENT_DATE()) DAY)", [], 'column');
+//
+//    }
+    public function countCurrentWeekUsers(): string
     {
         $query = $this->user->getRepo()->getEm()->getCrud();
-        $userLastWeek = $query->rawQuery("SELECT COUNT(*) as created_at 
-        FROM {$this->user->getSchema()}
-        WHERE created_at BETWEEN SUBDATE(CURRENT_DATE(), INTERVAL 7 + WEEKDAY(CURRENT_DATE()) DAY)
-  AND SUBDATE(CURRENT_DATE(), INTERVAL 1+WEEKDAY(CURRENT_DATE()) DAY)", [], 'column');
-
-        if ($userLastWeek)
-            return $userLastWeek;
-    }
-    public function countCurrentWeekUsers()
-    {
-        $query = $this->user->getRepo()->getEm()->getCrud();
-        $userLastWeek = $query->rawQuery("SELECT COUNT(*) as created_at 
+        return $query->rawQuery("SELECT COUNT(*) as created_at 
         FROM {$this->user->getSchema()}
         WHERE WHERE created_at BETWEEN SUBDATE(CURRENT_DATE(), INTERVAL WEEKDAY(CURRENT_DATE()) DAY)
   AND CURRENT_DATE()", [], 'column');
 
-        if ($userLastWeek)
-            return $userLastWeek;
     }
 
 
-    public function getQuickLinks(): array
+    #[ArrayShape(['privilege' => "string[]", 'static_pages' => "string[]", 'privileges' => "string[]", 'extension' => "string[]"])] public function getQuickLinks(): array
     {
         return [
             'privilege' => ['name' => 'Create new privileges', 'path' => '/admin/role/new'],
@@ -75,7 +69,7 @@ class DashboardRepository
         ];
     }
 
-    public function getStatistics(): array
+    #[ArrayShape(['user' => "array", 'page' => "array", 'attachment' => "array", 'unread_message' => "array"])] public function getStatistics(): array
     {
         return [
             'user' => ['icon' => 'person', 'counter' => 1.2, 'percentage' => 8],
@@ -85,7 +79,7 @@ class DashboardRepository
         ];
     }
 
-    public function getGithubStats()
+    #[ArrayShape(['branch' => "array", 'pull' => "array", 'commit' => "array", 'merge' => "array"])] public function getGithubStats(): array
     {
         return [
             'branch' => ['icon' => 'git-branch', 'counter' => 1.2, 'percentage' => 8],
@@ -175,7 +169,7 @@ class DashboardRepository
         ];
     }
 
-    public function mainCards()
+    #[ArrayShape(['Team' => "array", 'Tasks' => "array", 'Events' => "array"])] public function mainCards(): array
     {
         return [
             'Team' => [
@@ -208,26 +202,21 @@ class DashboardRepository
      *
      * @return array
      */
-    public function userSession(): array
+    #[ArrayShape(['tv' => "array", 'on' => "array"])] public function userSession(): array
     {
-        // $this->number->addNumber($this->totalUsers());
-        // $activeUsers = $this->number->percentage($this->totalActiveUsers());
-        // $pendingUsers = $this->number->percentage($this->totalPendingUsers());
-        // $lockedUsers = $this->number->percentage($this->totalLockedUsers());
-        // $trashUsers = $this->number->percentage($this->totalTrashUsers());
         return [
             'tv' => ['count' => 2.6, 'name' => 'Total Visits'],
             'on' => ['count' => 9.6, 'name' => 'Online'],
         ];
     }
 
-    public function getSessionUniqueVisits()
+    public function getSessionUniqueVisits(): float
     {
         return 1.4;
     }
 
 
-    public function getNavSwitcher()
+    #[ArrayShape(['home' => "string[]", 'session' => "string[]", 'github' => "string[]", 'health' => "string[]", 'activities' => "string[]", 'project' => "string[]", 'notifications' => "string[]"])] public function getNavSwitcher(): array
     {
         return [
             'home' => ['icon' => 'home-outline', 'include' => 'block_links'],
@@ -236,10 +225,11 @@ class DashboardRepository
             'health' => ['icon' => 'pulse-outline', 'include' => 'block_health_status'],
             'activities' => ['icon' => 'receipt-outline', 'include' => 'block_activities'],
             'project' => ['icon' => 'git-branch-outline', 'include' => 'block_project'],
+            'notifications' => ['icon' => 'notifications-outline', 'include' => 'block_notifications'],
         ];
     }
 
-    public function getBlockActivities()
+    #[ArrayShape(['Security' => "string[]", 'Report' => "string[]", 'Settings' => "string[]"])] public function getBlockActivities(): array
     {
         return [
             'Security' => [

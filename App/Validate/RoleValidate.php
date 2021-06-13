@@ -55,10 +55,11 @@ class RoleValidate extends AbstractDataRepositoryValidation
      * @param object|null $dataRepository - the repository for the entity
      * @return mixed
      */
-    public function validateBeforePersist(Collection $entityCollection, object|null $dataRepository = null)
+    public function validateBeforePersist(Collection $entityCollection, object|null $dataRepository = null): mixed
     {
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields($entityCollection->all());
+        $newCleanData = [];
         if (null !== $dataCollection) {
             $newCleanData = [
                 'role_name' => $this->isSet('role_name', $dataCollection, $dataRepository),
@@ -75,7 +76,7 @@ class RoleValidate extends AbstractDataRepositoryValidation
     }
 
     /**
-     * Returns the validated data which will be diaptched to any listeners
+     * Returns the validated data which will be dispatched to any listeners
      *
      * @param array $newCleanData
      * @return array
@@ -96,7 +97,7 @@ class RoleValidate extends AbstractDataRepositoryValidation
     }
 
     /**
-     * Add additonal fields
+     * Add additional fields
      *
      * @return array
      */
@@ -120,8 +121,8 @@ class RoleValidate extends AbstractDataRepositoryValidation
      * from the form
      *
      * @param Collection $entityCollection
-     * @param object $dataRepository
-     * @return void
+     * @param object|null $dataRepository
+     * @return null
      */
     private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository=null)
     {

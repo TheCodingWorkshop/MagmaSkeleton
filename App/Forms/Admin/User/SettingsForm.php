@@ -19,14 +19,13 @@ use MagmaCore\FormBuilder\Type\RadioType;
 class SettingsForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
-
     /**
-     * {@inheritdoc}
-     * @param string $action - form action
+     * @param string $action
+     * @param object|null $dataRepository
+     * @param object|null $callingController
      * @return string
-     * @throws Exception
      */
-    public function createForm(string $action, $dataRepository = null, object $callingController = null)
+    public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         if ($dataRepository != null) {
             $dataRepository = (array) $dataRepository;

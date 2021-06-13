@@ -18,9 +18,9 @@ use MagmaCore\Utility\Yaml;
 class InstallRepository
 {
 
-    protected array $errors = [];
     protected string $envName = '/.env.lip';
     protected array $newCleanData;
+    private array $errors;
 
     /**
      * Validate the first step of the installation process before creating the env
@@ -34,13 +34,13 @@ class InstallRepository
         $this->validate($cleanData);
         if (empty($this->errors)) {
             $this->newCleanData = [
-                'db_driver' => isset($cleanData['db_driver']) ? $cleanData['db_driver'] : Yaml::file('app')['databse']['database_pdo_driver'],
-                'db_host' => isset($cleanData['db_host']) ? $cleanData['db_host'] : '127.0.0.1',
-                'db_user' => isset($cleanData['db_user']) ? $cleanData['db_user'] : 'root',
-                'db_name' => isset($cleanData['db_name']) ? $cleanData['db_name'] : '',
-                'db_password' => isset($cleanData['db_password']) ? $cleanData['db_password'] : '',
+                'db_driver' => $cleanData['db_driver'] ?? Yaml::file('app')['database']['database_pdo_driver'],
+                'db_host' => $cleanData['db_host'] ?? '127.0.0.1',
+                'db_user' => $cleanData['db_user'] ?? 'root',
+                'db_name' => $cleanData['db_name'] ?? '',
+                'db_password' => $cleanData['db_password'] ?? '',
                 'db_port' => isset($cleanData['db_port']) ? intval($cleanData['db_port']) : 3306,
-                'db_prefix' => isset($cleanData['db_prefix']) ? $cleanData['db_prefix'] : ''
+                'db_prefix' => $cleanData['db_prefix'] ?? ''
             ];
         }
         return $this;
@@ -50,13 +50,12 @@ class InstallRepository
      * Create the .env file within the project root directory. Using the parameters
      * returned from the $this->newCleanData array
      *
-     * @return int|false
+     * @return void
      */
     public function create(): void
     {
         if ($this->newCleanData) {
-            $env = '';
-            $env .= 'DB_DRIVER=' . $this->newCleanData['db_driver'] . "\n";
+            $env = 'DB_DRIVER=' . $this->newCleanData['db_driver'] . "\n";
             $env .= 'DB_HOST=' . $this->newCleanData['db_host'] . "\n";
             $env .= 'DB_NAME=' . $this->newCleanData['db_name'] . "\n";
             $env .= 'DB_USER=' . $this->newCleanData['db_user'] . "\n";
@@ -72,12 +71,12 @@ class InstallRepository
         }
     }
 
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
-    private function validate(mixed $cleanData): array
+    private function validate(mixed $cleanData): void
     {
         if (count($cleanData) > 0) {
             foreach ($cleanData as $key => $value) {
@@ -98,7 +97,7 @@ class InstallRepository
                     case 'db_user':
                         if (isset($value)) {
                             if (empty($value)) {
-                                $this->errorss = Error::display('err_field_require');
+                                $this->errors = Error::display('err_field_require');
                             }
                             /*if ($key === 'db_name') {
                                 if (!isset($conn)) {
@@ -125,7 +124,6 @@ class InstallRepository
                         break;
                 endswitch;
             }
-            return $this->errors;
         }
     }
 }

@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+
 class TaskController extends AdminController
 {
 
     /**
      * Extends the base constructor method. Which gives us access to all the base 
-     * methods inplemented within the base controller class.
+     * methods implemented within the base controller class.
      * Class dependency can be loaded within the constructor by calling the 
      * container method and passing in an associative array of dependency to use within
      * the class

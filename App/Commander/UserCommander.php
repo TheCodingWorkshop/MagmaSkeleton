@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace App\Commander;
 
 use App\Model\UserModel;
+use Exception;
+use MagmaCore\Utility\Stringify;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 
@@ -30,16 +32,19 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
         'new',
         'edit',
         'show',
+        'log',
         'hard-delete',
-        'perferences',
+        'preferences',
         'privileges'
     ];
+    private object $controller;
 
     /**
      * Get the specific yaml file which helps to render some text within the specified
      * html template.
      *
      * @return array
+     * @throws Exception
      */
     public function getYml(): array
     {
@@ -61,6 +66,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
      *
      * @param object $controller
      * @return string
+     * @throws Exception
      */
     public function getHeaderBuild(object $controller): string
     {
@@ -72,10 +78,11 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Create New',
             'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'firstname'),
-            'show' => "Viewing {$suffix}",
-            'hard-delete' => "Deleting {$suffix}",
-            'perferences' => "{$suffix} Perferences",
-            'privileges' => "{$suffix} Privileges",
+            'show' => "Viewing " . $suffix,
+            'log' => Stringify::capitalize($controller->thisRouteController()) . ' Log',
+            'hard-delete' => "Deleting " . $suffix,
+            'preferences' => $suffix . " Preferences",
+            'privileges' => $suffix . " Privileges",
             default => "Unknown"
         };
     }
