@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
-use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
+use MagmaCore\Settings\Settings;
 
 class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -118,7 +118,6 @@ class FormattingSettingForm extends ClientFormBuilder implements ClientFormBuild
                 ),
                 $this->blueprint->settings(false, null, false, null, true, null, 'Your time format is currently set to ' . $this->settings->get('time_format') . ' which results in this <span class="uk-text-primary uk-text-bolder">' . $this->getDate($this->settings->get('date_time') . '</span>'))
             )
-
             ->add(
                 $this->blueprint->submit(
                     'general-settings',

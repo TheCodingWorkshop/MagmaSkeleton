@@ -12,16 +12,17 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Utility\Yaml;
-use MagmaCore\Utility\ClientIP;
+use App\Controller\Admin\UserController;
+use Exception;
 use MagmaCore\Collection\Collection;
+use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use MagmaCore\Utility\ClientIP;
+use MagmaCore\Utility\GravatarGenerator;
 use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\PasswordEncoder;
-use App\Controller\Admin\UserController;
-use MagmaCore\Utility\GravatarGenerator;
 use MagmaCore\Utility\RandomCharGenerator;
+use MagmaCore\Utility\Yaml;
 use MagmaCore\ValidationRule\ValidationRule;
-use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class UserValidate extends AbstractDataRepositoryValidation
 {
@@ -40,8 +41,8 @@ class UserValidate extends AbstractDataRepositoryValidation
     /**
      * Main class constructor. Uses the ValidateRule class has a dependency
      * We are also declaring the $this->rules->addObject() method which takes two
-     * argument. First is a qualified namespace of the controller class which 
-     * calls this validation class and $this keyword which represents this 
+     * argument. First is a qualified namespace of the controller class which
+     * calls this validation class and $this keyword which represents this
      * current object. This way we can actually get access to the controller
      * class throw the ValidationRule object
      *
@@ -59,6 +60,7 @@ class UserValidate extends AbstractDataRepositoryValidation
      * @param Collection $entityCollection
      * @param object|null $dataRepository - the repository for the entity
      * @return array
+     * @throws Exception
      */
     public function validateBeforePersist(Collection $entityCollection, ?object $dataRepository = null): array
     {
@@ -78,7 +80,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                 'created_byid' => $this->getCreator($dataCollection) ?? 0,
                 'gravatar' => GravatarGenerator::setGravatar($email),
                 'remote_addr' => ClientIP::getClientIp()
-            ];    
+            ];
 
             /* Settings additional data which will get merge with the dataBag */
             $this->dataBag['activation_hash'] = $activationHash;
@@ -111,9 +113,9 @@ class UserValidate extends AbstractDataRepositoryValidation
 
     /**
      * A user is required to type their password when creating an account on the
-     * frontend of the application. However when admin is creating a user from the 
+     * frontend of the application. However when admin is creating a user from the
      * admin panel. A password will be automatically generated instead and send along
-     * with the user activation token via their registered email address. Either way the 
+     * with the user activation token via their registered email address. Either way the
      * password will be encoded before pass the database handler
      *
      * @param object|array $cleanData

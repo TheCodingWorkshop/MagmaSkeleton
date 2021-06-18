@@ -17,21 +17,21 @@
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
-    <div class="uk-section uk-section-primary">
-        <div class="uk-container uk-container-small">
-            <h1><span class="">{% yield page_header %}</span></h1>
-            <p class="uk-text-large uk-text-bolder">{% yield page_tagline %}</p>
-        </div>
+<div class="uk-section uk-section-primary">
+    <div class="uk-container uk-container-small">
+        <h1><span class="">{% yield page_header %}</span></h1>
+        <p class="uk-text-large uk-text-bolder">{% yield page_tagline %}</p>
     </div>
+</div>
 
-    <div class="uk-container uk-container-small uk-margin">
-        {% yield content %}
-    </div>
+<div class="uk-container uk-container-small uk-margin">
+    {% yield content %}
+</div>
 
-    <!-- Footer Js -->
-    {@ addjs() @}
-    <!-- Page specific scripts -->
-    {% yield scripts %}
+<!-- Footer Js -->
+{@ addjs() @}
+<!-- Page specific scripts -->
+{% yield scripts %}
 </body>
 
 </html>

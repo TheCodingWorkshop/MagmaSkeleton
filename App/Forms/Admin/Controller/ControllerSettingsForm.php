@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Controller;
 
+use Exception;
 use MagmaCore\Base\BaseController;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class ControllerSettingsForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -41,6 +42,7 @@ class ControllerSettingsForm extends ClientFormBuilder implements ClientFormBuil
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
@@ -90,7 +92,6 @@ class ControllerSettingsForm extends ClientFormBuilder implements ClientFormBuil
                 ),
                 $this->blueprint->settings(false, null, true)
             )
-
             ->add(
                 $this->blueprint->submit(
                     'settings-' . $callingController->thisRouteController() . '',

@@ -13,9 +13,10 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Event\RoleActionEvent;
+use Exception;
 use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
+use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -40,7 +41,7 @@ class RoleActionSubscriber implements EventSubscriberInterface
      *
      * @return array
      */
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([RoleActionEvent::NAME => "array[]"])] public static function getSubscribedEvents(): array
     {
         return [
             RoleActionEvent::NAME => [
@@ -59,6 +60,7 @@ class RoleActionSubscriber implements EventSubscriberInterface
      *
      * @param RoleActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function flashRoleEvent(RoleActionEvent $event): void
     {

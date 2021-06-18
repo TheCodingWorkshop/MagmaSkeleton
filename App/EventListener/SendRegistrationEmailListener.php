@@ -10,9 +10,7 @@
 
 namespace App\EventListener;
 
-use MagmaCore\Base\BaseView;
 use App\Event\UserActionEvent;
-use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 
 final class SendRegistrationEmailListener
@@ -24,31 +22,29 @@ final class SendRegistrationEmailListener
 
     public function __invoke(UserActionEvent $event)
     {
-        var_dump($event);
-        die;
-        if ($this->onRoute($event, 'new') || $this->onRoute($event, 'register')) {
-            if ($event) {
-                $user = $event->getcontext();
-                if (is_array($user) && count($user) > 0) {
-                    $mail = (new MailerFacade())->basicMail(
-                        'New Account',
-                        'admin@example.com',
-                        $user['email'],
-                        'testing'(new BaseView())->templateRender(
-                            'client/registration/email_template.html',
-                            [
-                                'activation_link' => $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']),
-                                'accountee_name' => $user['firstname'] . " " . $user['lastname'],
-                                'website' => 'LavaStudio',
-                                'random_pass' => $user['random_pass'] ? $user['random_pass'] : []
-                            ]
-                        )
-                    );
-                    if ($mail) {
-                        return true;
-                    }
-                }
-            }
-        }
+//        if ($this->onRoute($event, 'new') || $this->onRoute($event, 'register')) {
+//            if ($event) {
+//                $user = $event->getcontext();
+//                if (is_array($user) && count($user) > 0) {
+//                    $mail = (new MailerFacade())->basicMail(
+//                        'New Account',
+//                        'admin@example.com',
+//                        $user['email'],
+//                        'testing'(new BaseView())->templateRender(
+//                        'client/registration/email_template.html',
+//                        [
+//                            'activation_link' => $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']),
+//                            'accountee_name' => $user['firstname'] . " " . $user['lastname'],
+//                            'website' => 'LavaStudio',
+//                            'random_pass' => $user['random_pass'] ? $user['random_pass'] : []
+//                        ]
+//                    )
+//                    )
+//                    if ($mail) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
     }
 }

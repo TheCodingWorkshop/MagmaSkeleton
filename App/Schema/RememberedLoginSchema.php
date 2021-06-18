@@ -28,7 +28,7 @@ class RememberedLoginSchema implements DataSchemaBuilderInterface
     protected object $rememberedLogin;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -55,7 +55,7 @@ class RememberedLoginSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->autoID())
             ->row($this->blueprint->varchar('token_hash', 64))
             ->row($this->blueprint->datetime('expires_at', false, 'none'))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
                     ->setUniqueKey(['token_hash'])

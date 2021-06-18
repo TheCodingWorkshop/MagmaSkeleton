@@ -64,7 +64,7 @@ class {{ dataColumnName }} extends AbstractDatatableColumn
                 'sortable' => false,
                 'formatter' => function ($row, $twigExt) {
                     /* the closure functions gives us access to 2 object the database row
-                    define $row and access to our $twigExt compoennt which gives access 
+                    define $row and access to our $twigExt component which gives access
                     to some twig custom functions created by MagmaCore */
                     return $twigExt->action( /* $twigExt which calls in the action() method */
                         [

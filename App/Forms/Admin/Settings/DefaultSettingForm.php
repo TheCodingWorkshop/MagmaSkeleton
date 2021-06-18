@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
-use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
+use MagmaCore\Settings\Settings;
 
 class DefaultSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -68,7 +68,6 @@ class DefaultSettingForm extends ClientFormBuilder implements ClientFormBuilderI
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
-
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 }

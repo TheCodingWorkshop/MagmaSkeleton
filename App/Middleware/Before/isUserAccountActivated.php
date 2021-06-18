@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use Closure;
 use App\Model\UserModel;
+use Closure;
 use MagmaCore\Middleware\BeforeMiddleware;
 
 class isUserAccountActivated extends BeforeMiddleware

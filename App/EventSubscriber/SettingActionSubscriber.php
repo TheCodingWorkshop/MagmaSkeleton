@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Event\RoleActionEvent;
-use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use App\Event\SettingActionEvent;
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
+use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -39,10 +41,10 @@ class SettingActionSubscriber implements EventSubscriberInterface
      *
      * @return array
      */
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([SettingActionEvent::NAME => "array[]"])] public static function getSubscribedEvents(): array
     {
         return [
-            RoleActionEvent::NAME => [
+            SettingActionEvent::NAME => [
                 ['flashRoleEvent', self::FLASH_MESSAGE_PRIORITY],
             ]
         ];
@@ -56,15 +58,15 @@ class SettingActionSubscriber implements EventSubscriberInterface
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
      *
-     * @param RoleActionEvent $event
+     * @param SettingActionEvent $event
      * @return void
+     * @throws Exception
      */
-    public function flashRoleEvent(RoleActionEvent $event): void
+    public function flashRoleEvent(SettingActionEvent $event): void
     {
         $this->flashingEvent(
-            $event, 
-            $this->trailingRoutes($event), 
-            self::FLASH_DEFAULT
+            $event,
+            $this->trailingRoutes($event)
         );
     }
 

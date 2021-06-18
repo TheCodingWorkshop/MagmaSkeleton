@@ -40,8 +40,7 @@ class PluginColumn extends AbstractDatatableColumn
                 'sortable' => true,
                 'searchable' => true,
                 'formatter' => function ($row, $twigExt) {
-                    $html = '';
-                    $html .= '<div class="uk-clearfix">';
+                    $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<span class="uk-text-teal" uk-icon="icon: info"></span>';
                     $html .= '</div>';

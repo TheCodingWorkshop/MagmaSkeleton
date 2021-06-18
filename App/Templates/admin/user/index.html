@@ -6,8 +6,6 @@
 {% block description %}MagmaCore create an account{% endblock %}
 <!-- keywords -->
 {% block keywords %}register, create an account{% endblock %}
-<!-- commander bar -->
-{% block commander_bar %}{{ $commanderBar }}{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -34,7 +32,7 @@
 <!--  -->
 {% block scripts %}
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#sparkline").sparkline([100, 155, 58, 68, -45], {
             type: 'bar',
             height: '30%',

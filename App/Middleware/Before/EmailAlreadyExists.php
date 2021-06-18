@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
+use App\Entity\UserEntity;
+use App\Model\UserModel;
+use Closure;
 use MagmaCore\Middleware\BeforeMiddleware;
 use MagmaCore\Utility\Sanitizer;
-use App\Model\UserModel;
-use App\Entity\UserEntity;
-use Closure;
 
 class EmailAlreadyExists extends BeforeMiddleware
 {
@@ -27,20 +27,20 @@ class EmailAlreadyExists extends BeforeMiddleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
-    {   
+    public function middleware(object $middleware, Closure $next)
+    {
 
-       // if ($object->thisRouteAction() === 'new') {
+        // if ($object->thisRouteAction() === 'new') {
 //            if (isset($_POST))
 //                return false;
-            $CleanData = new UserEntity();
-            $email = Sanitizer::clean((array)$CleanData['email']);
-            if ($results = (new UserModel())->getRepo()->findObjectBy(['email' => $email], ['id'])) {
-                if (null !== $results->id) {
-                    $middleware->flashMessage('Email address already exists', $middleware->flashWarning());
-                    $middleware->redirect('/admin/user/new');
-                }
-            } 
+        $CleanData = new UserEntity();
+        $email = Sanitizer::clean((array)$CleanData['email']);
+        if ($results = (new UserModel())->getRepo()->findObjectBy(['email' => $email], ['id'])) {
+            if (null !== $results->id) {
+                $middleware->flashMessage('Email address already exists', $middleware->flashWarning());
+                $middleware->redirect('/admin/user/new');
+            }
+        }
         //}
         return $next($middleware);
     }

@@ -27,7 +27,7 @@ class isAlreadyLogin extends BeforeMiddleware
      * @return void
      */
     public function middleware(object $middleware, Closure $next)
-    {   
+    {
         if ($middleware->thisRouteController() === 'Security' && $middleware->thisRouteAction() === 'index') {
             $userID = $middleware->getSession()->get('user_id');
             if (isset($userID) && $userID !== 0) {

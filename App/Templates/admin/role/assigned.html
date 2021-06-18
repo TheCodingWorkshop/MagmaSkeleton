@@ -16,7 +16,6 @@
                 <div class="uk-card-body">
                     <turbo-frame id="role_form">
                         {{ $form }}
-                        <!--  -->
                         {% include 'admin/role/role_permissions.html' %}
                     </turbo-frame>
                 </div>
@@ -41,7 +40,8 @@
                         <ul class="uk-list uk-list-bullet">
                             {% foreach($relationship as $key => $value) : %}
                             <!--  -->
-                            <li><a class="uk-link-reset" href=""><small class="uk-text-primary">{{{ $value['firstname'] . ' ' . $value['lastname'] }}}</small></a></li>
+                            <li><a class="uk-link-reset" href=""><small class="uk-text-primary">{{{ $value['firstname']
+                                . ' ' . $value['lastname'] }}}</small></a></li>
                             <!--  -->
                             {% endforeach; %}
                         </ul>

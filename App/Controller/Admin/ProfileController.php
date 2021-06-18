@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class ProfileController extends UserController
@@ -26,7 +27,7 @@ class ProfileController extends UserController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -38,10 +39,10 @@ class ProfileController extends UserController
     {
         $this->showAction
             ->execute($this, NULL, NULL, NULL, __METHOD__)
-                ->render()
-                    ->with()
-                        ->singular()
-                            ->end();
+            ->render()
+            ->with()
+            ->singular()
+            ->end();
 
     }
 

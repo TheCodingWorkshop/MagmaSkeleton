@@ -14,13 +14,15 @@ namespace App\Commander;
 
 use App\Model\SettingModel;
 use Exception;
-use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
+use MagmaCore\CommanderBar\ApplicationCommanderTrait;
+use MagmaCore\CommanderBar\CommanderUnsetterTrait;
 
 class SettingCommander extends SettingModel implements ApplicationCommanderInterface
 {
 
     use ApplicationCommanderTrait;
+    use CommanderUnsetterTrait;
 
     /**
      * Return an array of all the inner routes within the user model
@@ -43,6 +45,13 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
         'manager',
         'filter'
     ];
+
+    private array $noNotification = self::INNER_ROUTES;
+    private array $noCustomizer = self::INNER_ROUTES;
+    private array $noManager = self::INNER_ROUTES;
+    private array $noAction = self::INNER_ROUTES;
+    private array $noFilter = self::INNER_ROUTES;
+
     private object $controller;
 
     /**
@@ -58,7 +67,7 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
     }
 
     /**
-     * Display a sparkline graph for this controller index route 
+     * Display a sparkline graph for this controller index route
      *
      * @return string
      */
@@ -86,4 +95,6 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
             default => "Unknown"
         };
     }
+
+
 }

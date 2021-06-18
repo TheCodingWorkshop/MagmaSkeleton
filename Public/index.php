@@ -26,17 +26,22 @@ if (is_file($composer)) {
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
+
 Debug::enable();
 
-(new BaseApplication())
-    ->setPath(ROOT_PATH)
+try {
+    (new BaseApplication())
+        ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
-            ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
-                ->setSession(Yaml::file('session'))
-                    ->setCookie([])
-                        ->setCache()
-                            ->setRoutes(Yaml::file('routes'))
-                                ->setContainerProviders(Yaml::file('providers'))
-                                    ->run();
+        ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
+        ->setSession(Yaml::file('session'))
+        ->setCookie([])
+        ->setCache()
+        ->setRoutes(Yaml::file('routes'))
+        ->setContainerProviders(Yaml::file('providers'))
+        ->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
                                     

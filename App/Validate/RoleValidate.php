@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Collection\Collection;
 use App\Controller\Admin\RoleController;
-use MagmaCore\ValidationRule\ValidationRule;
+use MagmaCore\Collection\Collection;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use MagmaCore\ValidationRule\ValidationRule;
 
 class RoleValidate extends AbstractDataRepositoryValidation
 {
@@ -33,8 +33,8 @@ class RoleValidate extends AbstractDataRepositoryValidation
     /**
      * Main class constructor. Uses the ValidateRule class has a dependency
      * We are also declaring the $this->rules->addObject() method which takes two
-     * argument. First is a qualified namespace of the controller class which 
-     * calls this validation class and $this keyword which represents this 
+     * argument. First is a qualified namespace of the controller class which
+     * calls this validation class and $this keyword which represents this
      * current object. This way we can actually get access to the controller
      * class throw the ValidationRule object
      *
@@ -50,12 +50,12 @@ class RoleValidate extends AbstractDataRepositoryValidation
     /**
      * Validate the data before persisting to the database ensure
      * the entity return valid email and password fields
-     * 
+     *
      * @param Collection $entityCollection - the incoming data
      * @param object|null $dataRepository - the repository for the entity
-     * @return mixed
+     * @return array
      */
-    public function validateBeforePersist(Collection $entityCollection, object|null $dataRepository = null): mixed
+    public function validateBeforePersist(Collection $entityCollection, ?object $dataRepository = null): array
     {
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields($entityCollection->all());
@@ -124,9 +124,9 @@ class RoleValidate extends AbstractDataRepositoryValidation
      * @param object|null $dataRepository
      * @return null
      */
-    private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository=null)
+    private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository = null)
     {
-        if ($dataRepository !==null) {
+        if ($dataRepository !== null) {
             if (
                 $entityCollection['role_name'] === $dataRepository->role_name &&
                 $entityCollection['role_description'] === $dataRepository->role_description
@@ -139,7 +139,7 @@ class RoleValidate extends AbstractDataRepositoryValidation
                     }
                 }
             }
-    
+
         }
         return null;
     }
@@ -151,7 +151,7 @@ class RoleValidate extends AbstractDataRepositoryValidation
      * @param Object|null $dataRepository
      * @return void
      */
-    public function validate(Collection $entityCollection, ?Object $dataRepository = null): void
+    public function validate(Collection $entityCollection, ?object $dataRepository = null): void
     {
         $this->doValidation(
             $entityCollection,

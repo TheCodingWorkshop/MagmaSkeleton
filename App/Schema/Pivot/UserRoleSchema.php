@@ -34,7 +34,7 @@ class UserRoleSchema implements DataSchemaBuilderInterface
     private const SECOND_COLUMN = 'role_id';
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema

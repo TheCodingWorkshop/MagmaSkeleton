@@ -12,8 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Installer;
 
-use MagmaCore\Utility\Sanitizer;
+use App\Controller\Installer\Form\ServerForm;
+use App\Middleware\Before\HasEnv;
+use App\Repository\InstallRepository;
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Base\BaseController;
+use MagmaCore\Utility\Sanitizer;
 
 class InstallController extends BaseController
 {
@@ -23,8 +27,8 @@ class InstallController extends BaseController
         parent::__construct($routeParams);
         $this->diContainer(
             [
-                'repository' => \App\Repository\InstallRepository::class,
-                'serverForm' => \App\Controller\Installer\Form\ServerForm::class,
+                'repository' => InstallRepository::class,
+                'serverForm' => ServerForm::class,
             ]
         );
     }
@@ -38,10 +42,10 @@ class InstallController extends BaseController
      *
      * @return array
      */
-    protected function callBeforeMiddlewares(): array
+    #[ArrayShape(['hasEnv' => "string"])] protected function callBeforeMiddlewares(): array
     {
         return [
-            'hasEnv' => \App\Middleware\Before\HasEnv::class
+            'hasEnv' => HasEnv::class
         ];
     }
 
@@ -70,7 +74,7 @@ class InstallController extends BaseController
         );
     }
 
-    
+
     protected function stepOneProcessAction()
     {
         if (isset($this->formBuilder)) :
@@ -88,5 +92,5 @@ class InstallController extends BaseController
             }
         endif;
     }
-    
+
 }

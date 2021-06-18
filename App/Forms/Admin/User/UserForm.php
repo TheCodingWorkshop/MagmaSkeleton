@@ -8,15 +8,16 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace App\Forms\Admin\User;
 
-use MagmaCore\Utility\Yaml;
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
+use MagmaCore\Utility\Yaml;
 
 class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -41,6 +42,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
@@ -51,25 +53,25 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             ->add($this->blueprint->text('lastname', [], $this->hasValue('lastname')))
             ->add($this->blueprint->email('email', [], $this->hasValue('email')))
             ->add($this->blueprint->password(
-                'password_hash', 
-                ['uk-form-width-medium'], 
-                null, 
-                'new-password', 
-                false, 
-                false, 
-                true, 
+                'password_hash',
+                ['uk-form-width-medium'],
+                null,
+                'new-password',
+                false,
+                false,
+                true,
                 'Auto Generated'),
                 null,
                 $this->blueprint->settings(false, null, true, 'Password', false, null, 'Leaving this field blank will auto generate a random password')
             )
             ->add(
-                $this->blueprint->radio('status', [], $this->hasValue('status')), 
+                $this->blueprint->radio('status', [], $this->hasValue('status')),
                 $this->blueprint->choices(Yaml::file('controller')['user']['status_choices'], 'pending'),
                 $this->blueprint->settings(false, null, true, null, true)
             )
             ->add($this->blueprint->text(
-                'remote_addr', 
-                ['uk-form-width-small'], 
+                'remote_addr',
+                ['uk-form-width-small'],
                 $this->hasValue('remote_addr'), /* field value */
                 true, /* make field disabled */
                 'IP Address'),
@@ -77,7 +79,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 $this->blueprint->settings(false, null, false)
             )
             ->add($this->blueprint->submit(
-                $this->hasValue('id') ? 'edit-user' : 'new-user', 
+                $this->hasValue('id') ? 'edit-user' : 'new-user',
                 ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
                 'Save'),
                 null,

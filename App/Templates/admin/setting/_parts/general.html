@@ -1,5 +1,7 @@
 <ul class="uk-list">
-    {% foreach (['general' => ['icon' => 'globe', 'name' => 'General Settings'], 'security' => ['icon' => 'lock-closed', 'name' => 'Security'], 'purge' => ['icon' => 'trash', 'name' => 'Purge'], 'tools' => ['icon' => 'build', 'name' => 'Tools']] as $key =>
+    {% foreach (['general' => ['icon' => 'globe', 'name' => 'General Settings'], 'security' => ['icon' => 'lock-closed',
+    'name' => 'Security'], 'purge' => ['icon' => 'trash', 'name' => 'Purge'], 'tools' => ['icon' => 'build', 'name' =>
+    'Tools']] as $key =>
     $value) : %}
 
     <li>
@@ -14,7 +16,8 @@
                         <span>{{ $value['name'] }}</span> {% else : %}
                         <span>{% str_replace('_', ' ', $key) %}</span> {% endif; %}
                     </h3>
-                    <p class="uk-text-meta uk-margin-remove-top uk-button uk-button-text"><a href="/admin/setting/{{ $key }}">Configure</a></p>
+                    <p class="uk-text-meta uk-margin-remove-top uk-button uk-button-text"><a
+                            href="/admin/setting/{{ $key }}">Configure</a></p>
                 </div>
             </div>
         </div>

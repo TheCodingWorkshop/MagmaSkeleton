@@ -14,13 +14,15 @@ namespace App\Commander;
 
 use App\Model\UserModel;
 use Exception;
-use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
+use MagmaCore\CommanderBar\ApplicationCommanderTrait;
+use MagmaCore\CommanderBar\CommanderUnsetterTrait;
 
 class TeamCommander extends UserModel implements ApplicationCommanderInterface
 {
 
     use ApplicationCommanderTrait;
+    use CommanderUnsetterTrait;
 
     /**
      * Return an array of all the inner routes within the user model
@@ -32,6 +34,13 @@ class TeamCommander extends UserModel implements ApplicationCommanderInterface
         'edit',
         'assigned'
     ];
+
+    private array $noNotification = self::INNER_ROUTES;
+    private array $noCustomizer = ['edit', 'show'];
+    private array $noManager = [];
+    private array $noAction = [];
+    private array $noFilter = ['edit', 'show'];
+
     private object $controller;
 
     /**
@@ -47,7 +56,7 @@ class TeamCommander extends UserModel implements ApplicationCommanderInterface
     }
 
     /**
-     * Display a sparkline graph for this controller index route 
+     * Display a sparkline graph for this controller index route
      *
      * @return string
      */

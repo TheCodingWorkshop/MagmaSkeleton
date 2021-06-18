@@ -33,6 +33,17 @@
                                         {% foreach ($val['children'] as $k => $v) : %}
                                         <li>
                                             <a data-turbo="false" href="{{ $v['path'] }}">{{ $v['name'] }}</a>
+                                            {% if (isset($v['child']) && count($v['child']) > 0) : %}
+                                            <div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
+                                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                    {% foreach ($v['child'] as $kc => $vc) : %}
+                                                    <li>
+                                                        <a data-turbo="false" href="{{ $vc['path'] }}">{{ $vc['name'] }}</a>
+                                                    </li>
+                                                    {% endforeach; %}
+                                                </ul>
+                                            </div>
+                                            {% endif; %}
                                         </li>
                                         {% endforeach; %}
                                     </ul>

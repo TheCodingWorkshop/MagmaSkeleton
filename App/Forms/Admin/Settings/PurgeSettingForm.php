@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace App\Forms\Admin\Settings;
 
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class PurgeSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface

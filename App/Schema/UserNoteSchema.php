@@ -29,7 +29,7 @@ class UserNoteSchema implements DataSchemaBuilderInterface
     protected object $userNoteModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -37,8 +37,8 @@ class UserNoteSchema implements DataSchemaBuilderInterface
      * @param UserNoteModel $userNoteModel
      * @return void
      */
-    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint, 
-    UserNoteModel $userNoteModel)
+    public function __construct(DataSchema $schema, DataSchemaBlueprint $blueprint,
+                                UserNoteModel $userNoteModel)
     {
         $this->schema = $schema;
         $this->blueprint = $blueprint;
@@ -60,7 +60,7 @@ class UserNoteSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->longText('notes', false))
             ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
                     ->setUniqueKey(['user_id'])
@@ -68,7 +68,7 @@ class UserNoteSchema implements DataSchemaBuilderInterface
                         function ($trait) {
                             return $trait->addModel(UserModel::class)->foreignKey('user_id')
                                 ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
-                                ->cascade(true,true)->add();   
+                                ->cascade(true, true)->add();
                         }
                     );
             });

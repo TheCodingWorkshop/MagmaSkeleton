@@ -173,7 +173,7 @@ class DashboardRepository
     {
         return [
             'Team' => [
-                'icon' => 'people-outline', 
+                'icon' => 'people-outline',
                 'path' => '/admin/team/index',
                 'desc' => [
                     'Found 2 superadmin account and 1 contributor account.',
@@ -187,7 +187,7 @@ class DashboardRepository
                 ]
             ],
             'Events' => [
-                'icon' => 'calendar-outline', 
+                'icon' => 'calendar-outline',
                 'path' => '/admin/event/index',
                 'desc' => [
                     '2 events coming up next week'
@@ -233,7 +233,7 @@ class DashboardRepository
     {
         return [
             'Security' => [
-                'icon' => 'lock-closed-outline', 
+                'icon' => 'lock-closed-outline',
                 'path' => '/admin/security/index',
                 'desc' => 'Ensure your application is protected by completing these steps.'
             ],
@@ -243,7 +243,7 @@ class DashboardRepository
                 'desc' => 'System reports gathers information about your application environment.'
             ],
             'Settings' => [
-                'icon' => 'settings-outline', 
+                'icon' => 'settings-outline',
                 'path' => '/admin/event/index',
                 'desc' => 'Settings page allows customization of your application.'
             ]

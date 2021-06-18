@@ -12,12 +12,13 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\Utility\Yaml;
 use App\Event\PermissionActionEvent;
 use App\Model\RolePermissionModel;
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use MagmaCore\Utility\Yaml;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -52,7 +53,7 @@ class PermissionActionSubscriber implements EventSubscriberInterface
      *
      * @return array
      */
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([PermissionActionEvent::NAME => "array"])] public static function getSubscribedEvents(): array
     {
         return [
             PermissionActionEvent::NAME => [
@@ -72,6 +73,7 @@ class PermissionActionSubscriber implements EventSubscriberInterface
      *
      * @param PermissionActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function flashPermissionEvent(PermissionActionEvent $event)
     {
@@ -88,18 +90,10 @@ class PermissionActionSubscriber implements EventSubscriberInterface
      *
      * @param PermissionActionEvent $event
      * @return bool
+     * @throws Exception
      */
     public function assignedToSuperRole(PermissionActionEvent $event): bool
     {
-        /*$push = (new DataManyToMany(RolePermissionModel::class))
-        ->tables()
-            ->set(
-                [
-                    'role_id' => $superRole['props']['id'], 
-                    'permission_id' => $permission['last_id']]
-                )
-                ->push();*/
-
         if ($this->onRoute($event, self::NEW_ACTION)) {
             $permission = $event->getContext();
             $superRole = Yaml::file('app')['system']['super_role'];
@@ -113,9 +107,10 @@ class PermissionActionSubscriber implements EventSubscriberInterface
                     ->create($fields);
 
                 if (is_bool($push) && $push === true) {
-                    return $push;
+                    return true;
                 }
             }
         }
+        return false;
     }
 }

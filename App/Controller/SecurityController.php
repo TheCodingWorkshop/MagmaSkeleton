@@ -12,19 +12,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Event\LoginActionEvent;
 use App\Forms\Client\Security\LoginForm;
 use App\Forms\Client\Security\LogoutForm;
+use App\Middleware\After\SessionExpiresCleanUp;
+use App\Middleware\Before\isAlreadyLogin;
+use App\Middleware\Before\isUserAccountActivated;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Auth\Authenticator;
+use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\LoginAction;
 use MagmaCore\Base\Domain\Actions\LogoutAction;
 use MagmaCore\Base\Domain\Actions\SessionExpiredAction;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
-use App\Event\LoginActionEvent;
-use MagmaCore\Base\BaseController;
-use App\Middleware\Before\isAlreadyLogin;
-use App\Middleware\After\SessionExpiresCleanUp;
-use App\Middleware\Before\isUserAccountActivated;
 
 class SecurityController extends BaseController
 {
@@ -102,10 +102,10 @@ class SecurityController extends BaseController
     {
         $this->loginAction
             ->execute($this, NULL, LoginActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with()
-                        ->form($this->loginForm)
-                            ->end();
+            ->render()
+            ->with()
+            ->form($this->loginForm)
+            ->end();
 
     }
 
@@ -119,10 +119,10 @@ class SecurityController extends BaseController
     {
         $this->logoutAction
             ->execute($this, NULL, NULL, NULL, __METHOD__)
-                ->render()
-                    ->with()
-                        ->form($this->logoutForm)
-                            ->end();
+            ->render()
+            ->with()
+            ->form($this->logoutForm)
+            ->end();
     }
 
     /**
@@ -133,12 +133,6 @@ class SecurityController extends BaseController
     protected function sessionAction()
     {
         $this->render('client/security/session.html', []);
-        // $this->sessionExpiredAction
-        //     ->execute($this)
-        //         ->render()
-        //             ->with()
-        //                 ->notification()
-        //                     ->end();
     }
 
 }

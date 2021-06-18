@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use MagmaCore\Middleware\BeforeMiddleware;
-use MagmaCore\Auth\Authorized;
 use Closure;
+use MagmaCore\Auth\Authorized;
+use MagmaCore\Middleware\BeforeMiddleware;
 
 class LoginRequired extends BeforeMiddleware
 {
@@ -28,7 +28,7 @@ class LoginRequired extends BeforeMiddleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
+    public function middleware(object $middleware, Closure $next)
     {
         if (!Authorized::grantedUser()) {
             $middleware->flashMessage(self::MESSAGE, $middleware->flashInfo());

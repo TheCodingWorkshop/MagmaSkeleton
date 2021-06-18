@@ -14,13 +14,15 @@ namespace App\Commander;
 
 use App\Model\ProjectModel;
 use Exception;
-use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
+use MagmaCore\CommanderBar\ApplicationCommanderTrait;
+use MagmaCore\CommanderBar\CommanderUnsetterTrait;
 
 class ProjectCommander extends ProjectModel implements ApplicationCommanderInterface
 {
 
     use ApplicationCommanderTrait;
+    use CommanderUnsetterTrait;
 
     /**
      * Return an array of all the inner routes within the user model
@@ -32,6 +34,13 @@ class ProjectCommander extends ProjectModel implements ApplicationCommanderInter
         'edit',
         'assigned'
     ];
+
+    private array $noNotification = self::INNER_ROUTES;
+    private array $noCustomizer = ['edit', 'show'];
+    private array $noManager = [];
+    private array $noAction = [];
+    private array $noFilter = ['edit', 'show'];
+
     private object $controller;
 
     /**
@@ -47,7 +56,7 @@ class ProjectCommander extends ProjectModel implements ApplicationCommanderInter
     }
 
     /**
-     * Display a sparkline graph for this controller index route 
+     * Display a sparkline graph for this controller index route
      *
      * @return string
      */

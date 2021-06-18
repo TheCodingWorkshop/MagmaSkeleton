@@ -12,15 +12,17 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Model\UserRoleModel;
-use MagmaCore\Base\BaseView;
-use App\Event\NewActionEvent;
 use App\Event\UserActionEvent;
 use App\Model\UserMetaDataModel;
-use MagmaCore\Mailer\MailerFacade;
-use MagmaCore\EventDispatcher\EventDispatcherTrait;
+use App\Model\UserRoleModel;
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
+use MagmaCore\Base\BaseView;
 use MagmaCore\Base\Contracts\BaseActionEventInterface;
+use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use MagmaCore\Mailer\Exception\MailerException;
+use MagmaCore\Mailer\MailerFacade;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -73,14 +75,14 @@ class UserActionSubscriber implements EventSubscriberInterface
      * @return array
      */
 
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([UserActionEvent::NAME => "array"])] public static function getSubscribedEvents(): array
     {
         return [
             UserActionEvent::NAME => [
                 ['flashUserEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['assignedUserRole'],
                 //['createUserLog'],
-                ['sendActivationEmail'],
+                //['sendActivationEmail'],
                 ['logRequest'],
             ]
         ];
@@ -98,6 +100,7 @@ class UserActionSubscriber implements EventSubscriberInterface
      *
      * @param UserActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function flashUserEvent(UserActionEvent $event)
     {
@@ -133,6 +136,7 @@ class UserActionSubscriber implements EventSubscriberInterface
      *
      * @param UserActionEvent $event
      * @return bool
+     * @throws MailerException
      */
     public function sendActivationEmail(UserActionEvent $event): bool
     {
@@ -192,6 +196,7 @@ class UserActionSubscriber implements EventSubscriberInterface
                 }
             }
         }
+        return false;
     }
 
     /**
@@ -226,19 +231,19 @@ class UserActionSubscriber implements EventSubscriberInterface
         if ($event) {
             $event->getObject()->flatDb->flatDatabase()
                 ->insert()
-                    ->in('users-log')
-                        ->set(
-                            [
-                                'message' => '',
-                                'context' => '',
-                                'level' => '',
-                                'level_name' => '',
-                                'channel' => '',
-                                'datetime' => '',
-                                'extra' => []
-                            ]
-                            )
-                            ->execute();
+                ->in('users-log')
+                ->set(
+                    [
+                        'message' => '',
+                        'context' => '',
+                        'level' => '',
+                        'level_name' => '',
+                        'channel' => '',
+                        'datetime' => '',
+                        'extra' => []
+                    ]
+                )
+                ->execute();
         }
     }
 }

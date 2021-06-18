@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use MagmaCore\Collection\Collection;
-use MagmaCore\ValidationRule\ValidationRule;
 use App\Controller\Admin\PermissionController;
+use MagmaCore\Collection\Collection;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use MagmaCore\ValidationRule\ValidationRule;
 
 class PermissionValidate extends AbstractDataRepositoryValidation
 {
@@ -33,8 +33,8 @@ class PermissionValidate extends AbstractDataRepositoryValidation
     /**
      * Main class constructor. Uses the ValidateRule class has a dependency
      * We are also declaring the $this->rules->addObject() method which takes two
-     * argument. First is a qualified namespace of the controller class which 
-     * calls this validation class and $this keyword which represents this 
+     * argument. First is a qualified namespace of the controller class which
+     * calls this validation class and $this keyword which represents this
      * current object. This way we can actually get access to the controller
      * class throw the ValidationRule object
      *
@@ -45,13 +45,12 @@ class PermissionValidate extends AbstractDataRepositoryValidation
     {
         $this->rules = $rules;
         $this->rules->addObject(PermissionController::class, $this);
-        parent::__construct();
     }
 
     /**
      * Validate the data before persisting to the database ensure
      * the entity return valid email and password fields
-     * 
+     *
      * @param Collection $entityCollection - the incoming data
      * @param object|null $dataRepository - the repository for the entity
      * @return array
@@ -113,9 +112,9 @@ class PermissionValidate extends AbstractDataRepositoryValidation
      * @param object|null $dataRepository
      * @return void|null
      */
-    private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository=null)
+    private function throwWarningIfNoChange(Collection $entityCollection, ?object $dataRepository = null)
     {
-        if ($dataRepository !==null) {
+        if ($dataRepository !== null) {
             if (
                 $entityCollection['permission_name'] === $dataRepository->permission_name &&
                 $entityCollection['permission_description'] === $dataRepository->permission_description
@@ -128,7 +127,7 @@ class PermissionValidate extends AbstractDataRepositoryValidation
                     }
                 }
             }
-    
+
         }
         return null;
     }
@@ -147,7 +146,7 @@ class PermissionValidate extends AbstractDataRepositoryValidation
             $dataRepository,
             function ($key, $value, $entityCollection, $dataRepository) {
                 if ($rules = $this->rules) {
-                   return match ($key) {
+                    return match ($key) {
                         'permission_name' => $rules->addRule("required|unique"),
                         'permission_description' => $rules->addRule("required"),
                         default => $this->throwWarningIfNoChange($entityCollection, $dataRepository)

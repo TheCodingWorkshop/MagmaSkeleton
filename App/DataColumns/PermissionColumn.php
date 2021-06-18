@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use MagmaCore\Datatable\AbstractDatatableColumn;
-use App\Forms\Admin\Permission\PermissionForm;
 
 class PermissionColumn extends AbstractDatatableColumn
 {

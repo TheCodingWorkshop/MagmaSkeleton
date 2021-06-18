@@ -22,10 +22,10 @@ class ModifyStatus_TestSchema extends TestSchema
     {
         return $this->schema
             ->table($this->testModel)
-            ->alter('modify', function($schema){
+            ->alter('modify', function ($schema) {
                 return $schema
                     ->row($this->blueprint->longText('status'))
-                        ->modifyColumn();
+                    ->modifyColumn();
             });
 
     }

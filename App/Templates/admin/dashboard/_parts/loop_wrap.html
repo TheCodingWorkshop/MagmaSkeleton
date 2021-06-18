@@ -2,7 +2,7 @@
     <div class="uk-column-1-2@s uk-column-1-3@m uk-column-1-4@l" uk-sortable="handle: .uk-card">
         {% foreach($github as $key => $value) : %}
         <div class="uk-card">
-            <span class="statistics-text ion-64"><ion-icon name="{{ $value['icon'] }}-outline"></ion-icon></span><br />
+            <span class="statistics-text ion-64"><ion-icon name="{{ $value['icon'] }}-outline"></ion-icon></span><br/>
             <span class="uk-text-lead">
                 {{ $value['counter'] }}k
                 <span class="uk-label uk-label-secondary">

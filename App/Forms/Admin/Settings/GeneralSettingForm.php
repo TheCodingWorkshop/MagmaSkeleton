@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Settings;
 
-use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
+use MagmaCore\Settings\Settings;
 
 class GeneralSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -109,7 +109,6 @@ class GeneralSettingForm extends ClientFormBuilder implements ClientFormBuilderI
                 null,
                 $this->blueprint->settings(false, null, false, 'Tagline', true, null, 'In a few words, explain what this site is about.')
             )
-
             ->add(
                 $this->blueprint->text(
                     'site_keywords',
@@ -130,7 +129,6 @@ class GeneralSettingForm extends ClientFormBuilder implements ClientFormBuilderI
                 $this->settings->get('site_description'),
                 $this->blueprint->settings(false, null, false, null, true, null, 'Add some brief description about your application.')
             )
-
             ->add(
                 $this->blueprint->submit(
                     'general-setting',

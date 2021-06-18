@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\User;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class UserPreferencesForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -40,6 +41,7 @@ class UserPreferencesForm extends ClientFormBuilder implements ClientFormBuilder
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
@@ -83,7 +85,6 @@ class UserPreferencesForm extends ClientFormBuilder implements ClientFormBuilder
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
-
             ->add(
                 $this->blueprint->submit(
                     $this->hasValue('id') ? 'edit-user' : 'new-user',

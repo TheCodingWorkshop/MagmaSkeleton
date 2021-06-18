@@ -19,9 +19,9 @@ class DashboardController extends AdminController
     public DashboardRepository $repository;
 
     /**
-     * Extends the base constructor method. Which gives us access to all the base 
+     * Extends the base constructor method. Which gives us access to all the base
      * methods implemented within the base controller class.
-     * Class dependency can be loaded within the constructor by calling the 
+     * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
@@ -34,14 +34,14 @@ class DashboardController extends AdminController
         parent::__construct($routeParams);
         /**
          * Dependencies are defined within a associative array like example below
-         * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the 
+         * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the
          * property for the userModel object like so $this->userModel->getRepo();
          */
         $this->addDefinitions(
             [
                 'repository' => DashboardRepository::class,
             ]
-        );  
+        );
 
     }
 
@@ -51,7 +51,7 @@ class DashboardController extends AdminController
      * made.
      */
     protected function indexAction()
-    { 
+    {
         $this->render(
             'admin/dashboard/index.html',
             [
@@ -68,10 +68,9 @@ class DashboardController extends AdminController
                 'main_cards' => $this->repository->mainCards(),
                 'unique_visits' => $this->repository->getSessionUniqueVisits(),
                 'block_activities' => $this->repository->getBlockActivities(),
-            ] 
+            ]
         );
     }
-
 
 
 }

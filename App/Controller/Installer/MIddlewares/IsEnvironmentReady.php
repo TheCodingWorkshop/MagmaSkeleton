@@ -12,21 +12,21 @@ declare(strict_types=1);
 
 namespace App\Controller\Installer\Middleware;
 
-use MagmaCore\Middleware\BeforeMiddleware;
 use Closure;
+use MagmaCore\Middleware\BeforeMiddleware;
 
 class IsEnvironmentReady extends BeforeMiddleware
 {
 
     /**
-     * Prevent unauthorized access to the administration panel. Only users with specific 
-     * priviledges can access the admin area.
+     * Prevent unauthorized access to the administration panel. Only users with specific
+     * privileges can access the admin area.
      *
      * @param Object $middleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
+    public function middleware(object $middleware, Closure $next)
     {
         return $next($middleware);
     }

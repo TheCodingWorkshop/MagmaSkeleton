@@ -39,9 +39,9 @@ class SettingController extends AdminController
 {
 
     /**
-     * Extends the base constructor method. Which gives us access to all the base 
+     * Extends the base constructor method. Which gives us access to all the base
      * methods implemented within the base controller class.
-     * Class dependency can be loaded within the constructor by calling the 
+     * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
@@ -54,7 +54,7 @@ class SettingController extends AdminController
         parent::__construct($routeParams);
         /**
          * Dependencies are defined within a associative array like example below
-         * [ PermissionModel => \App\Model\EventModel::class ]. Where the key becomes the 
+         * [ PermissionModel => \App\Model\EventModel::class ]. Where the key becomes the
          * property for the PermissionModel object like so $this->eventModel->getRepo();
          */
         $this->addDefinitions(
@@ -112,83 +112,83 @@ class SettingController extends AdminController
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([
-                        'form_formatting' => $this->formattingSettingForm->createForm(
-                            $this->getRoute('general', $this), 
-                            null
-                        ),
-                        'form_avatar' => $this->avatarSettingForm->createForm(
-                            $this->getRoute('avatar', $this)
-                        ),
-                        'form_default' => $this->defaultSettingForm->createForm(
-                            $this->getRoute('default', $this)
-                        ),
-                        ])
-                        ->form($this->generalSettingForm)
-                            ->end();
+            ->render()
+            ->with([
+                'form_formatting' => $this->formattingSettingForm->createForm(
+                    $this->getRoute('general', $this),
+                    null
+                ),
+                'form_avatar' => $this->avatarSettingForm->createForm(
+                    $this->getRoute('avatar', $this)
+                ),
+                'form_default' => $this->defaultSettingForm->createForm(
+                    $this->getRoute('default', $this)
+                ),
+            ])
+            ->form($this->generalSettingForm)
+            ->end();
     }
 
     protected function securityAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([])
-                        ->form($this->securitySettingForm)
-                            ->end();
+            ->render()
+            ->with([])
+            ->form($this->securitySettingForm)
+            ->end();
     }
 
     protected function purgeAction()
     {
         $this->purgeAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([
-                        'template_files' => scandir(TEMPLATE_CACHE)
-                        ])
-                        ->form($this->purgeSettingForm)
-                            ->end();
+            ->render()
+            ->with([
+                'template_files' => scandir(TEMPLATE_CACHE)
+            ])
+            ->form($this->purgeSettingForm)
+            ->end();
     }
 
     protected function toolsAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([])
-                        ->form($this->toolsSettingForm)
-                            ->end();
+            ->render()
+            ->with([])
+            ->form($this->toolsSettingForm)
+            ->end();
     }
 
     protected function localisationAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([])
-                        ->form($this->localisationSettingForm)
-                            ->end();
+            ->render()
+            ->with([])
+            ->form($this->localisationSettingForm)
+            ->end();
     }
 
     protected function brandingAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([])
-                        ->form($this->brandingSettingForm)
-                            ->end();
+            ->render()
+            ->with([])
+            ->form($this->brandingSettingForm)
+            ->end();
     }
 
     protected function extensionAction()
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with([])
-                        ->form($this->extensionSettingForm)
-                            ->end();
+            ->render()
+            ->with([])
+            ->form($this->extensionSettingForm)
+            ->end();
     }
 
 
@@ -196,10 +196,10 @@ class SettingController extends AdminController
     {
         $this->configAction
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with()
-                        ->form($this->applicationSettingForm)
-                            ->end();
+            ->render()
+            ->with()
+            ->form($this->applicationSettingForm)
+            ->end();
     }
 
 }

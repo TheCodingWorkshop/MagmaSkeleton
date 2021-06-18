@@ -14,20 +14,20 @@ namespace App\Controller\Admin;
 
 use App\Commander\RoleCommander;
 use App\DataColumns\RoleColumn;
+use App\Entity\RoleEntity;
+use App\Entity\RolePermissionEntity;
+use App\Event\RoleActionEvent;
 use App\Forms\Admin\Role\RoleAssignedForm;
 use App\Forms\Admin\Role\RoleForm;
 use App\Model\PermissionModel;
+use App\Model\RoleModel as RM;
 use App\Model\RolePermissionModel;
+use App\Model\UserModel as UM;
 use App\Model\UserRoleModel;
 use App\Relationships\RoleRelationship;
+use App\Schema\RoleSchema;
 use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
-use App\Model\UserModel as UM;
-use App\Entity\RoleEntity;
-use App\Schema\RoleSchema;
-use App\Event\RoleActionEvent;
-use App\Model\RoleModel as RM;
-use App\Entity\RolePermissionEntity;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
 class RoleController extends AdminController
@@ -98,10 +98,10 @@ class RoleController extends AdminController
     {
         $this->indexAction
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
-                ->render()
-                    ->with()
-                        ->table()
-                            ->end();
+            ->render()
+            ->with()
+            ->table()
+            ->end();
     }
 
     /**
@@ -113,10 +113,10 @@ class RoleController extends AdminController
     {
         $this->newAction
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with()
-                        ->form($this->formRole)
-                            ->end();
+            ->render()
+            ->with()
+            ->form($this->formRole)
+            ->end();
     }
 
     /**
@@ -128,14 +128,14 @@ class RoleController extends AdminController
     {
         $this->editAction
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
-                ->render()
-                    ->with(
-                        [
-                            'role' => $this->toArray($this->findOr404())
-                        ]
-                    )
-                        ->form($this->formRole)
-                            ->end();
+            ->render()
+            ->with(
+                [
+                    'role' => $this->toArray($this->findOr404())
+                ]
+            )
+            ->form($this->formRole)
+            ->end();
     }
 
     /**

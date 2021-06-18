@@ -6,8 +6,6 @@
 {% block description %}MagmaCore create an account{% endblock %}
 <!-- keywords -->
 {% block keywords %}new-account, create-new{% endblock %}
-<!-- commander -->
-{% block commander_bar %}{{ $commanderBar }}{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -19,11 +17,6 @@
                     <turbo-frame id="user_form">
                         {{ $form }}
                     </turbo-frame>
-                    <turbo-stream action="append" target="flash_messages">
-                        <template>
-                            <div>{@ templateExtension('uikit_flash_message') @}</div>
-                        </template>
-                    </turbo-stream>
                 </div>
             </div>
         </div>

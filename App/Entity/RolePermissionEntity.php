@@ -15,4 +15,5 @@ namespace App\Entity;
 use MagmaCore\Base\BaseEntity;
 
 class RolePermissionEntity extends BaseEntity
-{ }
+{
+}

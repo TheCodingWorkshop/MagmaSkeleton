@@ -28,7 +28,7 @@ class UserSchema implements DataSchemaBuilderInterface
     protected object $userModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -67,7 +67,7 @@ class UserSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
             ->row($this->blueprint->varchar('remote_addr', 64, true, 'null'))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
                     ->setUniqueKey(['email', 'password_reset_hash', 'activation_token'])

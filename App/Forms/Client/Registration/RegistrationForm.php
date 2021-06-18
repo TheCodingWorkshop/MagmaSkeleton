@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\Forms\Client\Registration;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -44,6 +45,7 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
@@ -53,23 +55,23 @@ class RegistrationForm extends ClientFormBuilder implements ClientFormBuilderInt
             ->add($this->blueprint->text('lastname'))
             ->add($this->blueprint->email('email', ['uk-width-1-2'], null, true))
             ->add($this->blueprint->password(
-                'client_password_hash', 
-                [], 
-                null, 
-                'new-password', 
+                'client_password_hash',
+                [],
+                null,
+                'new-password',
                 true),
                 NULL,
                 $this->blueprint->settings(false, null, true, 'Password')
             )
-			->add(
-				$this->blueprint->submit(
-					'register-registration',
-					['uk-button', 'uk-button-primary'],
-					'Register new account'
-				),
-				null,
-				$this->blueprint->settings(false, null, false, null, true, 'Remember Me')
-			)
+            ->add(
+                $this->blueprint->submit(
+                    'register-registration',
+                    ['uk-button', 'uk-button-primary'],
+                    'Register new account'
+                ),
+                null,
+                $this->blueprint->settings(false, null, false, null, true, 'Remember Me')
+            )
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 }

@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use MagmaCore\RestFul\RestHandler;
 use App\Controller\Admin\UserController as APIUserController;
+use App\Entity\UserEntity;
+use App\Event\UserActionEvent;
 
 class UserController extends APIUserController
 {
@@ -26,16 +27,16 @@ class UserController extends APIUserController
             $records['records'] = [];
             array_push($records['records'], $repository->findAll());
             echo $this->apiResponse->response($records);
-        } 
+        }
     }
 
     public function newAction()
     {
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
-                ->with()
-                    ->api();
-        
+            ->with()
+            ->api();
+
     }
 
 }

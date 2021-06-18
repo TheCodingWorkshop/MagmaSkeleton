@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use MagmaCore\Middleware\BeforeMiddleware;
+use Closure;
 use MagmaCore\Auth\Authorized;
 use MagmaCore\Auth\Roles\Roles;
-use Closure;
+use MagmaCore\Middleware\BeforeMiddleware;
 
 class AdminAuthentication extends BeforeMiddleware
 {
@@ -15,14 +15,14 @@ class AdminAuthentication extends BeforeMiddleware
     protected const SUPERADMIN_PRIVILEGE = 'all';
 
     /**
-     * Prevent unauthorized access to the administration panel. Only users with specific 
+     * Prevent unauthorized access to the administration panel. Only users with specific
      * privileges can access the admin area.
      *
      * @param Object $middleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
+    public function middleware(object $middleware, Closure $next)
     {
         if ($authorizedUser = Authorized::grantedUser()) {
             if (null !== $authorizedUser) {

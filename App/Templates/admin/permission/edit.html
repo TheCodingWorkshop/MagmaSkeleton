@@ -17,11 +17,6 @@
                     <turbo-frame id="role_form">
                         {{ $form }}
                     </turbo-frame>
-                    <turbo-stream action="append" target="flash_messages">
-                        <template>
-                            <div>{@ templateExtension('uikit_flash_message') @}</div>
-                        </template>
-                    </turbo-stream>
                 </div>
             </div>
         </div>
@@ -32,10 +27,15 @@
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('last_updated') @}</dt>
                     <dd>
-                        {% if (isset($permission['modified_at']) && $permission['modified_at'] !==null) : %} {@ formatDate($permission['modified_at']) @} {% else : %} Never {% endif %}
+                        {% if (isset($permission['modified_at']) && $permission['modified_at'] !==null) : %}
+                        {@ formatDate($permission['modified_at']) @}
+                        {% else : %}
+                        Never
+                        {% endif %}
                     </dd>
                     <dt>{@ locale('created') @}</dt>
-                    <dd>{@ formatDate($permission['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created by: {{{ $permission['created_byid'] }}}</small></dd>
+                    <dd>{@ formatDate($permission['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created
+                        by: {{{ $permission['created_byid'] }}}</small></dd>
                     <dt>{@ locale('assigned_to') @}</dt>
                     <dd>Superadmin</dd>
                 </dl>

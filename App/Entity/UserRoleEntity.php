@@ -15,4 +15,5 @@ namespace App\Entity;
 use MagmaCore\Base\BaseEntity;
 
 class UserRoleEntity extends BaseEntity
-{}
+{
+}

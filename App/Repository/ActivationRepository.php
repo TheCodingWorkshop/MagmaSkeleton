@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use MagmaCore\Auth\Contracts\UserActivationInterface;
 use App\Model\UserModel;
-use MagmaCore\Utility\Token;
+use MagmaCore\Auth\Contracts\UserActivationInterface;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\MailerFacade;
+use MagmaCore\Utility\Token;
 
 class ActivationRepository extends UserModel implements UserActivationInterface
-{ 
+{
 
     protected array $errors = [];
     private int $userID;
@@ -29,8 +29,8 @@ class ActivationRepository extends UserModel implements UserActivationInterface
      * @param string $token
      * @return Object|null
      */
-    public function findByActivationToken(string $token) : ?object
-    { 
+    public function findByActivationToken(string $token): ?object
+    {
         $token = new Token($token);
         $_tokenHash = $token->getHash();
         $findBy = $this->getRepo()->findObjectBy(['activation_token' => $_tokenHash], ['*']);
@@ -45,8 +45,8 @@ class ActivationRepository extends UserModel implements UserActivationInterface
      * @param string $hash
      * @return $this
      */
-    public function sendUserActivationEmail(string $hash) : self
-    { 
+    public function sendUserActivationEmail(string $hash): self
+    {
         (new MailerFacade())->basicMail(
             'Activate Your Account',
             'admin@magmacore.com',
@@ -64,8 +64,8 @@ class ActivationRepository extends UserModel implements UserActivationInterface
      * @param object|null $repository
      * @return $this
      */
-    public function validateActivation(?object $repository) : self
-    { 
+    public function validateActivation(?object $repository): self
+    {
         if ($repository === null) {
             $this->errors['invalid_account'] = 'Sorry no user was found!';
             //throw new \InvalidArgumentException();
@@ -78,8 +78,8 @@ class ActivationRepository extends UserModel implements UserActivationInterface
     /**
      * @return bool
      */
-    public function activate() : bool
-    { 
+    public function activate(): bool
+    {
         $update = $this->getRepo()->findByIdAndUpdate($this->fields, $this->userID);
         if ($update) {
             return $update;

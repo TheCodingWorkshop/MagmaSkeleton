@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Middleware\After;
 
-use MagmaCore\Middleware\AfterMiddleware;
 use Closure;
+use MagmaCore\Middleware\AfterMiddleware;
 
 class SessionExpiresCleanUp extends AfterMiddleware
 {
@@ -18,7 +18,7 @@ class SessionExpiresCleanUp extends AfterMiddleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
+    public function middleware(object $middleware, Closure $next)
     {
         return $next($middleware);
     }

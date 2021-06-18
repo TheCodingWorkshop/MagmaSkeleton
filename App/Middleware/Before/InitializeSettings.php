@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use MagmaCore\Middleware\BeforeMiddleware;
 use Closure;
+use MagmaCore\Middleware\BeforeMiddleware;
 
 class InitializeSettings extends BeforeMiddleware
 {
@@ -24,8 +24,8 @@ class InitializeSettings extends BeforeMiddleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
-    {   
+    public function middleware(object $middleware, Closure $next)
+    {
         $middleware->tableSettingsInsertAction($middleware->thisRouteController());
         return $next($middleware);
     }

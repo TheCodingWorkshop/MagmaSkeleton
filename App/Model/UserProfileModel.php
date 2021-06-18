@@ -16,7 +16,7 @@ class UserProfileModel extends UserModel
 {
 
     /**
-     * Verify the user password before making changes. Ensuring the correct user 
+     * Verify the user password before making changes. Ensuring the correct user
      * is making changes.
      *
      * @param Object $object - the current object to which the method is called from
@@ -24,7 +24,7 @@ class UserProfileModel extends UserModel
      * @param Null|string $fieldName
      * @return boolean
      */
-    public function verifyPassword(Object $object, int $id, ?string $fieldName = null): bool
+    public function verifyPassword(object $object, int $id, ?string $fieldName = null): bool
     {
         if (array_key_exists('password_hash', $_POST)) {
             if (password_verify(
@@ -61,7 +61,7 @@ class UserProfileModel extends UserModel
      * @param Object $object
      * @return boolean
      */
-    public function isOwnAccount(Object $object): bool
+    public function isOwnAccount(object $object): bool
     {
         if ($object) {
             $userID = $object->formBuilder->getData()['user_id'];

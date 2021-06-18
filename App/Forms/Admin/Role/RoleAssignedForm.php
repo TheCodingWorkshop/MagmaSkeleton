@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Role;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -40,15 +41,16 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "role_assigned_form"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text(
-                'role_name', 
-                [], 
-                $this->hasValue('role_name'), 
+                'role_name',
+                [],
+                $this->hasValue('role_name'),
                 true),
                 NULL,
                 $this->blueprint->settings(false, null, true, null, true, null, 'Role name cannot be changed here?'))

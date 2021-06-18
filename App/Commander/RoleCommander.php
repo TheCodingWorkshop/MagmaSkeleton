@@ -14,13 +14,15 @@ namespace App\Commander;
 
 use App\Model\RoleModel;
 use Exception;
-use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
+use MagmaCore\CommanderBar\ApplicationCommanderTrait;
+use MagmaCore\CommanderBar\CommanderUnsetterTrait;
 
 class RoleCommander extends RoleModel implements ApplicationCommanderInterface
 {
 
     use ApplicationCommanderTrait;
+    use CommanderUnsetterTrait;
 
     /**
      * Return an array of all the inner routes within the user model
@@ -32,6 +34,13 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
         'edit',
         'assigned'
     ];
+
+    private array $noNotification = self::INNER_ROUTES;
+    private array $noCustomizer = ['edit', 'new', 'assigned'];
+    private array $noManager = [];
+    private array $noAction = [];
+    private array $noFilter = ['new', 'edit', 'assigned'];
+
     private object $controller;
 
     /**
@@ -47,7 +56,7 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
     }
 
     /**
-     * Display a sparkline graph for this controller index route 
+     * Display a sparkline graph for this controller index route
      *
      * @return string
      */
@@ -76,4 +85,6 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
             default => "Unknown"
         };
     }
+
+
 }

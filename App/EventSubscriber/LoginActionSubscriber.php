@@ -12,19 +12,17 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\Auth\Authorized;
 use App\Event\LoginActionEvent;
 use App\Model\UserMetaDataModel;
+use function array_map;
+use function array_reduce;
+use function date;
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
+use MagmaCore\Auth\Authorized;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
-
-use array_reduce;
-use array_map;
-use array_merge;
-use get_browser;
-use date;
-use serialize;
+use function serialize;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -56,7 +54,7 @@ class LoginActionSubscriber implements EventSubscriberInterface
      *
      * @return array
      */
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([LoginActionEvent::NAME => "array"])] public static function getSubscribedEvents(): array
     {
         return [
             LoginActionEvent::NAME => [
@@ -77,6 +75,7 @@ class LoginActionSubscriber implements EventSubscriberInterface
      *
      * @param LoginActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function flashLoginEvent(LoginActionEvent $event)
     {

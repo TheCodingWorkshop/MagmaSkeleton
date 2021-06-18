@@ -12,28 +12,29 @@ declare(strict_types=1);
 
 namespace App\Forms\Profile;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
-	/** @var FormBuilderBlueprintInterface $blueprint */
-	private FormBuilderBlueprintInterface $blueprint;
+    /** @var FormBuilderBlueprintInterface $blueprint */
+    private FormBuilderBlueprintInterface $blueprint;
 
-	/**
-	 * Main class constructor
-	 *
-	 * @param FormBuilderBlueprint $blueprint
-	 * @return void
-	 */
-	public function __construct(FormBuilderBlueprint $blueprint)
-	{
-		$this->blueprint = $blueprint;
-		parent::__construct();
-	}
+    /**
+     * Main class constructor
+     *
+     * @param FormBuilderBlueprint $blueprint
+     * @return void
+     */
+    public function __construct(FormBuilderBlueprint $blueprint)
+    {
+        $this->blueprint = $blueprint;
+        parent::__construct();
+    }
 
     /**
      * Construct the security login form. The attribute name='{string}' must match
@@ -44,49 +45,49 @@ class EditPasswordForm extends ClientFormBuilder implements ClientFormBuilderInt
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
-	{
-		return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
-		->addRepository($dataRepository)
-		->add($this->blueprint->password(
-			'password_hash', 
-			['uk-form-width-large'], 
-			null, 
-			'autocomplete', 
-			true),
-			NULL,
-			$this->blueprint->settings(false, null, true, 'Old Password', true)
-		)
-		->add($this->blueprint->password(
-			'client_password_hash', 
-			['uk-form-width-large'], 
-			null, 
-			'autocomplete', 
-			true),
-			NULL,
-			$this->blueprint->settings(false, null, true, 'New Password', true)
-		)
-		->add($this->blueprint->password(
-			'password_hash_retype', 
-			['uk-form-width-large'], 
-			null, 
-			'autocomplete', 
-			true),
-			NULL,
-			$this->blueprint->settings(false, null, true, 'Confirm Password', true)
-		)
+    {
+        return $this->form(['action' => $action, 'class' => 'uk-form-horizontal'])
+            ->addRepository($dataRepository)
+            ->add($this->blueprint->password(
+                'password_hash',
+                ['uk-form-width-large'],
+                null,
+                'autocomplete',
+                true),
+                NULL,
+                $this->blueprint->settings(false, null, true, 'Old Password', true)
+            )
+            ->add($this->blueprint->password(
+                'client_password_hash',
+                ['uk-form-width-large'],
+                null,
+                'autocomplete',
+                true),
+                NULL,
+                $this->blueprint->settings(false, null, true, 'New Password', true)
+            )
+            ->add($this->blueprint->password(
+                'password_hash_retype',
+                ['uk-form-width-large'],
+                null,
+                'autocomplete',
+                true),
+                NULL,
+                $this->blueprint->settings(false, null, true, 'Confirm Password', true)
+            )
+            ->add(
+                $this->blueprint->submit(
+                    'password-account',
+                    ['uk-button', 'uk-button-primary'],
+                    'Save and Continue'
+                ),
+                null,
+                $this->blueprint->settings(false, null, false, null, true, 'Remember Me')
+            )
+            ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 
-		->add(
-			$this->blueprint->submit(
-				'password-account',
-				['uk-button', 'uk-button-primary'],
-				'Save and Continue'
-			),
-			null,
-			$this->blueprint->settings(false, null, false, null, true, 'Remember Me')
-		)
-		->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
-
-	}
+    }
 }

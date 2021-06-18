@@ -19,9 +19,9 @@ class EventController extends AdminController
 {
 
     /**
-     * Extends the base constructor method. Which gives us access to all the base 
+     * Extends the base constructor method. Which gives us access to all the base
      * methods implemented within the base controller class.
-     * Class dependency can be loaded within the constructor by calling the 
+     * Class dependency can be loaded within the constructor by calling the
      * container method and passing in an associative array of dependency to use within
      * the class
      *
@@ -34,7 +34,7 @@ class EventController extends AdminController
         parent::__construct($routeParams);
         /**
          * Dependencies are defined within a associative array like example below
-         * [ PermissionModel => \App\Model\EventModel::class ]. Where the key becomes the 
+         * [ PermissionModel => \App\Model\EventModel::class ]. Where the key becomes the
          * property for the PermissionModel object like so $this->eventModel->getRepo();
          */
         $this->addDefinitions(

@@ -8,8 +8,6 @@
 {% block keywords %}show-account, show-user{% endblock %}
 <!-- Block description -->
 {% block author %}Ricardo Miller{% endblock %}
-<!-- commander bar -->
-{% block commander_bar %}{{ $commanderBar }}{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -30,8 +28,11 @@
                         <dd>{{{ $row['status'] }}}</dd>
                         <small class="uk-text-danger">
                             {@ locale('account_still_pending') @}
-                        </small><br />
-                        <button type="submit" name="send-user-reminder" class="uk-button uk-button-danger uk-button-small">{@ locale('resend') @}</button> <small>{@ locale('resend_activation') @}</small>
+                        </small><br/>
+                        <button type="submit" name="send-user-reminder"
+                                class="uk-button uk-button-danger uk-button-small">{@ locale('resend') @}
+                        </button>
+                        <small>{@ locale('resend_activation') @}</small>
                         <dt>{@ locale('created') @}</dt>
                         <dd>{@ formatDate($row['created_at']) @}</dd>
 
@@ -47,14 +48,16 @@
 
                     <dt>{@ locale('last_login') @}</dt>
                     <dd>
-                        {% if (isset($user_log[0]['last_login'])): %} {@ formatDate($user_log[0]['last_login']) @} {% else : %}
+                        {% if (isset($user_log[0]['last_login'])): %} {@ formatDate($user_log[0]['last_login']) @} {%
+                        else : %}
                         <span>{@ locale('data_unavailable') @}!</span> {% endif; %}
                     </dd>
 
                     <dt>{@ locale('failed_logins') @}</dt>
                     <dd>
                         {% if (isset($user_log[2]['failed_logins'])): %} {{{ $user_log[2]['failed_login'] }}}
-                        <span>Failed Login</span> {% endif; %} {{{ $user_log[2]['failed_logins'] ?? '0 Failed Logins' }}}
+                        <span>Failed Login</span> {% endif; %} {{{ $user_log[2]['failed_logins'] ?? '0 Failed Logins'
+                        }}}
                         <!--  -->
                         {% if (isset($user_log[2]['failed_login_timestamp'])): %}
                         <small>{@ formatDate($user_log[2]['failed_login_timestamp']) @}</small>

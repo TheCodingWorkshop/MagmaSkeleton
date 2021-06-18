@@ -20,7 +20,7 @@ use MagmaCore\DataSchema\DataSchemaBuilderInterface;
 class {{ ExampleSchema }} implements DataSchemaBuilderInterface
 {
 
-    /** @var object - $schema for chaing the schema together */
+    /** @var object - $schema for chaining the schema together */
     protected DataSchema $schema;
 
     /** @var object - provides helper function for quickly adding schema types */

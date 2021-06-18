@@ -28,7 +28,7 @@ class SettingsSchema implements DataSchemaBuilderInterface
     protected object $settingModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -55,7 +55,7 @@ class SettingsSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->autoID())
             ->row($this->blueprint->varchar('setting_name', 65))
             ->row($this->blueprint->longText('setting_value'))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
                     ->setUniqueKey(['setting_name'])

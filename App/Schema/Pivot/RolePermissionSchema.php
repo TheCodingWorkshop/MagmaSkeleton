@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Schema\Pivot;
 
-use App\Model\RoleModel;
 use App\Model\PermissionModel;
+use App\Model\RoleModel;
 use App\Model\RolePermissionModel;
 use MagmaCore\DataSchema\DataSchema;
 use MagmaCore\DataSchema\DataSchemaBlueprint;
@@ -30,7 +30,7 @@ class RolePermissionSchema implements DataSchemaBuilderInterface
     protected object $rolePermModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -56,21 +56,21 @@ class RolePermissionSchema implements DataSchemaBuilderInterface
             ->table($this->rolePermModel)
             ->row($this->blueprint->int('role_id', 10))
             ->row($this->blueprint->int('permission_id', 10))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->setKey(['role_id', 'permission_id'])
                     ->setConstraints(
                         function ($trait) {
                             $constraint = $trait->addModel(RoleModel::class)->foreignKey('role_id')
                                 ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
-                                ->cascade(true,true)->add();   
+                                ->cascade(true, true)->add();
                             $constraint .= $trait->addModel(PermissionModel::class)->foreignKey('permission_id')
                                 ->on($trait->getModel()->getSchema())->reference($trait->getModel()->getSchemaID())
-                                ->cascade(true,true)->add(); 
-                            return $constraint;                   
+                                ->cascade(true, true)->add();
+                            return $constraint;
                         }
                     );
-                    
+
             });
     }
 }

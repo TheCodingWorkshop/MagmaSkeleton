@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Role;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -40,6 +41,7 @@ class RoleForm extends ClientFormBuilder implements ClientFormBuilderInterface
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {

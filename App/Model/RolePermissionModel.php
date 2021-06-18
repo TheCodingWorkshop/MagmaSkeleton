@@ -18,7 +18,7 @@ use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 
 class RolePermissionModel extends AbstractBaseModel
-{ 
+{
 
     /** @var string */
     protected const TABLESCHEMA = 'role_permission';
@@ -26,12 +26,12 @@ class RolePermissionModel extends AbstractBaseModel
     protected const TABLESCHEMAID = 'id';
 
     /**
-     * Main constructor class which passes the relevant information to the 
+     * Main constructor class which passes the relevant information to the
      * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
-     * 
-     * @throws BaseInvalidArgumentException
+     *
      * @return void
+     * @throws BaseInvalidArgumentException
      */
     public function __construct()
     {
@@ -43,7 +43,7 @@ class RolePermissionModel extends AbstractBaseModel
      *
      * @return array
      */
-    public function guardedID() : array
+    public function guardedID(): array
     {
         return [];
     }
@@ -58,7 +58,7 @@ class RolePermissionModel extends AbstractBaseModel
     {
         return $this->addRelationship(ManyToMany::class)
             ->hasOne(RoleModel::class)->belongsToMany(PermissionModel::class)
-                ->tablePivot($this, RolePermissionSchema::class);
+            ->tablePivot($this, RolePermissionSchema::class);
     }
 
 }

@@ -13,14 +13,13 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Model\UserModel;
-
-use MagmaCore\Utility\Yaml;
-use MagmaCore\Base\BaseView;
-use MagmaCore\Utility\Token;
 use InvalidArgumentException;
+use MagmaCore\Auth\Contracts\UserPasswordRecoveryInterface;
+use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\Utility\HashGenerator;
-use MagmaCore\Auth\Contracts\UserPasswordRecoveryInterface;
+use MagmaCore\Utility\Token;
+use MagmaCore\Utility\Yaml;
 
 class PasswordRepository extends UserModel implements UserPasswordRecoveryInterface
 {
@@ -31,7 +30,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      * Get the current user object via the method $email argument. Once object is located
      * then the method will assign the $this->userEmail property the method $email argument
      * and return self
-     * 
+     *
      * @param string $email
      * @return self
      */
@@ -59,7 +58,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
         );
         return $this;
     }
-    
+
     /**
      * Add password reset record to the database table for the current user resetting their password
      * this will capture a reset token hash and the expiry timestamp. To validate against to ensure
@@ -87,7 +86,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      * @param string|null $tokenHash
      * @return Object|null
      */
-    public function findByPasswordResetToken(string $tokenHash = null): ?Object
+    public function findByPasswordResetToken(string $tokenHash = null): ?object
     {
         $token = new Token($tokenHash);
         $_tokenHash = $token->getHash();
@@ -126,6 +125,6 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      */
     public function parsedUrlToken(string $tokenHash): ?object
     {
-        return  $this->findByPasswordResetToken($tokenHash) ?? null;
+        return $this->findByPasswordResetToken($tokenHash) ?? null;
     }
 }

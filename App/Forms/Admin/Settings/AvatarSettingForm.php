@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace App\Forms\Admin\Settings;
 
 use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\Settings\Settings;
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
+use MagmaCore\Settings\Settings;
 
 class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -89,12 +89,12 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
                     'mystery'
                 ),
                 $this->blueprint->settings(
-                    false, 
-                    null, 
-                    false, 
-                    'Gravatar Default', 
-                    true, 
-                    null, 
+                    false,
+                    null,
+                    false,
+                    'Gravatar Default',
+                    true,
+                    null,
                     'For users without a custom avatar of their own, you can either display a generic logo or a generated one based on their email address. ' . $this->getSelectedAvatar())
             )
             ->add(
@@ -106,7 +106,6 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
-
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
     }
 
@@ -136,7 +135,7 @@ class AvatarSettingForm extends ClientFormBuilder implements ClientFormBuilderIn
     private function getSelectedAvatar(): string
     {
         $size = 80;
-        $grav_url = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $this->settings->get('site_email') ) ) ) . "?d=" . urlencode( $this->settings->get('gravatar_default') ) . "&s=" . $size;
+        $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->settings->get('site_email')))) . "?d=" . urlencode($this->settings->get('gravatar_default')) . "&s=" . $size;
         return '<div><img class="uk-img" alt="" src="' . $grav_url . '" /></div>';
 
     }

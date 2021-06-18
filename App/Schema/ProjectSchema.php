@@ -28,7 +28,7 @@ class ProjectSchema implements DataSchemaBuilderInterface
     protected object $projectModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -61,11 +61,11 @@ class ProjectSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->varchar('project_cost', 10))
             ->row($this->blueprint->varchar('project_location', 60))
             ->row($this->blueprint->varchar('project_type', 60))
-            ->row($this->blueprint->varchar('project_status', 10)) /* open or close */
+            ->row($this->blueprint->varchar('project_status', 10))/* open or close */
             ->row($this->blueprint->int('created_byid', 10, false))
             ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
                     ->setUniqueKey(['project_name'])

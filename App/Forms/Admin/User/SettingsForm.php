@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\User;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\Type\RadioType;
@@ -24,11 +25,12 @@ class SettingsForm extends ClientFormBuilder implements ClientFormBuilderInterfa
      * @param object|null $dataRepository
      * @param object|null $callingController
      * @return string
+     * @throws Exception
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
         if ($dataRepository != null) {
-            $dataRepository = (array) $dataRepository;
+            $dataRepository = (array)$dataRepository;
             extract($dataRepository);
         }
         return $this->form(['action' => $action, 'class' => ['uk-form-horizontal'], "id" => "userForm"])

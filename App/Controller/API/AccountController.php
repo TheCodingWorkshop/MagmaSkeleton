@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Model\UserModel;
 use MagmaCore\Base\BaseController;
-use MagmaCore\RestFul\RestHandler;
 
 class AccountController extends BaseController
 {
@@ -23,7 +23,7 @@ class AccountController extends BaseController
         parent::__construct($routeParams);
         $this->diContainer(
             [
-                'repository' => \App\Model\UserModel::class,
+                'repository' => UserModel::class,
             ]
         );
     }

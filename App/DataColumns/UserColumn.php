@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use Exception;
-use MagmaCore\Utility\Stringify;
 use MagmaCore\Datatable\AbstractDatatableColumn;
+use MagmaCore\Utility\Stringify;
 
 class UserColumn extends AbstractDatatableColumn
 {
@@ -200,7 +200,7 @@ class UserColumn extends AbstractDatatableColumn
             'trash' => ['name' => 'trash account', 'icon' => 'trash-bin-outline']
         ];
         return array_map(
-            fn ($key, $value) => array_merge(['path' => $this->adminPath($row, $key)], $value),
+            fn($key, $value) => array_merge(['path' => $this->adminPath($row, $key)], $value),
             array_keys($items),
             $items
         );

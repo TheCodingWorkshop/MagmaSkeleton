@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use JetBrains\PhpStorm\ArrayShape;
-use App\Model\UserMetaDataModel;
 use App\Event\RegistrationActionEvent;
+use App\Model\UserMetaDataModel;
+use Exception;
+use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
@@ -32,7 +33,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
-     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to 
+     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to
      * load other routes for flashing
      * @var int
      */
@@ -45,7 +46,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      *
      * @return array
      */
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([RegistrationActionEvent::NAME => "array"])] public static function getSubscribedEvents(): array
     {
         return [
             RegistrationActionEvent::NAME => [
@@ -66,6 +67,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      *
      * @param RegistrationActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function flashLoginEvent(RegistrationActionEvent $event)
     {

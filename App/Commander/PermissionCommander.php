@@ -14,14 +14,16 @@ namespace App\Commander;
 
 use App\Model\PermissionModel;
 use Exception;
-use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
+use MagmaCore\CommanderBar\ApplicationCommanderTrait;
+use MagmaCore\CommanderBar\CommanderUnsetterTrait;
 
 class PermissionCommander extends PermissionModel implements ApplicationCommanderInterface
 {
 
     /** @var ApplicationCommanderTrait - this is required */
     use ApplicationCommanderTrait;
+    use CommanderUnsetterTrait;
 
     /**
      * Return an array of all the inner routes within the user model
@@ -32,6 +34,13 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
         'new',
         'edit',
     ];
+
+    private array $noNotification = self::INNER_ROUTES;
+    private array $noCustomizer = ['new', 'edit'];
+    private array $noManager = [];
+    private array $noAction = [];
+    private array $noFilter = ['new', 'edit'];
+
     private object $controller;
 
     /**
@@ -47,7 +56,7 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
     }
 
     /**
-     * Display a sparkline graph for this controller index route 
+     * Display a sparkline graph for this controller index route
      *
      * @return string
      */
@@ -76,4 +85,5 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
             default => "Unknown"
         };
     }
+
 }

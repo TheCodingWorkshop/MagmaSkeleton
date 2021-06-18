@@ -21,7 +21,7 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
 
     /** @var FillableSchema $fillable */
     private FillableSchema $fillable;
-    /** @var UserModel $userModel; */
+    /** @var UserModel $userModel ; */
     private UserModel $userModel;
 
     /**
@@ -43,23 +43,23 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
      */
     public function createFillable(): string
     {
-        $this->fillable->create(1, function($fillable){
+        $this->fillable->create(1, function ($fillable) {
             return $fillable
-            ->table($this->userModel)
-            ->fill($fillable->faker()->firstname)
-            ->fill($fillable->faker()->lastname)
-            ->fill($fillable->faker()->email)
-            ->fill($fillable->faker()->status('pending'))
-            ->fill($fillable->faker()->fakePassword)
-            ->fill(1)
-            ->fill($fillable->faker()->remoteIP)
-            ->bind(function ($fillable) {
-                return $fillable
-                    ->on($fillable->getModel()->getFillables(UserModel::class))
-                    ->push();
-            });
+                ->table($this->userModel)
+                ->fill($fillable->faker()->firstname)
+                ->fill($fillable->faker()->lastname)
+                ->fill($fillable->faker()->email)
+                ->fill($fillable->faker()->status('pending'))
+                ->fill($fillable->faker()->fakePassword)
+                ->fill(1)
+                ->fill($fillable->faker()->remoteIP)
+                ->bind(function ($fillable) {
+                    return $fillable
+                        ->on($fillable->getModel()->getFillables(UserModel::class))
+                        ->push();
+                });
 
         });
-            
+
     }
 }

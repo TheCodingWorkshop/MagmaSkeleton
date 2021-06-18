@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
+use Closure;
 use MagmaCore\Middleware\BeforeMiddleware;
 use MagmaCore\Utility\Yaml;
-use Closure;
 
 class SessionExpires extends BeforeMiddleware
 {
@@ -30,10 +30,10 @@ class SessionExpires extends BeforeMiddleware
      * @param Closure $next
      * @return void
      */
-    public function middleware(Object $middleware, Closure $next)
-    {   
+    public function middleware(object $middleware, Closure $next)
+    {
         $session = $middleware->getSession();
-        if(null !== $session->get('timeout')) {
+        if (null !== $session->get('timeout')) {
             $duration = time() - (int)$session->get('timeout');
             $lifetime = Yaml::file('session')['lifetime']; /* Get session lifetime from yaml file */
             $expires = ($lifetime !== 0) ? $lifetime : self::SESSION_TIMEOUT;
@@ -60,11 +60,11 @@ class SessionExpires extends BeforeMiddleware
         //             $object->redirect('/security/session');
         //         }
         //     }
-    
+
         // } else {
         //     $object->redirect('/login');
         // }
-       // if (isset($session->get()))
+        // if (isset($session->get()))
     }
 
 }

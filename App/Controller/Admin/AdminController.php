@@ -8,11 +8,17 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare (strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\ControllerSettingEntity;
+use App\Event\ControllerSettingsActionEvent;
 use App\Forms\Admin\Controller\ControllerSettingsForm;
+use App\Middleware\Before\AdminAuthentication;
+use App\Middleware\Before\AuthorizedIsNull;
+use App\Middleware\Before\LoginRequired;
+use App\Middleware\Before\SessionExpires;
 use App\Model\ControllerSettingsModel;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Base\BaseController;
@@ -23,17 +29,11 @@ use MagmaCore\Base\Domain\Actions\IndexAction;
 use MagmaCore\Base\Domain\Actions\NewAction;
 use MagmaCore\Base\Domain\Actions\SettingsAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
+use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use MagmaCore\Base\Traits\TableSettingsTrait;
 use MagmaCore\Datatable\Datatable;
 use MagmaCore\RestFul\RestHandler;
 use MagmaCore\Session\SessionTrait;
-use App\Entity\ControllerSettingEntity;
-use App\Middleware\Before\LoginRequired;
-use App\Middleware\Before\SessionExpires;
-use App\Middleware\Before\AuthorizedIsNull;
-use App\Event\ControllerSettingsActionEvent;
-use MagmaCore\Base\Traits\TableSettingsTrait;
-use App\Middleware\Before\AdminAuthentication;
-use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class AdminController extends BaseController
 {
@@ -117,7 +117,7 @@ class AdminController extends BaseController
      * @param Object $controller
      * @return string
      */
-    public function getRoute(string $action, Object $controller): string
+    public function getRoute(string $action, object $controller): string
     {
         $self = '';
         if (!empty($this->thisRouteID()) && $this->thisRouteID() !== false) {
@@ -152,9 +152,9 @@ class AdminController extends BaseController
 
     protected function settingsAction()
     {
-        $action = $this->settingsAction  
+        $action = $this->settingsAction
             ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
-        
+
         if ($action) {
             $this->redirect('/admin/' . $this->thisRouteController() . '/index');
         }

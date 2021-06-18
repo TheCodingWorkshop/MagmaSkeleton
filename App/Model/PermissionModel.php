@@ -16,20 +16,22 @@ use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class PermissionModel extends AbstractBaseModel
-{ 
+{
 
     /** @var string */
     protected const TABLESCHEMA = 'permissions';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
+    public const COLUMN_STATUS = [];
+
 
     /**
-     * Main constructor class which passes the relevant information to the 
+     * Main constructor class which passes the relevant information to the
      * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
-     * 
-     * @throws BaseInvalidArgumentException
+     *
      * @return void
+     * @throws BaseInvalidArgumentException
      */
     public function __construct()
     {
@@ -41,9 +43,18 @@ class PermissionModel extends AbstractBaseModel
      *
      * @return array
      */
-    public function guardedID() : array
+    public function guardedID(): array
     {
         return [];
+    }
+    /**
+     * Return an array of column values if table supports the column field
+     *
+     * @return array
+     */
+    public function getColumnStatus(): array
+    {
+        return self::COLUMN_STATUS;
     }
 
 }

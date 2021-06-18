@@ -12,11 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Installer\Form;
 
+use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
-use MagmaCore\FormBuilder\Type\TextType;
 use MagmaCore\FormBuilder\Type\PasswordType;
 use MagmaCore\FormBuilder\Type\SubmitType;
+use MagmaCore\FormBuilder\Type\TextType;
 
 class ServerForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -31,7 +32,7 @@ class ServerForm extends ClientFormBuilder implements ClientFormBuilderInterface
     public function createForm(string $action, $dataRepository = null)
     {
         if ($dataRepository != null) {
-            $dataRepository = (array) $dataRepository;
+            $dataRepository = (array)$dataRepository;
             extract($dataRepository);
         }
         return $this->form(['action' => $action, 'class' => ['uk-form-horizontal'], "id" => "serverInstallation"])

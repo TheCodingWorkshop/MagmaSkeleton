@@ -19,45 +19,49 @@
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
-    <div>
-        {% include '_partials/_nav_header.html' %}
-        <div id="sidebar" class="tm-sidebar-left uk-background-default">
-            {% include '_partials/_sidebar_profile.html' %}
-            <!-- Main sidebar -->
-            {% include '_partials/_sidebar.html' %}
-        </div>
-        <div class="content-padder content-background">
-            <div class="uk-section-default header">
-                <div class="uk-container uk-container-large">
-                    {% if ($current_user !==null) : %}
-                    {@ templateExtension('uikit_commander_bar') @}
-                    {% endif; %} {% yield dashboard_commander %}
-                </div>
+<div>
+    {% include '_partials/_nav_header.html' %}
+    <div id="sidebar" class="tm-sidebar-left uk-background-default">
+        {% include '_partials/_sidebar_profile.html' %}
+        <!-- Main sidebar -->
+        {% include '_partials/_sidebar.html' %}
+    </div>
+    <div class="content-padder content-background">
+        <div class="uk-section-default header">
+            <div class="uk-container uk-container-large">
+                {% if ($current_user !==null) : %}
+                {@ templateExtension('uikit_commander_bar') @}
+                {% endif; %} {% yield dashboard_commander %}
             </div>
-            <div class="uk-section-small main">
-                <div class="uk-container uk-container-large">
-                    <div id="flash_messages"></div>
-                    {% yield content %}
-                </div>
+        </div>
+        <div class="uk-section-small main">
+            <div class="uk-container uk-container-large">
+
+                <turbo-frame>
+                    <div id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
+                </turbo-frame>
+
+                {% yield content %}
             </div>
         </div>
     </div>
-    <!-- Footer Js -->
-    {@ addjs() @}
-    <!-- Page specific scripts -->
-    {% yield scripts %}
-    <script>
-        $(document).ready(function() {
-            $("#user_account").sparkline([100, 155, 58, 68, -45, -20, 69], {
-                type: 'bar',
-                height: '50%',
-                barWidth: '50%',
-                barColor: "rgb(183,219,249)",
-                negBarColor: "rgb(48,61,75)",
-                zeroColor: 'green'
-            });
+</div>
+<!-- Footer Js -->
+{@ addjs() @}
+<!-- Page specific scripts -->
+{% yield scripts %}
+<script>
+    $(document).ready(function () {
+        $("#user_account").sparkline([100, 155, 58, 68, -45, -20, 69], {
+            type: 'bar',
+            height: '50%',
+            barWidth: '50%',
+            barColor: "rgb(183,219,249)",
+            negBarColor: "rgb(48,61,75)",
+            zeroColor: 'green'
         });
-    </script>
+    });
+</script>
 
 </body>
 

@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace App\Forms\Admin\Settings;
 
 use MagmaCore\FormBuilder\ClientFormBuilder;
-use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
+use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
 class DatetimeSettingForm extends ClientFormBuilder implements ClientFormBuilderInterface
@@ -67,7 +67,6 @@ class DatetimeSettingForm extends ClientFormBuilder implements ClientFormBuilder
                 ),
                 $this->blueprint->settings(false, null, true, null, true)
             )
-
             ->add(
                 $this->blueprint->submit(
                     $this->hasValue('settings_id') ? 'edit-settings' : 'new-settings',

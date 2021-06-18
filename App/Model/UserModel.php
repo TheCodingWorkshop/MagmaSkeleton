@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use ReflectionException;
 use App\Entity\UserEntity;
-use MagmaCore\Base\AbstractBaseModel;
-use MagmaCore\Utility\PasswordEncoder;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
+use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use MagmaCore\Utility\PasswordEncoder;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
 {
@@ -49,12 +48,12 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
 
 
     /**
-     * Main constructor class which passes the relevant information to the 
+     * Main constructor class which passes the relevant information to the
      * base model parent constructor. This allows the repository to fetch the
      * correct information from the database based on the model/entity
-     * 
-     * @throws BaseInvalidArgumentException
+     *
      * @return void
+     * @throws BaseInvalidArgumentException
      */
     public function __construct()
     {

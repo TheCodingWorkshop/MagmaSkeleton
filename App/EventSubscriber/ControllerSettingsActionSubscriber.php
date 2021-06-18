@@ -13,9 +13,10 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Event\ControllerSettingsActionEvent;
+use Exception;
 use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventDispatcherDefaulter;
+use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -39,7 +40,7 @@ class ControllerSettingsActionSubscriber extends EventDispatcherDefaulter implem
      *
      * @return array
      */
-    public static function getSubscribedEvents(): array
+    #[ArrayShape([ControllerSettingsActionEvent::NAME => "array[]"])] public static function getSubscribedEvents(): array
     {
         return [
             ControllerSettingsActionEvent::NAME => [
@@ -58,13 +59,14 @@ class ControllerSettingsActionSubscriber extends EventDispatcherDefaulter implem
      *
      * @param ControllerSettingsActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function flashActivateEvent(ControllerSettingsActionEvent $event): void
     {
         $this->flashingEvent(
-            $event, 
-            $this->trailingRoutes($event), 
-            NULL, 
+            $event,
+            $this->trailingRoutes($event),
+            NULL,
             NULL, /* We will just let the script redirect back onSelf() */
             NULL /* Not using a Closure ie a callback function */
         );

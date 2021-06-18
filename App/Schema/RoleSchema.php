@@ -28,7 +28,7 @@ class RoleSchema implements DataSchemaBuilderInterface
     protected object $roleModel;
 
     /**
-     * Main constructor class. Any typed hinted dependencies will be autowired. As this 
+     * Main constructor class. Any typed hinted dependencies will be autowired. As this
      * class can be inserted inside a dependency container
      *
      * @param DataSchema $schema
@@ -58,7 +58,7 @@ class RoleSchema implements DataSchemaBuilderInterface
             ->row($this->blueprint->int('created_byid', 10, false))
             ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
-            ->build(function($schema) {
+            ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
                     ->setUniqueKey(['role_name'])

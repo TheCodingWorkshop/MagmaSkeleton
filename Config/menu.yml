@@ -17,6 +17,10 @@ authentication:
       path: "/admin/user/index"
       role:
         - developer
+      child:
+        new:
+          name: Name
+          path: ''
     role:
       name: Roles
       icon: ''
