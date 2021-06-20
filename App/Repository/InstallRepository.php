@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Exception;
 use MagmaCore\Error\Error;
 use MagmaCore\Utility\Yaml;
 
@@ -28,6 +29,7 @@ class InstallRepository
      *
      * @param mixed $cleanData
      * @return self
+     * @throws Exception
      */
     public function validateBeforeCreateConfig(mixed $cleanData): self
     {

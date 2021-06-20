@@ -121,7 +121,7 @@ class AdminController extends BaseController
     {
         $self = '';
         if (!empty($this->thisRouteID()) && $this->thisRouteID() !== false) {
-            if ($this->thisRouteID() === $this->findOr404($controller)->id) {
+            if ($this->thisRouteID() === $this->findOr404()) {
                 $route = "/{$this->thisRouteNamespace()}/{$this->thisRouteController()}/{$this->thisRouteID()}/{$this->thisRouteAction()}";
             }
         } else {

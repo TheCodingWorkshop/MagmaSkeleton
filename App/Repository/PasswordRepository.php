@@ -13,9 +13,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Model\UserModel;
+use Exception;
 use InvalidArgumentException;
 use MagmaCore\Auth\Contracts\UserPasswordRecoveryInterface;
 use MagmaCore\Base\BaseView;
+use MagmaCore\Mailer\Exception\MailerException;
 use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\Utility\HashGenerator;
 use MagmaCore\Utility\Token;
@@ -46,6 +48,10 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
         return $this;
     }
 
+    /**
+     * @throws MailerException
+     * @throws Exception
+     */
     public function sendUserResetPassword(): UserPasswordRecoveryInterface
     {
         (new MailerFacade())->basicMail(
@@ -84,7 +90,8 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      * then will the object be returned
      *
      * @param string|null $tokenHash
-     * @return Object|null
+     * @return object|null
+     * @throws Exception
      */
     public function findByPasswordResetToken(string $tokenHash = null): ?object
     {
@@ -122,6 +129,7 @@ class PasswordRepository extends UserModel implements UserPasswordRecoveryInterf
      *
      * @param string $tokenHash - the URL hash token sent to the user who requested it
      * @return object|null
+     * @throws Exception
      */
     public function parsedUrlToken(string $tokenHash): ?object
     {

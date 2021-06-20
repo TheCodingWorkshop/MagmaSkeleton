@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace App\Commander;
 
 use App\Model\UserModel;
-use Exception;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\CommanderUnsetterTrait;
 use MagmaCore\Utility\Stringify;
+use Exception;
 
 class UserCommander extends UserModel implements ApplicationCommanderInterface
 {

@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Model\UserModel;
+use Exception;
 use MagmaCore\Auth\Contracts\UserActivationInterface;
 use MagmaCore\Base\BaseView;
+use MagmaCore\Mailer\Exception\MailerException;
 use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\Utility\Token;
 
@@ -27,7 +29,8 @@ class ActivationRepository extends UserModel implements UserActivationInterface
 
     /**
      * @param string $token
-     * @return Object|null
+     * @return ?object
+     * @throws Exception
      */
     public function findByActivationToken(string $token): ?object
     {
@@ -44,6 +47,7 @@ class ActivationRepository extends UserModel implements UserActivationInterface
     /**
      * @param string $hash
      * @return $this
+     * @throws MailerException
      */
     public function sendUserActivationEmail(string $hash): self
     {

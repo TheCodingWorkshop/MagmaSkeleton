@@ -190,7 +190,7 @@ class UserColumn extends AbstractDatatableColumn
      * @param array $row
      * @return array
      */
-    private function itemsDropdown($row): array
+    private function itemsDropdown(array $row): array
     {
         $items = [
             'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
@@ -236,10 +236,8 @@ class UserColumn extends AbstractDatatableColumn
      */
     public function displayStatus(object $controller, array $row): string
     {
-        return $this->getStatusValues($controller, function ($key, $value) use ($row) {
+        return $this->getStatusValues($controller, callback: function ($key, $value) use ($row) {
             if (!in_array($row[$key], $value)) {
-                var_dump($value);
-                die;
                 throw new Exception($row[$key] . ' is not a value specified within your model.');
             }
             $colors = ['warning', 'success', 'danger', 'secondary', ''];

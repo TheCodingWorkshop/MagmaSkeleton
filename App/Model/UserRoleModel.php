@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Entity\UserRoleEntity;
-use App\Schema\UserRoleSchema;
+use App\Schema\Pivot\UserRoleSchema;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
