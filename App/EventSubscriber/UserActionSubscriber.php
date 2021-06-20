@@ -81,8 +81,8 @@ class UserActionSubscriber implements EventSubscriberInterface
             UserActionEvent::NAME => [
                 ['flashUserEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['assignedUserRole'],
-                //['createUserLog'],
-                //['sendActivationEmail'],
+                ['createUserLog'],
+                ['sendActivationEmail'],
                 ['logRequest'],
             ]
         ];

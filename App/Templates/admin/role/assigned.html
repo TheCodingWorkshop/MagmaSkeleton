@@ -33,21 +33,18 @@
                         </small>
                     </dd>
                     <dt>{@ locale('permission_assigned') @}</dt>
-                    <dd>1</dd>
+                    <dd>12</dd>
                     <dt>{@ locale('assigned_to') @}</dt>
                     <dd>
                         {% if (isset($relationship)) : %}
                         <ul class="uk-list uk-list-bullet">
                             {% foreach($relationship as $key => $value) : %}
-                            <!--  -->
-                            <li><a class="uk-link-reset" href=""><small class="uk-text-primary">{{{ $value['firstname']
-                                . ' ' . $value['lastname'] }}}</small></a></li>
-                            <!--  -->
+                            <li><a class="uk-link-reset" href=""><small class="uk-text-primary">
+                                {{{ $value['firstname'] . ' ' . $value['lastname'] }}}</small>
+                            </a></li>
                             {% endforeach; %}
                         </ul>
                         {% endif; %}
-
-
                     </dd>
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>

@@ -35,6 +35,7 @@ class TeamCommander extends UserModel implements ApplicationCommanderInterface
         'assigned'
     ];
 
+    private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
     private array $noCustomizer = ['edit', 'show'];
     private array $noManager = [];

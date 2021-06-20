@@ -33,7 +33,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
-     * which means the first item starts at 0. See AcTION_ROUTES constant for correct order of how to
+     * which means the first item starts at 0. See ACTION_ROUTES constant for correct order of how to
      * load other routes for flashing
      * @var int
      */
@@ -52,7 +52,6 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
             RegistrationActionEvent::NAME => [
                 ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['sendUserActivationEmail'],
-                // ['afterLogout']
             ]
         ];
     }
@@ -87,37 +86,5 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     {
     }
 
-    /**
-     * Log a user after they've successfully logged in. We are also logging failed
-     * login attempts with timestamps
-     *
-     * @param RegistrationActionEvent $event
-     * @return void
-     */
-    public function afterLogin(RegistrationActionEvent $event)
-    {
-        if ($this->onRoute($event, self::INDEX_ACTION)) {
-            if ($event) {
-                $user = $event->getContext();
-                if ($user) {
-                    $value = array_unique(
-                        array_reduce(array_map('array_values', $user), 'array_merge', [])
-                    );
-                    $logLogin = ['last_login' => date('Y-m-d H:i:s'), 'login_from' => $_SERVER['HTTP_REFERER']];
-                    $userLog = new UserMetaDataModel();
-                    $userLog->getRepo()
-                        ->getEm()
-                        ->getCrud()
-                        ->update(
-                            [
-                                'user_id' => ($value[0] ?? false),
-                                'login' => serialize($logLogin)
-                            ],
-                            'user_id'
-                        );
-                }
-            }
-        }
-    }
 
 }

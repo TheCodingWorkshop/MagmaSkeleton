@@ -46,6 +46,7 @@ class SettingCommander extends SettingModel implements ApplicationCommanderInter
         'filter'
     ];
 
+    private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
     private array $noCustomizer = self::INNER_ROUTES;
     private array $noManager = self::INNER_ROUTES;

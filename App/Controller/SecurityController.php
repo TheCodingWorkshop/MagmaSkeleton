@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Event\LoginActionEvent;
+use App\Event\LogoutActionEvent;
 use App\Forms\Client\Security\LoginForm;
 use App\Forms\Client\Security\LogoutForm;
 use App\Middleware\After\SessionExpiresCleanUp;
@@ -118,7 +119,7 @@ class SecurityController extends BaseController
     protected function logoutAction(): void
     {
         $this->logoutAction
-            ->execute($this, NULL, NULL, NULL, __METHOD__)
+            ->execute($this, NULL, LogoutActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
             ->form($this->logoutForm)

@@ -89,9 +89,11 @@ class UserController extends AdminController
      */
     public function findOr404(): mixed
     {
-        return $this->repository->getRepo()
-            ->findAndReturn($this->thisRouteID())
-            ->or404();
+        if (isset($this)) {
+            return $this->repository->getRepo()
+                ->findAndReturn($this->thisRouteID())
+                ->or404();
+        }
     }
 
     /**

@@ -63,6 +63,17 @@ class PermissionColumn extends AbstractDatatableColumn
                 'formatter' => ''
             ],
             [
+                'db_row' => 'permission_group',
+                'dt_row' => 'Group',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => true,
+                'searchable' => true,
+                'formatter' => function ($row, $twigExt) {
+                    return $row['permission_group'] ?? 'None';
+                }
+            ],
+            [
                 'db_row' => 'created_at',
                 'dt_row' => 'Published',
                 'class' => '',

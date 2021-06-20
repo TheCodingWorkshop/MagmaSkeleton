@@ -161,14 +161,14 @@ class RoleController extends AdminController
     {
         $this->newAction
             ->execute($this, RolePermissionEntity::class, NULL, NULL, __METHOD__)
-            ->mergeRelationship(function ($_repo, $_rel) {
-                return $_rel->type()
-                    ->manyToMany(RM::REL_FIELDS, UM::REL_FIELDS)
-                    ->where(RM::REL_ASSOC)
-                    ->and(UM::REL_ASSOC)
-                    ->limit(['id' => $this->thisRouteID()])
-                    ->all();
-            })
+//            ->mergeRelationship(function ($_repo, $_rel) {
+//                return $_rel->type()
+//                    ->manyToMany(RM::REL_FIELDS, UM::REL_FIELDS)
+//                    ->where(RM::REL_ASSOC)
+//                    ->and(UM::REL_ASSOC)
+//                    ->limit(['id' => $this->thisRouteID()])
+//                    ->all();
+//            })
             ->render()
             ->with(
                 [

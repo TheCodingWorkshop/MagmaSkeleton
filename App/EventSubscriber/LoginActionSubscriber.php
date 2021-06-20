@@ -14,14 +14,14 @@ namespace App\EventSubscriber;
 
 use App\Event\LoginActionEvent;
 use App\Model\UserMetaDataModel;
-use function array_map;
-use function array_reduce;
-use function date;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Auth\Authorized;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use function array_map;
+use function array_reduce;
+use function date;
 use function serialize;
 
 /**
@@ -42,10 +42,8 @@ class LoginActionSubscriber implements EventSubscriberInterface
      * Add other route index here in order for that route to flash properly. this array is index array
      * which means the first item starts at 0. See ACTION_ROUTES constant for correct order of how to
      * load other routes for flashing
-     * @var int
      */
     protected const INDEX_ACTION = 'index';
-    protected const LOGOUT_ACTION = 'logout';
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
@@ -60,7 +58,6 @@ class LoginActionSubscriber implements EventSubscriberInterface
             LoginActionEvent::NAME => [
                 ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['afterLogin'],
-                ['afterLogout']
             ]
         ];
     }
@@ -127,36 +124,4 @@ class LoginActionSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * Log a user after they've successfully logged in. We are also logging failed
-     * login attempts with timestamps
-     *
-     * @param LoginActionEvent $event
-     * @return void
-     */
-    public function afterLogout(LoginActionEvent $event)
-    {
-        if ($this->onRoute($event, self::LOGOUT_ACTION)) {
-            if ($event) {
-                $user = $event->getContext();
-                if ($user) {
-                    $value = array_unique(
-                        array_reduce(array_map('array_values', $user), 'array_merge', [])
-                    );
-                    $logLogout = ['last_logout' => date('Y-m-d H:i:s'), 'logout_from' => $_SERVER['HTTP_REFERER']];
-                    $userLog = new UserMetaDataModel();
-                    $userLog->getRepo()
-                        ->getEm()
-                        ->getCrud()
-                        ->update(
-                            [
-                                'user_id' => ($value[0] ?? false),
-                                'logout' => serialize($logLogout)
-                            ],
-                            'user_id'
-                        );
-                }
-            }
-        }
-    }
 }

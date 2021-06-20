@@ -14,15 +14,15 @@ namespace App\EventSubscriber;
 
 use App\Event\LogoutActionEvent;
 use App\Model\UserMetaDataModel;
-use function array_map;
-use function array_reduce;
-use function date;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Auth\Authorized;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use function serialize;
+use function array_map;
+use function array_reduce;
+use function date;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -58,7 +58,7 @@ class LogoutActionSubscriber implements EventSubscriberInterface
         return [
             LogoutActionEvent::NAME => [
                 ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
-                //['afterLogout']
+                ['afterLogout']
             ]
         ];
     }

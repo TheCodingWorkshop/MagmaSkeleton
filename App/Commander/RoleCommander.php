@@ -35,6 +35,7 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
         'assigned'
     ];
 
+    private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
     private array $noCustomizer = ['edit', 'new', 'assigned'];
     private array $noManager = [];
