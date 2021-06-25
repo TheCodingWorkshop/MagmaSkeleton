@@ -114,6 +114,14 @@ services:
         App\Controller\Admin\SettingController::indexAction:
           msg: Changes Saved
 
+    project.subscriber:
+      class: \App\EventSubscriber\ProjectActionSubscriber
+      props:
+        - {}
+      register_route_feedback:
+        App\Controller\Admin\ProjectActionSubscriber::indexAction:
+          msg: Changes Saved
+
   listeners:
     send_registration_email.listener:
       class: \App\EventListener\SendRegistrationEmailListener

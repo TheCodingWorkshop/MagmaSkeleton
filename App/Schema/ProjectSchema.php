@@ -53,22 +53,22 @@ class ProjectSchema implements DataSchemaBuilderInterface
             ->schema()
             ->table($this->projectModel)
             ->row($this->blueprint->autoID())
-            ->row($this->blueprint->varchar('project_name', 64))
-            ->row($this->blueprint->varchar('project_client', 190))
-            ->row($this->blueprint->varchar('project_coordinator', 64))
-            ->row($this->blueprint->longtext('project_description'))
-            ->row($this->blueprint->varchar('project_duration', 20))
-            ->row($this->blueprint->varchar('project_cost', 10))
-            ->row($this->blueprint->varchar('project_location', 60))
-            ->row($this->blueprint->varchar('project_type', 60))
-            ->row($this->blueprint->varchar('project_status', 10))/* open or close */
+            ->row($this->blueprint->varchar('name', 64))
+            ->row($this->blueprint->varchar('client', 190))
+            ->row($this->blueprint->varchar('coordinator', 64))
+            ->row($this->blueprint->longtext('description'))
+            ->row($this->blueprint->varchar('duration', 20))
+            ->row($this->blueprint->varchar('cost', 10))
+            ->row($this->blueprint->varchar('location', 60))
+            ->row($this->blueprint->varchar('type', 60))
+            ->row($this->blueprint->varchar('status', 10))/* open or close */
             ->row($this->blueprint->int('created_byid', 10, false))
             ->row($this->blueprint->datetime('created_at', false))
             ->row($this->blueprint->datetime('modified_at', true, 'null', 'on update CURRENT_TIMESTAMP'))
             ->build(function ($schema) {
                 return $schema
                     ->addPrimaryKey($this->blueprint->getPrimaryKey())
-                    ->setUniqueKey(['project_name'])
+                    ->setUniqueKey(['name', 'type'])
                     ->addKeys();
             });
     }

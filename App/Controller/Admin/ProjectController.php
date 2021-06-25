@@ -12,6 +12,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Commander\ProjectCommander;
+use App\DataColumns\ProjectColumn;
+use App\Entity\ProjectEntity;
+use App\Event\ProjectActionEvent;
+use App\Model\ProjectModel;
+use App\Schema\ProjectSchema;
+use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class ProjectController extends AdminController
@@ -26,7 +33,7 @@ class ProjectController extends AdminController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException
+     * @throws BaseInvalidArgumentException|BaseException
      */
     public function __construct(array $routeParams)
     {
@@ -38,19 +45,27 @@ class ProjectController extends AdminController
          */
         $this->addDefinitions(
             [
+                'repository' => ProjectModel::class,
+                'column' => ProjectColumn::class,
+                'commander' => ProjectCommander::class
             ]
         );
         /** Initialize database with table settings */
-        // $this->initializeControllerSettings(
-        //     'task',
-        //     $this->column
-        // );
+         $this->initializeControllerSettings(
+             'project',
+             $this->column
+         );
 
     }
 
     protected function indexAction()
     {
-        $this->render('admin/project/index.html');
+        $this->indexAction
+            ->execute($this, ProjectEntity::class, ProjectActionEvent::class, ProjectSchema::class, __METHOD__)
+            ->render()
+            ->with()
+            ->table()
+            ->end();
     }
 
 

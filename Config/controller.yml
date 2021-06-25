@@ -96,6 +96,19 @@ plugin:
     - plugin_name
     - created_at
     - modified_at
+    -
+project:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["type", "status", "coordinator"]
+  filter_alias: s
+  sort_columns:
+    - type
+    - created_at
+    - modified_at
 
 
 # post:

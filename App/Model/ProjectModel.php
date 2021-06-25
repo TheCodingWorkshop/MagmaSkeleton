@@ -20,7 +20,7 @@ class ProjectModel extends AbstractBaseModel
 {
 
     /** @var string */
-    protected const TABLESCHEMA = 'project';
+    protected const TABLESCHEMA = 'projects';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
     /** @var array */
