@@ -81,7 +81,6 @@ class UserValidate extends AbstractDataRepositoryValidation
                 'gravatar' => GravatarGenerator::setGravatar($email),
                 'remote_addr' => ClientIP::getClientIp()
             ];
-
             /* Settings additional data which will get merge with the dataBag */
             $this->dataBag['activation_hash'] = $activationHash;
             if (array_key_exists('role_id', $dataCollection)) {
@@ -184,6 +183,7 @@ class UserValidate extends AbstractDataRepositoryValidation
                         'password_hash', 'client_password_hash' => $rules->addRule("required"),
                         'email' => $rules->addRule("required|email"),
                         'firstname', 'lastname' => $rules->addRule("required"),
+                        'status' => $rules->addRule('string'),
                         default => NULL
                     };
                 }

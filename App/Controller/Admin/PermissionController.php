@@ -53,11 +53,6 @@ class PermissionController extends AdminController
                 'formPermission' => PermissionForm::class
             ]
         );
-        /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'permission',
-            $this->column
-        );
 
     }
 

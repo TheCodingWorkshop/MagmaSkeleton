@@ -80,18 +80,18 @@ class ControllerSettingsForm extends ClientFormBuilder implements ClientFormBuil
                 null,
                 $this->blueprint->settings(false, null, false)
             )
-            ->add(
-                $this->blueprint->radio(
-                    'searchable',
-                    ['uk-radio'],
-                    $this->hasValue('searchable'),
-                ),
-                $this->blueprint->choices(
-                    array_reverse($searchable = $controller->getSearchableColumns(isset($callingController->dataColumn) ? $callingController->dataColumn : $callingController->column)),
-                    $searchable['1']
-                ),
-                $this->blueprint->settings(false, null, true)
-            )
+//            ->add(
+//                $this->blueprint->radio(
+//                    'searchable',
+//                    ['uk-radio'],
+//                    $this->hasValue('searchable'),
+//                ),
+//                $this->blueprint->choices(
+//                    array_reverse($searchable = $controller->getSearchableColumns($callingController->column)),
+//                    $searchable['1']
+//                ),
+//                $this->blueprint->settings(false, null, true)
+//            )
             ->add(
                 $this->blueprint->submit(
                     'settings-' . $callingController->thisRouteController() . '',

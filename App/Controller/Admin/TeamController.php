@@ -41,11 +41,6 @@ class TeamController extends AdminController
                 //'commander' => \App\Commander\TeamCommander::class,
             ]
         );
-        /** Initialize database with table settings */
-        // $this->initializeControllerSettings(
-        //     'team',
-        //     $this->column
-        // );
 
     }
 

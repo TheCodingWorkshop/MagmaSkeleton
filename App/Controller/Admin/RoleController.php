@@ -44,7 +44,7 @@ class RoleController extends AdminController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException|BaseException
+     * @throws BaseInvalidArgumentException
      */
     public function __construct(array $routeParams)
     {
@@ -68,11 +68,6 @@ class RoleController extends AdminController
                 'userRole' => UserRoleModel::class,
                 'relationship' => RoleRelationship::class
             ]
-        );
-        /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'role',
-            $this->column
         );
     }
 

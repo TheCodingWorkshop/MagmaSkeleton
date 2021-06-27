@@ -16,6 +16,7 @@ use App\Commander\ProjectCommander;
 use App\DataColumns\ProjectColumn;
 use App\Entity\ProjectEntity;
 use App\Event\ProjectActionEvent;
+use App\Forms\Admin\Project\ProjectForm;
 use App\Model\ProjectModel;
 use App\Schema\ProjectSchema;
 use MagmaCore\Base\Exception\BaseException;
@@ -47,15 +48,26 @@ class ProjectController extends AdminController
             [
                 'repository' => ProjectModel::class,
                 'column' => ProjectColumn::class,
-                'commander' => ProjectCommander::class
+                'commander' => ProjectCommander::class,
+                'formProject' => ProjectForm::class
             ]
         );
-        /** Initialize database with table settings */
-         $this->initializeControllerSettings(
-             'project',
-             $this->column
-         );
 
+    }
+
+    /**
+     * Returns a 404 error page if the data is not present within the database
+     * else return the requested object
+     *
+     * @return mixed
+     */
+    public function findOr404(): mixed
+    {
+        if (isset($this)) {
+            return $this->repository->getRepo()
+                ->findAndReturn($this->thisRouteID())
+                ->or404();
+        }
     }
 
     protected function indexAction()
@@ -68,5 +80,24 @@ class ProjectController extends AdminController
             ->end();
     }
 
+    protected function newAction()
+    {
+        $this->newAction
+            ->execute($this, ProjectEntity::class, ProjectActionEvent::class, NULL, __METHOD__)
+            ->render()
+            ->with()
+            ->form($this->formProject)
+            ->end();
+    }
+
+    protected function editAction()
+    {
+        $this->editAction
+            ->execute($this, ProjectEntity::class, ProjectActionEvent::class, NULL, __METHOD__)
+            ->render()
+            ->with()
+            ->form($this->formProject)
+            ->end();
+    }
 
 }

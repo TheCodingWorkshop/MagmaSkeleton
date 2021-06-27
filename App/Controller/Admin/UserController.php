@@ -47,7 +47,7 @@ class UserController extends AdminController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException|BaseException
+     * @throws BaseInvalidArgumentException
      */
     public function __construct(array $routeParams)
     {
@@ -74,11 +74,6 @@ class UserController extends AdminController
             ]
         );
         /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'user',
-            $this->column
-        );
-
     }
 
     /**

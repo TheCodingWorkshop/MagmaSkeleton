@@ -42,11 +42,6 @@ class EventController extends AdminController
                 'column' => ''
             ]
         );
-        /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'event',
-            $this->column
-        );
 
     }
 

@@ -1,6 +1,0 @@
-version:
-  \MagmaCore\Middlwares\needsVersion
-env:
-  \MagmaCore\Middlwares\hasEnv
-settigs:
-  \MagmaCore\Middlewares\loadSettings

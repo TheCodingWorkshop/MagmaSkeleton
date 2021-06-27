@@ -1,16 +1,16 @@
 user:
-  status_choices: ['active', 'pending', 'lock', 'trash']
+  status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
   additional_conditions: []
   selectors: []
   records_per_page: 10
   query: status
   filter_by: ["lastname"]
   filter_alias: s ## associated to html form input name attribute
-  sort_columns: ## Specifies an array of columns we can sort table by
+  sort_columns:
     - firstname
     - created_at
     - modified_at
-    
+
 role:
   status_choices: []
   additional_conditions: []
@@ -23,16 +23,6 @@ role:
     - role_name
     - created_at
     - modified_at
-
-# role_perm:
-#   additional_conditions: []
-#   selectors: []
-#   records_per_page: 5
-#   query: ""
-#   filter_by: ["permission_name"]
-#   filter_alias: s
-#   sort_columns:
-#     - role_id
 
 permission:
   status_choices: []
@@ -109,50 +99,3 @@ project:
     - type
     - created_at
     - modified_at
-
-
-# post:
-#   additional_conditions: []
-#   selectors: []
-#   records_per_page: 30
-#   query: ""
-#   filter_by: ["title"]
-#   filter_alias: s
-#   sort_columns:
-#     - title
-#     - created_at
-#     - modified_at
-
-# tag:
-#   additional_conditions: []
-#   selectors: []
-#   records_per_page: 10
-#   query: ""
-#   filter_by: ["tag_name"]
-#   filter_alias: s
-#   sort_columns:
-#     - tag_name
-#     - created_at
-#     - modified_at
-# category:
-#   additional_conditions: []
-#   selectors: []
-#   records_per_page: 10
-#   query: ""
-#   filter_by: ["cat_name"]
-#   filter_alias: s
-#   sort_columns:
-#     - cat_name
-#     - created_at
-#     - modified_at
-# contact:
-#   additional_conditions: []
-#   selectors: []
-#   records_per_page: 10
-#   query: ""
-#   filter_by: ["name"]
-#   filter_alias: s
-#   sort_columns:
-#     - name
-#     - created_at
-#     - modified_at

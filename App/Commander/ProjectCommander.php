@@ -81,7 +81,7 @@ class ProjectCommander extends ProjectModel implements ApplicationCommanderInter
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Create New Project',
-            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'project_name'),
+            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'name'),
             default => "Unknown"
         };
     }

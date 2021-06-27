@@ -47,11 +47,6 @@ class PluginController extends AdminController
                 'column' => PluginColumn::class
             ]
         );
-        /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'plugin',
-            $this->column
-        );
 
     }
 

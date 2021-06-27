@@ -70,7 +70,6 @@ class SettingController extends AdminController
                 'formattingSettingForm' => FormattingSettingForm::class,
                 'avatarSettingForm' => AvatarSettingForm::class,
                 'defaultSettingForm' => DefaultSettingForm::class,
-
                 'datetimeSettingForm' => DatetimeSettingForm::class,
                 'securitySettingForm' => SecuritySettingForm::class,
                 'purgeSettingForm' => PurgeSettingForm::class,
@@ -80,11 +79,6 @@ class SettingController extends AdminController
                 'extensionSettingForm' => ExtensionSettingForm::class,
 
             ]
-        );
-        /** Initialize database with table settings */
-        $this->initializeControllerSettings(
-            'setting',
-            $this->column
         );
 
     }
@@ -114,16 +108,6 @@ class SettingController extends AdminController
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with([
-                'form_formatting' => $this->formattingSettingForm->createForm(
-                    $this->getRoute('general', $this),
-                    null
-                ),
-                'form_avatar' => $this->avatarSettingForm->createForm(
-                    $this->getRoute('avatar', $this)
-                ),
-                'form_default' => $this->defaultSettingForm->createForm(
-                    $this->getRoute('default', $this)
-                ),
             ])
             ->form($this->generalSettingForm)
             ->end();

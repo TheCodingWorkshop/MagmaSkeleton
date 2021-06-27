@@ -66,7 +66,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             )
             ->add(
                 $this->blueprint->radio('status', [], $this->hasValue('status')),
-                $this->blueprint->choices(Yaml::file('controller')['user']['status_choices'], 'pending'),
+                $this->blueprint->choices(Yaml::file('controller')['user']['status_choices'], $dataRepository->status ?? 'pending'),
                 $this->blueprint->settings(false, null, true, null, true)
             )
             ->add($this->blueprint->text(

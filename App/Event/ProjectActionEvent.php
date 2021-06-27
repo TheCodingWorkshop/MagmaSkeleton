@@ -18,6 +18,6 @@ class ProjectActionEvent extends BaseActionEvent
 {
 
     /** @var string - name of the event */
-    public const NAME = 'app.event.user_action_event';
+    public const NAME = 'app.event.project_action_event';
 
 }
