@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace App\Forms\Admin\Permission;
 
 use App\Model\PermissionModel;
-use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 use MagmaCore\Utility\Utilities;
+use Exception;
 
 class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
