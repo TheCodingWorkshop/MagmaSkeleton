@@ -8,7 +8,7 @@
         "framework",
         "project"
     ],
-    "type": "project",
+    "type": "library",
     "time": "2021-01-01",
     "readme": "https://github.com/TheCodingWorkshop/MagmaSkeleton/blob/main/README.md",
     "support": {
