@@ -32,6 +32,7 @@
         "ext-pdo": "*",
         "ext-json": "*",
         "ext-curl": "*",
+        "ext-imap": "*",
         "ext-simplexml": "*",
         "magmacore/magmacore": "^1.0",
         "phpunit/phpunit": "^9.5",
