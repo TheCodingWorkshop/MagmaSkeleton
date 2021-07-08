@@ -13,27 +13,32 @@ declare (strict_types=1);
 namespace App\Forms\Admin\User;
 
 use Exception;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 use MagmaCore\Utility\Yaml;
+use App\Model\RoleModel;
 
 class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
+    use DataLayerTrait;
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
+    private RoleModel $roleModel;
 
     /**
      * Main class constructor
      *
      * @param FormBuilderBlueprint $blueprint
-     * @return void
+     * @param RoleModel $roleModel
      */
-    public function __construct(FormBuilderBlueprint $blueprint)
+    public function __construct(FormBuilderBlueprint $blueprint, RoleModel $roleModel)
     {
         $this->blueprint = $blueprint;
+        $this->roleModel = $roleModel;
         parent::__construct();
     }
 
@@ -46,7 +51,6 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
-
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userForm", "leave_form_open" => true])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('firstname', [], $this->hasValue('firstname')))
@@ -67,6 +71,11 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             ->add(
                 $this->blueprint->radio('status', [], $this->hasValue('status')),
                 $this->blueprint->choices(Yaml::file('controller')['user']['status_choices'], $dataRepository->status ?? 'pending'),
+                $this->blueprint->settings(false, null, true, null, true)
+            )
+            ->add(
+                $this->blueprint->radio('role_id', [], $this->hasValue('role_name')),
+                $this->blueprint->choices($this->roleModel->getRepo()->findBy(['id']), 2),
                 $this->blueprint->settings(false, null, true, null, true)
             )
             ->add($this->blueprint->text(

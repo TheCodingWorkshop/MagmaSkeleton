@@ -40,17 +40,6 @@ class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInter
         parent::__construct();
     }
 
-    public function array_flatten($array): array
-    {
-        $return = array();
-        foreach ($array as $key => $value) {
-            if (is_array($value)){ $return = array_merge($return, $this->array_flatten($value));}
-            else {$return[$key] = $value;}
-        }
-        return $return;
-
-    }
-
     /**
      * @param string $action
      * @param object|null $dataRepository
@@ -63,10 +52,10 @@ class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInter
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "permissionForm"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('permission_name', [], $this->hasValue('permission_name')))
-            ->add($this->blueprint->select('permission_group', ['uk-select', 'uk-width-1-2']), $this->blueprint->choices(
-                $this->array_flatten($this->model->getRepo()->findBy(['permission_name'])),
-                ''
-                )
+            ->add(
+                $this->blueprint->select('permission_group', ['uk-select', 'uk-width-1-2']),
+                $this->blueprint->choices(Utilities::arrayFlatten($this->model->getRepo()->findBy(['permission_name'])),''),
+                $this->blueprint->settings(false, null, true, null, true)
             )
             ->add($this->blueprint->textarea('permission_description', ['uk-textarea'], 'permission_name'), $this->hasValue('permission_description'))
             ->add(

@@ -29,32 +29,32 @@ class DashboardRepository
         $this->number->addNumber($this->user->getRepo()->count());
     }
 
-    public function countlastMonthUsers(): int
+    public function countlastMonthUsers(): int|false
     {
         $query = $this->user->getRepo()->getEm()->getCrud();
-        return $query->rawQuery("SELECT COUNT(*) as created_at 
+        $sql = "SELECT COUNT(*) as created_at 
         FROM {$this->user->getSchema()}
         WHERE created_at BETWEEN DATE_SUB(DATE_SUB(CURRENT_DATE(), INTERVAL DAY(CURRENT_DATE())-1 DAY), INTERVAL 1 MONTH)
-        AND DATE_SUB(CURRENT_DATE(), INTERVAL DAY(CURRENT_DATE()) DAY)", [], 'column');
+        AND DATE_SUB(CURRENT_DATE(), INTERVAL DAY(CURRENT_DATE()) DAY)";
+
+        //$result = $query->rawQuery($sql, [], 'column');
+        return false;
 
     }
 
-//    public function countlastWeekUsers(): string
-//    {
-//        $query = $this->user->getRepo()->getEm()->getCrud();
-//        return $query->rawQuery("SELECT COUNT(*) as created_at
-//        FROM {$this->user->getSchema()}
-//        WHERE created_at BETWEEN SUBDATE(CURRENT_DATE(), INTERVAL 7 + WEEKDAY(CURRENT_DATE()) DAY)
-//  AND SUBDATE(CURRENT_DATE(), INTERVAL 1+WEEKDAY(CURRENT_DATE()) DAY)", [], 'column');
-//
-//    }
-    public function countCurrentWeekUsers(): string
+    public function countCurrentWeekUsers(): string|false
     {
         $query = $this->user->getRepo()->getEm()->getCrud();
-        return $query->rawQuery("SELECT COUNT(*) as created_at 
+        $sql = "SELECT COUNT(*) as created_at 
         FROM {$this->user->getSchema()}
         WHERE WHERE created_at BETWEEN SUBDATE(CURRENT_DATE(), INTERVAL WEEKDAY(CURRENT_DATE()) DAY)
-  AND CURRENT_DATE()", [], 'column');
+  AND CURRENT_DATE()";
+
+        $result = $query->rawQuery($sql, [], 'column');
+        if ($result !==null) {
+            return $result;
+        }
+        return false;
 
     }
 
@@ -102,49 +102,57 @@ class DashboardRepository
     /**
      * Get the total number of pending users from the database table
      *
-     * @return integer
+     * @return integer|false
      */
-    public function totalPendingUsers(): int
+    public function totalPendingUsers(): int|false
     {
         $count = $this->user->getRepo()->count(['status' => 'pending'], $this->user->getSchema());
-        if ($count)
+        if ($count) {
             return $count;
+        }
+        return false;
     }
 
     /**
      * Gte the total number of active users from the database table
      *
-     * @return integer
+     * @return int|false
      */
-    public function totalActiveUsers(): int
+    public function totalActiveUsers(): int|false
     {
         $count = $this->user->getRepo()->count(['status' => 'active'], $this->user->getSchema());
-        if ($count)
+        if ($count) {
             return $count;
+        }
+        return false;
     }
 
     /**
      * Gte the total number of lock users from the database table
      *
-     * @return integer
+     * @return int|false
      */
-    public function totalLockedUsers(): int
+    public function totalLockedUsers(): int|false
     {
         $count = $this->user->getRepo()->count(['status' => 'lock'], $this->user->getSchema());
-        if ($count)
+        if ($count) {
             return $count;
+        }
+        return false;
     }
 
     /**
      * Gte the total number of trash users from the database table
      *
-     * @return integer
+     * @return int|false
      */
-    public function totalTrashUsers(): int
+    public function totalTrashUsers(): int|false
     {
         $count = $this->user->getRepo()->count(['status' => 'trash'], $this->user->getSchema());
-        if ($count)
+        if ($count) {
             return $count;
+        }
+        return false;
     }
 
 
@@ -154,7 +162,7 @@ class DashboardRepository
      *
      * @return array
      */
-    public function userPercentage(): array
+    #[ArrayShape(['active' => "array", 'pending' => "array", 'lock' => "array", 'trash' => "array"])] public function userPercentage(): array
     {
         $this->number->addNumber($this->totalUsers());
         $activeUsers = $this->number->percentage($this->totalActiveUsers());

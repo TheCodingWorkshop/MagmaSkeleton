@@ -25,6 +25,7 @@ use App\Middleware\Before\SessionExpires;
 use App\Model\UserProfileModel;
 use App\Repository\ActivationRepository;
 use JetBrains\PhpStorm\ArrayShape;
+use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\EditAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
@@ -102,7 +103,7 @@ class AccountController extends BaseController
     {
         return $this->repository
             ->getRepo()
-            ->findAndReturn($_SESSION['user_id'] ?? 0)
+            ->findAndReturn($this->getSession()->get('user_id') ?? 0)
             ->or404();
     }
 

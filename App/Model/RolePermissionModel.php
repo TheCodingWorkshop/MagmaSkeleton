@@ -48,17 +48,5 @@ class RolePermissionModel extends AbstractBaseModel
         return [];
     }
 
-    /**
-     * Create an relation between the user and role models using the user_role
-     * pivot table as the glue that hold both relationships
-     *
-     * @return ManyToMany
-     */
-    public function hasRelationship(): ManyToMany
-    {
-        return $this->addRelationship(ManyToMany::class)
-            ->hasOne(RoleModel::class)->belongsToMany(PermissionModel::class)
-            ->tablePivot($this, RolePermissionSchema::class);
-    }
 
 }

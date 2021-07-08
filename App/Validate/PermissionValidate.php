@@ -64,6 +64,7 @@ class PermissionValidate extends AbstractDataRepositoryValidation
             $newCleanData = [
                 'permission_name' => $this->isSet('permission_name', $dataCollection, $dataRepository),
                 'permission_description' => $this->isSet('permission_description', $dataCollection, $dataRepository),
+                'permission_group' => $this->isSet('permission_group', $dataCollection, $dataRepository),
                 'created_byid' => $this->getCreator($dataCollection)
             ];
             $this->dataBag = [];
@@ -148,7 +149,7 @@ class PermissionValidate extends AbstractDataRepositoryValidation
                 if ($rules = $this->rules) {
                     return match ($key) {
                         'permission_name' => $rules->addRule("required|unique"),
-                        'permission_description' => $rules->addRule("required"),
+                        'permission_description', 'permission_group' => $rules->addRule("required"),
                         default => $this->throwWarningIfNoChange($entityCollection, $dataRepository)
                     };
                 }

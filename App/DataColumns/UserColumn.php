@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use Exception;
+use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 use MagmaCore\Utility\Stringify;
 
@@ -42,12 +43,14 @@ class UserColumn extends AbstractDatatableColumn
                 'sortable' => true,
                 'searchable' => true,
                 'formatter' => function ($row) use ($callingController) {
+                    $privilege = PrivilegedUser::getUser($row['id']);
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left">';
                     $html .= '<img src="' . $row["gravatar"] . '" width="40" class="uk-border-circle">';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<div>' . $this->displayStatus($callingController, $row) . '</div>';
+                    $html .= '<div><a uk-tooltip="' . $privilege->getRole() . '" href=""><ion-icon name="person-outline"></ion-icon></a></div>';
                     $html .= '<div></div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
@@ -94,7 +97,7 @@ class UserColumn extends AbstractDatatableColumn
                 'searchable' => false,
                 'formatter' => function ($row, $twigExt) {
                     $html = $twigExt->tableDateFormat($row, "created_at", true);
-                    $html .= '<br/><small>By Admin</small>';
+                    $html .= '<br/><small>' . $row['firstname'] . '</small>';
                     return $html;
                 }
             ],

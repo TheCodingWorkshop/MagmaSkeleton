@@ -50,8 +50,8 @@ class EditNameForm extends ClientFormBuilder implements ClientFormBuilderInterfa
     {
         return $this->form(['action' => $action, 'class' => 'uk-form-stacked'])
             ->addRepository($dataRepository)
-            ->add($this->blueprint->text('firstname', ['uk-form-width-large']))
-            ->add($this->blueprint->text('lastname', ['uk-form-width-large']))
+            ->add($this->blueprint->text('firstname', ['uk-form-width-large'], $this->hasValue('firstname')))
+            ->add($this->blueprint->text('lastname', ['uk-form-width-large'], $this->hasValue('lastname')))
             ->add(
                 $this->blueprint->submit(
                     'new-account',
@@ -59,7 +59,7 @@ class EditNameForm extends ClientFormBuilder implements ClientFormBuilderInterfa
                     'Save and Continue'
                 ),
                 null,
-                $this->blueprint->settings(false, null, false, null, true, 'Remember Me')
+                $this->blueprint->settings(false, null, false, null, true)
             )
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
 

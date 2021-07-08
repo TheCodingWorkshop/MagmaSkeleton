@@ -122,6 +122,14 @@ services:
         App\Controller\Admin\ProjectActionSubscriber::indexAction:
           msg: Changes Saved
 
+    role_permission_assigned.subscriber:
+      class: \App\EventSubscriber\RolePermissionAssignedActionSubscriber
+      props:
+        - {}
+      register_route_feedback:
+        App\Controller\Admin\RoleController::assignedAction:
+          msg: Changes Saved
+
   listeners:
     send_registration_email.listener:
       class: \App\EventListener\SendRegistrationEmailListener

@@ -19,7 +19,7 @@
                 <div class="uk-card-body">
                     <dl class="uk-description-list uk-description-list-divider">
                         <dt>{@ locale('firstname') @}</dt>
-                        <dd>{{{ $row['firstname'] }}} (Subscriber)</dd>
+                        <dd>{{{ $row['firstname'] }}} ({@ getRoleFromID($row['id']) @})</dd>
                         <dt>{@ locale('lastname') @}</dt>
                         <dd>{{{ $row['lastname'] }}}</dd>
                         <dt>{@ locale('email') @}</dt>

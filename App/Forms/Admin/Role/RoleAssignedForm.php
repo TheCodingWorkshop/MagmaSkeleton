@@ -17,24 +17,29 @@ use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
+use App\Model\PermissionModel;
+use MagmaCore\Utility\Utilities;
 
 class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
+    private PermissionModel $permissions;
 
     /**
      * Main class constructor
      *
      * @param FormBuilderBlueprint $blueprint
-     * @return void
+     * @param PermissionModel $permissions
      */
-    public function __construct(FormBuilderBlueprint $blueprint)
+    public function __construct(FormBuilderBlueprint $blueprint, PermissionModel $permissions)
     {
         $this->blueprint = $blueprint;
+        $this->permissions = $permissions;
         parent::__construct();
     }
+
 
     /**
      * @param string $action
@@ -54,6 +59,17 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
                 true),
                 NULL,
                 $this->blueprint->settings(false, null, true, null, true, null, 'Role name cannot be changed here?'))
+            ->add($this->blueprint->hidden('role_id', $dataRepository->id), NULL, $this->blueprint->settings(false, null, true, null, true, null))
+            ->add($this->blueprint->select(
+                'permission_id[]',
+                ['uk-select'],
+                'permission_id',
+                null,
+                true,
+                ),
+                $this->blueprint->choices(array_column($this->permissions->getRepo()->findBy(['id']), 'id')),
+                $this->blueprint->settings(false, null, true, 'Permissions', true, 'Select one one or more permissions'))
+
             ->add(
                 $this->blueprint->submit(
                     'assigned-role',

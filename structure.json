@@ -12,7 +12,7 @@
     "components": {
         "Base": {
             "abstractBaseLoader": "",
-            "abstractBaseControler": "",
+            "abstractBaseController": "",
             "abstractBaseModel": "",
             "baseActionEvent": "",
             "baseApplication": "",

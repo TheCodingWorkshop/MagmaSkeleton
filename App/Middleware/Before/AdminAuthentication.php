@@ -6,14 +6,12 @@ namespace App\Middleware\Before;
 
 use Closure;
 use MagmaCore\Auth\Authorized;
+use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\Middleware\BeforeMiddleware;
 
 class AdminAuthentication extends BeforeMiddleware
 {
-    /** @var string */
-    protected const SUPERADMIN_PRIVILEGE = 'all';
-
     /**
      * Prevent unauthorized access to the administration panel. Only users with specific
      * privileges can access the admin area.
@@ -24,18 +22,10 @@ class AdminAuthentication extends BeforeMiddleware
      */
     public function middleware(object $middleware, Closure $next)
     {
-        if ($authorizedUser = Authorized::grantedUser()) {
-            if (null !== $authorizedUser) {
-                $privilege = new Roles();
-                if ($privilege) {
-                    $privilege->initRoles($middleware->getSession()->get('user_id'));
-                    if (!$privilege->hasPrivilege(self::SUPERADMIN_PRIVILEGE)) {
-                        $middleware->flashMessage("<strong class=\"uk-text-danger\">Access Denied </strong>Sorry you need the correct privilege to access this area.", $middleware->flashInfo());
-                        /* Send the user back where they're are coming from */
-                        $middleware->redirect(Authorized::getReturnToPage());
-                    }
-                }
-            }
+        $user = PrivilegedUser::getUser();
+        if (!$user->hasPrivilege('admin_access')) {
+            $middleware->flashMessage("<strong class=\"uk-text-danger\">Access Denied </strong>Sorry you need the correct privilege to access this area.", $middleware->flashInfo());
+            $middleware->redirect(Authorized::getReturnToPage());
         }
 
         return $next($middleware);

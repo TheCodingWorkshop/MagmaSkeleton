@@ -4,7 +4,7 @@
         {% foreach($permissions as $permission) : %}
         <li>
             <label>
-                <input class="uk-checkbox" value="{{ $permission['id'] }}" type="checkbox"> {{ $permission['permission_name'] }}
+                <input name="permission_id[]" class="uk-checkbox" value="{{ $permission['id'] }}" type="checkbox"> {{ $permission['permission_name'] }}
             </label>
         </li>
         {% endforeach; %}

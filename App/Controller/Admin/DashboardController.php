@@ -59,7 +59,7 @@ class DashboardController extends AdminController
                 'statistics' => $this->repository->getStatistics(),
                 'user_percentage' => $this->repository->userPercentage(),
                 'user_session' => $this->repository->userSession(),
-                'user_gained' => $this->repository->countlastMonthUsers(),
+                'user_gained' => /*$this->repository->countlastMonthUsers()*/ 0,
                 'total_records' => $this->repository->totalUsers(),
                 'pending_users' => $this->repository->totalPendingUsers(),
                 'github' => $this->repository->getGithubStats(),

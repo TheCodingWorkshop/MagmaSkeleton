@@ -21,11 +21,15 @@ use App\Middleware\Before\LoginRequired;
 use App\Middleware\Before\SessionExpires;
 use App\Model\ControllerSettingsModel;
 use JetBrains\PhpStorm\ArrayShape;
+use MagmaCore\Auth\Authorized;
+use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\Base\BaseController;
+use MagmaCore\Base\Domain\Actions\BlankAction;
 use MagmaCore\Base\Domain\Actions\BulkDeleteAction;
 use MagmaCore\Base\Domain\Actions\DeleteAction;
 use MagmaCore\Base\Domain\Actions\EditAction;
 use MagmaCore\Base\Domain\Actions\IndexAction;
+use MagmaCore\Base\Domain\Actions\LogIndexAction;
 use MagmaCore\Base\Domain\Actions\NewAction;
 use MagmaCore\Base\Domain\Actions\SettingsAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
@@ -55,6 +59,7 @@ class AdminController extends BaseController
     public function __construct(array $routeParams)
     {
         parent::__construct($routeParams);
+
         /**
          * Dependencies are defined within a associative array like example below
          * [ userModel => \App\Model\UserModel::class ]. Where the key becomes the
@@ -65,11 +70,13 @@ class AdminController extends BaseController
                 'tableGrid' => Datatable::class,
                 'controllerSettings' => ControllerSettingsForm::class,
                 'controllerRepository' => ControllerSettingsModel::class,
+                'blankAction' => BlankAction::class,
                 'newAction' => NewAction::class,
                 'editAction' => EditAction::class,
                 'deleteAction' => DeleteAction::class,
                 'bulkDeleteAction' => BulkDeleteAction::class,
                 'indexAction' => IndexAction::class,
+                'logIndexAction' => LogIndexAction::class,
                 'showAction' => ShowAction::class,
                 'settingsAction' => SettingsAction::class,
                 'apiResponse' => RestHandler::class

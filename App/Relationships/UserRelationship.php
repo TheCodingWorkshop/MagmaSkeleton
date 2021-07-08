@@ -35,8 +35,10 @@ class UserRelationship extends UserModel
     {
         /* self::class refers to UserModel::class */
         return $this->addRelationship(ManyToMany::class)
-            ->tables(UserModel::class, RoleModel::class)
+            ->table(UserModel::class)
+            ->table(RoleModel::class)
             ->pivot(UserRoleModel::class);
     }
+
 
 }

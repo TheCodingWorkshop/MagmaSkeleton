@@ -16,9 +16,21 @@
 <!-- start content-->
 {% block content %}
 <div>
-    <p>Your account was created on {@ formatDate($row['created_at'], true) @}. And your current status is
-        <span class="uk-text-success">{{{ $row['status'] }}}.</span> Your current role is set as
-        <i>Superadmin</i>
+    <p>Your account was created on {@ formatDate($row['created_at'], true) @}.
+        <dl>
+            <dt>Status: {{ $row['status'] }}</dt>
+            <dt>Role: {{ $privilege_user->getRole() }}</dt>
+            <dt>Permission (s): {% print_r($privilege_user->getPermissions()) %}</dt>
+        </dl>
+
     </p>
+    <ul class="uk-list">
+        <li><a href="/profile/account/{{$row['id']}}/name">?Edit Name</a></li>
+        <li><a href="/profile/account/{{$row['id']}}/email">?Edit Email</a></li>
+        <li><a href="/profile/account/{{$row['id']}}/password">?Edit Password</a></li>
+    </ul>
+    <div>
+        <a href="/">Home</a>
+    </div>
 </div>
 {% endblock %}

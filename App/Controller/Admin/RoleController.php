@@ -26,7 +26,7 @@ use App\Model\UserModel as UM;
 use App\Model\UserRoleModel;
 use App\Relationships\RoleRelationship;
 use App\Schema\RoleSchema;
-use MagmaCore\Base\Exception\BaseException;
+use App\Event\RolePermissionAssignedActionEvent;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
@@ -154,16 +154,8 @@ class RoleController extends AdminController
      */
     protected function assignedAction()
     {
-        $this->newAction
-            ->execute($this, RolePermissionEntity::class, NULL, NULL, __METHOD__)
-//            ->mergeRelationship(function ($_repo, $_rel) {
-//                return $_rel->type()
-//                    ->manyToMany(RM::REL_FIELDS, UM::REL_FIELDS)
-//                    ->where(RM::REL_ASSOC)
-//                    ->and(UM::REL_ASSOC)
-//                    ->limit(['id' => $this->thisRouteID()])
-//                    ->all();
-//            })
+        $this->blankAction
+            ->execute($this, RolePermissionEntity::class, RolePermissionAssignedActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
                 [
@@ -173,6 +165,16 @@ class RoleController extends AdminController
                 ]
             )
             ->form($this->formRoleAssigned)
+            ->end();
+    }
+
+    protected function logAction()
+    {
+        $this->logIndexAction
+            ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
+            ->render()
+            ->with()
+            ->table()
             ->end();
     }
 }

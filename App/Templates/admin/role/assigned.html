@@ -16,7 +16,6 @@
                 <div class="uk-card-body">
                     <turbo-frame id="role_form">
                         {{ $form }}
-                        {% include 'admin/role/role_permissions.html' %}
                     </turbo-frame>
                 </div>
             </div>
@@ -33,7 +32,7 @@
                         </small>
                     </dd>
                     <dt>{@ locale('permission_assigned') @}</dt>
-                    <dd>12</dd>
+                    <dd>{% echo sizeof($privilege_user->getPermissionByRoleID($role['id'])) %}</dd>
                     <dt>{@ locale('assigned_to') @}</dt>
                     <dd>
                         {% if (isset($relationship)) : %}
@@ -48,8 +47,10 @@
                     </dd>
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>
-                        <ul class="uk-list uk-list-bullet">
-                            <li>all_privileges</li>
+                        <ul class="uk-panel uk-panel-scrollable">
+                            {% foreach (array_keys($privilege_user->getPermissionByRoleID($role['id'])) as $role) : %}
+                            <li>{{ $role }}</li>
+                            {% endforeach; %}
                         </ul>
 
                     </dd>

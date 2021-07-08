@@ -32,7 +32,8 @@ class RoleCommander extends RoleModel implements ApplicationCommanderInterface
         'index',
         'new',
         'edit',
-        'assigned'
+        'assigned',
+        'log'
     ];
 
     private array $noCommander = [];

@@ -27,6 +27,8 @@ use App\Model\UserModel as UM;
 use App\Model\UserPreferenceModel;
 use App\Relationships\UserRelationship;
 use App\Schema\UserSchema;
+use JetBrains\PhpStorm\NoReturn;
+use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
@@ -49,7 +51,7 @@ class UserController extends AdminController
      * @return void
      * @throws BaseInvalidArgumentException
      */
-    public function __construct(array $routeParams)
+    #[NoReturn] public function __construct(array $routeParams)
     {
         parent::__construct($routeParams);
         /**
@@ -73,6 +75,7 @@ class UserController extends AdminController
                 'relationship' => UserRelationship::class
             ]
         );
+
         /** Initialize database with table settings */
     }
 
@@ -100,12 +103,6 @@ class UserController extends AdminController
     {
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
-            ->mergeRelationship(function ($repository, $relationship) {
-                return $relationship->type()
-                    ->manyToMany(UM::REL_FIELDS, RM::REL_FIELDS)->where(UM::REL_ASSOC)
-                    ->and(RM::REL_ASSOC)
-                    ->all();
-            })
             ->render()
             ->with(
                 [

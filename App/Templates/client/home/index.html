@@ -36,15 +36,20 @@
                         <ul class="uk-list uk-list-disc uk-list-muted uk-text-danger">
                             <li>Name: {{{ $current_user->firstname . ' ' . $current_user->lastname }}}</li>
                             <li>Email: {{{ $current_user->email }}}</li>
-                            <li>Role: ?</li>
                         </ul>
                     </dd>
                     <a href="/logout">
                         <ion-icon name="log-out-outline" size="large"></ion-icon>
                     </a>
+                    {% if ($privilege_user->hasPrivilege('admin_access')) : %}
                     <a href="/admin/dashboard/index">
                         <ion-icon name="speedometer-outline" size="large"></ion-icon>
                     </a>
+                    {% else : %}
+                    <a href="/profile/account/index">
+                        <ion-icon name="person-outline" size="large"></ion-icon>
+                    </a>
+                    {% endif; %}
 
                 </dl>
                 <!--  -->

@@ -1,0 +1,48 @@
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    protected function assignedAction()
+    {
+        $this->newAction
+            ->execute($this, RolePermissionEntity::class, NULL, NULL, __METHOD__)
+//            ->mergeRelationship(function ($_repo, $_rel) {
+//                return $_rel->type()
+//                    ->manyToMany(RM::REL_FIELDS, UM::REL_FIELDS)
+//                    ->where(RM::REL_ASSOC)
+//                    ->and(UM::REL_ASSOC)
+//                    ->limit(['id' => $this->thisRouteID()])
+//                    ->all();
+//            })
+            ->render()
+            ->with(
+                [
+                    'role' => $this->toArray($this->findOr404()),
+                    'permissions' => $this->permission->getRepo()->findAll(),
+                    'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()]))
+                ]
+            )
+            ->form($this->formRoleAssigned)
+            ->end();
+    }
+
+
+    protected function indexAction()
+    {
+        $this->indexAction
+            ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
+            ->mergeRelationship(function ($repository, $relationship) {
+                return $relationship->type()
+                    ->manyToMany(UM::REL_FIELDS, RM::REL_FIELDS)->where(UM::REL_ASSOC)
+                    ->and(RM::REL_ASSOC)
+                    ->all();
+            })
+            ->render()
+            ->with(
+                [
+                    UM::COLUMN_STATUS
+                ])
+            ->table()
+            ->end();
+    }
