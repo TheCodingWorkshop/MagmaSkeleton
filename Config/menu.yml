@@ -63,28 +63,28 @@ permission:
       path: ''
 
 
-project:
-  title: Project Manager
-  name: Projects
-  icon: person-outline
-  path: ""
-  children:
-    projects:
-      name: View All
-      icon: ''
-      path: "/admin/project/index"
-    new:
-      name: Add New
-      icon: ''
-      path: "/admin/project/new"
-    log:
-      name: Log
-      icon: ''
-      path: "/admin/project/log"
-    stats:
-      name: Statistics
-      path: ''
-
+#project:
+#  title: Project Manager
+#  name: Projects
+#  icon: person-outline
+#  path: ""
+#  children:
+#    projects:
+#      name: View All
+#      icon: ''
+#      path: "/admin/project/index"
+#    new:
+#      name: Add New
+#      icon: ''
+#      path: "/admin/project/new"
+#    log:
+#      name: Log
+#      icon: ''
+#      path: "/admin/project/log"
+#    stats:
+#      name: Statistics
+#      path: ''
+#
 settings:
   title: Settings
   name: Settings

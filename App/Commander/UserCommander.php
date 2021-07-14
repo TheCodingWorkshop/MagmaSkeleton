@@ -36,7 +36,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
         'show',
         'log',
         'hard-delete',
-        'privileges',
+        'privilege',
         'preferences'
     ];
 
@@ -88,6 +88,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Create New',
             'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'firstname'),
+            'privilege' => 'Edit Privilege',
             'show' => "Viewing " . $suffix,
             'log' => Stringify::capitalize($controller->thisRouteController()) . ' Log',
             'hard-delete' => "Deleting " . $suffix,

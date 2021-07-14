@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Edit Account{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore edit an account{% endblock %}
+<!-- keywords -->
+{% block keywords %}edit-account, edit-user{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+  <div class="uk-width-1-2@m">
+    <div>
+
+      <div class="uk-card uk-card-default">
+        <div class="uk-card-body">
+          <turbo-frame id="user_form">
+            <form method="post" action="/admin/user/{{ $row['id'] }}/privilege">
+              <div class="uk-margin">
+                <div class="uk-form-label"><h4>Roles</h4></div>
+                <div class="uk-form-controls">
+                  {% if (is_array($roles) && count($roles)>0) : %}
+                  <ul class="uk-list uk-list-striped">
+                  {% foreach ($roles as $key => $value) : %}
+                    <li>
+                      <label>
+                        <input type="radio" class="uk-radio" name="role_id" value="{{ $value['id'] }}" {% if (isset($user_role) && $user_role[0] == $value['id']): %} checked {% endif %} /> {{ $value['role_name'] }}
+                      </label>
+                    </li>
+                  {% endforeach; %}
+                  </ul>
+                  {% endif; %}
+
+                </div>
+              </div>
+              <div class="uk-margin">
+                <input class="uk-button" type="submit" value="Update" name="privilege-user" id="privilege-user">
+              </div>
+
+            </form>
+          </turbo-frame>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="uk-width-1-2@m">
+    <div>
+      <div class="uk-card uk-card-body uk-padding-remove">
+        <h2>{{{ $row['firstname'] }}} {{{ $row['lastname'] }}}</h2>
+        <dl class="uk-description-list uk-description-list-divider">
+          <dt>{@ locale('name') @}</dt>
+          <dd>Current Role: {@ getRoleFromID($row['id']) @}</dd>
+          <dd>{{{ $row['email'] }}}</dd>
+
+        </dl>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

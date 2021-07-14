@@ -27,6 +27,7 @@ use App\Model\UserRoleModel;
 use App\Relationships\RoleRelationship;
 use App\Schema\RoleSchema;
 use App\Event\RolePermissionAssignedActionEvent;
+use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
@@ -66,7 +67,8 @@ class RoleController extends AdminController
                 'permission' => PermissionModel::class,
                 'rolePerm' => RolePermissionModel::class,
                 'userRole' => UserRoleModel::class,
-                'relationship' => RoleRelationship::class
+                'relationship' => RoleRelationship::class,
+                'privilegeUser' => PrivilegedUser::class
             ]
         );
     }
@@ -161,6 +163,7 @@ class RoleController extends AdminController
                 [
                     'role' => $this->toArray($this->findOr404()),
                     'permissions' => $this->permission->getRepo()->findAll(),
+                    'privi_user' => $this->privilegeUser->getPermissionByRoleID($this->thisRouteID()),
                     'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()]))
                 ]
             )

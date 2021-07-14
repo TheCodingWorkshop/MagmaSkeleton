@@ -16,8 +16,8 @@ user:
       nav_header: "View Action"
     edit:
       name: edit
-    privileges:
-      name: privileges
+    privilege:
+      name: privilege
     preferences:
       name: preferences
 
@@ -107,7 +107,7 @@ team:
     edit:
       name: edit
     privileges:
-      name: privileges
+      name: privilege
     perferences:
       name: perferences
   new_user:
@@ -131,7 +131,7 @@ setting:
     edit:
       name: edit
     privileges:
-      name: privileges
+      name: privilege
     perferences:
       name: perferences
   new_user:

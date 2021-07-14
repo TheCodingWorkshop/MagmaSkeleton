@@ -197,6 +197,7 @@ class UserColumn extends AbstractDatatableColumn
     {
         $items = [
             'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
+            'privilege' => ['name' => 'Edit Privilege', 'icon' => 'key-outline'],
             'show' => ['name' => 'show', 'icon' => 'eye-outline'],
             'clone' => ['name' => 'clone', 'icon' => 'copy-outline'],
             'lock' => ['name' => 'lock account', 'icon' => 'lock-closed-outline'],

@@ -32,8 +32,15 @@
                         </small>
                     </dd>
                     <dt>{@ locale('permission_assigned') @}</dt>
-                    <dd>{% echo sizeof($privilege_user->getPermissionByRoleID($role['id'])) %}</dd>
+                    <dd>
+                        {% if (isset($privi_user)) : %}
+                        {% echo sizeof($privi_user) %}
+                        {% else : %}
+                        0
+                        {% endif; %}
+                    </dd>
                     <dt>{@ locale('assigned_to') @}</dt>
+                    <dd><ion-icon name="help-outline"></ion-icon></dd>
                     <dd>
                         {% if (isset($relationship)) : %}
                         <ul class="uk-list uk-list-bullet">
@@ -47,11 +54,17 @@
                     </dd>
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>
-                        <ul class="uk-panel uk-panel-scrollable">
-                            {% foreach (array_keys($privilege_user->getPermissionByRoleID($role['id'])) as $role) : %}
-                            <li>{{ $role }}</li>
-                            {% endforeach; %}
-                        </ul>
+                        <div class="uk-height-medium">
+                            <ul class="uk-panel uk-panel-scrollable">
+                                {% if (isset($privi_user)) : %}
+                                {% foreach (array_keys($privi_user) as $role) : %}
+                                <li>{{ $role }}</li>
+                                {% endforeach; %}
+                                {% else : %}
+                                No Permission
+                                {% endif; %}
+                            </ul>
+                        </div>
 
                     </dd>
                 </dl>

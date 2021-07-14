@@ -15,21 +15,24 @@ namespace App\Controller\Admin;
 use App\Commander\UserCommander;
 use App\DataColumns\UserColumn;
 use App\Entity\UserEntity;
+use App\Entity\UserRoleEntity;
 use App\Event\UserActionEvent;
+use App\Event\UserRoleActionEvent;
 use App\Forms\Admin\Settings\TableSettingsForm;
 use App\Forms\Admin\User\SettingsForm;
 use App\Forms\Admin\User\UserForm;
 use App\Forms\Admin\User\UserPreferencesForm;
-use App\Model\RoleModel as RM;
+use App\Forms\Admin\User\UserPrivilegeForm;
 use App\Model\RolePermissionModel;
 use App\Model\UserMetaDataModel;
-use App\Model\UserModel as UM;
+use App\Model\UserModel;
+use App\Model\RoleModel;
+use App\Model\UserRoleModel;
 use App\Model\UserPreferenceModel;
+use App\Repository\UserRoleRepository;
 use App\Relationships\UserRelationship;
 use App\Schema\UserSchema;
 use JetBrains\PhpStorm\NoReturn;
-use MagmaCore\Auth\Roles\PrivilegedUser;
-use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\Utility\Yaml;
@@ -61,18 +64,22 @@ class UserController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => UM::class,
+                'repository' => UserModel::class,
                 'commander' => UserCommander::class,
                 'rolePermission' => RolePermissionModel::class,
+                'roles' => RoleModel::class,
                 'userMeta' => UserMetaDataModel::class,
                 'entity' => UserEntity::class,
                 'column' => UserColumn::class,
                 'formUser' => UserForm::class,
+                'userPrivilege' => UserPrivilegeForm::class,
                 'userPreferenceRepo' => UserPreferenceModel::class,
                 'userPreferencesForm' => UserPreferencesForm::class,
                 'formSettings' => SettingsForm::class,
                 'tableSettings' => TableSettingsForm::class,
-                'relationship' => UserRelationship::class
+                'relationship' => UserRelationship::class,
+                'userRole' => UserRoleModel::class,
+                'userRoleRepo' => UserRoleRepository::class,
             ]
         );
 
@@ -102,11 +109,12 @@ class UserController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
+            ->setAccess($this)
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
             ->render()
             ->with(
                 [
-                    UM::COLUMN_STATUS
+                    UserModel::COLUMN_STATUS
                 ])
             ->table()
             ->end();
@@ -119,6 +127,7 @@ class UserController extends AdminController
     protected function showAction()
     {
         $this->showAction
+            ->setAccess($this)
             ->execute($this, NULL, NULL, NULL, __METHOD__)
             ->render()
             ->with(
@@ -147,6 +156,7 @@ class UserController extends AdminController
     protected function newAction()
     {
         $this->newAction
+            ->setAccess($this)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(['userYml' => Yaml::file('user')])
@@ -162,6 +172,7 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
+            ->setAccess($this)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], ['user_id' => $this->thisRouteID()])
             ->render()
             ->with(['user' => $this->toArray($this->findOr404())])
@@ -178,6 +189,7 @@ class UserController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
+            ->setAccess($this)
             ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -253,13 +265,20 @@ class UserController extends AdminController
             ->end();
     }
 
-    protected function privilegesAction()
+    protected function privilegeAction()
     {
-        $this->newAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+        $userRoleID = $this->flattenArray($this->userRole->getRepo()->findBy(['role_id'], ['user_id' => $this->thisRouteID()]));
+        $this->simpleUpdateAction
+            ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__)
             ->render()
-            ->with()
-            ->singular()
+            ->with(
+                [
+                    'roles' => $this->roles->getRepo()->findAll(),
+                    'user_role' => $userRoleID,
+                    'row' => $this->toArray($this->findOr404())
+                ]
+            )
+            ->form($this->userPrivilege)
             ->end();
     }
 

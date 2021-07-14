@@ -21,7 +21,6 @@ use App\Middleware\Before\LoginRequired;
 use App\Middleware\Before\SessionExpires;
 use App\Model\ControllerSettingsModel;
 use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\Auth\Authorized;
 use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\BlankAction;
@@ -33,6 +32,7 @@ use MagmaCore\Base\Domain\Actions\LogIndexAction;
 use MagmaCore\Base\Domain\Actions\NewAction;
 use MagmaCore\Base\Domain\Actions\SettingsAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
+use MagmaCore\Base\Domain\Actions\SimpleUpdateAction;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\Base\Traits\TableSettingsTrait;
 use MagmaCore\Datatable\Datatable;
@@ -71,6 +71,7 @@ class AdminController extends BaseController
                 'controllerSettings' => ControllerSettingsForm::class,
                 'controllerRepository' => ControllerSettingsModel::class,
                 'blankAction' => BlankAction::class,
+                'simpleUpdateAction' => SimpleUpdateAction::class,
                 'newAction' => NewAction::class,
                 'editAction' => EditAction::class,
                 'deleteAction' => DeleteAction::class,
@@ -135,9 +136,9 @@ class AdminController extends BaseController
             $self = "/{$this->thisRouteNamespace()}/{$this->thisRouteController()}/{$action}";
         }
 
-        if ($self) {
+       // if ($self) {
             return $self;
-        }
+        //}
     }
 
     /**

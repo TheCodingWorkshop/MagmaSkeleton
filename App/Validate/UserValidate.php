@@ -83,6 +83,7 @@ class UserValidate extends AbstractDataRepositoryValidation
             ];
             /* Settings additional data which will get merge with the dataBag */
             $this->dataBag['activation_hash'] = $activationHash;
+
             if (array_key_exists('role_id', $dataCollection)) {
                 $this->dataBag['role_id'] = intval($dataCollection['role_id']);
             }

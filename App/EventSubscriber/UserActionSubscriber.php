@@ -17,6 +17,7 @@ use App\Model\UserMetaDataModel;
 use App\Model\UserRoleModel;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\NoReturn;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Base\Contracts\BaseActionEventInterface;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
@@ -42,6 +43,7 @@ class UserActionSubscriber implements EventSubscriberInterface
 
     private MailerFacade $mailer;
     private BaseView $view;
+    private UserRoleModel $userRole;
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
@@ -60,12 +62,13 @@ class UserActionSubscriber implements EventSubscriberInterface
      *
      * @param MailerFacade $mailer
      * @param BaseView $view
-     * @return void
+     * @param UserRoleModel $userRole
      */
-    public function __construct(MailerFacade $mailer, BaseView $view)
+    public function __construct(MailerFacade $mailer, BaseView $view, UserRoleModel $userRole)
     {
         $this->mailer = $mailer;
         $this->view = $view;
+        $this->userRole = $userRole;
     }
 
     /**
@@ -83,6 +86,7 @@ class UserActionSubscriber implements EventSubscriberInterface
                 ['assignedUserRole'],
                 //['createUserLog'],
                 ['sendActivationEmail'],
+                ['updateUserRole'],
                 //['logRequest'],
             ]
         ];
@@ -220,6 +224,30 @@ class UserActionSubscriber implements EventSubscriberInterface
                             ->create(['user_id' => $user['last_id'], 'role_id' => $user['role_id']]);
                         return (bool)$push;
                     }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Update the user role.
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function updateUserRole(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::EDIT_ACTION)) {
+            if ($event) {
+                $user = $event->getContext();
+                if (array_key_exists('role_id', $user)) {
+                    $roleID = $user['role_id'];
+                    $update = $this->userRole
+                        ->getRepo()
+                        ->getEm()
+                        ->getCrud()
+                        ->update(['role_id' => $roleID, 'user_id' => $user['user_id']], 'user_id');
+                    return (bool)$update;
                 }
             }
         }

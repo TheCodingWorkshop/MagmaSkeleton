@@ -51,7 +51,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
-        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userForm", "leave_form_open" => true])
+        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "userForm"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('firstname', [], $this->hasValue('firstname')))
             ->add($this->blueprint->text('lastname', [], $this->hasValue('lastname')))
@@ -76,7 +76,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
             ->add(
                 $this->blueprint->radio('role_id', [], $this->hasValue('role_name')),
                 $this->blueprint->choices($this->roleModel->getRepo()->findBy(['id']), 2),
-                $this->blueprint->settings(false, null, true, null, true)
+                $this->blueprint->settings(false, null, true, 'Roles', true)
             )
             ->add($this->blueprint->text(
                 'remote_addr',
