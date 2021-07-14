@@ -14,6 +14,7 @@ namespace App\EventSubscriber;
 
 use App\Event\UserRoleActionEvent;
 use App\Model\UserRoleModel;
+use App\Model\TemporaryRoleModel;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
@@ -34,15 +35,18 @@ class UserRoleActionSubscriber implements EventSubscriberInterface
     private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
 
     private UserRoleModel $userRole;
+    private TemporaryRoleModel $tempRoleModel;
 
     /**
      * Main constructor class
      *
      * @param UserRoleModel $userRole
+     * @param TemporaryRoleModel $tempRoleModel
      */
-    public function __construct(UserRoleModel $userRole)
+    public function __construct(UserRoleModel $userRole, TemporaryRoleModel $tempRoleModel)
     {
         $this->userRole = $userRole;
+        $this->tempRoleModel = $tempRoleModel;
     }
 
     /**
@@ -57,6 +61,8 @@ class UserRoleActionSubscriber implements EventSubscriberInterface
         return [
             UserRoleActionEvent::NAME => [
                 ['flashUserEvent', self::FLASH_MESSAGE_PRIORITY],
+                ['createTemporaryRole'],
+                ['addExpirationTemporaryRole']
             ]
         ];
     }
@@ -81,6 +87,57 @@ class UserRoleActionSubscriber implements EventSubscriberInterface
             $event->getObject()->flashMessage('Role updated successfully');
             $event->getObject()->redirect('/admin/user/' . $event->getObject()->thisRouteID() . '/privilege');
         }
+    }
+
+    /**
+     * @param UserRoleActionEvent $event
+     * @return bool
+     */
+    public function createTemporaryRole(UserRoleActionEvent $event): bool
+    {
+        if ($this->onRoute($event, 'privilege')) {
+            $data = $event->getContext();
+            if (is_array($data) && count($data) > 0) {
+                $fields = [
+                    'user_id' => $data['user_id'],
+                    'prev_role_id' => $data['prev_role_id'],
+                    'current_role_id' => intval($data['role_id']),
+                ];
+                return $this->tempRoleModel->getRepo()
+                    ->getEm()
+                    ->getCrud()
+                    ->create($fields);
+            }
+
+        }
+        return false;
+    }
+
+    /**
+     * @param UserRoleActionEvent $event
+     * @return bool
+     */
+    public function addExpirationTemporaryRole(UserRoleActionEvent $event): bool
+    {
+        if ($this->onRoute($event, 'privilege-expiration')) {
+            $data = $event->getContext();
+            if ($data['user_id'] === $event->getObject()->thisRouteID()) {
+                $duration = $data['duration'];
+                $time = $data['time'];
+                $expiration = $duration . ' ' . $time . ':00';
+                $fields = [
+                    'duration' => $expiration,
+                    'user_id' => $data['user_id']
+                ];
+                return $this->tempRoleModel->getRepo()
+                    ->getEm()
+                    ->getCrud()
+                    ->update($fields, 'user_id');
+            }
+
+        }
+        return false;
+
     }
 
 }

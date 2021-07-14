@@ -14,9 +14,24 @@ namespace App\DataColumns;
 
 use App\Model\RolePermissionModel;
 use MagmaCore\Datatable\AbstractDatatableColumn;
+use App\Model\TemporaryRoleModel;
 
 class RoleColumn extends AbstractDatatableColumn
 {
+
+    private TemporaryRoleModel $tempRole;
+
+    public function __construct()
+    {
+        $this->tempRole = new TemporaryRoleModel();
+    }
+
+    private function roleOnExpiration(array $conditions): ?object
+    {
+        $selectors = ['*'];
+        return $this->tempRole->getRepo()->findObjectBy($conditions, $selectors);
+
+    }
 
     public function columns(array $dbColumns = [], object|null $callingController = null): array
     {
@@ -43,7 +58,16 @@ class RoleColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $twigExt) {
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
-                    $html .= '<span class="uk-text-teal" uk-icon="icon: info"></span>';
+                    $html .= '<div>';
+                    $expiration = $this->roleOnExpiration(['current_role_id' => $row['id']]);
+                    if (isset($expiration->current_role_id) && $expiration->current_role_id !==null) {
+                        $html .= '<span uk-tooltip="Expiration Set"><ion-icon name="time-outline"></ion-icon></span>';
+                    }
+
+                    $html .= '</div>';
+                    $html .= '<div>';
+                    $html .= '<span class="uk-text-primary"><ion-icon name="information-circle-outline"></ion-icon></span>';
+                    $html .= '</div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
                     $html .= $row["role_name"] . "<br/>";

@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="uk-margin">
-                <input class="uk-button" type="submit" value="Update" name="privilege-user" id="privilege-user">
+                <input class="uk-button uk-button-secondary" type="submit" value="Update" name="privilege-user" id="privilege-user">
               </div>
 
             </form>
@@ -50,8 +50,12 @@
         <h2>{{{ $row['firstname'] }}} {{{ $row['lastname'] }}}</h2>
         <dl class="uk-description-list uk-description-list-divider">
           <dt>{@ locale('name') @}</dt>
-          <dd>Current Role: {@ getRoleFromID($row['id']) @}</dd>
-          <dd>{{{ $row['email'] }}}</dd>
+          <dd>Current Role: {@ getRoleFromID($row['id']) @}
+          {% if (isset($temp_role)) : %}
+            <a href="#advance-role" uk-toggle><small>Set Duration?</small></a>
+            {% include '/admin/user/user_privilege_modal.html' %}
+            {% endif; %}
+          </dd>
 
         </dl>
       </div>

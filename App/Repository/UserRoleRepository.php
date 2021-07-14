@@ -27,5 +27,11 @@ class UserRoleRepository extends UserRoleModel
 
         return ['user_id' => $userID];
     }
+
+    public function getUserRoleID(object $controller): array
+    {
+        return $controller->flattenArray($controller->userRole->getRepo()->findBy(['role_id'], ['user_id' => $controller->thisRouteID()]));
+
+    }
 }
 

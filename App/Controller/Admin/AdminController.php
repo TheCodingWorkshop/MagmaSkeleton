@@ -32,6 +32,7 @@ use MagmaCore\Base\Domain\Actions\LogIndexAction;
 use MagmaCore\Base\Domain\Actions\NewAction;
 use MagmaCore\Base\Domain\Actions\SettingsAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
+use MagmaCore\Base\Domain\Actions\SimpleCreateAction;
 use MagmaCore\Base\Domain\Actions\SimpleUpdateAction;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\Base\Traits\TableSettingsTrait;
@@ -72,6 +73,7 @@ class AdminController extends BaseController
                 'controllerRepository' => ControllerSettingsModel::class,
                 'blankAction' => BlankAction::class,
                 'simpleUpdateAction' => SimpleUpdateAction::class,
+                'simpleCreateAction' => SimpleCreateAction::class,
                 'newAction' => NewAction::class,
                 'editAction' => EditAction::class,
                 'deleteAction' => DeleteAction::class,

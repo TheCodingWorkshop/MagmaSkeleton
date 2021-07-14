@@ -16,6 +16,7 @@ use App\Commander\UserCommander;
 use App\DataColumns\UserColumn;
 use App\Entity\UserEntity;
 use App\Entity\UserRoleEntity;
+use App\Entity\TemporaryRoleEntity;
 use App\Event\UserActionEvent;
 use App\Event\UserRoleActionEvent;
 use App\Forms\Admin\Settings\TableSettingsForm;
@@ -29,6 +30,7 @@ use App\Model\UserModel;
 use App\Model\RoleModel;
 use App\Model\UserRoleModel;
 use App\Model\UserPreferenceModel;
+use App\Model\TemporaryRoleModel;
 use App\Repository\UserRoleRepository;
 use App\Relationships\UserRelationship;
 use App\Schema\UserSchema;
@@ -80,6 +82,7 @@ class UserController extends AdminController
                 'relationship' => UserRelationship::class,
                 'userRole' => UserRoleModel::class,
                 'userRoleRepo' => UserRoleRepository::class,
+                'tempRole' => TemporaryRoleModel::class,
             ]
         );
 
@@ -268,19 +271,32 @@ class UserController extends AdminController
     protected function privilegeAction()
     {
         $userRoleID = $this->flattenArray($this->userRole->getRepo()->findBy(['role_id'], ['user_id' => $this->thisRouteID()]));
+        /* additional data we are dispatching on this route to our event dispatcher */
+        $eventDispatchData = ['user_id' => $this->thisRouteID(), 'prev_role_id' => $userRoleID[0]];
         $this->simpleUpdateAction
-            ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__)
+            ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__, [], $eventDispatchData)
             ->render()
             ->with(
                 [
                     'roles' => $this->roles->getRepo()->findAll(),
                     'user_role' => $userRoleID,
-                    'row' => $this->toArray($this->findOr404())
+                    'row' => $this->toArray($this->findOr404()),
+                    'temp_role' => $this->tempRole->getRepo()->findBy(['*'], ['user_id' => $this->thisRouteID()])
                 ]
             )
             ->form($this->userPrivilege)
             ->end();
     }
+
+    protected function privilegeExpirationAction()
+    {
+        $userRoleID = $this->flattenArray($this->userRole->getRepo()->findBy(['role_id'], ['user_id' => $this->thisRouteID()]));
+        $eventDispatcherArr = ['user_id' => $this->thisRouteID(), 'role_id' => $userRoleID[0]];
+        $this->blankAction
+            ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__, [], $eventDispatcherArr)
+            ->endWithoutRender();
+    }
+
 
     protected function logAction()
     {

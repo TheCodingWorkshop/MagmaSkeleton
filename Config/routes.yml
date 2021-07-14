@@ -23,24 +23,6 @@ register:
   controller: Registration
   action: register
 
-# support:
-#   controller: Support
-#   action: index
-#   group:
-#     middleware:
-#       auth: \MagmaCore\Middleware\Auth\Auth
-#       loginRequired: \MagmaCore\Middleware\loginRequired
-#     documentation:
-#       controller: Support
-#       action: index
-#     manual:
-#       controller: Support
-#       action: index
-#     codex:
-#       controller: Support
-#       action: index
-
-
 password/reset/{token:[\da-f]+}:
   controller: Password
   action: reset
