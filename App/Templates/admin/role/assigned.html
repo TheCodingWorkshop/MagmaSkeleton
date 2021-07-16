@@ -39,6 +39,7 @@
                         0
                         {% endif; %}
                     </dd>
+
                     <dt>{@ locale('assigned_to') @}</dt>
                     <dd><ion-icon name="help-outline"></ion-icon></dd>
                     <dd>
@@ -52,13 +53,18 @@
                         </ul>
                         {% endif; %}
                     </dd>
+
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>
                         <div class="uk-height-medium">
                             <ul class="uk-panel uk-panel-scrollable">
                                 {% if (isset($privi_user)) : %}
-                                {% foreach (array_keys($privi_user) as $role) : %}
-                                <li>{{ $role }}</li>
+                                {% foreach (array_keys($privi_user) as $permission) : %}
+                                <li>{{ $permission }}
+                                    <a class="uk-text-danger" href="/admin/role/{@ getPermissionIDFromName($permission) @}/unassign-permission?role_id={{ $role['id'] }}">
+                                        <ion-icon name="trash-outline"></ion-icon>
+                                    </a>
+                                </li>
                                 {% endforeach; %}
                                 {% else : %}
                                 No Permission

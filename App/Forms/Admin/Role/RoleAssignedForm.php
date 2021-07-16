@@ -13,33 +13,44 @@ declare(strict_types=1);
 namespace App\Forms\Admin\Role;
 
 use Exception;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 use App\Model\PermissionModel;
+use App\Model\RolePermissionModel;
 use MagmaCore\Utility\Utilities;
 
 class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
+    use DataLayerTrait;
+
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
     private PermissionModel $permissions;
+    private RolePermissionModel $rolePerm;
 
     /**
      * Main class constructor
      *
      * @param FormBuilderBlueprint $blueprint
      * @param PermissionModel $permissions
+     * @param RolePermissionModel $rolePerm
      */
-    public function __construct(FormBuilderBlueprint $blueprint, PermissionModel $permissions)
+    public function __construct(FormBuilderBlueprint $blueprint, PermissionModel $permissions, RolePermissionModel $rolePerm)
     {
         $this->blueprint = $blueprint;
         $this->permissions = $permissions;
+        $this->rolePerm = $rolePerm;
         parent::__construct();
     }
 
+    public function getModel(): PermissionModel
+    {
+        return $this->permissions;
+    }
 
     /**
      * @param string $action
@@ -50,6 +61,7 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
+        $defaults = $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $callingController->thisRouteID()]));
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "role_assigned_form"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text(
@@ -59,7 +71,7 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
                 true),
                 NULL,
                 $this->blueprint->settings(false, null, true, null, true, null, 'Role name cannot be changed here?'))
-            ->add($this->blueprint->hidden('role_id', $dataRepository->id), NULL, $this->blueprint->settings(false, null, true, null, true, null))
+            ->add($this->blueprint->hidden('role_id', $dataRepository->id), NULL, $this->blueprint->settings(false, null, false, null, true, null))
             ->add($this->blueprint->select(
                 'permission_id[]',
                 ['uk-select'],
@@ -67,7 +79,12 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
                 null,
                 true,
                 ),
-                $this->blueprint->choices(array_column($this->permissions->getRepo()->findBy(['id']), 'id')),
+                $this->blueprint->choices(
+                    array_column($this->permissions->getRepo()->findBy(['id']), 'id'),
+                    /* need to return a list of permission assigned to the role */
+                    $defaults,
+                    $this
+                ),
                 $this->blueprint->settings(false, null, true, 'Permissions', true, 'Select one one or more permissions'))
 
             ->add(

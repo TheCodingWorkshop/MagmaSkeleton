@@ -57,4 +57,10 @@ class PermissionModel extends AbstractBaseModel
         return self::COLUMN_STATUS;
     }
 
+    public function getNameForSelectField($id)
+    {
+        $name = $this->getRepo()->findObjectBy(['id' => $id], ['permission_name']);
+        return $name->permission_name;
+    }
+
 }

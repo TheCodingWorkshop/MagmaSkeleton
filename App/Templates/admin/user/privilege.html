@@ -31,7 +31,6 @@
                   {% endforeach; %}
                   </ul>
                   {% endif; %}
-
                 </div>
               </div>
               <div class="uk-margin">
@@ -52,6 +51,8 @@
           <dt>{@ locale('name') @}</dt>
           <dd>Current Role: {@ getRoleFromID($row['id']) @}
           {% if (isset($temp_role)) : %}
+            {% foreach($temp_role as $key => $value) : %}
+            {% endforeach; %}
             <a href="#advance-role" uk-toggle><small>Set Duration?</small></a>
             {% include '/admin/user/user_privilege_modal.html' %}
             {% endif; %}

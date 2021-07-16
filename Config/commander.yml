@@ -135,3 +135,26 @@ setting:
     perferences:
       name: perferences
   new_user:
+accessDenied:
+  index:
+    clone:
+      name: clone
+      nav_header: "Bulk Action"
+      path: ""
+    lock:
+      name: lock
+      path: ""
+    trash:
+      name: trash
+      path: ""
+  not_index:
+    show:
+      name: show
+      nav_header: "View Action"
+    edit:
+      name: edit
+    privileges:
+      name: privilege
+    perferences:
+      name: perferences
+  new_user:

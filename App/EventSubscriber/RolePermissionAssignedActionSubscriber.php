@@ -76,6 +76,7 @@ class RolePermissionAssignedActionSubscriber implements EventSubscriberInterface
 
     #[NoReturn] public function assignedRolePermission(RolePermissionAssignedActionEvent $event)
     {
+        /* ensure permission isn't already assigned before assigned to avoid duplicate entry error */
         $roleID = $event->getContext()['role_id'];
         $permissionIDs = $event->getContext()['permission_id'];
         if (!empty($roleID)) {

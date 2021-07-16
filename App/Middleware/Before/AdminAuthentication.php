@@ -23,7 +23,7 @@ class AdminAuthentication extends BeforeMiddleware
     public function middleware(object $middleware, Closure $next)
     {
         $user = PrivilegedUser::getUser();
-        if (!$user->hasPrivilege('admin_access')) {
+        if (!$user->hasPrivilege('have_admin_access')) {
             $middleware->flashMessage("<strong class=\"uk-text-danger\">Access Denied </strong>Sorry you need the correct privilege to access this area.", $middleware->flashInfo());
             $middleware->redirect(Authorized::getReturnToPage());
         }

@@ -112,7 +112,7 @@ class UserController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
-            ->setAccess($this)
+            ->setAccess($this, 'can_view_' . $this->thisRouteController())
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
             ->render()
             ->with(
@@ -130,7 +130,7 @@ class UserController extends AdminController
     protected function showAction()
     {
         $this->showAction
-            ->setAccess($this)
+            ->setAccess($this, 'can_show_' . $this->thisRouteController())
             ->execute($this, NULL, NULL, NULL, __METHOD__)
             ->render()
             ->with(
@@ -159,7 +159,7 @@ class UserController extends AdminController
     protected function newAction()
     {
         $this->newAction
-            ->setAccess($this)
+            ->setAccess($this, 'can_add_' . $this->thisRouteController())
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(['userYml' => Yaml::file('user')])
@@ -175,7 +175,7 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
-            ->setAccess($this)
+            ->setAccess($this, 'can_edit_' . $this->thisRouteController())
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], ['user_id' => $this->thisRouteID()])
             ->render()
             ->with(['user' => $this->toArray($this->findOr404())])
@@ -192,7 +192,7 @@ class UserController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->setAccess($this)
+            ->setAccess($this, 'can_delete_' . $this->thisRouteController())
             ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -205,6 +205,7 @@ class UserController extends AdminController
     {
         $this->showAction
             ->execute($this, NULL, NULL, NULL, __METHOD__)
+            ->setAccess($this, 'can_hard_delete_' . $this->thisRouteController())
             ->render()
             ->with()
             ->singular()
@@ -221,13 +222,15 @@ class UserController extends AdminController
     protected function bulkAction()
     {
         $this->bulkDeleteAction
-            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
+            ->setAccess($this, 'can_bulk_delete_' . $this->thisRouteController());
     }
 
     protected function cloneAction()
     {
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+            ->setAccess($this, 'can_clone_' . $this->thisRouteController())
             ->render()
             ->with()
             ->singular()
@@ -238,6 +241,7 @@ class UserController extends AdminController
     {
         $this->editAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+            ->setAccess($this, 'can_lock_' . $this->thisRouteController())
             ->render()
             ->with()
             ->singular()
@@ -248,6 +252,7 @@ class UserController extends AdminController
     {
         $this->newAction
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+            ->setAccess($this, 'can_trash_' . $this->thisRouteController())
             ->render()
             ->with()
             ->singular()
@@ -275,6 +280,7 @@ class UserController extends AdminController
         $eventDispatchData = ['user_id' => $this->thisRouteID(), 'prev_role_id' => $userRoleID[0]];
         $this->simpleUpdateAction
             ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__, [], $eventDispatchData)
+            ->setAccess($this, 'can_edit_' . $this->thisRouteController() . '_privilege')
             ->render()
             ->with(
                 [
@@ -302,6 +308,7 @@ class UserController extends AdminController
     {
         $this->indexAction
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
+            ->setAccess($this, 'can_log_' . $this->thisRouteController())
             ->render()
             ->with()
             ->table()

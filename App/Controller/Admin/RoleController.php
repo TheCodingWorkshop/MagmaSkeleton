@@ -30,6 +30,7 @@ use App\Event\RolePermissionAssignedActionEvent;
 use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
+use MagmaCore\Utility\Utilities;
 
 class RoleController extends AdminController
 {
@@ -68,7 +69,8 @@ class RoleController extends AdminController
                 'rolePerm' => RolePermissionModel::class,
                 'userRole' => UserRoleModel::class,
                 'relationship' => RoleRelationship::class,
-                'privilegeUser' => PrivilegedUser::class
+                'privilegeUser' => PrivilegedUser::class,
+                'permission' => PermissionModel::class,
             ]
         );
     }
@@ -156,6 +158,7 @@ class RoleController extends AdminController
      */
     protected function assignedAction()
     {
+
         $this->blankAction
             ->execute($this, RolePermissionEntity::class, RolePermissionAssignedActionEvent::class, NULL, __METHOD__)
             ->render()
@@ -164,7 +167,7 @@ class RoleController extends AdminController
                     'role' => $this->toArray($this->findOr404()),
                     'permissions' => $this->permission->getRepo()->findAll(),
                     'privi_user' => $this->privilegeUser->getPermissionByRoleID($this->thisRouteID()),
-                    'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()]))
+                    'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()])),
                 ]
             )
             ->form($this->formRoleAssigned)
@@ -179,5 +182,38 @@ class RoleController extends AdminController
             ->with()
             ->table()
             ->end();
+    }
+
+    /**
+     * Unassign one or more permission from an associative role. This only affects
+     * the relationship between the role and the permission and neither the role or
+     * permissions are deleted. Just the relationship between them. From the
+     * role_permissions table.
+     *
+     * @return bool
+     */
+    protected function unassignPermissionAction(): bool
+    {
+
+        /* Get the current role ID cast as an integre */
+        $queriedRoleID = (int)$_GET['role_id'] ?? null;
+        /* Get all the permission assigned to the $queriedRoleID and flatten the array */
+        $permissionIDs = $this->flattenArray($this->rolePerm->getRepo()->findBy(['*'], ['role_id' => $queriedRoleID]));
+        /* The queried permission to remove from the relationship */
+        $queriedPermissionID = $this->thisRouteID();
+        /* Ensure our queried permission is within the list of permissions assigned to the queried role */
+        if (in_array($queriedPermissionID, $permissionIDs)) {
+            foreach ($permissionIDs as $permID) {
+                /* We have an exact match */
+                if ($permID === $queriedPermissionID) {
+                    /* We are adding exact condition to ensure the correct permission is deleted from the queried role */
+                    $delete = $this->rolePerm->getRepo()->getEm()->getCrud()->delete(['permission_id' => $queriedPermissionID, 'role_id' => $queriedRoleID]);
+                    ($delete === true) ? $this->flashMessage('Permission remove') : $this->flashMessage('Permission failed to unassigned.');
+                    return $this->redirect('/admin/role/' . $queriedRoleID . '/assigned');
+
+                }
+            }
+        }
+        return false;
     }
 }
