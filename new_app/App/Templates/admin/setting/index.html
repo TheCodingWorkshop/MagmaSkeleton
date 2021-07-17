@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Settings{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore settings{% endblock %}
+<!-- Block description -->
+{% block keywords %}team{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+<!--  -->
+{% block styles %} {% endblock %}
+<!-- start content-->
+{% block content %}
+<section>
+    <div>
+        <div uk-grid>
+            <div class="uk-width-1-4@m">
+                <div class="uk-card uk-card-body uk-card-default">
+                    <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                        <li class="uk-nav-header">Options</li>
+                        {% foreach(['system', 'application', 'services'] as $option) : %}
+                        <li><a href="#">{{ $option }}</a></li>
+                        {% endforeach; %}
+                    </ul>
+
+                </div>
+            </div>
+            <div class="uk-width-expand@m">
+                <ul id="component-tab-left" class="uk-switcher">
+                    <li>{% include 'admin/setting/_parts/general.html' %}</li>
+                    <li>{% include 'admin/setting/_parts/application.html' %}</li>
+                    <li>{% include 'admin/setting/_parts/services.html' %}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

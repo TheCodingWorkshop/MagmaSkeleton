@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Edit Role{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore edit role{% endblock %}
+<!-- keywords -->
+{% block keywords %}edit-role{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="role_form">
+                        {{ $form }}
+                    </turbo-frame>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('last_updated') @}</dt>
+                    <dd>
+                        {% if (isset($role['modified_at']) && $role['modified_at'] !==null) : %}
+                        {@ formatDate($role['modified_at']) @} {% else : %} Never {% endif %}
+                    </dd>
+                    <dt>{@ locale('created') @}</dt>
+                    <dd>{@ formatDate($role['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created by:
+                        {{{ $role['created_byid'] }}}</small></dd>
+                    <dt>{@ locale('qualified_permission') @}</dt>
+                    <dd></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

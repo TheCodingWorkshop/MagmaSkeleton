@@ -1,0 +1,13 @@
+<div class="uk-panel uk-panel-scrollable">
+    {% if (isset($permissions)) : %}
+    <ul class="uk-list">
+        {% foreach($permissions as $permission) : %}
+        <li>
+            <label>
+                <input class="uk-checkbox" value="{{ $permission['id'] }}" type="checkbox"> {{ $permission['permission_name'] }}
+            </label>
+        </li>
+        {% endforeach; %}
+    </ul>
+    {% endif; %}
+</div>

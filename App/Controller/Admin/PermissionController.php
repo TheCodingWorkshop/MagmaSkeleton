@@ -34,7 +34,7 @@ class PermissionController extends AdminController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException|BaseException
+     * @throws BaseInvalidArgumentException
      */
     public function __construct(array $routeParams)
     {
@@ -77,6 +77,7 @@ class PermissionController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
+            ->setAccess($this, 'can_view')
             ->execute($this, NULL, NULL, PermissionSchema::class, __METHOD__)
             ->render()
             ->with()
@@ -92,6 +93,7 @@ class PermissionController extends AdminController
     protected function newAction(): void
     {
         $this->newAction
+            ->setAccess($this, 'can_add')
             ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -109,6 +111,7 @@ class PermissionController extends AdminController
     protected function editAction(): void
     {
         $this->editAction
+            ->setAccess($this, 'can_edit')
             ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -129,6 +132,7 @@ class PermissionController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
+            ->setAccess($this, 'can_delete')
             ->execute($this, NULL, PermissionActionEvent::class, NULL, __METHOD__);
     }
 

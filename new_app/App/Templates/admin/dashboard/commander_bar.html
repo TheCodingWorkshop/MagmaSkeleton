@@ -1,0 +1,38 @@
+<turbo-frame id="commander_bar">
+    <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; animation: uk-animation-slide-top; bottom: #transparent-sticky-navbar">
+        <nav class="uk-navbar" uk-navbar="mode: click" style="position: relative; z-index: 980;">
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-item uk-logo uk-text-secondary" href="#">{@ locale('dashboard') @}</a>
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active">
+                        <a href="#">
+                            <ion-icon name="earth-outline" size="large"></ion-icon>
+                        </a>
+                        <div class="uk-navbar-dropdown uk-navbar-dropdown-width-3">
+                            <div class="uk-navbar-dropdown-grid uk-child-width-1-3" uk-grid>
+                                {% include 'admin/dashboard/_parts/current_site_links.html' %}
+                                <div class="uk-width-expand">
+                                    {% include 'admin/dashboard/_parts/current_theme.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- <li>
+                        <a href="#">
+                            <ion-icon name="notifications-outline" size="large"></ion-icon>
+                            <sup class="uk-badge">56</sup>
+                        </a>
+                        {% include 'admin/dashboard/_parts/dash_notifications.html' %}
+                    </li>
+                    <li>
+                        <a href="#">
+                            <ion-icon name="mail-outline" size="large"></ion-icon>
+                            <sup class="uk-badge">3</sup>
+                        </a>
+                        {% include 'admin/dashboard/_parts/dash_mail.html' %}
+                    </li> -->
+                </ul>
+            </div>
+        </nav>
+    </div>
+</turbo-frame>

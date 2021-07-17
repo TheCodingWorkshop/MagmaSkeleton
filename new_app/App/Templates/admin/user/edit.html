@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Edit Account{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore edit an account{% endblock %}
+<!-- keywords -->
+{% block keywords %}edit-account, edit-user{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="user_form">
+                        {{ $form }}
+                    </turbo-frame>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <h2>Role and Permissions</h2>
+                <p>
+                    Choose a default role group for this user. Role group are roles with 1 or more permissions assigned.
+                    Only roles with permission are available here. If you choose no role by default the user will be
+                    assigned a subscriber role. Which only give read access.
+                </p>
+                <div class="uk-margin">
+                    <div class="uk-form-label"></div>
+                    <div class="uk-form-controls">
+                        <label><input class="uk-radio" type="radio" name="radio1"> Subscriber</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Superadmin</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Administrator</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Contributor</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Developer</label><br>
+                        <label><input class="uk-radio" type="radio" name="radio1"> Editor</label><br>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

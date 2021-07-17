@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Create Role{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore create new role{% endblock %}
+<!-- keywords -->
+{% block keywords %}new-role, create-new{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="role_form">
+                        {{ $form }}
+                    </turbo-frame>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <h3 class="uk-card-title">New Roles</h3>
+                <p>Roles gives any assigned user a certain amount of privilege to access protected area of the
+                    application. </p>
+
+                <p>Creating new roles are easy and simple. Give your role a meaninggul name, add some description. Then
+                    click save.</p>
+
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

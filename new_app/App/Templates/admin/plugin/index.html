@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Plugins{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore Plugins{% endblock %}
+<!-- Block description -->
+{% block keywords %}plugins{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+<!--  -->
+{% block styles %} {% endblock %}
+<!-- start content-->
+{% block content %}
+<section>
+    <div>
+        <div uk-grid>
+            <div class="uk-width-1-4@m">
+                <div class="uk-card uk-card-body uk-card-default">
+                    <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                        <li class="uk-nav-header">Options</li>
+                        {% foreach(['activated', 'deactivated', 'trash'] as $option) : %}
+                        <li><a href="#">{{ $option }}</a></li>
+                        {% endforeach; %}
+                    </ul>
+
+                </div>
+            </div>
+            <div class="uk-width-expand@m">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

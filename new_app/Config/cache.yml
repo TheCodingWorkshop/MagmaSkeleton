@@ -1,0 +1,16 @@
+cache:
+  use_cache: true
+  storage: file
+  key: auto
+  cache_path: /Storage/Cache/
+  cache_expires: 3600
+  default_storage: native_storage
+  drivers:
+    native_storage:
+      class: \MagmaCore\Cache\Storage\NativeCacheStorage
+      default: true
+    array_storage:
+      class: \MagmaCore\Cache\Storage\ArrayCacheStorage
+      default: false
+    pdo_storage:
+      class: \MagmaCore\Cache\Storage\PdoCacheStorage

@@ -1,0 +1,52 @@
+<turbo-frame id="block_notifications">
+    <div>
+        <div class="uk-child-width-1-2@s" uk-grid>
+            <div>
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto ion-64">
+                            <ion-icon name="notifications-outline"></ion-icon>
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Notifications</h3>
+                            <p class="uk-text-meta uk-margin-remove-top">
+                                <time datetime="2016-04-01T19:00">You have 15 new notifications</time>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body uk-card-warning">
+                    <p>Theres currently 197 new issues.</p>
+                    <ul class="uk-list uk-list-collapse uk-list-divider">
+                        <li>6 Fixed</li>
+                        <li>11 Won't Fixed</li>
+                        <li>133 Close</li>
+                        <li>72 Re-opened</li>
+                        <li>133 Close</li>
+                        <li>72 Re-opened</li>
+
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="uk-card">
+                    {% foreach($block_activities as $key => $value) : %}
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto ion-64">
+                                <ion-icon name="{{ $value['icon'] }}"></ion-icon>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom"> {{ $key }}</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    <time datetime="2016-04-01T19:00">{{ $value['desc'] }}</time>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endforeach; %}
+                </div>
+            </div>
+        </div>
+    </div>
+</turbo-frame>

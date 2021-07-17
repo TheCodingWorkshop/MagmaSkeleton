@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Tools{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore tools{% endblock %}
+<!-- Block description -->
+{% block keywords %}tools{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+<!--  -->
+{% block styles %} {% endblock %}
+<!-- start content-->
+{% block content %}
+<section>
+    <turbo-frame>
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                            {% foreach (['Backup', 'Restore', 'Update'] as $option) : %}
+                            <li><a href="#">{{ $option }}</a></li>
+                            {% endforeach; %}
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="uk-width-expand@m">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto ion-64">
+                                <ion-icon name="build-outline"></ion-icon>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Tools</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul id="component-tab-left" class="uk-switcher">
+                        <li>
+                            There are various tools available, which should help maintain and help manage your
+                            application.
+                        </li>
+                        <li>{% include 'admin/setting/_parts/backup.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/restore.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/update.html' %}</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </turbo-frame>
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

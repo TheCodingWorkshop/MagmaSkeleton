@@ -1,0 +1,32 @@
+{% extends 'frontend_layout.html' %}
+
+<!-- Block title -->
+{% block title %}Create An Account{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore create an account{% endblock %}
+<!-- Block description -->
+{% block keywords %}register, create an account{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!--  -->
+{% block page_header %}{@ locale('create_an_account') @}!{% endblock %}
+<!--  -->
+{% block page_tagline %}{% endblock %}
+
+
+<!-- start content-->
+{% block content %}
+<div>
+
+    {{ $form }}
+    <div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
+        <p class="uk-text-lead">{@ locale('already_register') @}? <br>
+            <a href="/login" class="uk-button uk-button-small uk-button-text uk-text-left">{@ locale('login') @}</a>
+        </p>
+    </div>
+    <hr>
+    <p>{@ locale('register_terms') @}</p>
+</div>
+
+{% endblock %}

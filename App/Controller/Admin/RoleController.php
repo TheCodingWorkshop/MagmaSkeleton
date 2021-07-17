@@ -96,6 +96,7 @@ class RoleController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
+            ->setAccess($this, 'can_view')
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
             ->render()
             ->with()
@@ -111,6 +112,7 @@ class RoleController extends AdminController
     protected function newAction(): void
     {
         $this->newAction
+            ->setAccess($this, 'can_add')
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -126,6 +128,7 @@ class RoleController extends AdminController
     protected function editAction(): void
     {
         $this->editAction
+            ->setAccess($this, 'can_edit')
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -148,6 +151,7 @@ class RoleController extends AdminController
     protected function deleteAction(): void
     {
         $this->deleteAction
+            ->setAccess($this, 'can_delete')
             ->execute($this, NULL, RoleActionEvent::class, NULL, __METHOD__);
     }
 
@@ -160,6 +164,7 @@ class RoleController extends AdminController
     {
 
         $this->blankAction
+            ->setAccess($this, 'can_assign')
             ->execute($this, RolePermissionEntity::class, RolePermissionAssignedActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -177,6 +182,7 @@ class RoleController extends AdminController
     protected function logAction()
     {
         $this->logIndexAction
+            ->setAccess($this, 'can_log')
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
             ->render()
             ->with()

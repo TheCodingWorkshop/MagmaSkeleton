@@ -2,7 +2,7 @@ dashboard:
   name: Dashboard
   icon: speedometer-outline
   path: /admin/dashboard/index
-  roles: {}
+  rule: can_view
  
 authentication:
   title: Manage User
@@ -15,23 +15,27 @@ authentication:
       name: View All
       icon: ''
       path: "/admin/user/index"
-      role:
-        - developer
+      rule: can_view
     new:
       name: Add New
       path: '/admin/user/new'
+      rule: can_add
     log:
       name: Logs
       path: '/admin/user/log'
+      rule: can_log
     stats:
       name: Statistics
       path: ''
+      rule: can_view_statistics
     role:
       name: Roles
       path: '/admin/role/index'
+      rule: can_view
     permissions:
       name: Permissions
       path: '/admin/permission/index'
+      rule: can_view
 role:
   name: Role
   icon: ''

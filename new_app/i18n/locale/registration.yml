@@ -1,0 +1,40 @@
+en:
+  register:
+    title: Register
+    description: Meta description goes here
+    keywords: {}
+    form:
+      page_title: Register an Account!
+      already_register: Already Register?
+      call_to_action: Login
+      page_content: By clicking Register, you accept our Terms of Use. Find out about our Privacy and Cookies Policy.
+  registered:
+    title: Activate Your Account!
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_title: Activate Your Account!
+      already_register: Already Register?
+      activate_now: Activate Now!
+      page_content: Thanks for registering on {{ website }}. Please click the activation button below to activate your account in order to access your profile page..
+
+
+fr:
+  title: S'inscrire
+  description: Meta description goes here
+  keywords: {}
+  form:
+    page_title: Enregistrez un compte!
+    already_register: Déjà vous inscrire?
+    login_button: Connexion
+    terms: En cliquant sur Inscrivez-vous, vous acceptez nos conditions d’utilisation.Renseignez-vous sur notre politique de confidentialité et de cookies.
+
+es:
+  title: Registro
+  description: Meta description goes here
+  keywords: {}
+  form:
+    page_title: ¡Registre una cuenta!
+    already_register: ¿Ya te registras?
+    login_button: Inicio de sesión
+    terms: Al hacer clic en Registrarse, acepta nuestros Términos de uso.Obtenga información sobre nuestra Política de privacidad y cookies.

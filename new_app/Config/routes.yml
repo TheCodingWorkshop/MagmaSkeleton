@@ -1,0 +1,73 @@
+# Specifies the directory which contains non dynamic routes . ie the routes which
+# are defined within this config file
+# App/Templates/client/**
+# Note client is the default directory
+client_dir: client
+# The main directory which holds all our .twig template files. This directory
+# should have the sub-directory 'client' defined above
+template_dir: Templates
+
+"":
+  controller: Home
+  action: index
+
+login:
+  controller: Security
+  action: index
+
+logout:
+  controller: Security
+  action: logout
+
+register:
+  controller: Registration
+  action: register
+
+# support:
+#   controller: Support
+#   action: index
+#   group:
+#     middleware:
+#       auth: \MagmaCore\Middleware\Auth\Auth
+#       loginRequired: \MagmaCore\Middleware\loginRequired
+#     documentation:
+#       controller: Support
+#       action: index
+#     manual:
+#       controller: Support
+#       action: index
+#     codex:
+#       controller: Support
+#       action: index
+
+
+password/reset/{token:[\da-f]+}:
+  controller: Password
+  action: reset
+
+activation/activate/{token:[\da-f]+}:
+  controller: Activation
+  action: activate
+
+profile/{controller}/{action}:
+  namespace: Profile
+
+profile/{controller}/{id:[\da-f]+}/{action}:
+  namespace: Profile
+
+admin/{controller}/{action}:
+  namespace: Admin
+
+admin/{controller}/{id:[\da-f]+}/{action}:
+  namespace: Admin
+
+api/{controller}/{action}:
+  namespace: API
+
+api/{controller}/{id:[\da-f]+}/{action}:
+  namespace: API
+
+installer/{controller}/{action}:
+  namespace: Installer
+  controller: Install
+  action: index

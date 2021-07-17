@@ -47,7 +47,7 @@ class SettingController extends AdminController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException|BaseException
+     * @throws BaseInvalidArgumentException
      */
     public function __construct(array $routeParams)
     {

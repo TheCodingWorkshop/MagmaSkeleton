@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Assigned Role{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore assigned role{% endblock %}
+<!-- keywords -->
+{% block keywords %}assigned-role{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <turbo-frame id="role_form">
+                        {{ $form }}
+                        {% include 'admin/role/role_permissions.html' %}
+                    </turbo-frame>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list">
+                    <dt>{@ locale('role') @}</dt>
+                    <dd>{{{ $role['role_name'] }}}
+                        <small class="uk-text-primary">
+                            Created: {@ formatDate($role['created_at'], true) @}
+                        </small>
+                    </dd>
+                    <dt>{@ locale('permission_assigned') @}</dt>
+                    <dd>12</dd>
+                    <dt>{@ locale('assigned_to') @}</dt>
+                    <dd>
+                        {% if (isset($relationship)) : %}
+                        <ul class="uk-list uk-list-bullet">
+                            {% foreach($relationship as $key => $value) : %}
+                            <li><a class="uk-link-reset" href=""><small class="uk-text-primary">
+                                {{{ $value['firstname'] . ' ' . $value['lastname'] }}}</small>
+                            </a></li>
+                            {% endforeach; %}
+                        </ul>
+                        {% endif; %}
+                    </dd>
+                    <dt>{@ locale('permissions') @}</dt>
+                    <dd>
+                        <ul class="uk-list uk-list-bullet">
+                            <li>all_privileges</li>
+                        </ul>
+
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

@@ -1,0 +1,9 @@
+<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+    {% foreach($nav_switcher as $key => $value) : %}
+    <li>
+        <a class="switcher-item-{{ $key }}" href="#">
+            <ion-icon name="{{ $value['icon'] }}" size="large"></ion-icon>
+        </a>
+    </li>
+    {% endforeach; %}
+</ul>

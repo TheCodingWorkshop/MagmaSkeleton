@@ -52,6 +52,8 @@ class DashboardController extends AdminController
      */
     protected function indexAction()
     {
+
+        //$this->setAccess($this, 'can_view');
         $this->render(
             'admin/dashboard/index.html',
             [

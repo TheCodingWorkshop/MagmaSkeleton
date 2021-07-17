@@ -27,7 +27,7 @@ class ProfileController extends UserController
      *
      * @param array $routeParams
      * @return void
-     * @throws BaseInvalidArgumentException|BaseException
+     * @throws BaseInvalidArgumentException
      */
     public function __construct(array $routeParams)
     {
