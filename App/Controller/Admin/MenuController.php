@@ -59,6 +59,10 @@ class MenuController extends AdminController
             ->findAndReturn($this->thisRouteID())
             ->or404();
     }
+    public function indexAction()
+    {
+
+    }
 
 }
 

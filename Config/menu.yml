@@ -95,6 +95,12 @@ settings:
   icon: settings-outline
   path: "/admin/setting/index"
   header: Tools
+menu:
+  title: Menu
+  name: Menu
+  icon: extension-puzzle-outline
+  path: /admin/menu/index
+
 plugins:
   title: Plugins
   name: Plugins

@@ -30,7 +30,6 @@ use App\Event\RolePermissionAssignedActionEvent;
 use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
-use MagmaCore\Utility\Utilities;
 
 class RoleController extends AdminController
 {
@@ -191,7 +190,7 @@ class RoleController extends AdminController
     }
 
     /**
-     * Unassign one or more permission from an associative role. This only affects
+     * Unassigned one or more permission from an associative role. This only affects
      * the relationship between the role and the permission and neither the role or
      * permissions are deleted. Just the relationship between them. From the
      * role_permissions table.

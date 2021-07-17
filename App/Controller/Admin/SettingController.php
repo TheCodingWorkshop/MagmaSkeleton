@@ -105,6 +105,7 @@ class SettingController extends AdminController
     protected function generalAction()
     {
         $this->configAction
+            ->setAccess($this, 'can_edit_general')
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with([
@@ -116,6 +117,7 @@ class SettingController extends AdminController
     protected function securityAction()
     {
         $this->configAction
+            ->setAccess($this, 'can_edit_security')
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with([])
@@ -126,6 +128,7 @@ class SettingController extends AdminController
     protected function purgeAction()
     {
         $this->purgeAction
+            ->setAccess($this, 'can_edit_purge')
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with([
@@ -138,6 +141,7 @@ class SettingController extends AdminController
     protected function toolsAction()
     {
         $this->configAction
+            ->setAccess($this, 'can_edit_tool')
             ->execute($this, SettingEntity::class, SettingActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with([])

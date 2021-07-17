@@ -204,8 +204,8 @@ class UserController extends AdminController
     protected function hardDeleteAction()
     {
         $this->showAction
-            ->execute($this, NULL, NULL, NULL, __METHOD__)
             ->setAccess($this, 'can_hard_delete')
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
             ->render()
             ->with()
             ->singular()
