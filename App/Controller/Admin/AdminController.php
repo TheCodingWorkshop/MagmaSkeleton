@@ -160,15 +160,15 @@ class AdminController extends BaseController
         return false;
     }
 
-    protected function settingsAction()
-    {
-        $action = $this->settingsAction
-            ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
-
-        if ($action) {
-            $this->redirect('/admin/' . $this->thisRouteController() . '/index');
-        }
-    }
+//    protected function settingsAction()
+//    {
+//        $action = $this->settingsAction
+//            ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
+//
+//        if ($action) {
+//            $this->redirect('/admin/' . $this->thisRouteController() . '/index');
+//        }
+//    }
 
 
 }

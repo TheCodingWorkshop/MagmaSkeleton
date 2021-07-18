@@ -35,6 +35,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
         'edit',
         'show',
         'log',
+        'trash',
         'hard-delete',
         'privilege',
         'preferences'
@@ -42,10 +43,10 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
 
     private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
-    private array $noCustomizer = ['edit', 'show', 'new', 'privilege'];
-    private array $noManager = [];
-    private array $noAction = [];
-    private array $noFilter = ['edit', 'show', 'new', 'privilege'];
+    private array $noCustomizer = ['edit', 'show', 'new', 'privilege', 'trash'];
+    private array $noManager = ['trash'];
+    private array $noAction = ['trash'];
+    private array $noFilter = ['edit', 'show', 'new', 'privilege', 'trash'];
 
     private object $controller;
 
@@ -90,6 +91,7 @@ class UserCommander extends UserModel implements ApplicationCommanderInterface
             'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'firstname'),
             'privilege' => 'Edit Privilege',
             'show' => "Viewing " . $suffix,
+            'trash' => 'Trash Listings',
             'log' => Stringify::capitalize($controller->thisRouteController()) . ' Log',
             'hard-delete' => "Deleting " . $suffix,
             'preferences' => $suffix . " Preferences",

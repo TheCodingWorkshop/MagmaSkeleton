@@ -61,7 +61,9 @@ en:
 
   dashboard: Dashboard
   user_still_pending: users account still pending
-
+  menu_items: Menu Items
+  controller_name: Controller
+  method_name: Method
   purge: Purge
   general: General
   backup: Backup

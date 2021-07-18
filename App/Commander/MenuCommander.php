@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace App\Commander;
 
-use App\Model\PermissionModel;
-use Exception;
+use App\Model\MenuModel;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\CommanderUnsetterTrait;
+use MagmaCore\Utility\Stringify;
+use Exception;
 
-class PermissionCommander extends PermissionModel implements ApplicationCommanderInterface
+class MenuCommander extends MenuModel implements ApplicationCommanderInterface
 {
 
-    /** @var ApplicationCommanderTrait - this is required */
     use ApplicationCommanderTrait;
     use CommanderUnsetterTrait;
 
@@ -33,14 +33,16 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
         'index',
         'new',
         'edit',
+        'show',
+        'log',
     ];
 
     private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
-    private array $noCustomizer = ['new', 'edit'];
+    private array $noCustomizer = ['edit', 'show', 'new'];
     private array $noManager = [];
     private array $noAction = [];
-    private array $noFilter = ['new', 'edit'];
+    private array $noFilter = ['edit', 'show', 'new'];
 
     private object $controller;
 
@@ -53,7 +55,7 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
      */
     public function getYml(): array
     {
-        return $this->findYml('permission');
+        return $this->findYml('menu');
     }
 
     /**
@@ -63,7 +65,7 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
      */
     public function getGraphs(): string
     {
-        return '<div id="sparkline"></div>';
+        return '';
     }
 
     /**
@@ -77,14 +79,17 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
     {
         $this->getHeaderBuildException($controller, self::INNER_ROUTES);
         $this->controller = $controller;
+        $suffix = $this->getHeaderBuildEdit($controller, 'menu_name');
 
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
-            'new' => 'Create New Permission',
-            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'permission_name'),
-            'assigned' => 'Role Assignment',
+            'new' => 'Create New Menu',
+            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'menu_name'),
+            'show' => "Viewing " . $suffix,
+            'log' => Stringify::capitalize($controller->thisRouteController()) . ' Log',
             default => "Unknown"
         };
     }
 
 }
+

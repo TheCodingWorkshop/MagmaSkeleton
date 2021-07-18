@@ -14,7 +14,7 @@ namespace App\DataColumns;
 
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
-class PermissionColumn extends AbstractDatatableColumn
+class MenuColumn extends AbstractDatatableColumn
 {
 
     public function columns(array $dbColumns = [], object|null $callingController = null): array
@@ -33,7 +33,7 @@ class PermissionColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'permission_name',
+                'db_row' => 'menu_name',
                 'dt_row' => 'Name',
                 'class' => '',
                 'show_column' => true,
@@ -45,8 +45,8 @@ class PermissionColumn extends AbstractDatatableColumn
                     $html .= '<span class="uk-text-teal" uk-icon="icon: info"></span>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
-                    $html .= $row["permission_name"] . "<br/>";
-                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["permission_description"] . '</small></div>';
+                    $html .= $row["menu_name"] . "<br/>";
+                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["menu_description"] . '</small></div>';
                     $html .= '</div>';
                     $html .= '</div>';
 
@@ -54,7 +54,7 @@ class PermissionColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'permission_description',
+                'db_row' => 'menu_description',
                 'dt_row' => 'Description',
                 'class' => '',
                 'show_column' => false,
@@ -62,17 +62,17 @@ class PermissionColumn extends AbstractDatatableColumn
                 'searchable' => false,
                 'formatter' => ''
             ],
-//            [
-//                'db_row' => 'permission_group',
-//                'dt_row' => 'Group',
-//                'class' => '',
-//                'show_column' => true,
-//                'sortable' => true,
-//                'searchable' => true,
-//                'formatter' => function ($row, $twigExt) {
-//                    return $row['permission_group'] ?? 'None';
-//                }
-//            ],
+            [
+                'db_row' => 'parent_menu',
+                'dt_row' => 'Parent',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => true,
+                'searchable' => true,
+                'formatter' => function ($row, $twigExt) {
+                    return $row['parent_menu'] ?? 'None';
+                }
+            ],
             [
                 'db_row' => 'created_at',
                 'dt_row' => 'Published',
@@ -115,14 +115,13 @@ class PermissionColumn extends AbstractDatatableColumn
                     return $twigExt->action(
                         [
                             'file-edit' => ['tooltip' => 'Edit', 'icon' => 'ion-compose'],
-                            'trash' => ['tooltip' => 'Trash', 'icon' => 'ion-ios-trash']
                         ],
                         $row,
                         $twigExt,
-                        'permission',
+                        'menu',
                         false,
                         'Are You Sure!',
-                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['permission_name']}</strong> role."
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['menu_name']}</strong> role."
                     );
                 }
             ],
@@ -130,3 +129,4 @@ class PermissionColumn extends AbstractDatatableColumn
         ];
     }
 }
+

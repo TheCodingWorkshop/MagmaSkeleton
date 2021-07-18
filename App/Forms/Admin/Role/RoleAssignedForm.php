@@ -76,7 +76,7 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
                 'permission_id[]',
                 ['uk-select'],
                 'permission_id',
-                null,
+                20,
                 true,
                 ),
                 $this->blueprint->choices(

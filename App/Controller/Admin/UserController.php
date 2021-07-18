@@ -255,7 +255,11 @@ class UserController extends AdminController
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
-            ->singular()
+            ->binLists(
+                [
+                    'firstname', 'lastname', 'id', 'deleted_at_datetime'
+                ]
+            )
             ->end();
     }
 

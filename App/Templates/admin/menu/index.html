@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}Menu{% endblock %}
+<!-- Block description -->
+{% block description %}MagmaCore menus{% endblock %}
+<!-- Block description -->
+{% block keywords %}menu, menu-items{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section>
+
+  <div class="uk-width-expand@m">
+    <turbo-frame id="table_grid_paging_sorting">
+      <div>
+        <div class="uk-card uk-card-default">
+          <div class="uk-card-body">
+            <form method="POST" action="">
+              {{ $table }}
+            </form>
+          </div>
+        </div>
+        {@ templateExtension('uikit_pagination') @}
+      </div>
+    </turbo-frame>
+  </div>
+</section>
+{% endblock %}

@@ -99,3 +99,16 @@ project:
     - type
     - created_at
     - modified_at
+    -
+menu:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["menu_name", "item_label"]
+  filter_alias: s
+  sort_columns:
+    - menu_name
+    - created_at
+    - modified_at

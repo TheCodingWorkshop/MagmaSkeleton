@@ -12,7 +12,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Model\MenuModel;
+use App\Commander\MenuCommander;
+use App\DataColumns\MenuColumn;
+use App\Entity\MenuEntity;
+use App\Schema\MenuSchema;
+use App\Forms\Admin\Menu\MenuForm;
+use MagmaCore\Auth\Model\MenuModel;
+use MagmaCore\Auth\Model\MenuItemModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
@@ -43,6 +49,11 @@ class MenuController extends AdminController
         $this->addDefinitions(
             [
                 'repository' => MenuModel::class,
+                'commander' => MenuCommander::class,
+                'column' => MenuColumn::class,
+                'entity' => MenuEntity::class,
+                'formMenu' => MenuForm::class,
+                'menuItem' => MenuItemModel::class
             ]
         );
     }
@@ -59,10 +70,50 @@ class MenuController extends AdminController
             ->findAndReturn($this->thisRouteID())
             ->or404();
     }
-    public function indexAction()
-    {
 
+    protected function indexAction()
+    {
+        $this->indexAction
+            ->setAccess($this, 'can_view')
+            ->execute($this, NULL, NULL, MenuSchema::class, __METHOD__)
+            ->render()
+            ->with()
+            ->table()
+            ->end();
     }
+
+    protected function newAction()
+    {
+        $this->indexAction
+            ->setAccess($this, 'can_add')
+            ->execute($this, NULL, NULL, MenuSchema::class, __METHOD__)
+            ->render()
+            ->with(
+                [
+
+                ]
+            )
+            ->form($this->formMenu)
+            ->end();
+    }
+
+    protected function editAction()
+    {
+        $this->showAction
+            ->setAccess($this, 'can_edit')
+            ->execute($this, NULL, NULL, NULL, __METHOD__)
+            ->render()
+            ->with(
+                [
+                    'parent_menu' => $this->toArray($this->findOr404()),
+                    'menu_items' => $this->menuItem->getRepo()->findBy(['*'], ['item_original_id' => $this->thisRouteID(), 'item_usable' => 1]),
+                ]
+            )
+            ->form($this->formMenu)
+            ->end();
+    }
+
+
 
 }
 

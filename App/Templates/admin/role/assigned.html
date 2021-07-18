@@ -45,18 +45,16 @@
                     <dd>
                         {% if (isset($relationship)) : %}
                         <ul class="uk-list uk-list-bullet">
-                            {% foreach($relationship as $key => $value) : %}
-                            <li><a class="uk-link-reset" href=""><small class="uk-text-primary">
-                                {{{ $value['firstname'] . ' ' . $value['lastname'] }}}</small>
-                            </a></li>
-                            {% endforeach; %}
+                            <li>
+                                <a class="uk-link-reset" href=""><small class="uk-text-primary"></small></a>
+                            </li>
                         </ul>
                         {% endif; %}
                     </dd>
 
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>
-                        <div class="uk-height-medium">
+                        <div class="uk-height-1-1">
                             <ul class="uk-panel uk-panel-scrollable">
                                 {% if (isset($privi_user)) : %}
                                 {% foreach (array_keys($privi_user) as $permission) : %}

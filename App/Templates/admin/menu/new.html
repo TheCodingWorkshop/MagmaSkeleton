@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+<!-- title -->
+{% block title %}Add New Menu{% endblock %}
+<!-- description -->
+{% block description %}MagmaCore add menu{% endblock %}
+<!-- keywords -->
+{% block keywords %}add-menu{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid>
+  <div class="uk-width-1-2@m">
+    <div>
+      <div class="uk-card uk-card-default">
+        <div class="uk-card-body">
+          <turbo-frame id="role_form">
+            {{ $form }}
+          </turbo-frame>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="uk-width-1-2@m">
+    <div>
+      <div class="uk-card uk-card-body uk-padding-remove">
+        <dl class="uk-description-list uk-description-list-divider">
+
+        </dl>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}
