@@ -20,9 +20,9 @@ use App\Event\RoleActionEvent;
 use App\Forms\Admin\Role\RoleAssignedForm;
 use App\Forms\Admin\Role\RoleForm;
 use App\Model\PermissionModel;
-use App\Model\RoleModel as RM;
+use App\Model\RoleModel;
 use App\Model\RolePermissionModel;
-use App\Model\UserModel as UM;
+use App\Model\UserModel;
 use App\Model\UserRoleModel;
 use App\Relationships\RoleRelationship;
 use App\Schema\RoleSchema;
@@ -57,8 +57,8 @@ class RoleController extends AdminController
          */
         $this->addDefinitions(
             [
-                'repository' => RM::class,
-                'userRepository' => UM::class,
+                'repository' => RoleModel::class,
+                'userRepository' => UserModel::class,
                 'commander' => RoleCommander::class,
                 'entity' => RoleEntity::class,
                 'column' => RoleColumn::class,
@@ -172,6 +172,7 @@ class RoleController extends AdminController
                     'permissions' => $this->permission->getRepo()->findAll(),
                     'privi_user' => $this->privilegeUser->getPermissionByRoleID($this->thisRouteID()),
                     'role_perms' => $this->flattenArray($this->rolePerm->getRepo()->findBy(['permission_id'], ['role_id' => $this->thisRouteID()])),
+                    'user_role_id' => $this->userRole->getRepo()->findBy(['user_id'], ['role_id' => $this->thisRouteID()])
                 ]
             )
             ->form($this->formRoleAssigned)

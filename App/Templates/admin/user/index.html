@@ -21,25 +21,7 @@
 
                     </div>
                 </div>
-<!--                <div class="uk-margin">-->
-<!--                    <ul class="uk-iconnav">-->
-<!--                        <li class="uk-margin-small">-->
-<!--                            <label for="check_all">-->
-<!--                                <input type="checkbox" id="check_all" class="uk-checkbox"/>-->
-<!--                                <small>Check All</small>-->
-<!--                            </label>-->
-<!--                        </li>-->
-<!--                        <li><a href="#" class="ion-38"><ion-icon name="add-outline"></ion-icon></a></li>-->
-<!--                        <li><a href="#"><ion-icon name="create-outline"></ion-icon></a></li>-->
-<!--                        <li><a href="#"><ion-icon name="copy-outline"></ion-icon></a></li>-->
-<!--                        <li><a href="#"><ion-icon name="trash-outline"></ion-icon></a></li>-->
-<!--                        <li><a href="#"><span uk-icon="icon: bag"></span> (2)</a></li>-->
-<!--                    </ul>-->
-
-<!--                </div>-->
-<!--                <hr>-->
                 {@ templateExtension('uikit_pagination') @}
-
             </div>
         </turbo-frame>
     </div>
@@ -60,43 +42,38 @@
         });
     });
 
-    // function saveChanges(Object) {
-    //     alert(Object.value)
-    // }
-
-    function checkUncheckAll() {
-        var rows = document.getElementsByName('id'); // *Columns name attribute
-        var isCheck = false; // flag defaults to false
-        rows.forEach((cb) => {
-            if (cb.type === 'checkbox') {
-                if (cb.checked === false) {
-                    isCheck = true
-                    cb.checked = true;
-                } else {
-                    if (cb.checked === true) {
-                        isCheck = false;
-                        cb.checked = false;
-                    }
-                }
+    function selects() {
+        const ele = document.getElementsByName('id[]');
+        const links = document.getElementsByClassName('bulk-action-links');
+        for (let i=0; i < ele.length; i++) {
+            if (ele[i].type == 'checkbox') {
+                ele[i].checked = true;
             }
-        })
-        whenCheck(isCheck)
-
-    }
-
-    function whenCheck(isCheck) {
-        var toggle = document.getElementById("js-selector-container");
-        if (isCheck === true) {
-            toggle.innerHTML = `
-				<div class="uk-background-muted uk-margin-remove uk-padding-small">
-				<span>36 Entries found: </span>
-				<button uk-tooltip="Delete Selected items" class="uk-button uk-button-small uk-button-danger uk-button-default" type="submit" name="bulk-delete"><span class="ion-ios-trash ion-24"></span></button>
-
-				<button uk-tooltip="Clone Selected items" class="uk-button uk-button-small uk-button-primary" type="submit" name="bulk-copy"><span class="ion-ios-copy-outline ion-24"></span></button>						</div>`;
-        } else {
-            toggle.innerHTML = "";
         }
     }
+    function deSelect(){
+        const ele = document.getElementsByName('id[]');
+        const links = document.getElementsByClassName('bulk-action-links');
+        for(let i=0; i<ele.length; i++){
+            if(ele[i].type=='checkbox')
+                ele[i].checked=false;
+                //links.className.add('uk-disabled');
+
+        }
+    }
+    // function myFunction() {
+    //     // Get the checkbox
+    //     var checkBox = document.getElementById("id");
+    //     // Get the output text
+    //     var text = document.getElementById("text");
+    //
+    //     // If the checkbox is checked, display the output text
+    //     if (checkBox.checked == true){
+    //         text.style.display = "block";
+    //     } else {
+    //         text.style.display = "none";
+    //     }
+    // }
 </script>
 
 

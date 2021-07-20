@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\UserPerferenceEntity;
+use App\Entity\UserPreferenceEntity;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
@@ -33,7 +33,7 @@ class UserPreferenceModel extends AbstractBaseModel
      */
     public function __construct()
     {
-        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, UserPerferenceEntity::class);
+        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, UserPreferenceEntity::class);
     }
 
     /**

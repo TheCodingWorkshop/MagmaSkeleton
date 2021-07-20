@@ -9,6 +9,10 @@ user:
       name: delete
       path: ""
       icon: trash-outline
+    export:
+      name: export
+      path: ""
+      icon: download-outline
   not_index:
     show:
       name: show

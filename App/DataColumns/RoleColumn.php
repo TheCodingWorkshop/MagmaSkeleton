@@ -26,6 +26,10 @@ class RoleColumn extends AbstractDatatableColumn
         $this->tempRole = new TemporaryRoleModel();
     }
 
+    /**
+     * @param array $conditions
+     * @return object|null
+     */
     private function roleOnExpiration(array $conditions): ?object
     {
         $selectors = ['*'];
@@ -33,6 +37,11 @@ class RoleColumn extends AbstractDatatableColumn
 
     }
 
+    /**
+     * @param array $dbColumns
+     * @param object|null $callingController
+     * @return array[]
+     */
     public function columns(array $dbColumns = [], object|null $callingController = null): array
     {
         return [

@@ -5,3 +5,15 @@ complete update for changing user role from user section
 RolePermissionAssignedActionSubscriber.php
 ensure permission isn't already assigned before assigned to avoid duplicate entry error
 */
+
+/*
+Features
+
+1. MVC design architecture
+2. Custom PHP Framework
+3 .FormBuilder
+4 .Caching
+5. Session Management
+6. Translation Ready
+7. PSR7 & PSR-13 HTTP Ready
+*/

@@ -3,6 +3,10 @@ stylesheets:
     href: "https://cdn.jsdelivr.net/npm/uikit@3.6.5/dist/css/uikit.min.css"
     enable: true
     cdn: true
+  summernote:
+    href: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+    enable: false
+    cdn: true
   ionicons:
     href: "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
     enable: true
@@ -15,10 +19,6 @@ stylesheets:
     href: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300&display=swap"
     enable: true
     cdn: true
-  # notyf:
-  #   href: "/public/assets/css/uikit/notyf.min.css"
-  #   enable: true
-  #   cdn: false
   custom:
     href: "/public/assets/css/uikit/custom.css"
     enable: true
@@ -58,6 +58,14 @@ scripts:
     location: header
     enable: true
     cdn: true
+  summernote:
+    src: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"
+    integrity: ""
+    crossorigin: ""
+    type: javascript
+    location: header
+    enable: false
+    cdn: true
   sidebar:
     src: "/public/assets/js/uikit/sidebar.js"
     integrity: ""
@@ -90,22 +98,14 @@ scripts:
     location: header
     enable: true
     cdn: true
-  # fontawesome:
-  #   src: "https://kit.fontawesome.com/b60c3fbedf.js"
-  #   integrity: ""
-  #   crossorigin: anonymous
-  #   type: javascript
-  #   location: header
-  #   enable: true
-  #   cdn: true
-  # notyf:
-  #   src: "/public/assets/js/uikit/notyf.min.js"
-  #   integrity: ""
-  #   crossorigin: "anonymous"
-  #   type: javascript
-  #   location: header
-  #   enable: false
-  #   cdn: false
+  fontawesome:
+   src: "https://kit.fontawesome.com/b60c3fbedf.js"
+   integrity: ""
+   crossorigin: anonymous
+   type: javascript
+   location: header
+   enable: true
+   cdn: true
   sparkline:
     src: "/public/assets/js/uikit/sparkline.js"
     integrity: ""

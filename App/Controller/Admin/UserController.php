@@ -126,6 +126,7 @@ class UserController extends AdminController
     /**
      * The show action request displays singular information about a user. This is a
      * read only request. Information here cannot be edited.
+     * @throws Exception
      */
     protected function showAction()
     {
@@ -271,10 +272,10 @@ class UserController extends AdminController
             ->render()
             ->with(
                 [
-                    'user_preference' => $this->userPerferenceRepo->getRepo()->findObjectBy(['user_id' => $this->thisRouteID()])
+                    'user_preference' => $this->userPreferenceRepo->getRepo()->findObjectBy(['user_id' => $this->thisRouteID()])
                 ]
             )
-            ->form($this->userPerferencesForm)
+            ->form($this->userPreferencesForm)
             ->end();
     }
 

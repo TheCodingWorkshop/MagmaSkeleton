@@ -17,6 +17,11 @@ use MagmaCore\Datatable\AbstractDatatableColumn;
 class MenuColumn extends AbstractDatatableColumn
 {
 
+    /**
+     * @param array $dbColumns
+     * @param object|null $callingController
+     * @return array[]
+     */
     public function columns(array $dbColumns = [], object|null $callingController = null): array
     {
         return [

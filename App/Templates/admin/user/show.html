@@ -68,7 +68,7 @@
                 <ul uk-tab>
                     <li><a href="#">{@ locale('history') @}</a></li>
                     <li><a href="#">{@ locale('recent_activity') @}</a></li>
-                    <li><a href="#">{@ locale('notes') @}</a></li>
+                    <li><a href="#">{@ locale('notes') @} <sup class="uk-badge">4</sup></a></li>
                 </ul>
 
                 <ul class="uk-switcher uk-margin">
@@ -79,12 +79,7 @@
                         <ion-icon name="help-outline"></ion-icon>
                     </li>
                     <li>
-                        <ul class="uk-list uk-list-bullet">
-                            <li><a href="#" class="uk-link-reset">Issue logging in</a> [log 1d ago @ 15:46]</li>
-                            <li><a href="#" class="uk-link-reset">Change user password</a> [log 1d ago @ 15:46]</li>
-                            <li><a href="#" class="uk-link-reset">User account locked</a> [log 1d ago @ 15:46]</li>
-                        </ul>
-
+                        <textarea id="summernote" name="editordata" class="uk-textarea uk-form-blank uk-border-bottom" placeholder="{{ $row['firstname'] }} notes?" rows="10" col="10"></textarea>
                     </li>
                 </ul>
             </div>
@@ -96,4 +91,5 @@
 
 {% endblock %}
 <!--  -->
-{% block js %} {% endblock %}
+{% block scripts %}
+{% endblock %}

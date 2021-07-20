@@ -20,19 +20,23 @@ use MagmaCore\Utility\Stringify;
 class UserColumn extends AbstractDatatableColumn
 {
 
+    /**
+     * @param array $dbColumns
+     * @param object|null $callingController
+     * @return array[]
+     */
     public function columns(array $dbColumns = [], object|null $callingController = null): array
     {
         return [
             [
                 'db_row' => 'ID',
-                //'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
                 'dt_row' => 'ID',
                 'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
                 'searchable' => true,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="users-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
+                    return '<input type="checkbox" class="uk-checkbox" id="users-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '">';
                 }
             ],
             [

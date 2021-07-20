@@ -40,17 +40,8 @@
                         {% endif; %}
                     </dd>
 
-                    <dt>{@ locale('assigned_to') @}</dt>
-                    <dd><ion-icon name="help-outline"></ion-icon></dd>
-                    <dd>
-                        {% if (isset($relationship)) : %}
-                        <ul class="uk-list uk-list-bullet">
-                            <li>
-                                <a class="uk-link-reset" href=""><small class="uk-text-primary"></small></a>
-                            </li>
-                        </ul>
-                        {% endif; %}
-                    </dd>
+                    <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($user_role_id) %} users)</span></dt>
+                    <dd>{@ getUserOrderedListsFromRoles($user_role_id) @}</dd>
 
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>

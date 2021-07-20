@@ -38,7 +38,7 @@ class PermissionCommander extends PermissionModel implements ApplicationCommande
     private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
     private array $noCustomizer = ['new', 'edit'];
-    private array $noManager = [];
+    private array $noManager = ['new'];
     private array $noAction = [];
     private array $noFilter = ['new', 'edit'];
 

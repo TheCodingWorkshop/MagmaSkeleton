@@ -34,10 +34,10 @@
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('address_book') @}</dt>
                     <dd>
-                        {% if ($user_perference !==null) : %}
+                        {% if ($user_preference !==null) : %}
                         <span class="uk-display-block">
                             {%
-                            $exp = explode(',', unserialize($user_perference->address));
+                            $exp = explode(',', unserialize($user_preference->address));
                             $user_address = implode("<br/>", $exp);
                             %}
                             {{ $user_address }}
@@ -47,8 +47,8 @@
                     <dt>{@ locale('last_updated') @}</dt>
                     <dd>
                             <span>
-                            {% if (isset($user_perference) && $user_perference->updated_at !==null): %}
-                            {{{ $user_perference->updated_at }}}
+                            {% if (isset($user_preference) && $user_preference->updated_at !==null): %}
+                            {{{ $user_preference->updated_at }}}
                             {% else : %}
                             None Yet!
                             {% endif; %}
