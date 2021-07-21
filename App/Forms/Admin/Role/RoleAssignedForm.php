@@ -47,6 +47,9 @@ class RoleAssignedForm extends ClientFormBuilder implements ClientFormBuilderInt
         parent::__construct();
     }
 
+    /**
+     * @return PermissionModel
+     */
     public function getModel(): PermissionModel
     {
         return $this->permissions;

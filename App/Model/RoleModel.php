@@ -67,4 +67,11 @@ class RoleModel extends AbstractBaseModel
         return self::COLUMN_STATUS;
     }
 
+    public function getNameForSelectField($id)
+    {
+        $name = $this->getRepo()->findObjectBy(['id' => $id], ['role_name']);
+        return $name->role_name;
+    }
+
+
 }

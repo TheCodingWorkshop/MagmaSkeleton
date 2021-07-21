@@ -9,7 +9,7 @@
 
 <!-- start content-->
 {% block content %}
-<section uk-grid>
+<section uk-grid class="uk-height-viewport">
     <div class="uk-width-1-2@m">
         <div>
             <div class="uk-card uk-card-default">
@@ -33,11 +33,11 @@
                         Never
                         {% endif %}
                     </dd>
-                    <dt>{@ locale('created') @}</dt>
+                    <dt>{@ locale('created') @} </dt>
                     <dd>{@ formatDate($permission['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created
-                        by: {{{ $permission['created_byid'] }}}</small></dd>
-                    <dt>{@ locale('assigned_to') @}</dt>
-                    <dd>Superadmin</dd>
+                        by: {@ getAuthorByID($permission['created_byid']) @}</small></dd>
+                    <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($role_perm) %} roles)</span></dt>
+                    <dd>{@ getRolesOrderedListFromPermissionID($role_perm) @}</dd>
                 </dl>
             </div>
         </div>

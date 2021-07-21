@@ -121,4 +121,10 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
         }
     }
 
+    public function getNameForSelectField($id)
+    {
+        return (new RoleModel())->getNameForSelectField($id);
+    }
+
+
 }

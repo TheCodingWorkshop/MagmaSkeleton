@@ -40,6 +40,14 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
     }
 
     /**
+     * @return MenuModel
+     */
+    public function getModel(): MenuModel
+    {
+        return $this->model;
+    }
+
+    /**
      * @param string $action
      * @param object|null $dataRepository
      * @param object|null $callingController

@@ -42,6 +42,11 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
         parent::__construct();
     }
 
+    public function getModel(): RoleModel
+    {
+        return $this->roleModel;
+    }
+
     /**
      * @param string $action
      * @param object|null $dataRepository
@@ -73,11 +78,21 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 $this->blueprint->choices(Yaml::file('controller')['user']['status_choices'], $dataRepository->status ?? 'pending'),
                 $this->blueprint->settings(false, null, true, null, true)
             )
-            ->add(
-                $this->blueprint->radio('role_id', [], $this->hasValue('role_name')),
-                $this->blueprint->choices($this->roleModel->getRepo()->findBy(['id']), 2),
-                $this->blueprint->settings(false, null, true, 'Roles', true)
-            )
+            ->add($this->blueprint->select(
+                'role_id',
+                ['uk-select'],
+                'role_id',
+                5,
+                false,
+            ),
+                $this->blueprint->choices(
+                    array_column($this->roleModel->getRepo()->findBy(['id']), 'id'),
+                    /* need to return a list of permission assigned to the role */
+                    'Developers',
+                    $this
+                ),
+                $this->blueprint->settings(false, null, true, 'Roles', true, 'Select one one or more permissions'))
+
             ->add($this->blueprint->text(
                 'remote_addr',
                 ['uk-form-width-small'],

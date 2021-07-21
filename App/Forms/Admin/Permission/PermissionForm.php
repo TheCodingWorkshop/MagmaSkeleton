@@ -41,6 +41,14 @@ class PermissionForm extends ClientFormBuilder implements ClientFormBuilderInter
     }
 
     /**
+     * @return PermissionModel
+     */
+    public function getModel(): PermissionModel
+    {
+        return $this->model;
+    }
+
+    /**
      * @param string $action
      * @param object|null $dataRepository
      * @param object|null $callingController

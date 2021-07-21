@@ -9,7 +9,7 @@
 
 <!-- start content-->
 {% block content %}
-<section uk-grid>
+<section uk-grid class="uk-height-viewport">
     <div class="uk-width-1-2@m">
         <div>
             <div class="uk-card uk-card-default">
@@ -31,15 +31,15 @@
                         {@ formatDate($role['modified_at']) @} {% else : %} Never {% endif %}
                     </dd>
                     <dt>{@ locale('created') @}</dt>
-                    <dd>{@ formatDate($role['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created by:
-                        {{{ $role['created_byid'] }}}</small></dd>
+                    <dd>{@ formatDate($role['created_at']) @}
+                        <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($role['created_byid']) @}</small>
+                    </dd>
                     <dt>{@ locale('qualified_permission') @}</dt>
                     <dd></dd>
                 </dl>
             </div>
         </div>
     </div>
-    </form>
 
 </section>
 

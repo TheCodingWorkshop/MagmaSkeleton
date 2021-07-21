@@ -18,8 +18,8 @@ use App\Entity\PermissionEntity;
 use App\Event\PermissionActionEvent;
 use App\Forms\Admin\Permission\PermissionForm;
 use App\Model\PermissionModel;
+use App\Model\RolePermissionModel;
 use App\Schema\PermissionSchema;
-use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class PermissionController extends AdminController
@@ -50,7 +50,8 @@ class PermissionController extends AdminController
                 'entity' => PermissionEntity::class,
                 'column' => PermissionColumn::class,
                 'commander' => PermissionCommander::class,
-                'formPermission' => PermissionForm::class
+                'formPermission' => PermissionForm::class,
+                'rolePerm' => RolePermissionModel::class,
             ]
         );
 
@@ -116,7 +117,8 @@ class PermissionController extends AdminController
             ->render()
             ->with(
                 [
-                    'permission' => $this->toArray($this->findOr404())
+                    'permission' => $this->toArray($this->findOr404()),
+                    'role_perm' => $this->rolePerm->getRepo()->findBy(['role_id'], ['permission_id' => $this->thisRouteID()])
                 ]
             )
             ->form($this->formPermission)
