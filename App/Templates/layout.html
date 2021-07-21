@@ -16,9 +16,15 @@
     {@ addjs([], 'header') @}
     <!-- Page Specific Css -->
     {% yield styles %}
+    <script>
+        $(window).on("load", function () {
+            $(".preloader").fadeOut("slow");;
+        });
+    </script>
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
+{% include 'loader.html' %}
 <div>
     {% include '_partials/_nav_header.html' %}
     <div id="sidebar" class="tm-sidebar-left uk-background-default">
@@ -51,16 +57,6 @@
 <!-- Page specific scripts -->
 {% yield scripts %}
 <script>
-    $(document).ready(function () {
-        $("#user_account").sparkline([100, 155, 58, 68, -45, -20, 69], {
-            type: 'bar',
-            height: '50%',
-            barWidth: '50%',
-            barColor: "rgb(183,219,249)",
-            negBarColor: "rgb(48,61,75)",
-            zeroColor: 'green'
-        });
-    });
 </script>
 
 </body>

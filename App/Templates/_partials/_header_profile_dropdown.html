@@ -1,0 +1,49 @@
+<ul class="uk-iconnav">
+    <li>
+        <a class="ion-28 uk-text-secondary uk-margin-small-right uk-margin-small-top" href="#">
+            <ion-icon name="add-circle-outline"></ion-icon>
+        </a>
+        <div uk-dropdown="mode: click">
+            <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-active"><a href="#">Action</a></li>
+                <li class="uk-nav-divider"></li>
+                <li><a href="/admin/user/new">Users</a></li>
+                <li><a href="/admin/role/new">Roles</a></li>
+                <li><a href="/admin/permission/new">Permission</a></li>
+                <li><a href="/admin/menu/new">Menu</a></li>
+                <li class="uk-nav-divider"></li>
+                <li><a href="/admin/plugin/index">Plugins</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div>
+
+    </li>
+    <li><a class="ion-24 uk-text-secondary uk-margin-small-right uk-margin-small-top" href="#"><ion-icon name="mail-outline"></ion-icon></a></li>
+    <li><a class="ion-24 uk-text-secondary uk-margin-small-right uk-margin-small-top" href="#"><ion-icon name="grid-outline"></ion-icon></a></li>
+    <li>
+        <a uk-toggle="target: #offcanvas-flip" class="ion-24 uk-text-secondary uk-margin-small-right uk-margin-small-top" href="#">
+            <ion-icon name="notifications-outline"></ion-icon>
+        </a>
+        {% include 'components/notification_panel.html' %}
+    </li>
+
+    <li>
+        <a class="ion-24 uk-text-secondary" href="#">
+            <img class="uk-border-pill" src="/public/assets/images/undraw_profile.svg" width="40" height="40" alt="Border pill">
+        </a>
+        <div uk-dropdown="mode: click">
+            <ul class="uk-nav uk-dropdown-nav">
+                <li class="uk-active"><a href="#">{{ $current_user->firstname . ' ' . $current_user->lastname }}</a>
+                </li>
+                <li class="uk-nav-divider"></li>
+                <li><a href="/admin/user/{{ $current_user->id }}/edit"><ion-icon name="person-outline"></ion-icon> Profile</a></li>
+                <li><a href="/admin/user/{{ $current_user->id }}/edit"><ion-icon name="settings-outline"></ion-icon> Settings</a></li>
+                <li><a href="#"><ion-icon name="chatbox-ellipses-outline"></ion-icon> Inbox</a></li>
+                <li><a href="#"><ion-icon name="mail-open-outline"></ion-icon> Message</a></li>
+                <li class="uk-nav-divider"></li>
+                <li><a href="#"><ion-icon name="help-outline"></ion-icon> Need Help</a></li>
+                <li><a href="/logout"><ion-icon name="log-out-outline"></ion-icon> Logout</a></li>
+            </ul>
+        </div>
+    </li>
+</ul>

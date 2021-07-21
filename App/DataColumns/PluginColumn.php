@@ -26,14 +26,13 @@ class PluginColumn extends AbstractDatatableColumn
         return [
             [
                 'db_row' => 'id',
-                //'dt_row' => '<input type="checkbox" class="uk-checkbox" id="chkAll" onclick="CheckUncheckAll(this)">',
                 'dt_row' => 'ID',
                 'class' => 'uk-table-shrink',
                 'show_column' => true,
                 'sortable' => false,
                 'searchable' => true,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="permissions" name="id[]" value="' . $row['id'] . '" onclick="CheckUncheckHeader()">';
+                    return '<input type="checkbox" class="uk-checkbox" id="plugins-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '">';
                 }
             ],
             [

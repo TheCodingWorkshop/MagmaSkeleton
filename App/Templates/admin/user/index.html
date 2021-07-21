@@ -9,16 +9,16 @@
 
 <!-- start content-->
 {% block content %}
+<form method="post" action="/admin/permission/bulk">
+
 <section class="uk-height-viewport">
     <div class="uk-width-expand@m">
         <turbo-frame id="table_grid_paging_sorting">
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
-                        <form method="POST" action="">
-                            {{ $table }}
-                        </form>
 
+                            {{ $table }}
                     </div>
                 </div>
                 {@ templateExtension('uikit_pagination') @}
@@ -26,54 +26,22 @@
         </turbo-frame>
     </div>
 </section>
-
+</form>
 {% endblock %}
 <!--  -->
 {% block scripts %}
 <script>
-    $(document).ready(function () {
-        $("#sparkline").sparkline([100, 155, 58, 68, -45], {
-            type: 'bar',
-            height: '30%',
-            barWidth: '20%',
-            barColor: "rgb(0, 102, 102)",
-            negBarColor: "rgb(178,216,216)",
-            zeroColor: 'green'
-        });
-    });
-
-    function selects() {
-        const ele = document.getElementsByName('id[]');
-        const links = document.getElementsByClassName('bulk-action-links');
-        for (let i=0; i < ele.length; i++) {
-            if (ele[i].type == 'checkbox') {
-                ele[i].checked = true;
-            }
-        }
-    }
-    function deSelect(){
-        const ele = document.getElementsByName('id[]');
-        const links = document.getElementsByClassName('bulk-action-links');
-        for(let i=0; i<ele.length; i++){
-            if(ele[i].type=='checkbox')
-                ele[i].checked=false;
-                //links.className.add('uk-disabled');
-
-        }
-    }
-    // function myFunction() {
-    //     // Get the checkbox
-    //     var checkBox = document.getElementById("id");
-    //     // Get the output text
-    //     var text = document.getElementById("text");
+    // $(document).ready(function () {
+    //     $("#sparkline").sparkline([100, 155, 58, 68, -45], {
+    //         type: 'bar',
+    //         height: '30%',
+    //         barWidth: '20%',
+    //         barColor: "rgb(0, 102, 102)",
+    //         negBarColor: "rgb(178,216,216)",
+    //         zeroColor: 'green'
+    //     });
+    // });
     //
-    //     // If the checkbox is checked, display the output text
-    //     if (checkBox.checked == true){
-    //         text.style.display = "block";
-    //     } else {
-    //         text.style.display = "none";
-    //     }
-    // }
 </script>
 
 

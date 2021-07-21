@@ -74,6 +74,14 @@ scripts:
     location: header
     enable: true
     cdn: false
+  framework:
+    src: "/public/assets/js/uikit/framework.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: javascript
+    location: header
+    enable: true
+    cdn: false
   # uikit_icons:
   #   src: "https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/js/uikit-icons.min.js"
   #   integrity: ""

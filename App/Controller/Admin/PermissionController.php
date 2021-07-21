@@ -138,4 +138,9 @@ class PermissionController extends AdminController
             ->execute($this, NULL, PermissionActionEvent::class, NULL, __METHOD__);
     }
 
+    protected function bulkAction()
+    {
+       var_dump($_POST);
+    }
+
 }
