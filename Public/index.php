@@ -36,7 +36,7 @@ try {
         ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
         ->setSession(Yaml::file('session'))
         ->setCookie([])
-        ->setCache()
+        ->setCache(Yaml::file('cache'))
         ->setRoutes(Yaml::file('routes'))
         ->setContainerProviders(Yaml::file('providers'))
         ->run();
