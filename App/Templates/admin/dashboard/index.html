@@ -30,35 +30,35 @@
                 <ion-icon name="settings-outline"></ion-icon>
             </a>
         </div>
-
-        <div>
             <div>
-                <div uk-grid>
-                    <div class="uk-width-auto@m">
-                        {% include 'admin/dashboard/nav_switcher.html' %}
-                    </div>
-                    <div class="uk-width-expand@m">
-                        <ul id="component-tab-left" class="uk-switcher">
-                            <li>{% include 'admin/dashboard/block_main.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_session.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_github.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_activities.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_project.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_notifications.html' %}</li>
-                        </ul>
-                        {% include 'admin/dashboard/dashboard_toggle.html' %}
+                <div>
+                    <div uk-grid>
+                        <div class="uk-width-auto@m">
+                            {% include 'admin/dashboard/nav_switcher.html' %}
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <ul id="component-tab-left" class="uk-switcher">
+                                <li>{% include 'admin/dashboard/block_main.html' %}</li>
+                                <li>{% include 'admin/dashboard/block_session.html' %}</li>
+                                <li>{% include 'admin/dashboard/block_github.html' %}</li>
+                                <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
+                                <li>{% include 'admin/dashboard/block_activities.html' %}</li>
+                                <li>{% include 'admin/dashboard/block_project.html' %}</li>
+                                <li>{% include 'admin/dashboard/block_notifications.html' %}</li>
+                            </ul>
+                            {% include 'admin/dashboard/dashboard_toggle.html' %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
     </div>
     <div class="uk-card-body chart-content">
     </div>
     <div>
         <div uk-grid>
             <div class="uk-width-expand@m">
-                <ul id="component-tab-left" class="uk-switcher">
+                <ul id="component-tab-left-p" class="uk-switcher">
                     <li>Main</li>
                     <li>Session</li>
                     <li>Github</li>

@@ -69,3 +69,8 @@ en:
   backup: Backup
   update: Update
   tools: Tools
+  active: Active
+  account: Account
+  member_since: Member Since
+  delete_account: Delete this account
+  hard_delete_excerpt: Please review account before deleting. As this action is not recoverable.

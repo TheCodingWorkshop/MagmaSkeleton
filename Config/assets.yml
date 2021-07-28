@@ -31,6 +31,14 @@ scripts:
     crossorigin: ""
     type: javascript
     location: header
+    enable: true
+    cdn: true
+  stimulus:
+    src: "https://unpkg.com/stimulus/dist/stimulus.umd.js"
+    integrity: ""
+    crossorigin: ""
+    type: javascript
+    location: header
     enable: false
     cdn: true
 
@@ -82,19 +90,19 @@ scripts:
     location: header
     enable: true
     cdn: false
-  # uikit_icons:
-  #   src: "https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/js/uikit-icons.min.js"
-  #   integrity: ""
-  #   crossorigin: ""
-  #   type: javascript
-  #   location: header
-  #   enable: false
-  #   cdn: true
+  uikit_icons:
+    src: "https://cdn.jsdelivr.net/npm/uikit@3.4.2/dist/js/uikit-icons.min.js"
+    integrity: ""
+    crossorigin: ""
+    type: javascript
+    location: header
+    enable: true
+    cdn: true
   ionicons:
     src: "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"
     integrity: ""
     crossorigin: ""
-    type: module
+    type: javascript
     location: header
     enable: true
     cdn: true
@@ -102,7 +110,7 @@ scripts:
     src: "https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"
     integrity: ""
     crossorigin: ""
-    type: nomodule
+    type: javascript
     location: header
     enable: true
     cdn: true
@@ -122,14 +130,56 @@ scripts:
     location: header
     enable: true
     cdn: false
-  # charts:
-  #   src: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"
-  #   integrity: "sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc="
-  #   crossorigin: "anonymous"
-  #   type: javascript
-  #   location: header
-  #   enable: true
-  #   cdn: true
+  react:
+    src: "https://unpkg.com/react@17/umd/react.development.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: javascript
+    location: header
+    enable: false
+    cdn: true
+  react_dom:
+    src: "https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: javascript
+    location: header
+    enable: false
+    cdn: true
+  react_babel:
+    src: "https://unpkg.com/babel-standalone@6/babel.min.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: javascript
+    location: header
+    enable: false
+    cdn: true
+
+  reach_commander:
+    src: "/public/assets/js/uikit/react_commander.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: babel
+    location: footer
+    enable: false
+    cdn: false
+  react_datatable:
+    src: "/public/assets/js/react/react_datatable.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: babel
+    location: footer
+    enable: false
+    cdn: false
+
+  #   charts:
+#     src: "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"
+#     integrity: "sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc="
+#     crossorigin: "anonymous"
+#     type: javascript
+#     location: header
+#     enable: true
+#     cdn: true
   # chart:
   #   src: "/public/assets/js/uikit/charts.js"
   #   integrity: ""

@@ -15,6 +15,7 @@ namespace App\Database\Fillables;
 use App\Model\UserModel;
 use MagmaCore\Fillable\FillableSchema;
 use MagmaCore\Fillable\FillableSchemaInterface;
+use JetBrains\PhpStorm\Pure;
 
 class UserFillable extends FillableSchema implements FillableSchemaInterface
 {
@@ -39,11 +40,11 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
 
     /**
      *
-     * @return string
+     * @return bool
      */
-    public function createFillable(): string
+    public function createFillable(): bool
     {
-        $this->fillable->create(1, function ($fillable) {
+        $this->fillable->create(1, function ($fillable, $rows) {
             return $fillable
                 ->table($this->userModel)
                 ->fill($fillable->faker()->firstname)
@@ -51,15 +52,17 @@ class UserFillable extends FillableSchema implements FillableSchemaInterface
                 ->fill($fillable->faker()->email)
                 ->fill($fillable->faker()->status('pending'))
                 ->fill($fillable->faker()->fakePassword)
-                ->fill(1)
+                ->fill(1) /* this represent the created_byid field which is an integre user id of 1 */
                 ->fill($fillable->faker()->remoteIP)
-                ->bind(function ($fillable) {
+                ->bind(function ($fillable) use ($rows) {
                     return $fillable
                         ->on($fillable->getModel()->getFillables(UserModel::class))
-                        ->push();
+                        ->push($rows);
                 });
 
         });
+
+        return false;
 
     }
 }

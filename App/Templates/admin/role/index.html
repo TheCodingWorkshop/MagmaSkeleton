@@ -11,10 +11,9 @@
 
 <!-- start content-->
 {% block content %}
+{@ templateExtension('uikit_simple_pagination') @}
 <section uk-grid class="uk-height-viewport">
-
     <div class="uk-width-expand@m">
-        <turbo-frame id="table_grid_paging_sorting">
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
@@ -25,7 +24,6 @@
                 </div>
                 {@ templateExtension('uikit_pagination') @}
             </div>
-        </turbo-frame>
     </div>
 </section>
 {% endblock %}

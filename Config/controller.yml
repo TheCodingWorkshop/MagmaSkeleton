@@ -2,7 +2,7 @@ user:
   status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
   additional_conditions: []
   selectors: []
-  records_per_page: 10
+  records_per_page: 5
   query: status
   filter_by: ["lastname"]
   filter_alias: s ## associated to html form input name attribute
@@ -112,3 +112,28 @@ menu:
     - menu_name
     - created_at
     - modified_at
+    -
+notification:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["notify_title", "notify_type"]
+  filter_alias: s
+  sort_columns:
+    - notify_title
+    - notify_type
+    - created_at
+    -
+userLog:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 10
+  query: ""
+  filter_by: ["level_name"]
+  filter_alias: s
+  sort_columns:
+    - level_name
+    - created_at

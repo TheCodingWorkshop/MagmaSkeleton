@@ -37,8 +37,8 @@ class PluginCommander extends UserModel implements ApplicationCommanderInterface
 
     private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
-    private array $noCustomizer = ['edit', 'show'];
-    private array $noManager = [];
+    private array $noCustomizer = ['edit', 'show', 'index'];
+    private array $noManager = ['index'];
     private array $noAction = [];
     private array $noFilter = ['edit', 'show'];
 

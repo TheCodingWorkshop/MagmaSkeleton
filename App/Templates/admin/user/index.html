@@ -9,28 +9,57 @@
 
 <!-- start content-->
 {% block content %}
-<form method="post" action="/admin/permission/bulk">
-
-<section class="uk-height-viewport">
-    <div class="uk-width-expand@m">
-        <turbo-frame id="table_grid_paging_sorting">
+<form method="post" action="/admin/user/bulk">
+    <section class="uk-height-viewport">
+        {@ templateExtension('uikit_simple_pagination') @}
+        <div class="uk-width-expand@m">
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
+                        <div class="uk-overflow-auto uk-height-1-1">
+                            {% if (count($table_tabs) > 0) : %}
+                            <ul uk-tab>
+                                {% foreach ($table_tabs as $key => $tab) : %}
+                                <li>
+                                    <a class="uk-button uk-button-text uk-button-large" href="/admin/user/log">
+                                        <span class="uk-margin-small-right ion-28">
+                                            <ion-icon name="{{ $tab['icon'] }}-outline"></ion-icon>
+                                        </span> {{ $tab['tab'] }}
+                                        <small class="uk-label uk-label-red">{{ $tab['data'] ?? null }}</small>
+                                        <br>
+                                        <small class="uk-text-danger">{{ $tab['meta'] ?? null }}</small>
+                                    </a>
+                                </li>
+                                {% endforeach %}
+                            </ul>
+                            {% endif; %}
 
-                            {{ $table }}
+                            <ul class="uk-switcher uk-margin">
+                                <li>{{ $table }}</li>
+                                <li>No Log</li>
+                                <li>No Error.</li>
+                                <li>No Trash</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 {@ templateExtension('uikit_pagination') @}
             </div>
-        </turbo-frame>
-    </div>
-</section>
+        </div>
+    </section>
 </form>
 {% endblock %}
 <!--  -->
 {% block scripts %}
 <script>
+
+    $('#selectAllDomainList').click (function () {
+        const checkedStatus = this.checked;
+        $('#datatable tbody tr').find('td:first :checkbox').each(function () {
+            $(this).prop('checked', checkedStatus);
+        });
+    });
+
     // $(document).ready(function () {
     //     $("#sparkline").sparkline([100, 155, 58, 68, -45], {
     //         type: 'bar',
@@ -42,6 +71,7 @@
     //     });
     // });
     //
+
 </script>
 
 

@@ -15,15 +15,16 @@ namespace App\EventSubscriber;
 use App\Event\UserActionEvent;
 use App\Model\UserMetaDataModel;
 use App\Model\UserRoleModel;
-use Exception;
+use App\Model\NotificationModel;
 use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\NoReturn;
+use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Base\Contracts\BaseActionEventInterface;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use MagmaCore\Mailer\Exception\MailerException;
 use MagmaCore\Mailer\MailerFacade;
+use Exception;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -44,6 +45,7 @@ class UserActionSubscriber implements EventSubscriberInterface
     private MailerFacade $mailer;
     private BaseView $view;
     private UserRoleModel $userRole;
+    private NotificationModel $notify;
 
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
@@ -63,12 +65,14 @@ class UserActionSubscriber implements EventSubscriberInterface
      * @param MailerFacade $mailer
      * @param BaseView $view
      * @param UserRoleModel $userRole
+     * @param NotificationModel $notify
      */
-    public function __construct(MailerFacade $mailer, BaseView $view, UserRoleModel $userRole)
+    public function __construct(MailerFacade $mailer, BaseView $view, UserRoleModel $userRole, NotificationModel $notify)
     {
         $this->mailer = $mailer;
         $this->view = $view;
         $this->userRole = $userRole;
+        $this->notify = $notify;
     }
 
     /**
@@ -84,10 +88,11 @@ class UserActionSubscriber implements EventSubscriberInterface
             UserActionEvent::NAME => [
                 ['flashUserEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['assignedUserRole'],
-                //['createUserLog'],
                 ['sendActivationEmail'],
                 ['updateUserRole'],
-                //['logRequest'],
+                ['newUserNotification'],
+                ['editUserNotification'],
+                ['deleteUserNotification'],
             ]
         ];
     }
@@ -252,6 +257,76 @@ class UserActionSubscriber implements EventSubscriberInterface
             }
         }
         return false;
+    }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function newUserNotification(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::NEW_ACTION)) {
+            $user = $event->getContext();
+            $currentUser = Authorized::grantedUser();
+            return $this->sendNotification(
+                $event,
+                'New account created from control panel',
+                'system',
+                'unread',
+                'admin',
+                sprintf('%s %s created a new account for %s %s', $currentUser->firstname, $currentUser->lastname, $user['firstname'], $user['lastname'])
+            );
+
+        }
+        return false;
+    }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function editUserNotification(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::EDIT_ACTION)) {
+            $user = $event->getContext();
+            $currentUser = Authorized::grantedUser();
+            return $this->sendNotification(
+                $event,
+                sprintf('%s updated %s user account', $currentUser->firstname . ' ' . $currentUser->lastname, $user['firstname'] . ' ' . $user['lastname']),
+                'system',
+                'unread',
+                'admin',
+                sprintf('%s %s created a new account for %s %s', $currentUser->firstname, $currentUser->lastname, $user['firstname'], $user['lastname'])
+            );
+
+        }
+        return false;
+
+    }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function deleteUserNotification(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::DELETE_ACTION)) {
+            $event->getObject()->flashMessage('User account deleted');
+            $event->getObject()->redirect('/admin/user/index');
+//            $user = $event->getContext();
+//            $currentUser = Authorized::grantedUser();
+//            return $this->sendNotification(
+//                $event,
+//                sprintf('%s updated %s user account', $currentUser->firstname . ' ' . $currentUser->lastname, $user['firstname'] . ' ' . $user['lastname']),
+//                'system',
+//                'unread',
+//                'admin',
+//                sprintf('%s %s created a new account for %s %s', $currentUser->firstname, $currentUser->lastname, $user['firstname'], $user['lastname'])
+//            );
+
+        }
+        return false;
+
     }
 
     public function logRequest(UserActionEvent $event)

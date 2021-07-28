@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 
 use App\Commander\UserCommander;
 use App\DataColumns\UserColumn;
+use App\DataColumns\UserLogColumn;
 use App\Entity\UserEntity;
 use App\Entity\UserRoleEntity;
 use App\Entity\TemporaryRoleEntity;
@@ -31,9 +32,12 @@ use App\Model\RoleModel;
 use App\Model\UserRoleModel;
 use App\Model\UserPreferenceModel;
 use App\Model\TemporaryRoleModel;
+use App\Model\UserLogModel;
 use App\Repository\UserRoleRepository;
 use App\Relationships\UserRelationship;
 use App\Schema\UserSchema;
+use App\Schema\UserLogSchema;
+use App\Database\Fillables\UserFillable;
 use JetBrains\PhpStorm\NoReturn;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
@@ -78,11 +82,12 @@ class UserController extends AdminController
                 'userPreferenceRepo' => UserPreferenceModel::class,
                 'userPreferencesForm' => UserPreferencesForm::class,
                 'formSettings' => SettingsForm::class,
-                'tableSettings' => TableSettingsForm::class,
-                'relationship' => UserRelationship::class,
                 'userRole' => UserRoleModel::class,
                 'userRoleRepo' => UserRoleRepository::class,
                 'tempRole' => TemporaryRoleModel::class,
+                'userLogRepo' => UserLogModel::class,
+                'userFillable' => UserFillable::class,
+
             ]
         );
 
@@ -111,14 +116,22 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
+
         $this->indexAction
             ->setAccess($this, 'can_view')
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
             ->render()
             ->with(
                 [
-                    UserModel::COLUMN_STATUS
-                ])
+                    'table_tabs' => [
+                        'primary' => ['tab' => 'Primary', 'icon' => 'person', 'value' => '', 'data' => '2 new', 'meta' => '3.1k active user'],
+                        'logs' => ['tab' => 'Logs', 'icon' => 'file-tray', 'value' => '', 'data' => '', 'meta' => '1 critical error'],
+                        'statistics' => ['tab' => 'Statistics', 'icon' => 'analytics', 'value' => '', 'data' => '', 'meta' => '2.6%'],
+                        'trash' => ['tab' => 'Trash', 'icon' => 'trash', 'value' => '', 'data' => '', 'meta' => '23 items in trash']
+
+                    ],
+                ]
+            )
             ->table()
             ->end();
     }
@@ -194,11 +207,7 @@ class UserController extends AdminController
     {
         $this->deleteAction
             ->setAccess($this, 'can_delete')
-            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
-            ->render()
-            ->with()
-            ->singular()
-            ->end();
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
 
     }
 
@@ -222,9 +231,14 @@ class UserController extends AdminController
      */
     protected function bulkAction()
     {
-        $this->bulkDeleteAction
-            ->setAccess($this, 'can_bulk_delete')
-            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
+//        if (array_key_exists('id', $this->request->handler()->request->get('bulk-trash'))) {
+//            var_dump(true);
+//            die;
+//        }
+            //var_dump($this->request->handler()->request->get('id'));
+//        $this->bulkDeleteAction
+//            ->setAccess($this, 'can_bulk_delete')
+//            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
     }
 
     protected function cloneAction()
@@ -264,6 +278,9 @@ class UserController extends AdminController
             ->end();
     }
 
+    /**
+     * Render the user preferences view
+     */
     protected function preferencesAction()
     {
         $this->newAction
@@ -279,6 +296,20 @@ class UserController extends AdminController
             ->end();
     }
 
+    /**
+     * @return mixed
+     */
+    private function getUserRoleID(): mixed
+    {
+        return $this->flattenArray(
+            $this->userRole
+                ->getRepo()
+                ->findBy(['role_id'], ['user_id' => $this->thisRouteID()]));
+    }
+
+    /**
+     * Render the user privilege view
+     */
     protected function privilegeAction()
     {
         $userRoleID = $this->flattenArray($this->userRole->getRepo()->findBy(['role_id'], ['user_id' => $this->thisRouteID()]));

@@ -15,19 +15,18 @@
 
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                    <h4 class="uk-heading uk-text-danger">Please review account before deleting. As this action is not
-                        recoverable.
+                    <h4 class="uk-heading uk-text-danger">{@ locale('hard_delete_excerpt') @}.
                     </h4>
                     <dl class="uk-description-list uk-description-list-divider">
-                        <dt>Role</dt>
-                        <dd>Subscriber</dd>
-                        <dt>Account</dt>
+                        <dt>{@ locale('role') @}</dt>
+                        <dd>{@ getRoleFromID($row['id']) @}</dd>
+                        <dt>{@ locale('account') @}</dt>
                         <dd>{{{ $row['status'] }}}</dd>
-                        <dt>Member since</dt>
-                        <dd>{{{ $row['created_at'] }}}</dd>
+                        <dt>{@ locale('member_since') @}</dt>
+                        <dd>{@ altDateFormat('F Y', $row['created_at']) @}</dd>
                     </dl>
                     <form action="/admin/user/{{{ $row['id'] }}}/delete" method="post">
-                        <button class="uk-button uk-button-danger uk-button-large">Delete this account</button>
+                        <button class="uk-button uk-button-danger uk-button-large">{@ locale('delete_account') @}</button>
                     </form>
                 </div>
             </div>
@@ -37,13 +36,17 @@
         <div>
             <div class="uk-card uk-card-body uk-padding-remove">
                 <dl class="uk-description-list uk-description-list-divider">
-                    <dt>Contributions</dt>
-                    <dd>{{{ $row['firstname'] }}} has not created any content</dd>
+                    <dt>Conutions</dt>
+                    <dt>Posts/Comments</dt>
+                    <dd>No created content was found for this user.</dd>
+                    <dt>Account Assets</dt>
+                    <dd>No uploads or downloads was connected to this user account.</dd>
+                    <dt>Description term</dt>
+                    <dd></dd>
                 </dl>
             </div>
         </div>
     </div>
-    </form>
 
 </section>
 

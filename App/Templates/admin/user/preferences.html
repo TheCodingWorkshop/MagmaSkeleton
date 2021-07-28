@@ -14,14 +14,7 @@
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                    <turbo-stream action="update" target="flash_messages">
-                        <template>
-                            <div>{@ templateExtension('uikit_flash_message') @}</div>
-                        </template>
-                    </turbo-stream>
-                    <turbo-frame id="user_form">
                         {{ $form }}
-                    </turbo-frame>
                 </div>
             </div>
         </div>

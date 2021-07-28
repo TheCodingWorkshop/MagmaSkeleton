@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ $app['settings']['default_locale'] }}">
-
 <head>
     <title>{% yield title %}</title>
     <meta charset="{{ $app['settings']['default_charset'] }}">
@@ -16,48 +15,59 @@
     {@ addjs([], 'header') @}
     <!-- Page Specific Css -->
     {% yield styles %}
-    <script>
-        $(window).on("load", function () {
-            $(".preloader").fadeOut("slow");;
-        });
-    </script>
+    <style>
+        .turbo-progress-bar {
+            height: 5px;
+            background-color: red!important;
+        }
+
+        .turbo-progress-bar {
+            visibility: hidden;
+        }
+
+    </style>
+<!--    <script>-->
+<!--        $(window).on("load", function () {-->
+<!--            $(".preloader").fadeOut("slow");;-->
+<!--        });-->
+<!--    </script>-->
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
-{% include 'loader.html' %}
-<div>
-    {% include '_partials/_nav_header.html' %}
-    <div id="sidebar" class="tm-sidebar-left uk-background-default">
-        {% include '_partials/_sidebar_profile.html' %}
-        <!-- Main sidebar -->
-        {% include '_partials/_sidebar.html' %}
-    </div>
-    <div class="content-padder content-background">
-        <div class="uk-section-default header">
-            <div class="uk-container uk-container-large">
-                {% if ($current_user !==null) : %}
-                {@ templateExtension('uikit_commander_bar') @}
-                {% endif; %} {% yield dashboard_commander %}
-            </div>
-        </div>
-        <div class="uk-section-small main">
-            <div class="uk-container uk-container-large">
 
-                <turbo-frame>
+<!--{% include 'loader.html' %}-->
+    <div>
+        {% include '_partials/_nav_header.html' %}
+        <div id="sidebar" class="tm-sidebar-left uk-background-default">
+            {% include '_partials/_sidebar_profile.html' %}
+            <!-- Main sidebar -->
+            {% include '_partials/_sidebar.html' %}
+        </div>
+        <div class="content-padder content-background">
+            <div class="uk-section-default header">
+                <div class="uk-container uk-container-expand">
+                    {% if ($current_user !==null) : %}
+                    {@ templateExtension('uikit_commander_bar') @}
+                    {% endif; %}
+                    {% yield dashboard_commander %}
+                </div>
+            </div>
+
+            <div class="uk-section-small main">
+                <div class="uk-container uk-container-expand">
                     <div id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
-                </turbo-frame>
-
-                {% yield content %}
+                    {% yield content %}
+                </div>
             </div>
+
         </div>
     </div>
-</div>
-<!-- Footer Js -->
-{@ addjs() @}
-<!-- Page specific scripts -->
-{% yield scripts %}
-<script>
-</script>
+    <!-- Footer Js -->
+    {@ addjs() @}
+    <!-- Page specific scripts -->
+    {% yield scripts %}
+    <script>
+    </script>
 
 </body>
 

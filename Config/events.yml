@@ -1,5 +1,10 @@
 services:
   subscribers:
+#    base_controller.subscriber:
+#      class: \MagmaCore\Base\EventSubscriber\BaseControllerActionSubscriber
+#      props:
+#        - {}
+
     user.subscriber:
       class: \App\EventSubscriber\UserActionSubscriber
       props:
@@ -123,8 +128,8 @@ services:
         App\Controller\Admin\RoleController::assignedAction:
           msg: Changes Saved
 
-  listeners:
-    send_registration_email.listener:
-      class: \App\EventListener\SendRegistrationEmailListener
-      props:
-        - { name: "app.event.listener.send_registration_email_listener", event: '__invoke' }
+#  listeners:
+#    inertia.listener:
+#      class: \MagmaCore\Inertia\InertiaListener
+#      props:
+#        - { name: "app.event.listener.send_registration_email_listener", event: '' }

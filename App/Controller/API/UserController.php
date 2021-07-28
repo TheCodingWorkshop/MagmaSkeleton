@@ -15,27 +15,19 @@ namespace App\Controller\API;
 use App\Controller\Admin\UserController as APIUserController;
 use App\Entity\UserEntity;
 use App\Event\UserActionEvent;
+use App\Schema\UserSchema;
 
 class UserController extends APIUserController
 {
 
     protected function indexAction()
     {
-        $repository = $this->repository->getRepo();
-        if ($repository->count() > 0) {
-            $records = [];
-            $records['records'] = [];
-            array_push($records['records'], $repository->findAll());
-            echo $this->apiResponse->response($records);
-        }
-    }
-
-    public function newAction()
-    {
-        $this->newAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+        $this->indexAction
+            ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
+            ->render('/admin/user/index.html')
             ->with()
-            ->api();
+            ->table()
+            ->indexApiEndpoint();
 
     }
 

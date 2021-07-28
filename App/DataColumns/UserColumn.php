@@ -179,6 +179,10 @@ class UserColumn extends AbstractDatatableColumn
         ];
     }
 
+    /**
+     * @param array $row
+     * @return string
+     */
     private function getDropdownStatus(array $row): string
     {
         $stat = '';
@@ -231,9 +235,11 @@ class UserColumn extends AbstractDatatableColumn
         }
     }
 
+    /**
+     * @param array $row
+     */
     private function getRole(array $row)
-    {
-    }
+    {}
 
     /**
      * Return icon representation of the various column status
