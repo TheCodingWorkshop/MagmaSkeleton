@@ -1,6 +1,7 @@
 user:
   status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
-  additional_conditions: []
+  additional_conditions:
+    status: active
   selectors: []
   records_per_page: 5
   query: status

@@ -30,15 +30,15 @@
                             </div>
                             <div class="uk-card-body uk-card-warning">
                                 <p>Theres currently {% echo count($lists) %} item in the trash.</p>
-                                <form method="POST" action="">
+                                <form method="post" action="">
                                     {% if (isset($lists) && count($lists) > 0) : %}
                                     <ul class="uk-list uk-list-collapse uk-list-divider">
                                         {% foreach ($lists as $list) : %}
                                         <li>
                                             <div class="uk-grid-small" uk-grid>
                                                 <div class="uk-width-expand" uk-leader>{{ $list['firstname'] . ' ' . $list['lastname'] }}</div>
-                                                <div><a href="" class="uk-reset-link" uk-tooltip="Permanently Delete"><ion-icon name="trash-outline"></ion-icon></a>
-                                                    <a uk-tooltip="Restore" class="uk-reset-link" href=""><ion-icon name="refresh-outline"></ion-icon></a>
+                                                <div><a class="ion-24" href="" class="uk-reset-link" uk-tooltip="Permanently Delete"><ion-icon name="trash-outline"></ion-icon></a>
+                                                    <a class="ion-24" uk-tooltip="Restore" class="uk-reset-link" href="/admin/user/{{ $list['id'] }}/trash-restore"><ion-icon name="refresh-outline"></ion-icon></a>
                                                 </div>
                                                 <input type="hidden" name="user_id[]" value="{{ $list['id'] }}"/>
                                             </div>

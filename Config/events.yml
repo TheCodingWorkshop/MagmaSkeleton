@@ -20,6 +20,10 @@ services:
           msg: Bulk action successful!
         App\Controller\RegistrationController::registerAction:
           msg: Your account was created!
+        App\Controller\RegistrationController::trashAction:
+          msg: Account is in located within the trash!
+        App\Controller\RegistrationController::trashRestoreAction:
+          msg: Account restored from trash!
 
     role.subscriber:
       class: \App\EventSubscriber\RoleActionSubscriber

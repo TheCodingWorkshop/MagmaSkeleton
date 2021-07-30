@@ -40,7 +40,7 @@ class UserColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'firstname',
+                'db_row' => 'fullname',
                 'dt_row' => 'Name',
                 'class' => 'uk-table-expand',
                 'show_column' => true,
@@ -64,6 +64,15 @@ class UserColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     return $html;
                 }
+            ],
+            [
+                'db_row' => 'firstname',
+                'dt_row' => 'Firstname',
+                'class' => '',
+                'show_column' => false,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => ''
             ],
             [
                 'db_row' => 'lastname',

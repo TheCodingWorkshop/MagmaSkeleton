@@ -116,6 +116,12 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
+        $trashCount = $this->repository->getRepo()->count(['status' => 'trash']);
+        $activeCount = $this->repository->getRepo()->count(['status' => 'active']);
+        $pendingCount = $this->repository->getRepo()->count(['status' => 'pending']);
+        $lockCount = $this->repository->getRepo()->count(['status' => 'lock']);
+        $logCount = $this->userLogRepo->getRepo()->count();
+        $logCriticalCount = $this->userLogRepo->getRepo()->count(['level' => 500]);
 
         $this->indexAction
             ->setAccess($this, 'can_view')
@@ -124,12 +130,39 @@ class UserController extends AdminController
             ->with(
                 [
                     'table_tabs' => [
-                        'primary' => ['tab' => 'Primary', 'icon' => 'person', 'value' => '', 'data' => '2 new', 'meta' => '3.1k active user'],
-                        'logs' => ['tab' => 'Logs', 'icon' => 'file-tray', 'value' => '', 'data' => '', 'meta' => '1 critical error'],
-                        'statistics' => ['tab' => 'Statistics', 'icon' => 'analytics', 'value' => '', 'data' => '', 'meta' => '2.6%'],
-                        'trash' => ['tab' => 'Trash', 'icon' => 'trash', 'value' => '', 'data' => '', 'meta' => '23 items in trash']
+                        'primary' => ['tab' => 'Primary', 'icon' => 'person', 'value' => $activeCount, 'data' => "{$pendingCount} New", 'meta' => "{$activeCount} active user"],
+                        'logs' => ['tab' => 'Logs', 'icon' => 'reader', 'value' => $logCount, 'data' => '', 'meta' => "{$logCount} Logged {$logCriticalCount} critical"],
+                        'pending' => ['tab' => 'Pending', 'icon' => 'warning', 'value' => $pendingCount, 'data' => '', 'meta' => "{$pendingCount} awaiting."],
+                        'trash' => ['tab' => 'Trash', 'icon' => 'trash', 'value' => $trashCount, 'data' => '', 'meta' => "{$trashCount} item in trash"],
+                        'lock' => ['tab' => 'Lock', 'icon' => 'lock-closed', 'value' => $lockCount, 'data' => '', 'meta' => "{$lockCount} account locked"],
 
                     ],
+                    'lists' => $this->repository
+                        ->getRepo()
+                        ->findBy(
+                            ['firstname', 'lastname', 'id', 'deleted_at_datetime'],
+                            ['status' => 'trash', 'deleted_at' => 1]
+                        ),
+                    'lock' => $this->repository
+                        ->getRepo()
+                        ->findBy(
+                            ['firstname', 'lastname', 'email', 'id', 'created_at', 'status'],
+                            ['status' => 'lock']
+                        ),
+                    'pendings' => $this->repository
+                        ->getRepo()
+                        ->findBy(
+                            ['firstname', 'lastname', 'email', 'id', 'created_at', 'status'],
+                            ['status' => 'pending']
+                        ),
+
+                    'logs' => $this->userLogRepo
+                        ->getRepo()
+                        ->findAll(),
+                    'count_active' => $activeCount,
+                    'count_pending' => $pendingCount,
+                    'status' => $this->request->handler()->query->get('status')
+
                 ]
             )
             ->table()
@@ -175,6 +208,7 @@ class UserController extends AdminController
         $this->newAction
             ->setAccess($this, 'can_add')
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+            //->setLog(true)
             ->render()
             ->with(['userYml' => Yaml::file('user')])
             ->form($this->formUser)
@@ -207,7 +241,8 @@ class UserController extends AdminController
     {
         $this->deleteAction
             ->setAccess($this, 'can_delete')
-            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
+            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
+            ->endAfterExecution();
 
     }
 
@@ -241,6 +276,10 @@ class UserController extends AdminController
 //            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__);
     }
 
+    /**
+     * Clone a user account and append a unique index to prevent email unique key
+     * collision
+     */
     protected function cloneAction()
     {
         $this->newAction
@@ -252,30 +291,67 @@ class UserController extends AdminController
             ->end();
     }
 
+    /**
+     * Change a user status to lock
+     */
     protected function lockAction()
     {
-        $this->editAction
+        $this->changeStatusAction
             ->setAccess($this, 'can_lock')
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
-            ->render()
-            ->with()
-            ->singular()
-            ->end();
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__,[], [],
+                ['status' => 'lock'])
+            ->endAfterExecution();
     }
 
+    /**
+     * Change a user status to lock
+     */
+    protected function unlockAction()
+    {
+        $this->changeStatusAction
+            ->setAccess($this, 'can_unlock')
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
+                ['status' => 'active'])
+            ->endAfterExecution();
+    }
+
+    /**
+     * change a user status to trash and populate the deleted_at field to remove the trash
+     * user from the main table listing
+     */
     protected function trashAction()
     {
-        $this->newAction
+        $this->changeStatusAction
             ->setAccess($this, 'can_trash')
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
-            ->render()
-            ->with()
-            ->binLists(
-                [
-                    'firstname', 'lastname', 'id', 'deleted_at_datetime'
-                ]
-            )
-            ->end();
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
+                ['status' => 'trash', 'deleted_at' => 1, 'deleted_at_datetime' => date('Y-m-d H:i:s')])
+            ->endAfterExecution();
+    }
+
+    /**
+     * Change a user status from trash to active and null the deleted_at field for the user
+     * to show in the main table listing
+     */
+    protected function trashRestoreAction()
+    {
+        $this->trashRestoreAction
+            ->setAccess($this, 'can_restore_trash')
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
+            ['status' => 'active', 'deleted_at' => NULL, 'deleted_at_datetime' => NULL])
+            ->endAfterExecution();
+    }
+
+    /**
+     * Change a user status to active
+     */
+    protected function activeAction()
+    {
+        $this->changeStatusAction
+            ->setAccess($this, 'can_change_status')
+            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
+            ['status' => 'active'])
+            ->endAfterExecution();
+
     }
 
     /**

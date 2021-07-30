@@ -25,6 +25,7 @@ use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\BlankAction;
 use MagmaCore\Base\Domain\Actions\BulkDeleteAction;
+use MagmaCore\Base\Domain\Actions\ChangeStatusAction;
 use MagmaCore\Base\Domain\Actions\DeleteAction;
 use MagmaCore\Base\Domain\Actions\EditAction;
 use MagmaCore\Base\Domain\Actions\IndexAction;
@@ -81,6 +82,7 @@ class AdminController extends BaseController
                 'indexAction' => IndexAction::class,
                 'logIndexAction' => LogIndexAction::class,
                 'showAction' => ShowAction::class,
+                'changeStatusAction' => ChangeStatusAction::class,
                 'settingsAction' => SettingsAction::class,
                 'apiResponse' => RestHandler::class
             ]

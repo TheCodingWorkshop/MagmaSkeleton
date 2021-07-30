@@ -74,3 +74,10 @@ error_handler:
   error: \MagmaCore\ErrorHandler\ErrorHandler::errorHandle
   exception: \MagmaCore\ErrorHandler\ErrorHandler::exceptionHandle
   log_path: ""
+
+logger_handler:
+  file: \MagmaCore\Logger\Handler\NativeLoggerHandler
+  array: \MagmaCore\Logger\Handler\ArrayLoggerHandler
+  database: \MagmaCore\Logger\Handler\PdoLoggerHandler
+  console: \MagmaCore\Logger\Handler\ConsoleLoggerHandler
+  echo: \MagmaCore\Logger\Handler\EchoLoggerHandler

@@ -214,19 +214,23 @@ body {
     color: #ffffff !important;
 }
 
-.uk-badge-danger {
+.uk-badge-danger,
+.uk-label-danger {
     background-color: #F4766E;
 }
 
-.uk-badge-success {
+.uk-badge-success,
+.uk-label-success {
     background-color: #9CD7B1;
 }
 
-.uk-badge-warning {
+.uk-badge-warning,
+.uk-label-warning {
     background-color: #FCB864;
 }
 
-.uk-badge-secondary {
+.uk-badge-secondary,
+.uk-label-secondary {
     background-color: #5B5A53;
 }
 

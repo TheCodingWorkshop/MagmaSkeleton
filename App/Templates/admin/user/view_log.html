@@ -1,0 +1,45 @@
+<div class="uk-card-header">
+  <div class="uk-grid-small uk-flex-middle" uk-grid>
+    <div class="uk-width-auto ion-64">
+      <ion-icon name="reader-outline"></ion-icon>
+    </div>
+    <div class="uk-width-expand">
+      <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ count($logs) > 0 ? count($logs) : 0 }} User Log</h3>
+      <p class="uk-text-meta uk-margin-remove-top">
+        <span>There's currently {% echo count($logs) %} rows of logged</span>
+      </p>
+      <div class="uk-search">
+        <a href="" class="uk-search-icon-flip" uk-search-icon></a>
+        <input type="search" class="uk-search-input uk-search-large uk-form-blank uk-border-bottom" onkeyup="listFilter('list_log_filter', 'filtered_list_log')" id="list_log_filter" placeholder="Filter Lists..." />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% if (count($logs) > 0) : %}
+<div class="uk-card-body uk-card-default">
+  <form method="post" action="">
+    {% if (isset($logs) && count($logs) > 0) : %}
+    <div class="uk-overflow-auto uk-height-large">
+    <ul class="uk-list uk-list-collapse uk-list-divider" id="filtered_list_log">
+      {% foreach ($logs as $log) : %}
+      <li>
+            <span class="uk-text-bolder uk-alert-{@ getLogLevelColor($log['level_name']) @}">{{ ucwords($log['level_name']) }}</span>
+            <small>({{ $log['level'] }})</small>
+            <span>-</span>
+            [{{ $log['message'] }}] @ {{ $log['created_at'] }} for
+            [<a class="uk-link-reset" href="/admin/user/{{ $log['user_id'] }}/show"><ion-icon name="link-outline"></ion-icon> {@ getAuthorByID($log['user_id']) @}</a>]
+      </li>
+      {% endforeach %}
+    </ul>
+    </div>
+    {% endif %}
+
+    <div class="uk-margin">
+      <input class="uk-button uk-button-danger" type="submit" name="bulk-delete" value="Clear Log">
+      <span>For a more detail log please <a href="/admin/user/log">click here</a></span>
+    </div>
+  </form>
+</div>
+{% endif %}

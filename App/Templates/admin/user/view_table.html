@@ -1,0 +1,31 @@
+{% if($total_records > 0): %}
+  {{ $table }}
+{% else : %}
+  <div class="uk-card-header">
+    <div class="uk-grid-small uk-flex-middle" uk-grid>
+      <div class="uk-width-auto ion-64">
+        <ion-icon name="alert-outline"></ion-icon>
+      </div>
+      <div class="uk-width-expand">
+        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">
+          {% if ($status === 'pending') : %}
+          No Pending Users
+          {% elseif ($status === 'lock'): %}
+          No Lock Users
+          {% elseif ($status === 'trash'): %}
+          No Trash Users
+          {% elseif ($status === 'active'): %}
+          No Active Users
+          {% else : %}
+          No Active Users
+          {% endif %}
+        </h3>
+        <p class="uk-text-meta uk-margin-remove-top">
+          <span>There's currently {% echo ($count_active > 0) ? $count_active : 0  %} active users.
+            {{ $count_pending > 0 ? "However there are still $count_pending user account pending." : '' }}
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endif %}

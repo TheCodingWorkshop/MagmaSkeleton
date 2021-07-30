@@ -20,9 +20,5 @@ FlatRepository:
   \MagmaCore\DataObjectLayer\FileStorageRepository\FileStorageRepository
 controllerSettingsModel:
   \App\Model\ControllerSettingsModel
-#str:
-#  \MagmaCore\StringCollection\StringCollection;
-#arr:
-#  \MagmaCore\ArrayCollection\ArrayCollection;
-#num:
-#  \MagmaCore\NumberCollection\NumberCollection;
+settings:
+  \MagmaCore\Settings\Settings

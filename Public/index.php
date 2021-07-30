@@ -17,6 +17,7 @@ declare(strict_types=1);
 defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
 defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . '/' . "Config/");
 defined('TEMPLATE_CACHE') or define("TEMPLATE_CACHE", ROOT_PATH . '/' . "App/Templates/Cache");
+defined('LOG_PATH') or define('LOG_PATH', ROOT_PATH . '/Storage/logs');
 
 $composer = ROOT_PATH . '/vendor/autoload.php';
 if (is_file($composer)) {
@@ -26,6 +27,7 @@ if (is_file($composer)) {
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
+use MagmaCore\Logger\LogLevel;
 
 Debug::enable();
 
@@ -38,6 +40,7 @@ try {
         ->setCookie([])
         ->setCache(Yaml::file('cache'))
         ->setRoutes(Yaml::file('routes'))
+        ->setLogger(LOG_PATH, Yaml::file('app')['logger_handler']['file'], LogLevel::DEBUG, [])
         ->setContainerProviders(Yaml::file('providers'))
         ->run();
 } catch (Exception $e) {

@@ -16,6 +16,7 @@ use App\Event\UserActionEvent;
 use App\Model\UserMetaDataModel;
 use App\Model\UserRoleModel;
 use App\Model\NotificationModel;
+use http\Client\Curl\User;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\BaseView;
@@ -57,7 +58,12 @@ class UserActionSubscriber implements EventSubscriberInterface
     protected const EDIT_ACTION = 'edit';
     protected const DELETE_ACTION = 'delete';
     protected const BULK_ACTION = 'bulk';
+    protected const TRASH_ACTION = 'trash';
+    protected const TRASH_RESTORE_ACTION = 'trash-restore';
     protected const REGISTER_ACTION = 'register';
+    protected const LOCK_ACTION = 'lock';
+    protected const UNLOCK_ACTION = 'unlock';
+    protected const ACTIVE_ACTION = 'active';
 
     /**
      * Main constructor class
@@ -90,9 +96,14 @@ class UserActionSubscriber implements EventSubscriberInterface
                 ['assignedUserRole'],
                 ['sendActivationEmail'],
                 ['updateUserRole'],
-                ['newUserNotification'],
                 ['editUserNotification'],
                 ['deleteUserNotification'],
+                ['trashRedirect'],
+                ['trashRestoreRedirect'],
+                ['lockRedirect'],
+                ['unlockRedirect'],
+                ['activeRedirect'],
+                ['updateStatusIfStatusIsTrash', -900]
             ]
         ];
     }
@@ -153,14 +164,16 @@ class UserActionSubscriber implements EventSubscriberInterface
             if ($event) {
                 $user = $event->getcontext();
                 if (is_array($user) && count($user) > 0) {
-                    $mail = $this->mailer->basicMail(
-                        'New Account',
-                        'admin@example.com',
-                        $user['email'],
-                        $this->templateMessage($event, $user)
-                    );
-                    if ($mail) {
-                        return true;
+                    if ($user['status'] === 'pending') {
+                        $mail = $this->mailer->basicMail(
+                            'New Account',
+                            'admin@example.com',
+                            $user['email'],
+                            $this->templateMessage($event, $user)
+                        );
+                        if ($mail) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -260,23 +273,31 @@ class UserActionSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * When a new user account is created and the status is set to trash for whatever reason
+     * We are not able to update the 2 relevant fields at time. So When the event is fired
+     * we can listen for that and update the record as its created and update the relevant
+     * fields to signify that the trash status is indeed for the trash.
+     *
      * @param UserActionEvent $event
      * @return bool
      */
-    public function newUserNotification(UserActionEvent $event): bool
+    public function updateStatusIfStatusIsTrash(UserActionEvent $event): bool
     {
+        /* @todo log this request on success or failure */
         if ($this->onRoute($event, self::NEW_ACTION)) {
             $user = $event->getContext();
-            $currentUser = Authorized::grantedUser();
-            return $this->sendNotification(
-                $event,
-                'New account created from control panel',
-                'system',
-                'unread',
-                'admin',
-                sprintf('%s %s created a new account for %s %s', $currentUser->firstname, $currentUser->lastname, $user['firstname'], $user['lastname'])
-            );
-
+            if ($user) {
+                $status = $user['status']; /* Get the status */
+                if ($status == 'trash') { /* If the status is set to trash lets update the database on the last inserted id */
+                    $userID = $user['last_id'];
+                    if (isset($userID) && $userID !=null) {
+                        return $event->getObject()
+                            ->repository
+                            ->getRepo()
+                            ->findByIdAndUpdate(['deleted_at' => 1, 'deleted_at_datetime' => date('Y-m-d H:i:s')], $userID);
+                    }
+                }
+            }
         }
         return false;
     }
@@ -313,40 +334,80 @@ class UserActionSubscriber implements EventSubscriberInterface
         if ($this->onRoute($event, self::DELETE_ACTION)) {
             $event->getObject()->flashMessage('User account deleted');
             $event->getObject()->redirect('/admin/user/index');
-//            $user = $event->getContext();
-//            $currentUser = Authorized::grantedUser();
-//            return $this->sendNotification(
-//                $event,
-//                sprintf('%s updated %s user account', $currentUser->firstname . ' ' . $currentUser->lastname, $user['firstname'] . ' ' . $user['lastname']),
-//                'system',
-//                'unread',
-//                'admin',
-//                sprintf('%s %s created a new account for %s %s', $currentUser->firstname, $currentUser->lastname, $user['firstname'], $user['lastname'])
-//            );
-
         }
         return false;
 
     }
 
-    public function logRequest(UserActionEvent $event)
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function trashRedirect(UserActionEvent $event): bool
     {
-        if ($event) {
-            $event->getObject()->flatDb->flatDatabase()
-                ->insert()
-                ->in('users-log')
-                ->set(
-                    [
-                        'message' => '',
-                        'context' => '',
-                        'level' => '',
-                        'level_name' => '',
-                        'channel' => '',
-                        'datetime' => '',
-                        'extra' => []
-                    ]
-                )
-                ->execute();
+        if ($this->onRoute($event, self::TRASH_ACTION)) {
+            $event->getObject()->flashMessage('User account moved to trash');
+            $event->getObject()->redirect('/admin/user/index');
         }
+        return false;
+
     }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function trashRestoreRedirect(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::TRASH_RESTORE_ACTION)) {
+            $event->getObject()->flashMessage('User account restore from trash');
+            $event->getObject()->redirect('/admin/user/index');
+        }
+        return false;
+
+    }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function lockRedirect(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::LOCK_ACTION)) {
+            $event->getObject()->flashMessage('User account is now locked');
+            $event->getObject()->redirect('/admin/user/index');
+        }
+        return false;
+
+    }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function unlockRedirect(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::UNLOCK_ACTION)) {
+            $event->getObject()->flashMessage('User account is unlocked');
+            $event->getObject()->redirect('/admin/user/index');
+        }
+        return false;
+
+    }
+
+    /**
+     * @param UserActionEvent $event
+     * @return bool
+     */
+    public function activeRedirect(UserActionEvent $event): bool
+    {
+        if ($this->onRoute($event, self::ACTIVE_ACTION)) {
+            $event->getObject()->flashMessage('User account is active');
+            $event->getObject()->redirect('/admin/user/index');
+        }
+        return false;
+
+    }
+
+
 }
