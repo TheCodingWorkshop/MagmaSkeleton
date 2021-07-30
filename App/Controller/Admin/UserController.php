@@ -334,7 +334,7 @@ class UserController extends AdminController
      */
     protected function trashRestoreAction()
     {
-        $this->trashRestoreAction
+        $this->changeStatusAction
             ->setAccess($this, 'can_restore_trash')
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
             ['status' => 'active', 'deleted_at' => NULL, 'deleted_at_datetime' => NULL])
