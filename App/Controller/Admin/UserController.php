@@ -39,9 +39,11 @@ use App\Schema\UserSchema;
 use App\Schema\UserLogSchema;
 use App\Database\Fillables\UserFillable;
 use JetBrains\PhpStorm\NoReturn;
+use MagmaCore\Base\BaseApplication;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\Utility\Yaml;
+use MagmaCore\Base\Access;
 use Exception;
 
 class UserController extends AdminController
@@ -87,6 +89,7 @@ class UserController extends AdminController
                 'tempRole' => TemporaryRoleModel::class,
                 'userLogRepo' => UserLogModel::class,
                 'userFillable' => UserFillable::class,
+                'userRelationship' => UserRelationship::class,
 
             ]
         );
@@ -116,6 +119,8 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
+//        var_dump($this->repository->role()->role_name);
+//        die;
         $trashCount = $this->repository->getRepo()->count(['status' => 'trash']);
         $activeCount = $this->repository->getRepo()->count(['status' => 'active']);
         $pendingCount = $this->repository->getRepo()->count(['status' => 'pending']);
@@ -431,7 +436,7 @@ class UserController extends AdminController
     protected function logAction()
     {
         $this->indexAction
-            ->setAccess($this, 'can_log')
+            ->setAccess($this, Access::CAN_LOG)
             ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
             ->render()
             ->with()

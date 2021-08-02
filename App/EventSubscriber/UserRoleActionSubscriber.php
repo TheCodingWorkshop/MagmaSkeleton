@@ -31,8 +31,6 @@ class UserRoleActionSubscriber implements EventSubscriberInterface
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
-    /** @var string - default flash message */
-    private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
 
     private UserRoleModel $userRole;
     private TemporaryRoleModel $tempRoleModel;

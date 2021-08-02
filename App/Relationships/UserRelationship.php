@@ -12,12 +12,13 @@ declare(strict_types=1);
 
 namespace App\Relationships;
 
-use App\Model\RoleModel;
 use App\Model\UserModel;
+use App\Model\RoleModel;
 use App\Model\UserRoleModel;
 use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
+use MagmaCore\Base\Contracts\BaseRelationshipInterface;
 
-class UserRelationship extends UserModel
+class UserRelationship extends UserModel implements BaseRelationshipInterface
 {
 
     /**
@@ -31,13 +32,10 @@ class UserRelationship extends UserModel
      *
      * @return object
      */
-    public function type(): object
+    public function united(): object
     {
-        /* self::class refers to UserModel::class */
-        return $this->addRelationship(ManyToMany::class)
-            ->table(UserModel::class)
-            ->table(RoleModel::class)
-            ->pivot(UserRoleModel::class);
+        return $this->setRelationship(OneToMany::class)
+            ->belongsTo(RoleModel::class)->associate('as_object');
     }
 
 

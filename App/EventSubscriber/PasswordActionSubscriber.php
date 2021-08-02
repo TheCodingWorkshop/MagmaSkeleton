@@ -30,8 +30,6 @@ class PasswordActionSubscriber extends EventDispatcherDefaulter implements Event
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
-    /** @var string - default flash message */
-    private const FLASH_DEFAULT = self::DEFAULT_MESSAGES['new_password'];
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
@@ -63,13 +61,7 @@ class PasswordActionSubscriber extends EventDispatcherDefaulter implements Event
      */
     public function flashPasswordEvent(PasswordActionEvent $event)
     {
-        $this->flashingEvent(
-            $event,
-            $this->trailingRoutes($event),
-            self::FLASH_DEFAULT,
-            NULL, /* We will just let the script redirect back onSelf() */
-            NULL /* Not using a Closure ie a callback function */
-        );
+        $this->flashingEvent($event);
     }
 
 }

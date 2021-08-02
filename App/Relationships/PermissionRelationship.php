@@ -18,9 +18,8 @@ use App\Model\PermissionModel;
 use App\Model\RolePermissionModel;
 use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
 use MagmaCore\Base\Contracts\BaseRelationshipInterface;
-use MagmaCore\DataObjectLayer\DataRelationship\Relationships\OneToMany;
 
-class RoleRelationship extends UserModel implements BaseRelationshipInterface
+class PermissionRelationship extends UserModel implements BaseRelationshipInterface
 {
     /**
      * self::class refers to this current class UserModel::class. Create the connection
@@ -35,10 +34,9 @@ class RoleRelationship extends UserModel implements BaseRelationshipInterface
      */
     public function united(): object
     {
-        return $this->setRelationship(OneToMany::class)
-            ->hasMany(UserModel::class)->setMoreRelationship(ManyToMany::class)->andBelongsToMany(PermissionModel::class, function($dataRelationship){
-                return $dataRelationship->pivot(RolePermissionModel::class);
-            })->associate();
+        return $this->setRelationship(ManyToMany::class)
+            ->belongsToMany(RoleModel::class)->pivot(RolePermissionModel::class);
     }
 
 }
+

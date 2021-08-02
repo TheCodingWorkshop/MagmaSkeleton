@@ -1,14 +1,7 @@
 services:
   subscribers:
-#    base_controller.subscriber:
-#      class: \MagmaCore\Base\EventSubscriber\BaseControllerActionSubscriber
-#      props:
-#        - {}
-
     user.subscriber:
       class: \App\EventSubscriber\UserActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\Admin\UserController::newAction:
           msg: New user added!
@@ -16,19 +9,30 @@ services:
           msg: Changes saved!
         App\Controller\Admin\UserController::deleteAction:
           msg: User deleted successfully!
+          redirect: user.index
         App\Controller\Admin\UserController::bulkAction:
           msg: Bulk action successful!
+          redirect: user.index
+        App\Controller\Admin\UserController::trashAction:
+          msg: Account is in located within the trash!
+          redirect: user.index
+        App\Controller\Admin\UserController::trashRestoreAction:
+          msg: Account restored from trash!
+          redirect: user.index
+        App\Controller\Admin\UserController::lockAction:
+          msg: User account is now locked
+          redirect: user.index
+        App\Controller\Admin\UserController::unlockAction:
+          msg: User account is is now unlocked
+          redirect: user.index
+        App\Controller\Admin\UserController::activeAction:
+          msg: User account is now active
+          redirect: user.index
         App\Controller\RegistrationController::registerAction:
           msg: Your account was created!
-        App\Controller\RegistrationController::trashAction:
-          msg: Account is in located within the trash!
-        App\Controller\RegistrationController::trashRestoreAction:
-          msg: Account restored from trash!
 
     role.subscriber:
       class: \App\EventSubscriber\RoleActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\Admin\RoleController::newAction:
           msg: New Role Added!
@@ -36,11 +40,11 @@ services:
           msg: Role updated!
         App\Controller\Admin\RoleController::deleteAction:
           msg: Role Deleted!
+        App\Controller\Admin\RoleController::assignedAction:
+          msg: New permission successfully assigned to role.
 
     permission.subscriber:
       class: \App\EventSubscriber\PermissionActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\Admin\PermissionController::newAction:
           msg: New permission added!
@@ -51,13 +55,9 @@ services:
 
     userRole.subscriber:
       class: \App\EventSubscriber\UserRoleActionSubscriber
-      props:
-        - {}
 
     security.subscriber:
       class: \App\EventSubscriber\LoginActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\SecurityController::indexAction:
           msg: Welcome back!
@@ -66,8 +66,6 @@ services:
 
     security_logout.subscriber:
       class: \App\EventSubscriber\LogoutActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\SecurityController::logoutAction:
           msg: You've successfully logged out!
@@ -75,8 +73,6 @@ services:
 
     password.subscriber:
       class: \App\EventSubscriber\PasswordActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\PasswordController::forgotAction:
           msg: Your request was successful. Please check your email address for reset link!
@@ -85,24 +81,18 @@ services:
 
     activation.subscriber:
       class: \App\EventSubscriber\ActivateActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\ActivateController::activateAction:
           msg: You're now activated
 
     controllerSettings.subscriber:
       class: \App\EventSubscriber\ControllerSettingsActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\UserController::settingsAction:
           msg: Changes Saved
 
     registration.subscriber:
       class: \App\EventSubscriber\RegistrationActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\RegistrationController::registerAction:
           msg: You're now registered
@@ -110,24 +100,18 @@ services:
           
     setting.subscriber:
       class: \App\EventSubscriber\SettingActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\Admin\SettingController::indexAction:
           msg: Changes Saved
 
     project.subscriber:
       class: \App\EventSubscriber\ProjectActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\Admin\ProjectActionSubscriber::indexAction:
           msg: Changes Saved
 
     role_permission_assigned.subscriber:
       class: \App\EventSubscriber\RolePermissionAssignedActionSubscriber
-      props:
-        - {}
       register_route_feedback:
         App\Controller\Admin\RoleController::assignedAction:
           msg: Changes Saved

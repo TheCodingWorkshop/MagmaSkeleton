@@ -31,10 +31,6 @@ class PermissionActionSubscriber implements EventSubscriberInterface
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
-    /** @var string - default flash message */
-    private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
-    /** @var string */
-    protected const REDIRECT_ON_INDEX = '/admin/permission/index';
     /**
      * Add other route index here in order for that route to flash properly. this array is index array
      * which means the first item starts at 0. See ACTION_ROUTES constant for correct order of how to
@@ -77,12 +73,7 @@ class PermissionActionSubscriber implements EventSubscriberInterface
      */
     public function flashPermissionEvent(PermissionActionEvent $event)
     {
-        $this->flashingEvent(
-            $event,
-            $this->trailingRoutes($event),
-            self::FLASH_DEFAULT,
-            self::REDIRECT_ON_INDEX
-        );
+        $this->flashingEvent($event);
     }
 
     /**

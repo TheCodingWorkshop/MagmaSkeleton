@@ -140,7 +140,6 @@ class PermissionController extends AdminController
 
     protected function bulkAction()
     {
-       var_dump($_POST);
     }
 
 }

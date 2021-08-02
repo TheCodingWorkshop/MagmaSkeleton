@@ -69,7 +69,7 @@ database:
       class: \MagmaCore\DataObjectLayer\Drivers\SqliteDatabaseConnection
 
 debug_error:
-  mode: "dev"
+  mode: dev
 error_handler:
   error: \MagmaCore\ErrorHandler\ErrorHandler::errorHandle
   exception: \MagmaCore\ErrorHandler\ErrorHandler::exceptionHandle

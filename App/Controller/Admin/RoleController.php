@@ -200,7 +200,6 @@ class RoleController extends AdminController
      */
     protected function unassignPermissionAction(): bool
     {
-
         /* Get the current role ID cast as an integre */
         $queriedRoleID = (int)$_GET['role_id'] ?? null;
         /* Get all the permission assigned to the $queriedRoleID and flatten the array */

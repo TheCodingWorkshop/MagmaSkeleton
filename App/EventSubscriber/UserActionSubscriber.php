@@ -16,7 +16,6 @@ use App\Event\UserActionEvent;
 use App\Model\UserMetaDataModel;
 use App\Model\UserRoleModel;
 use App\Model\NotificationModel;
-use http\Client\Curl\User;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\BaseView;
@@ -38,10 +37,6 @@ class UserActionSubscriber implements EventSubscriberInterface
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
-    /** @var string - default flash message */
-    private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
-    /** @var string */
-    protected const REDIRECT_DELETE = '/admin/user/index';
 
     private MailerFacade $mailer;
     private BaseView $view;
@@ -96,13 +91,6 @@ class UserActionSubscriber implements EventSubscriberInterface
                 ['assignedUserRole'],
                 ['sendActivationEmail'],
                 ['updateUserRole'],
-                ['editUserNotification'],
-                ['deleteUserNotification'],
-                ['trashRedirect'],
-                ['trashRestoreRedirect'],
-                ['lockRedirect'],
-                ['unlockRedirect'],
-                ['activeRedirect'],
                 ['updateStatusIfStatusIsTrash', -900]
             ]
         ];
@@ -124,15 +112,11 @@ class UserActionSubscriber implements EventSubscriberInterface
      */
     public function flashUserEvent(UserActionEvent $event)
     {
-        $this->flashingEvent(
-            $event,
-            $this->trailingRoutes($event),
-            self::FLASH_DEFAULT
-        );
+        $this->flashingEvent($event);
     }
 
     /**
-     * Undocumented function
+     * Construct message for user activation
      *
      * @param BaseActionEventInterface $event
      * @param array $user
@@ -301,113 +285,5 @@ class UserActionSubscriber implements EventSubscriberInterface
         }
         return false;
     }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function editUserNotification(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::EDIT_ACTION)) {
-            $user = $event->getContext();
-            $currentUser = Authorized::grantedUser();
-            return $this->sendNotification(
-                $event,
-                sprintf('%s updated %s user account', $currentUser->firstname . ' ' . $currentUser->lastname, $user['firstname'] . ' ' . $user['lastname']),
-                'system',
-                'unread',
-                'admin',
-                sprintf('%s %s created a new account for %s %s', $currentUser->firstname, $currentUser->lastname, $user['firstname'], $user['lastname'])
-            );
-
-        }
-        return false;
-
-    }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function deleteUserNotification(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::DELETE_ACTION)) {
-            $event->getObject()->flashMessage('User account deleted');
-            $event->getObject()->redirect('/admin/user/index');
-        }
-        return false;
-
-    }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function trashRedirect(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::TRASH_ACTION)) {
-            $event->getObject()->flashMessage('User account moved to trash');
-            $event->getObject()->redirect('/admin/user/index');
-        }
-        return false;
-
-    }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function trashRestoreRedirect(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::TRASH_RESTORE_ACTION)) {
-            $event->getObject()->flashMessage('User account restore from trash');
-            $event->getObject()->redirect('/admin/user/index');
-        }
-        return false;
-
-    }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function lockRedirect(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::LOCK_ACTION)) {
-            $event->getObject()->flashMessage('User account is now locked');
-            $event->getObject()->redirect('/admin/user/index');
-        }
-        return false;
-
-    }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function unlockRedirect(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::UNLOCK_ACTION)) {
-            $event->getObject()->flashMessage('User account is unlocked');
-            $event->getObject()->redirect('/admin/user/index');
-        }
-        return false;
-
-    }
-
-    /**
-     * @param UserActionEvent $event
-     * @return bool
-     */
-    public function activeRedirect(UserActionEvent $event): bool
-    {
-        if ($this->onRoute($event, self::ACTIVE_ACTION)) {
-            $event->getObject()->flashMessage('User account is active');
-            $event->getObject()->redirect('/admin/user/index');
-        }
-        return false;
-
-    }
-
 
 }

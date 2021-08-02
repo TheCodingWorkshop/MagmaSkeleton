@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Entity\RoleEntity;
+use App\Relationship\UserRelationship;
+use App\Relationship\PermissionRelationship;
 use Exception;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
@@ -21,14 +23,12 @@ use MagmaCore\Utility\Yaml;
 class RoleModel extends AbstractBaseModel
 {
 
-    public const REL_ASSOC = ['id' => 'role_id'];
-    public const REL_FIELDS = ['role_name'];
-    public const COLUMN_STATUS = [];
-
     /** @var string */
     protected const TABLESCHEMA = 'roles';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
+     /**/
+    public const COLUMN_STATUS = [];
 
     /**
      * Main constructor class which passes the relevant information to the
@@ -76,6 +76,16 @@ class RoleModel extends AbstractBaseModel
     {
         $name = $this->getRepo()->findObjectBy(['id' => $id], ['role_name']);
         return $name->role_name;
+    }
+
+    public function user()
+    {
+        return $this->getRelationship(UserRelationship::class);
+    }
+
+    public function permission()
+    {
+        return $this->getRelationship(PermissionRelationship::class);
     }
 
 

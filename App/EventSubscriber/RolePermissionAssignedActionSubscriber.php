@@ -31,8 +31,6 @@ class RolePermissionAssignedActionSubscriber implements EventSubscriberInterface
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
-    /** @var string - default flash message */
-    private const FLASH_DEFAULT = '<strong class="">Attention!</strong> This is a default message';
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
@@ -67,11 +65,7 @@ class RolePermissionAssignedActionSubscriber implements EventSubscriberInterface
      */
     public function flashUserEvent(RolePermissionAssignedActionEvent $event)
     {
-        $this->flashingEvent(
-            $event,
-            $this->trailingRoutes($event),
-            self::FLASH_DEFAULT
-        );
+        $this->flashingEvent($event);
     }
 
     #[NoReturn] public function assignedRolePermission(RolePermissionAssignedActionEvent $event)

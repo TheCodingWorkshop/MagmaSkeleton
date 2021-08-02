@@ -90,10 +90,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      */
     public function flashLoginEvent(RegistrationActionEvent $event)
     {
-        $this->flashingEvent(
-            $event,
-            $this->trailingRoutes($event),
-        );
+        $this->flashingEvent($event);
     }
 
     /**

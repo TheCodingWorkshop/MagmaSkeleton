@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Entity\UserEntity;
+use App\Relationships\RoleRelationship;
 use MagmaCore\Auth\Contracts\UserSecurityInterface;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
@@ -20,19 +21,15 @@ use MagmaCore\Utility\PasswordEncoder;
 
 class UserModel extends AbstractBaseModel implements UserSecurityInterface
 {
-
-    public const REL_ASSOC = ['id' => 'user_id'];
-    public const REL_FIELDS = ['firstname', 'lastname', 'email'];
-    public const COLUMN_STATUS = ['status' => ['pending', 'active', 'trash', 'lock', '']];
-
     /** @var string */
     protected const TABLESCHEMA = 'users';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
     /** @var array - field casting */
-    protected array $cast = [
-        'firstname' => 'array_json'
-    ];
+    protected array $cast = ['firstname' => 'array_json'];
+    /* @var array COLUMN_STATUS */
+    public const COLUMN_STATUS = ['status' => ['pending', 'active', 'trash', 'lock', '']];
+
     /** @var array $fillable - an array of fields that should not be null */
     protected array $fillable = [
         'firstname',
@@ -45,7 +42,6 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
     ];
     protected ?string $validatedHashPassword;
     protected ?object $tokenRepository;
-
 
     /**
      * Main constructor class which passes the relevant information to the
@@ -123,9 +119,15 @@ class UserModel extends AbstractBaseModel implements UserSecurityInterface
 
     public function getNameForSelectField($id)
     {
-        return $this->getModel(RoleModel::class)->getNameForSelectField($id);
-        //return (new RoleModel())->getNameForSelectField($id);
+        return $this->getOtherModel(RoleModel::class)->getNameForSelectField($id);
     }
 
+    /**
+     * @return object
+     */
+    public function role(): object
+    {
+        return $this->getRelationship(RoleRelationship::class);
+    }
 
 }

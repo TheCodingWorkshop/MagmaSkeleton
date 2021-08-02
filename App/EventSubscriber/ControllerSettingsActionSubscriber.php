@@ -30,8 +30,6 @@ class ControllerSettingsActionSubscriber extends EventDispatcherDefaulter implem
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
-    /** @var string */
-    protected const REDIRECT_DELETE = '/admin/user/index';
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
@@ -63,13 +61,7 @@ class ControllerSettingsActionSubscriber extends EventDispatcherDefaulter implem
      */
     public function flashActivateEvent(ControllerSettingsActionEvent $event): void
     {
-        $this->flashingEvent(
-            $event,
-            $this->trailingRoutes($event),
-            NULL,
-            NULL, /* We will just let the script redirect back onSelf() */
-            NULL /* Not using a Closure ie a callback function */
-        );
+        $this->flashingEvent($event);
     }
 
 }

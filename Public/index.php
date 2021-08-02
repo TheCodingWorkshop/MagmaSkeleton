@@ -26,19 +26,19 @@ if (is_file($composer)) {
 
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
-use Symfony\Component\ErrorHandler\Debug;
+//use Symfony\Component\ErrorHandler\Debug;
 use MagmaCore\Logger\LogLevel;
 
-Debug::enable();
+//Debug::enable();
 
 try {
     (new BaseApplication())
         ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
-        ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
-        ->setSession(Yaml::file('session'))
+        ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL | E_STRICT)
+        ->setSession(Yaml::file('session'), null, true)
         ->setCookie([])
-        ->setCache(Yaml::file('cache'))
+        ->setCache(Yaml::file('cache'), null, true)
         ->setRoutes(Yaml::file('routes'))
         ->setLogger(LOG_PATH, Yaml::file('app')['logger_handler']['file'], LogLevel::DEBUG, [])
         ->setContainerProviders(Yaml::file('providers'))
