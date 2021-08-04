@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Entity\RoleEntity;
-use App\Relationship\UserRelationship;
-use App\Relationship\PermissionRelationship;
+use App\Relationships\UserRelationship;
+use App\Relationships\PermissionRelationship;
 use Exception;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
@@ -51,9 +51,10 @@ class RoleModel extends AbstractBaseModel
      */
     public function guardedID(): array
     {
+        $system = Yaml::file('app')['system'];
         return [
-            Yaml::file('app')['system']['super_role']['props']['id'],
-            Yaml::file('app')['system']['default_role']['props']['id']
+            $system['super_role']['props']['id'],
+            $system['default_role']['props']['id']
         ];
     }
 

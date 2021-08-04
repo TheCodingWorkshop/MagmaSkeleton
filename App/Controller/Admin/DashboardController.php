@@ -66,7 +66,6 @@ class DashboardController extends AdminController
                 'pending_users' => $this->repository->totalPendingUsers(),
                 'github' => $this->repository->getGithubStats(),
                 'nav_switcher' => $this->repository->getNavSwitcher(),
-
                 'main_cards' => $this->repository->mainCards(),
                 'unique_visits' => $this->repository->getSessionUniqueVisits(),
                 'block_activities' => $this->repository->getBlockActivities(),

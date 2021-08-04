@@ -119,8 +119,6 @@ class UserController extends AdminController
      */
     protected function indexAction()
     {
-//        var_dump($this->repository->role()->role_name);
-//        die;
         $trashCount = $this->repository->getRepo()->count(['status' => 'trash']);
         $activeCount = $this->repository->getRepo()->count(['status' => 'active']);
         $pendingCount = $this->repository->getRepo()->count(['status' => 'pending']);

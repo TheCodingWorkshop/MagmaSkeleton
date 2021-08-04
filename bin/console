@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+
+defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
+$composer = ROOT_PATH . '/vendor/autoload.php';
+if (is_file($composer)) {
+    require $composer;
+}
+use MagmaCore\Console\Console;
+$console = (new Console())->create();
+exit($console);

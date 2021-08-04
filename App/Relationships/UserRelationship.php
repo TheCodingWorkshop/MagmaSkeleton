@@ -16,6 +16,7 @@ use App\Model\UserModel;
 use App\Model\RoleModel;
 use App\Model\UserRoleModel;
 use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
+use MagmaCore\DataObjectLayer\DataRelationship\Relationships\OneToMany;
 use MagmaCore\Base\Contracts\BaseRelationshipInterface;
 
 class UserRelationship extends UserModel implements BaseRelationshipInterface

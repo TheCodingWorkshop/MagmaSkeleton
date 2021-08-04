@@ -17,6 +17,7 @@ use App\Model\UserRoleModel;
 use App\Model\PermissionModel;
 use App\Model\RolePermissionModel;
 use MagmaCore\DataObjectLayer\DataRelationship\Relationships\ManyToMany;
+use MagmaCore\DataObjectLayer\DataRelationship\Relationships\OneToMany;
 use MagmaCore\Base\Contracts\BaseRelationshipInterface;
 
 class PermissionRelationship extends UserModel implements BaseRelationshipInterface

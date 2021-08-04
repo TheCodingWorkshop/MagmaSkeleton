@@ -35,6 +35,7 @@ class LogoutActionSubscriber implements EventSubscriberInterface
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
+    private const LOGOUT_ACTION = 'logout';
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire

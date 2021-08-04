@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
 defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . '/' . "Config/");
+defined('CORE_CONFIG_PATH') or define("CORE_CONFIG_PATH", ROOT_PATH . '/vendor/magmacore/magmacore/src/' . "Config/");
 defined('TEMPLATE_CACHE') or define("TEMPLATE_CACHE", ROOT_PATH . '/' . "App/Templates/Cache");
 defined('LOG_PATH') or define('LOG_PATH', ROOT_PATH . '/Storage/logs');
 
@@ -26,9 +27,12 @@ if (is_file($composer)) {
 
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
-//use Symfony\Component\ErrorHandler\Debug;
+use Symfony\Component\ErrorHandler\Debug;
 use MagmaCore\Logger\LogLevel;
-
+use MagmaCore\Console\Console;
+$console = new Console();
+var_dump($console->create());
+die;
 //Debug::enable();
 
 try {

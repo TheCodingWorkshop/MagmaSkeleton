@@ -35,6 +35,7 @@ system:
   use_auth: true
   activation_token_expiration: 3600
   default_status: "pending"
+
   super_role:
     props:
       { name: Super, id: 1, description: Roles which contains all priviledges }

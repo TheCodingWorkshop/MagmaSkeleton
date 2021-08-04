@@ -11,6 +11,18 @@ user:
     - firstname
     - created_at
     - modified_at
+  commander:
+    index:
+      import:
+        name: Import
+        icon: upload-outline
+        nav_header: WorkFlow
+        path: ''
+      export:
+        name: Export
+        icon: download-outline
+        path: ''
+
 
 role:
   status_choices: []
