@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Database\Fillables;
+namespace App\Database\Fillable;
 
 use App\Model\UserModel;
 use MagmaCore\Fillable\FillableSchema;

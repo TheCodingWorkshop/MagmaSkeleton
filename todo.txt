@@ -17,3 +17,9 @@ Features
 6. Translation Ready
 7. PSR7 & PSR-13 HTTP Ready
 */
+06/08/2021
+
+1. render an alert on all main channel (index route) stating whether a route is unprotected ie has no permission can do this
+using PHP Reflection to get all methods and check the a database if the route exists
+
+2. create a fillable property for each model listing all fillable fields

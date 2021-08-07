@@ -37,7 +37,7 @@ use App\Repository\UserRoleRepository;
 use App\Relationships\UserRelationship;
 use App\Schema\UserSchema;
 use App\Schema\UserLogSchema;
-use App\Database\Fillables\UserFillable;
+use App\Database\Fillable\UserFillable;
 use JetBrains\PhpStorm\NoReturn;
 use MagmaCore\Base\BaseApplication;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
@@ -127,10 +127,10 @@ class UserController extends AdminController
         $logCriticalCount = $this->userLogRepo->getRepo()->count(['level' => 500]);
 
         $this->indexAction
-            ->setAccess($this, 'can_view')
-            ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
-            ->render()
-            ->with(
+            ?->setAccess($this, 'can_view')
+            ?->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
+            ?->render()
+            ?->with(
                 [
                     'table_tabs' => [
                         'primary' => ['tab' => 'Primary', 'icon' => 'person', 'value' => $activeCount, 'data' => "{$pendingCount} New", 'meta' => "{$activeCount} active user"],

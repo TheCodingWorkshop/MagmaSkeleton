@@ -29,10 +29,6 @@ use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\BaseApplication;
 use Symfony\Component\ErrorHandler\Debug;
 use MagmaCore\Logger\LogLevel;
-use MagmaCore\Console\Console;
-$console = new Console();
-var_dump($console->create());
-die;
 //Debug::enable();
 
 try {
