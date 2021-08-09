@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Commander;
 
-use App\Model\MenuModel;
+use MagmaCore\Auth\Model\MenuModel;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\CommanderUnsetterTrait;

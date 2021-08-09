@@ -40,6 +40,7 @@ services:
           msg: Role updated!
         App\Controller\Admin\RoleController::deleteAction:
           msg: Role Deleted!
+          redirect: role.index
         App\Controller\Admin\RoleController::assignedAction:
           msg: New permission successfully assigned to role.
 
@@ -52,6 +53,7 @@ services:
           msg: Permission updated!
         App\Controller\Admin\PermissionController::deleteAction:
           msg: Permission deleted!
+          redirect: permission.index
 
     userRole.subscriber:
       class: \App\EventSubscriber\UserRoleActionSubscriber

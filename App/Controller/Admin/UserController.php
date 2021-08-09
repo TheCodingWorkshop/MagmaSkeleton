@@ -39,13 +39,14 @@ use App\Schema\UserSchema;
 use App\Schema\UserLogSchema;
 use App\Database\Fillable\UserFillable;
 use JetBrains\PhpStorm\NoReturn;
-use MagmaCore\Base\BaseApplication;
+use MagmaCore\Base\BaseProtectedRoutes;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Base\Access;
 use Exception;
 
+#[BaseProtectedRoutes]
 class UserController extends AdminController
 {
 
@@ -113,10 +114,11 @@ class UserController extends AdminController
     }
 
     /**
-     * Entry method which is hit on request. This method should be implement within
+     * Entry method which is hit on request. This method should be implemented within
      * all sub controller class as a default landing point when a request is
      * made.
      */
+    #[BaseProtectedRoutes('test', 42)]
     protected function indexAction()
     {
         $trashCount = $this->repository->getRepo()->count(['status' => 'trash']);
@@ -127,7 +129,7 @@ class UserController extends AdminController
         $logCriticalCount = $this->userLogRepo->getRepo()->count(['level' => 500]);
 
         $this->indexAction
-            ?->setAccess($this, 'can_view')
+            ?->setAccess($this, Access::CAN_VIEW)
             ?->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
             ?->render()
             ?->with(
@@ -180,7 +182,7 @@ class UserController extends AdminController
     protected function showAction()
     {
         $this->showAction
-            ->setAccess($this, 'can_show')
+            ->setAccess($this, Access::CAN_SHOW)
             ->execute($this, NULL, NULL, NULL, __METHOD__)
             ->render()
             ->with(
@@ -209,7 +211,7 @@ class UserController extends AdminController
     protected function newAction()
     {
         $this->newAction
-            ->setAccess($this, 'can_add')
+            ->setAccess($this, Access::CAN_ADD)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
             //->setLog(true)
             ->render()
@@ -226,7 +228,7 @@ class UserController extends AdminController
     protected function editAction()
     {
         $this->editAction
-            ->setAccess($this, 'can_edit')
+            ->setAccess($this, Access::CAN_EDIT)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], ['user_id' => $this->thisRouteID()])
             ->render()
             ->with(['user' => $this->toArray($this->findOr404())])
@@ -243,7 +245,7 @@ class UserController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->setAccess($this, 'can_delete')
+            ->setAccess($this, Access::CAN_DELETE)
             ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
             ->endAfterExecution();
 
@@ -252,7 +254,7 @@ class UserController extends AdminController
     protected function hardDeleteAction()
     {
         $this->showAction
-            ->setAccess($this, 'can_hard_delete')
+            ->setAccess($this, Access::CAN_HARD_DELETE)
             ->execute($this, NULL, NULL, NULL, __METHOD__)
             ->render()
             ->with()
@@ -286,7 +288,7 @@ class UserController extends AdminController
     protected function cloneAction()
     {
         $this->newAction
-            ->setAccess($this, 'can_clone')
+            ->setAccess($this, Access::CAN_CLONE)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -300,7 +302,7 @@ class UserController extends AdminController
     protected function lockAction()
     {
         $this->changeStatusAction
-            ->setAccess($this, 'can_lock')
+            ->setAccess($this, Access::CAN_LOCK)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__,[], [],
                 ['status' => 'lock'])
             ->endAfterExecution();
@@ -312,7 +314,7 @@ class UserController extends AdminController
     protected function unlockAction()
     {
         $this->changeStatusAction
-            ->setAccess($this, 'can_unlock')
+            ->setAccess($this, Access::CAN_UNLOCK)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
                 ['status' => 'active'])
             ->endAfterExecution();
@@ -325,7 +327,7 @@ class UserController extends AdminController
     protected function trashAction()
     {
         $this->changeStatusAction
-            ->setAccess($this, 'can_trash')
+            ->setAccess($this, Access::CAN_TRASH)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
                 ['status' => 'trash', 'deleted_at' => 1, 'deleted_at_datetime' => date('Y-m-d H:i:s')])
             ->endAfterExecution();
@@ -338,7 +340,7 @@ class UserController extends AdminController
     protected function trashRestoreAction()
     {
         $this->changeStatusAction
-            ->setAccess($this, 'can_restore_trash')
+            ->setAccess($this, Access::CAN_RESTORE_TRASH)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
             ['status' => 'active', 'deleted_at' => NULL, 'deleted_at_datetime' => NULL])
             ->endAfterExecution();
@@ -350,7 +352,7 @@ class UserController extends AdminController
     protected function activeAction()
     {
         $this->changeStatusAction
-            ->setAccess($this, 'can_change_status')
+            ->setAccess($this, Access::CAN_CHANGE_STATUS)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, [], [],
             ['status' => 'active'])
             ->endAfterExecution();
@@ -363,7 +365,7 @@ class UserController extends AdminController
     protected function preferencesAction()
     {
         $this->newAction
-            ->setAccess($this, 'can_edit_preferences')
+            ->setAccess($this, Access::CAN_EDIT_PREFERENCES)
             ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -395,7 +397,7 @@ class UserController extends AdminController
         /* additional data we are dispatching on this route to our event dispatcher */
         $eventDispatchData = ['user_id' => $this->thisRouteID(), 'prev_role_id' => $userRoleID[0]];
         $this->simpleUpdateAction
-            ->setAccess($this, 'can_edit_privilege')
+            ->setAccess($this, Access::CAN_EDIT_PRIVILEGE)
             ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__, [], $eventDispatchData)
             ->render()
             ->with(
@@ -415,20 +417,9 @@ class UserController extends AdminController
         $userRoleID = $this->flattenArray($this->userRole->getRepo()->findBy(['role_id'], ['user_id' => $this->thisRouteID()]));
         $eventDispatcherArr = ['user_id' => $this->thisRouteID(), 'role_id' => $userRoleID[0]];
         $this->blankAction
-            ->setAccess($this, 'can_set_privilege_expiration')
+            ->setAccess($this, Access::CAN_SET_PRIVILEGE_EXPIRATION)
             ->execute($this, UserRoleEntity::class, UserRoleActionEvent::class, NULL, __METHOD__, [], $eventDispatcherArr)
             ->endWithoutRender();
-    }
-
-    protected function statisticsAction()
-    {
-        $this->statisticsAction
-            ->setAccess()
-            ->execute($this)
-            ->render()
-            ->with()
-            ->charts()
-            ->end();
     }
 
     protected function logAction()

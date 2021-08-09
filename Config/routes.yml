@@ -8,34 +8,34 @@ client_dir: client
 template_dir: Templates
 
 "":
-  controller: Home
+  controller: home
   action: index
 
 login:
-  controller: Security
+  controller: security
   action: index
 
 logout:
-  controller: Security
+  controller: security
   action: logout
 
 register:
-  controller: Registration
+  controller: registration
   action: register
 
 password/reset/{token:[\da-f]+}:
-  controller: Password
+  controller: password
   action: reset
 
 activation/activate/{token:[\da-f]+}:
-  controller: Activation
+  controller: activation
   action: activate
 
 profile/{controller}/{action}:
-  namespace: Profile
+  namespace: profile
 
 profile/{controller}/{id:[\da-f]+}/{action}:
-  namespace: Profile
+  namespace: profile
 
 admin/{controller}/{action}:
   namespace: Admin
@@ -51,5 +51,5 @@ api/{controller}/{id:[\da-f]+}/{action}:
 
 installer/{controller}/{action}:
   namespace: Installer
-  controller: Install
+  controller: install
   action: index

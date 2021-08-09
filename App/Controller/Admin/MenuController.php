@@ -14,9 +14,9 @@ namespace App\Controller\Admin;
 
 use App\Commander\MenuCommander;
 use App\DataColumns\MenuColumn;
-use App\Entity\MenuEntity;
 use App\Schema\MenuSchema;
 use App\Forms\Admin\Menu\MenuForm;
+use MagmaCore\Auth\Entity\MenuEntity;
 use MagmaCore\Auth\Model\MenuModel;
 use MagmaCore\Auth\Model\MenuItemModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;

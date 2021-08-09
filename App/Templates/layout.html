@@ -8,40 +8,30 @@
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
-<!--    <meta name="turbo-cache-control" content="no-cache">-->
+    <meta name="turbo-cache-control" content="no-cache">
     <!-- Header Css -->
     {@ addcss() @}
     <!-- Header JS -->
     {@ addjs([], 'header') @}
     <!-- Page Specific Css -->
     {% yield styles %}
-    <style>
-        .turbo-progress-bar {
-            height: 5px;
-            background-color: red!important;
-        }
-
-        .turbo-progress-bar {
-            visibility: hidden;
-        }
-
-    </style>
-<!--    <script>-->
-<!--        $(window).on("load", function () {-->
-<!--            $(".preloader").fadeOut("slow");;-->
-<!--        });-->
-<!--    </script>-->
+    <script>
+        $(window).on("load", function () {
+            $(".preloader").fadeOut("slow");;
+        });
+    </script>
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
 
-<!--{% include 'loader.html' %}-->
+{% include 'loader.html' %}
     <div>
         {% include '_partials/_nav_header.html' %}
         <div id="sidebar" class="tm-sidebar-left uk-background-default">
-            {% include '_partials/_sidebar_profile.html' %}
+<!--            {% include '_partials/_sidebar_profile.html' %}-->
             <!-- Main sidebar -->
             {% include '_partials/_sidebar.html' %}
+            {% include '_partials/_sidebar_bottom_profile.html' %}
         </div>
         <div class="content-padder content-background">
             <div class="uk-section-default header">
@@ -52,11 +42,11 @@
                     {% yield dashboard_commander %}
                 </div>
             </div>
-
             <div class="uk-section-small main">
                 <div class="uk-container uk-container-expand">
                     <div id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
                     {% yield content %}
+
                 </div>
             </div>
 
@@ -66,8 +56,49 @@
     {@ addjs() @}
     <!-- Page specific scripts -->
     {% yield scripts %}
-    <script>
-    </script>
+<script>
+    function tableFilter() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("table_filter");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("datatable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function listFilter(inputID, elementID) {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById(inputID);
+        filter = input.value.toUpperCase();
+        ul = document.getElementById(elementID);
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            div = li[i].getElementsByTagName("div")[0];
+            txtValue = div.textContent || div.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+</script>
 
 </body>
 

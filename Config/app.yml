@@ -69,8 +69,14 @@ database:
     sqlite:
       class: \MagmaCore\DataObjectLayer\Drivers\SqliteDatabaseConnection
 
+# Application debugging. Set the production when the application is ready for production. This is an
+# important step as not doing so will expose sensitive information to your frontend users.
 debug_error:
   mode: dev
+
+# Custom error handling Which displays a much more descriptive and friendly error within development
+# environment. When set to production use the log_path to specify where the exceptions should be
+# logged. for later use
 error_handler:
   error: \MagmaCore\ErrorHandler\ErrorHandler::errorHandle
   exception: \MagmaCore\ErrorHandler\ErrorHandler::exceptionHandle
@@ -82,3 +88,23 @@ logger_handler:
   database: \MagmaCore\Logger\Handler\PdoLoggerHandler
   console: \MagmaCore\Logger\Handler\ConsoleLoggerHandler
   echo: \MagmaCore\Logger\Handler\EchoLoggerHandler
+
+
+# Disallowed controllers prevent the any controller in the array list from being inserted into the database
+# this primarily governs the admin panel control menu. As not all controller class is suited to have a
+# menu item. If you want a particular controller to not be accessible from the admin menu. You will need to
+# list it in the array below
+disallowed_controllers:
+  - home
+  - security
+  - password
+  - activation
+  - registration
+  - profile
+  - account
+  - install
+  - accessDenied
+  - admin
+  - event
+  - notification
+  - userRole

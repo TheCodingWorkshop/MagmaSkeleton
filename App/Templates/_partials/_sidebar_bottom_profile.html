@@ -1,0 +1,14 @@
+<div class="uk-position uk-position-bottom-left">
+    <div class="uk-card-header">
+        <hr>
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <img id="avatar" width="40" class="uk-border-circle" src="{{ $current_user->gravatar }}"/>
+
+            </div>
+            <div class="uk-width-expand">
+                <small class="uk-block">{{ $current_user->firstname . ' ' . $current_user->lastname }}</small>
+            </div>
+        </div>
+    </div>
+</div>

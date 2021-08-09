@@ -20,6 +20,7 @@ use App\Forms\Admin\Permission\PermissionForm;
 use App\Model\PermissionModel;
 use App\Model\RolePermissionModel;
 use App\Schema\PermissionSchema;
+use MagmaCore\Base\Access;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class PermissionController extends AdminController
@@ -78,7 +79,7 @@ class PermissionController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
-            ->setAccess($this, 'can_view')
+            ->setAccess($this, Access::CAN_VIEW)
             ->execute($this, NULL, NULL, PermissionSchema::class, __METHOD__)
             ->render()
             ->with()
@@ -94,7 +95,7 @@ class PermissionController extends AdminController
     protected function newAction(): void
     {
         $this->newAction
-            ->setAccess($this, 'can_add')
+            ->setAccess($this, Access::CAN_ADD)
             ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -112,7 +113,7 @@ class PermissionController extends AdminController
     protected function editAction(): void
     {
         $this->editAction
-            ->setAccess($this, 'can_edit')
+            ->setAccess($this, Access::CAN_EDIT)
             ->execute($this, PermissionEntity::class, PermissionActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -134,7 +135,7 @@ class PermissionController extends AdminController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->setAccess($this, 'can_delete')
+            ->setAccess($this, Access::CAN_DELETE)
             ->execute($this, NULL, PermissionActionEvent::class, NULL, __METHOD__);
     }
 

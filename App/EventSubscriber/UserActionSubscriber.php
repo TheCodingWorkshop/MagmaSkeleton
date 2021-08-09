@@ -17,7 +17,6 @@ use App\Model\UserMetaDataModel;
 use App\Model\UserRoleModel;
 use App\Model\NotificationModel;
 use JetBrains\PhpStorm\ArrayShape;
-use MagmaCore\Auth\Authorized;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Base\Contracts\BaseActionEventInterface;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;

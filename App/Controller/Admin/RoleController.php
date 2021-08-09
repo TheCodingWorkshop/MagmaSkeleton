@@ -28,6 +28,7 @@ use App\Relationships\RoleRelationship;
 use App\Schema\RoleSchema;
 use App\Event\RolePermissionAssignedActionEvent;
 use MagmaCore\Auth\Roles\PrivilegedUser;
+use MagmaCore\Base\Access;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\DataObjectLayer\DataLayerTrait;
 
@@ -95,7 +96,7 @@ class RoleController extends AdminController
     protected function indexAction()
     {
         $this->indexAction
-            ->setAccess($this, 'can_view')
+            ->setAccess($this, Access::CAN_VIEW)
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
             ->render()
             ->with()
@@ -111,7 +112,7 @@ class RoleController extends AdminController
     protected function newAction(): void
     {
         $this->newAction
-            ->setAccess($this, 'can_add')
+            ->setAccess($this, Access::CAN_ADD)
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -127,7 +128,7 @@ class RoleController extends AdminController
     protected function editAction(): void
     {
         $this->editAction
-            ->setAccess($this, 'can_edit')
+            ->setAccess($this, Access::CAN_EDIT)
             ->execute($this, RoleEntity::class, RoleActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -150,7 +151,7 @@ class RoleController extends AdminController
     protected function deleteAction(): void
     {
         $this->deleteAction
-            ->setAccess($this, 'can_delete')
+            ->setAccess($this, Access::CAN_DELETE)
             ->execute($this, NULL, RoleActionEvent::class, NULL, __METHOD__);
     }
 
@@ -163,7 +164,7 @@ class RoleController extends AdminController
     {
 
         $this->blankAction
-            ->setAccess($this, 'can_assign')
+            ->setAccess($this, Access::CAN_ASSIGN)
             ->execute($this, RolePermissionEntity::class, RolePermissionAssignedActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
@@ -182,7 +183,7 @@ class RoleController extends AdminController
     protected function logAction()
     {
         $this->logIndexAction
-            ->setAccess($this, 'can_log')
+            ->setAccess($this, Access::CAN_LOG)
             ->execute($this, NULL, NULL, RoleSchema::class, __METHOD__)
             ->render()
             ->with()

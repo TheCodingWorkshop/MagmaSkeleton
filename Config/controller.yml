@@ -150,3 +150,15 @@ userLog:
   sort_columns:
     - level_name
     - created_at
+    -
+system:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 10
+  query: ""
+  filter_by: ["event_log_name"]
+  filter_alias: s
+  sort_columns:
+    - event_type
+    - created_at

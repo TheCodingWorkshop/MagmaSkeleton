@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+<!-- Block title -->
+{% block title %}System Event Viewer{% endblock %}
+<!-- Block description -->
+{% block description %}View the system event log{% endblock %}
+<!-- Block description -->
+{% block keywords %}events{% endblock %}
+<!-- Block description -->
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+{@ templateExtension('uikit_simple_pagination') @}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <form method="POST" action="">
+                        {{ $table }}
+                    </form>
+                </div>
+            </div>
+            {@ templateExtension('uikit_pagination') @}
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+{% endblock %}
