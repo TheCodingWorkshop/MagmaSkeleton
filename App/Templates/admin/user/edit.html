@@ -20,6 +20,34 @@
             </div>
         </div>
     </div>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+
+                    <dt>{@ locale('gravatar') @}</dt>
+                    <dd>
+                        <div><img class="uk-border-pill" src="{{ $user['gravatar'] }}" width="50" alt="Border pill"></div>
+                    </dd>
+
+                    <dt>{@ locale('status') @}</dt>
+                    <dd>
+                        <ul class="uk-iconnav uk-margin-small-top">
+                            <li>{% echo (isset($user['password_hash']) && $user['password_hash'] !==null) ? '<span uk-tooltip="Password Healthy" class="ion-28 uk-text-success"> <ion-icon name="checkmark-outline"></ion-icon></span>' : '<span uk-tooltip="Password Issue" class="ion-28 uk-text-success"> <ion-icon name="warning-outline"></ion-icon></span>' %}</li>
+                            <li>{% echo (isset($user['password_reset_hash']) && $user['password_reset_hash'] !==null) ? '<span uk-tooltip="Password Request Null" class="ion-28 uk-text-success"> <ion-icon name="checkmark-outline"></ion-icon></span>' : '<span uk-tooltip="Password Requested but not used" class="ion-28 uk-text-warning"><ion-icon name="alert-circle-outline"></ion-icon></span>' %}</li>
+                            <li>{% echo isset($user['activation_token']) && $user['activation_token'] == null && $user['status'] === 'active' ? '<span uk-tooltip="Activation Hash Null" class="ion-28 uk-text-success"> <ion-icon name="checkmark-outline"></ion-icon></span>' : '<span uk-tooltip="Activation Token Issue" class="ion-28 uk-text-warning"> <ion-icon name="alert-circle-outline"></ion-icon></span>' %}</li>
+                        </ul>
+                    </dd>
+
+<!--                    <dt>{@ locale('activation_hash') @}</dt>-->
+<!--                    <dd>-->
+<!--                        {% echo isset($user['activation_hash']) && $user['activation_hash'] !==null && $user['status'] === 'active' ? '<span class="ion-28 uk-text-success"> <ion-icon name="checkmark-outline"></ion-icon></span>' : '<ion-icon name="alert-circle-outline"></ion-icon>' %}-->
+<!--                    </dd>-->
+
+                </dl>
+            </div>
+        </div>
+    </div>
 
 </section>
 

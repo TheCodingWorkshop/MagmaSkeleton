@@ -74,3 +74,6 @@ en:
   member_since: Member Since
   delete_account: Delete this account
   hard_delete_excerpt: Please review account before deleting. As this action is not recoverable.
+  gravatar: Gravatar
+  password: Password
+  activation_hash: Activation Hash

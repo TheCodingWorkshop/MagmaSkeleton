@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace App\Forms\Admin\Menu;
 
+use MagmaCore\Auth\Model\MenuItemModel;
 use MagmaCore\Auth\Model\MenuModel;
+use MagmaCore\DataObjectLayer\DataLayerTrait;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
@@ -22,9 +24,12 @@ use Exception;
 class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
+    use DataLayerTrait;
+
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
     private MenuModel $model;
+    private MenuItemModel $menuItem;
 
     /**
      * Main class constructor
@@ -32,19 +37,20 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
      * @param FormBuilderBlueprint $blueprint
      * @param MenuModel $model
      */
-    public function __construct(FormBuilderBlueprint $blueprint, MenuModel $model)
+    public function __construct(FormBuilderBlueprint $blueprint, MenuModel $model, MenuItemModel $menuItem)
     {
         $this->blueprint = $blueprint;
         $this->model = $model;
+        $this->menuItem = $menuItem;
         parent::__construct();
     }
 
     /**
-     * @return MenuModel
+     * @return MenuItemModel
      */
-    public function getModel(): MenuModel
+    public function getModel(): MenuItemModel
     {
-        return $this->model;
+        return $this->menuItem;
     }
 
     /**
@@ -56,11 +62,29 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
+        $defaults = $this->flattenArray($this->menuItem->getRepo()->findBy(['id'], ['item_original_id' => $dataRepository->id, 'item_usable' => 1]));
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "menuForm"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('menu_name', [], $this->hasValue('menu_name')))
             ->add($this->blueprint->text('parent_menu', ['uk-width-1-2'], $this->hasValue('parent_menu')))
+            ->add($this->blueprint->number('menu_order', ['uk-form-width-small', 'uk-input'], $this->hasValue('menu_order'), false))
+
             ->add($this->blueprint->textarea('menu_description', ['uk-textarea'], 'menu_description'), $this->hasValue('menu_description'))
+            ->add($this->blueprint->select(
+                'item_usable[]',
+                ['uk-select'],
+                'item_usable',
+                6,
+                true
+                ),
+                $this->blueprint->choices(
+                    array_column($this->menuItem->getRepo()->findBy(['id'], ['item_original_id' => $dataRepository->id]), 'id'),
+                    $defaults,
+                    $this
+                ),
+                $this->blueprint->settings(false, null, true, 'Menu Items', true, 'Select one one or more menu items')
+
+            )
 
             ->add(
                 $this->blueprint->submit(
