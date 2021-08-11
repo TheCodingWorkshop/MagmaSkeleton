@@ -62,7 +62,12 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
-        $defaults = $this->flattenArray($this->menuItem->getRepo()->findBy(['id'], ['item_original_id' => $dataRepository->id, 'item_usable' => 1]));
+        $choices = [];
+        $defaults = '';
+        if ($dataRepository !==null) {
+            $defaults = $this->flattenArray($this->menuItem->getRepo()->findBy(['id'], ['item_original_id' => $dataRepository->id, 'item_usable' => 1]));
+            $choices = $this->menuItem->getRepo()->findBy(['id'], ['item_original_id' => $dataRepository->id]);
+        }
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "menuForm"])
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('menu_name', [], $this->hasValue('menu_name')))
@@ -78,7 +83,7 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 true
                 ),
                 $this->blueprint->choices(
-                    array_column($this->menuItem->getRepo()->findBy(['id'], ['item_original_id' => $dataRepository->id]), 'id'),
+                    array_column($choices, 'id'),
                     $defaults,
                     $this
                 ),
@@ -90,7 +95,7 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 $this->blueprint->submit(
                     $this->hasValue('id') ? 'edit-menu' : 'new-menu',
                     ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
-                    'Update Menu'
+                    $this->hasValue('id') ? 'Update Menu' : 'Add New Menu'
                 ),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)

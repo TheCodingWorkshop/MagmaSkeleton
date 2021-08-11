@@ -118,6 +118,12 @@ services:
         App\Controller\Admin\RoleController::assignedAction:
           msg: Changes Saved
 
+    menu.subscriber:
+      class: \App\EventSubscriber\MenuActionSubscriber
+      register_route_feedback:
+        App\Controller\Admin\MenuController::editAction:
+          msg: Changes Saved
+
 #  listeners:
 #    inertia.listener:
 #      class: \MagmaCore\Inertia\InertiaListener

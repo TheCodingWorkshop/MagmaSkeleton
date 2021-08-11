@@ -16,6 +16,8 @@ use App\Commander\MenuCommander;
 use App\DataColumns\MenuColumn;
 use App\Schema\MenuSchema;
 use App\Forms\Admin\Menu\MenuForm;
+use App\Event\MenuActionEvent;
+use MagmaCore\Auth\Authorized;
 use MagmaCore\Auth\Entity\MenuEntity;
 use MagmaCore\Auth\Model\MenuModel;
 use MagmaCore\Auth\Model\MenuItemModel;
@@ -99,9 +101,11 @@ class MenuController extends AdminController
 
     protected function editAction()
     {
-        $this->showAction
+        $this->editAction
             ->setAccess($this, 'can_edit')
-            ->execute($this, NULL, NULL, NULL, __METHOD__)
+            ->execute($this, MenuEntity::class, MenuActionEvent::class, NULL, __METHOD__, [],
+                ['item_usable' => (isset($_POST['item_usable']) && count($_POST['item_usable']) > 0 ? $_POST['item_usable'] : [])]
+            )
             ->render()
             ->with(
                 [
@@ -113,6 +117,26 @@ class MenuController extends AdminController
             ->end();
     }
 
+    /**
+     * Remove a menu item from the usable list of items
+     * @return bool
+     */
+    protected function removeItemAction(): bool
+    {
+        if (isset($this->formBuilder)) {
+            if ($this->formBuilder->canHandleRequest()) {
+                $queriedID = $this->thisRouteID() ?? null;
+                $remove = $this->menuItem->getRepo()->findByIdAndUpdate(['item_usable' => NULL], $queriedID);
+                if ($remove === true) {
+                    $originalMenuID = $this->request->handler()->get('menu_id') ?? '/admin/menu/index';
+                    $originalMenuID = (int)$originalMenuID;
+                    $this->flashMessage('The item was remove from the usable list');
+                    $this->redirect('/admin/menu/' . $originalMenuID . '/edit');
+                }
+            }
+        }
+        return false;
+    }
 
 
 }
