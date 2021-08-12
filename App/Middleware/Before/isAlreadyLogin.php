@@ -28,7 +28,7 @@ class isAlreadyLogin extends BeforeMiddleware
      */
     public function middleware(object $middleware, Closure $next)
     {
-        if ($middleware->thisRouteController() === 'Security' && $middleware->thisRouteAction() === 'index') {
+        if ($middleware->thisRouteController() === 'security') {
             $userID = $middleware->getSession()->get('user_id');
             if (isset($userID) && $userID !== 0) {
                 $middleware->flashMessage(sprintf('%s You are already logged in.', '<strong class=\"uk-text-danger\">Action Rejected: </strong>'), $middleware->flashInfo());

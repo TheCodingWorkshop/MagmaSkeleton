@@ -127,8 +127,6 @@ class SecurityController extends BaseController
     }
 
     /**
-     * Undocumented function
-     *
      * @return void
      */
     protected function sessionAction()
