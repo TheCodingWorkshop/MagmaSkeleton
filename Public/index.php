@@ -35,7 +35,7 @@ try {
     (new BaseApplication())
         ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
-        ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL | E_STRICT)
+        ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
         ->setSession(Yaml::file('session'), null, true)
         ->setCookie([])
         ->setCache(Yaml::file('cache'), null, true)

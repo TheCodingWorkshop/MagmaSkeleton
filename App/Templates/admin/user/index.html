@@ -1,13 +1,9 @@
 {% extends 'layout.html' %}
 
-<!-- title -->
 {% block title %}User Listings{% endblock %}
-<!-- description -->
 {% block description %}MagmaCore create an account{% endblock %}
-<!-- keywords -->
 {% block keywords %}register, create an account{% endblock %}
 
-<!-- start content-->
 {% block content %}
 <form method="post" action="/admin/user/bulk">
     <section class="uk-height-viewport">
@@ -56,26 +52,4 @@
 {% endblock %}
 <!--  -->
 {% block scripts %}
-<script>
-
-    $('#selectAllDomainList').click (function () {
-        const checkedStatus = this.checked;
-        $('#datatable tbody tr').find('td:first :checkbox').each(function () {
-            $(this).prop('checked', checkedStatus);
-        });
-    });
-
-    // $(document).ready(function () {
-    //     $("#sparkline").sparkline([100, 155, 58, 68, -45], {
-    //         type: 'bar',
-    //         height: '30%',
-    //         barWidth: '20%',
-    //         barColor: "rgb(0, 102, 102)",
-    //         negBarColor: "rgb(178,216,216)",
-    //         zeroColor: 'green'
-    //     });
-    // });
-    //
-
-</script>
 {% endblock %}

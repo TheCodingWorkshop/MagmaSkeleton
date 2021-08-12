@@ -82,12 +82,28 @@ scripts:
     location: header
     enable: true
     cdn: false
-  framework:
-    src: "/public/assets/js/uikit/framework.js"
+  sparks:
+    src: "/public/assets/js/uikit/sparks.js"
     integrity: ""
     crossorigin: "anonymous"
     type: javascript
-    location: header
+    location: footer
+    enable: true
+    cdn: false
+  filters:
+    src: "/public/assets/js/uikit/filters.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: javascript
+    location: footer
+    enable: true
+    cdn: false
+  checkall:
+    src: "/public/assets/js/uikit/checkall.js"
+    integrity: ""
+    crossorigin: "anonymous"
+    type: javascript
+    location: footer
     enable: true
     cdn: false
   uikit_icons:

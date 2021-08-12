@@ -72,7 +72,6 @@ services:
         App\Controller\SecurityController::logoutAction:
           msg: You've successfully logged out!
 
-
     password.subscriber:
       class: \App\EventSubscriber\PasswordActionSubscriber
       register_route_feedback:
