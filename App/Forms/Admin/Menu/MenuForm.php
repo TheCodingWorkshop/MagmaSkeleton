@@ -74,7 +74,10 @@ class MenuForm extends ClientFormBuilder implements ClientFormBuilderInterface
             ->add($this->blueprint->text('parent_menu', ['uk-width-1-2'], $this->hasValue('parent_menu')))
             ->add($this->blueprint->number('menu_order', ['uk-form-width-small', 'uk-input'], $this->hasValue('menu_order'), false))
 
+            ->add($this->blueprint->text('menu_break_point', ['uk-input'], $this->hasValue('menu_break_point'), false))
+
             ->add($this->blueprint->textarea('menu_description', ['uk-textarea'], 'menu_description'), $this->hasValue('menu_description'))
+
             ->add($this->blueprint->select(
                 'item_usable[]',
                 ['uk-select'],

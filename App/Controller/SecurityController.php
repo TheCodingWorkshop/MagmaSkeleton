@@ -16,7 +16,7 @@ use App\Event\LoginActionEvent;
 use App\Event\LogoutActionEvent;
 use App\Forms\Client\Security\LoginForm;
 use App\Forms\Client\Security\LogoutForm;
-use App\Middleware\After\SessionExpiresCleanUp;
+use App\Middleware\After\LogoutIfNoSession;
 use App\Middleware\Before\isAlreadyLogin;
 use App\Middleware\Before\isUserAccountActivated;
 use JetBrains\PhpStorm\ArrayShape;
@@ -87,10 +87,10 @@ class SecurityController extends BaseController
      *
      * @return array
      */
-    #[ArrayShape(['SessionExpiresCleanUp' => "string"])] protected function callAfterMiddlewares(): array
+    protected function callAfterMiddlewares(): array
     {
         return [
-            'SessionExpiresCleanUp' => SessionExpiresCleanUp::class,
+            'LogoutIfNoSession' => LogoutIfNoSession::class,
         ];
     }
 
@@ -116,7 +116,7 @@ class SecurityController extends BaseController
      *
      * @return void
      */
-    protected function logoutAction(): void
+    protected function logoutAction()
     {
         $this->logoutAction
             ->execute($this, NULL, LogoutActionEvent::class, NULL, __METHOD__)

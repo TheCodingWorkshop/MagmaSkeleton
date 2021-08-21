@@ -65,6 +65,7 @@ class MenuValidate extends AbstractDataRepositoryValidation
                 'menu_name' => $this->isSet('menu_name', $dataCollection, $dataRepository),
                 'menu_description' => $this->isSet('menu_description', $dataCollection, $dataRepository),
                 'parent_menu' => $this->isSet('parent_menu', $dataCollection, $dataRepository),
+                'menu_break_point' => $this->isSet('menu_break_point', $dataCollection, $dataRepository),
                 'menu_order' => $this->isSet('menu_order', $dataCollection, $dataRepository),
                 'created_byid' => $this->getCreator($dataCollection)
             ];
