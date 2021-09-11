@@ -41,6 +41,18 @@ class PermissionActionSubscriber implements EventSubscriberInterface
     protected const EDIT_ACTION = 'edit';
     protected const DELETE_ACTION = 'delete';
 
+    private RolePermissionModel $rolePermission;
+
+    /**
+     * Undocumented function
+     *
+     * @param RolePermissionModel $rolePermission
+     */
+    public function __construct(RolePermissionModel $rolePermission)
+    {
+        $this->rolePermission = $rolePermission;
+    }
+
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
@@ -86,12 +98,12 @@ class PermissionActionSubscriber implements EventSubscriberInterface
     public function assignedToSuperRole(PermissionActionEvent $event): bool
     {
         if ($this->onRoute($event, self::NEW_ACTION)) {
-            $permission = $event->getContext();
+            $permission = $this->flattenContext($event->getContext());
             $superRole = Yaml::file('app')['system']['super_role'];
             if ($permission) {
                 $permID = $permission['last_id'];
                 $fields = ['role_id' => $superRole['props']['id'], 'permission_id' => $permID];
-                $push = (new RolePermissionModel())
+                $this->rolePermission
                     ->getRepo()
                     ->getEm()
                     ->getCrud()

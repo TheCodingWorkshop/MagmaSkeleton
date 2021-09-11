@@ -12,7 +12,6 @@ declare (strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\ControllerSettingEntity;
 use App\Event\ControllerSettingsActionEvent;
 use App\Forms\Admin\Controller\ControllerSettingsForm;
 use App\Middleware\Before\AdminAuthentication;
@@ -25,6 +24,7 @@ use MagmaCore\Auth\Roles\Roles;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\BlankAction;
 use MagmaCore\Base\Domain\Actions\BulkDeleteAction;
+use MagmaCore\Base\Domain\Actions\ChangeRowsAction;
 use MagmaCore\Base\Domain\Actions\ChangeStatusAction;
 use MagmaCore\Base\Domain\Actions\DeleteAction;
 use MagmaCore\Base\Domain\Actions\EditAction;
@@ -40,6 +40,8 @@ use MagmaCore\Base\Traits\TableSettingsTrait;
 use MagmaCore\Datatable\Datatable;
 use MagmaCore\RestFul\RestHandler;
 use MagmaCore\Session\SessionTrait;
+use MagmaCore\Settings\Entity\ControllerSettingEntity;
+use MagmaCore\Settings\Event\ControllerSettingActionEvent;
 
 class AdminController extends BaseController
 {
@@ -70,8 +72,6 @@ class AdminController extends BaseController
         $this->diContainer(
             [
                 'tableGrid' => Datatable::class,
-                'controllerSettings' => ControllerSettingsForm::class,
-                'controllerRepository' => ControllerSettingsModel::class,
                 'blankAction' => BlankAction::class,
                 'simpleUpdateAction' => SimpleUpdateAction::class,
                 'simpleCreateAction' => SimpleCreateAction::class,
@@ -84,7 +84,8 @@ class AdminController extends BaseController
                 'showAction' => ShowAction::class,
                 'changeStatusAction' => ChangeStatusAction::class,
                 'settingsAction' => SettingsAction::class,
-                'apiResponse' => RestHandler::class
+                'apiResponse' => RestHandler::class,
+                'changeRowsAction' => ChangeRowsAction::class,
             ]
         );
 
@@ -162,15 +163,17 @@ class AdminController extends BaseController
         return false;
     }
 
-//    protected function settingsAction()
-//    {
-//        $action = $this->settingsAction
-//            ->execute($this, ControllerSettingEntity::class, ControllerSettingsActionEvent::class, NULL, __METHOD__);
-//
-//        if ($action) {
-//            $this->redirect('/admin/' . $this->thisRouteController() . '/index');
-//        }
-//    }
+    /**
+     * Global 
+     *
+     * @return void
+     */
+    protected function changeRowsAction()
+    {
+        $this->changeRowsAction
+            ->execute($this, ControllerSettingEntity::class, ControllerSettingActionEvent::class, NULL, __METHOD__)
+            ->endAfterExecution();
+    }
 
 
 }

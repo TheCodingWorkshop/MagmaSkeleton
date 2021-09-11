@@ -28,10 +28,9 @@ use App\Forms\Admin\Settings\LocalisationSettingForm;
 use App\Forms\Admin\Settings\PurgeSettingForm;
 use App\Forms\Admin\Settings\SecuritySettingForm;
 use App\Forms\Admin\Settings\ToolsSettingForm;
-use App\Model\SettingModel;
+use MagmaCore\Settings\Model\SettingModel;
 use MagmaCore\Base\Domain\Actions\ConfigAction;
 use MagmaCore\Base\Domain\Actions\PurgeAction;
-use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 use MagmaCore\Settings\Settings;
 

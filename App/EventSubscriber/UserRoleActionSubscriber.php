@@ -94,7 +94,7 @@ class UserRoleActionSubscriber implements EventSubscriberInterface
     public function createTemporaryRole(UserRoleActionEvent $event): bool
     {
         if ($this->onRoute($event, 'privilege')) {
-            $data = $event->getContext();
+            $data = $this->flattenContext($event->getContext());
             if (is_array($data) && count($data) > 0) {
                 $fields = [
                     'user_id' => $data['user_id'],
@@ -118,7 +118,7 @@ class UserRoleActionSubscriber implements EventSubscriberInterface
     public function addExpirationTemporaryRole(UserRoleActionEvent $event): bool
     {
         if ($this->onRoute($event, 'privilege-expiration')) {
-            $data = $event->getContext();
+            $data = $this->flattenContext($event->getContext());
             if ($data['user_id'] === $event->getObject()->thisRouteID()) {
                 $duration = $data['duration'];
                 $time = $data['time'];

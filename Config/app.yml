@@ -108,3 +108,8 @@ disallowed_controllers:
   - event
   - notification
   - userRole
+
+activation:
+  title: Activate Your Account!
+  message: Thanks for registering on LavaStudio. Please click the activation button below to activate your account in order to access your profile page.
+  call_to_action: Activate Now

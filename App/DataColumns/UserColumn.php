@@ -40,11 +40,11 @@ class UserColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'fullname',
+                'db_row' => 'firstname',
                 'dt_row' => 'Name',
                 'class' => 'uk-table-expand',
                 'show_column' => true,
-                'sortable' => true,
+                'sortable' => false,
                 'searchable' => true,
                 'formatter' => function ($row) use ($callingController) {
                     $privilege = PrivilegedUser::getUser($row['id']);
@@ -64,15 +64,6 @@ class UserColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     return $html;
                 }
-            ],
-            [
-                'db_row' => 'firstname',
-                'dt_row' => 'Firstname',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => false,
-                'searchable' => true,
-                'formatter' => ''
             ],
             [
                 'db_row' => 'lastname',

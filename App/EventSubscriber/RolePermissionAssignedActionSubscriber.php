@@ -31,6 +31,17 @@ class RolePermissionAssignedActionSubscriber implements EventSubscriberInterface
 
     /** @var int - we want this to execute last so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
+    private RolePermissionModel $rolePermission;
+
+    /**
+     * Undocumented function
+     *
+     * @param RolePermissionModel $rolePermission
+     */
+    public function __construct(RolePermissionModel $rolePermission)
+    {
+        $this->rolePermission = $rolePermission;
+    }
 
     /**
      * Subscribe multiple listeners to listen for the NewActionEvent. This will fire
@@ -71,13 +82,13 @@ class RolePermissionAssignedActionSubscriber implements EventSubscriberInterface
     #[NoReturn] public function assignedRolePermission(RolePermissionAssignedActionEvent $event)
     {
         /* ensure permission isn't already assigned before assigned to avoid duplicate entry error */
-        $roleID = $event->getContext()['role_id'];
-        $permissionIDs = $event->getContext()['permission_id'];
+        $context = $this->flattenContext($event->getContext());
+        $roleID = $context['role_id'];
+        $permissionIDs = $context['permission_id'];
         if (!empty($roleID)) {
             if (is_array($permissionIDs) && count($permissionIDs) > 0) {
                 foreach ($permissionIDs as $permissionID) {
-                    $model = new RolePermissionModel();
-                    $model->getRepo()
+                    $this->rolePermission->getRepo()
                         ->getEm()
                         ->getCrud()
                         ->create(['role_id' => $roleID, 'permission_id' => $permissionID]);

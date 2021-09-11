@@ -22,6 +22,7 @@ use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use MagmaCore\Mailer\Exception\MailerException;
 use MagmaCore\Mailer\MailerFacade;
+use MagmaCore\Utility\Yaml;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES
@@ -45,6 +46,8 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      * @var int
      */
     protected const INDEX_ACTION = 'registered';
+    protected const REDIRECT_PATH = '/registration/registered';
+    protected const ACTIVATION_PATH = '/activation/activate';
 
     /**
      * Main constructor class
@@ -90,7 +93,11 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      */
     public function flashLoginEvent(RegistrationActionEvent $event)
     {
-        $this->flashingEvent($event);
+        $this->flashingEvent($event,
+            function($cbEvent, $routeArray) {
+                $cbEvent->getObject()->redirect(self::REDIRECT_PATH);
+            }
+        );
     }
 
     /**
@@ -102,12 +109,12 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      */
     private function templateMessage(BaseActionEventInterface $event, array $user): string
     {
-        $link = $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']);
+        $link = $event->getObject()->getSiteUrl(self::ACTIVATION_PATH . $user['activation_hash']);
         $html = '<div>';
-        $html .= '<h1>Activate Your Account!</h1>';
+        $html .= '<h1>' . Yaml::file('app')['activation']['title'] . '</h1>';
         $html .= isset($user['random_pass']) ? '<p><strong>Temporary Password: </strong>' . $user['random_pass'] . '</p>' : '';
-        $html .= 'Thanks for registering on LavaStudio. Please click the activation button below to activate your account in order to access your profile page.';
-        $html .= '<a href="' . $link . '">Activate Now</a>';
+        $html .= Yaml::file('app')['activation']['message'];
+        $html .= '<a href="' . $link . '">' . Yaml::file('app')['activation']['call_to_action'] . '</a>';
         $html .= '</div>';
         return $html;
     }
@@ -120,11 +127,11 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      * @return bool
      * @throws MailerException
      */
-    public function sendRegistrationActivationEmail(RegistrationActionEvent $event): bool
+    public function sendRegistrationActivationEmail(RegistrationActionEvent $event)
     {
         if ($this->onRoute($event, 'register')) {
             if ($event) {
-                $user = $event->getcontext();
+                $user = $this->flattenContext($event->getcontext());
                 if (is_array($user) && count($user) > 0) {
                     $mail = $this->mailer->basicMail(
                         'New Account',

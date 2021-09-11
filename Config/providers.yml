@@ -18,7 +18,7 @@ flatDb:
   \MagmaCore\DataObjectLayer\FileStorageRepository\FileStorage
 FlatRepository:
   \MagmaCore\DataObjectLayer\FileStorageRepository\FileStorageRepository
-controllerSettingsModel:
-  \App\Model\ControllerSettingsModel
+controllerSettings:
+  \MagmaCore\Settings\Model\ControllerSettingModel
 settings:
   \MagmaCore\Settings\Settings

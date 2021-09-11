@@ -86,7 +86,7 @@ class MenuActionSubscriber implements EventSubscriberInterface
     public function addMenuItem(MenuActionEvent $event): bool
     {
         if ($this->onRoute($event, self::EDIT_ACTION)) {
-            $context = $event->getContext();
+            $context = $this->flattenContext($event->getContext());
             if (isset($context['item_usable']) && count($context['item_usable']) > 0) {
                 foreach ($context['item_usable'] as $itemID) {
                     $itemID = (int)$itemID;

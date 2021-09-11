@@ -20,6 +20,7 @@ use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 use MagmaCore\Utility\Yaml;
 use App\Model\RoleModel;
+use App\Model\UserRoleModel;
 
 class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
@@ -28,6 +29,7 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
     /** @var FormBuilderBlueprintInterface $blueprint */
     private FormBuilderBlueprintInterface $blueprint;
     private RoleModel $roleModel;
+    private UserRoleModel $userRole;
 
     /**
      * Main class constructor
@@ -35,16 +37,23 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
      * @param FormBuilderBlueprint $blueprint
      * @param RoleModel $roleModel
      */
-    public function __construct(FormBuilderBlueprint $blueprint, RoleModel $roleModel)
+    public function __construct(FormBuilderBlueprint $blueprint, RoleModel $roleModel, UserRoleModel $userRole)
     {
         $this->blueprint = $blueprint;
         $this->roleModel = $roleModel;
+        $this->userRole = $userRole;
         parent::__construct();
     }
 
     public function getModel(): RoleModel
     {
         return $this->roleModel;
+    }
+
+    private function getDefaultRole(int $userID = null): int
+    {
+        return (int)$this->userRole
+        ->getRepo()->findObjectBy(['user_id' => $userID], ['role_id'])->role_id;
     }
 
     /**
@@ -88,10 +97,10 @@ class UserForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 $this->blueprint->choices(
                     array_column($this->roleModel->getRepo()->findBy(['id']), 'id'),
                     /* need to return a list of permission assigned to the role */
-                    'Developers',
+                    $this->getDefaultRole($dataRepository->id),
                     $this
                 ),
-                $this->blueprint->settings(false, null, true, 'Roles', true, 'Select one one or more permissions'))
+                $this->blueprint->settings(false, null, true, 'Roles', true, 'Select one or more role'))
 
             ->add($this->blueprint->text(
                 'remote_addr',

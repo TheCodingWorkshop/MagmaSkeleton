@@ -31,4 +31,15 @@ class UserController extends APIUserController
 
     }
 
+    protected function rowsAction()
+    {
+        $globalValue = $this->settings->get('global_table_rows_per_page') ?? 0;
+        $controllerTableValue = $this->controllerSettings
+                ->getRepo()
+                ->findObjectBy(['controller_name' => $this->thisRouteController()], ['records_per_page']) ?? 0;
+        $rows = (isset($controllerTableValue) && $controllerTableValue !==0) ? $controllerTableValue : $globalValue;
+        echo json_encode(array('results' => $rows));
+
+    }
+
 }

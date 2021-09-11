@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Commander;
 
-use App\Model\SettingModel;
+use MagmaCore\Settings\Model\SettingModel;
 use Exception;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;

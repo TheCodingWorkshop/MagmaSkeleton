@@ -84,19 +84,12 @@ services:
         App\Controller\ActivateController::activateAction:
           msg: You're now activated
 
-    controllerSettings.subscriber:
-      class: \App\EventSubscriber\ControllerSettingsActionSubscriber
-      register_route_feedback:
-        App\Controller\UserController::settingsAction:
-          msg: Changes Saved
-
     registration.subscriber:
       class: \App\EventSubscriber\RegistrationActionSubscriber
       register_route_feedback:
         App\Controller\RegistrationController::registerAction:
           msg: You're now registered
-          redirect: /registration/registered
-          
+
     setting.subscriber:
       class: \App\EventSubscriber\SettingActionSubscriber
       register_route_feedback:

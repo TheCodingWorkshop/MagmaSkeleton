@@ -23,6 +23,7 @@ use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
 use MagmaCore\Mailer\Exception\MailerException;
 use MagmaCore\Mailer\MailerFacade;
+use MagmaCore\Utility\Yaml;
 use Exception;
 
 /**
@@ -58,6 +59,8 @@ class UserActionSubscriber implements EventSubscriberInterface
     protected const LOCK_ACTION = 'lock';
     protected const UNLOCK_ACTION = 'unlock';
     protected const ACTIVE_ACTION = 'active';
+    protected const ACTIVATION_PATH = '/activation/activate';
+
 
     /**
      * Main constructor class
@@ -123,12 +126,12 @@ class UserActionSubscriber implements EventSubscriberInterface
      */
     private function templateMessage(BaseActionEventInterface $event, array $user): string
     {
-        $link = $event->getObject()->getSiteUrl('/activation/activate/' . $user['activation_hash']);
+        $link = $event->getObject()->getSiteUrl(self::ACTIVATION_PATH . $user['activation_hash']);
         $html = '<div>';
-        $html .= '<h1>Activate Your Account!</h1>';
+        $html .= '<h1>' . Yaml::file('app')['activation']['title'] . '</h1>';
         $html .= isset($user['random_pass']) ? '<p><strong>Temporary Password: </strong>' . $user['random_pass'] . '</p>' : '';
-        $html .= 'Thanks for registering on LavaStudio. Please click the activation button below to activate your account in order to access your profile page.';
-        $html .= '<a href="' . $link . '">Activate Now</a>';
+        $html .= Yaml::file('app')['activation']['message'];
+        $html .= '<a href="' . $link . '">' . Yaml::file('app')['activation']['call_to_action'] . '</a>';
         $html .= '</div>';
         return $html;
     }
@@ -145,7 +148,7 @@ class UserActionSubscriber implements EventSubscriberInterface
     {
         if ($this->onRoute($event, self::NEW_ACTION) || $this->onRoute($event, self::REGISTER_ACTION)) {
             if ($event) {
-                $user = $event->getcontext();
+                $user = $this->flattenContext($event->getcontext());
                 if (is_array($user) && count($user) > 0) {
                     if ($user['status'] === 'pending') {
                         $mail = $this->mailer->basicMail(
@@ -176,7 +179,7 @@ class UserActionSubscriber implements EventSubscriberInterface
     {
         if ($this->onRoute($event, self::NEW_ACTION) || $this->onRoute($event, self::REGISTER_ACTION)) {
             if ($event) {
-                $user = $event->getContext();
+                $user = $this->flattenContext($event->getContext());
                 if ($user) {
                     $userLog = new UserMetaDataModel();
                     if ($userLog) {
@@ -240,14 +243,14 @@ class UserActionSubscriber implements EventSubscriberInterface
     {
         if ($this->onRoute($event, self::EDIT_ACTION)) {
             if ($event) {
-                $user = $event->getContext();
+                $user = $this->flattenContext($event->getContext());
                 if (array_key_exists('role_id', $user)) {
                     $roleID = $user['role_id'];
                     $update = $this->userRole
                         ->getRepo()
                         ->getEm()
                         ->getCrud()
-                        ->update(['role_id' => $roleID, 'user_id' => $user['user_id']], 'user_id');
+                        ->update(['role_id' => $roleID, 'user_id' => $event->getObject()->thisRouteID()], 'user_id');
                     return (bool)$update;
                 }
             }
@@ -268,7 +271,7 @@ class UserActionSubscriber implements EventSubscriberInterface
     {
         /* @todo log this request on success or failure */
         if ($this->onRoute($event, self::NEW_ACTION)) {
-            $user = $event->getContext();
+            $user = $this->flattenContext($event->getContext());
             if ($user) {
                 $status = $user['status']; /* Get the status */
                 if ($status == 'trash') { /* If the status is set to trash lets update the database on the last inserted id */
