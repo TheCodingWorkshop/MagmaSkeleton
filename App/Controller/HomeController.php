@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Database\Fillable\UserFillable;
-use App\Schema\UserSchema;
+use MagmaCore\UserManager\UserFillable;
+use MagmaCore\UserManager\UserSchema;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 

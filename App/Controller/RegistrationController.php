@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\UserEntity;
+use MagmaCore\UserManager\UserEntity;
 use App\Event\RegistrationActionEvent;
 use App\Forms\Client\Registration\RegistrationForm;
-use App\Model\UserModel;
+use MagmaCore\UserManager\UserModel;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\NewAction;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;

@@ -1,81 +1,87 @@
 services:
   subscribers:
     user.subscriber:
-      class: \App\EventSubscriber\UserActionSubscriber
+      class: \MagmaCore\UserManager\EventSubscriber\UserActionSubscriber
       register_route_feedback:
-        App\Controller\Admin\UserController::newAction:
+        MagmaCore\UserManager\UserController::newAction:
           msg: New user added!
-        App\Controller\Admin\UserController::editAction:
+        MagmaCore\UserManager\UserController::editAction:
           msg: Changes saved!
-        App\Controller\Admin\UserController::deleteAction:
+        MagmaCore\UserManager\UserController::deleteAction:
           msg: User deleted successfully!
           redirect: user.index
-        App\Controller\Admin\UserController::bulkAction:
+        MagmaCore\UserManager\UserController::bulkAction:
           msg: Bulk action successful!
           redirect: user.index
-        App\Controller\Admin\UserController::trashAction:
+        MagmaCore\UserManager\UserController::trashAction:
           msg: Account is in located within the trash!
           redirect: user.index
-        App\Controller\Admin\UserController::trashRestoreAction:
+        MagmaCore\UserManager\UserController::trashRestoreAction:
           msg: Account restored from trash!
           redirect: user.index
-        App\Controller\Admin\UserController::lockAction:
+        MagmaCore\UserManager\UserController::lockAction:
           msg: User account is now locked
           redirect: user.index
-        App\Controller\Admin\UserController::unlockAction:
+        MagmaCore\UserManager\UserController::unlockAction:
           msg: User account is is now unlocked
           redirect: user.index
-        App\Controller\Admin\UserController::activeAction:
+        MagmaCore\UserManager\UserController::activeAction:
           msg: User account is now active
           redirect: user.index
         App\Controller\RegistrationController::registerAction:
           msg: Your account was created!
 
     role.subscriber:
-      class: \App\EventSubscriber\RoleActionSubscriber
+      class: \MagmaCore\UserManager\Rbac\Role\EventSubscriber\RoleActionSubscriber
       register_route_feedback:
-        App\Controller\Admin\RoleController::newAction:
+        MagmaCore\UserManager\Rbac\Role\RoleController::newAction:
           msg: New Role Added!
-        App\Controller\Admin\RoleController::editAction:
+        MagmaCore\UserManager\Rbac\Role\RoleController::editAction:
           msg: Role updated!
-        App\Controller\Admin\RoleController::deleteAction:
+        MagmaCore\UserManager\Rbac\Role\RoleController::deleteAction:
           msg: Role Deleted!
           redirect: role.index
-        App\Controller\Admin\RoleController::assignedAction:
+        MagmaCore\UserManager\Rbac\Role\RoleController::assignedAction:
           msg: New permission successfully assigned to role.
 
-    permission.subscriber:
-      class: \App\EventSubscriber\PermissionActionSubscriber
+    role_permission_assigned.subscriber:
+      class: \MagmaCore\UserManager\Rbac\EventSubscriber\RolePermissionAssignedActionSubscriber
       register_route_feedback:
-        App\Controller\Admin\PermissionController::newAction:
+        MagmaCore\UserManager\Rbac\Role\RoleController::assignedAction:
+          msg: Changes Saved
+
+    permission.subscriber:
+      class: \MagmaCore\UserManager\Rbac\Permission\EventSubscriber\PermissionActionSubscriber
+      register_route_feedback:
+        MagmaCore\UserManager\Rbac\Permission\PermissionController::newAction:
           msg: New permission added!
-        App\Controller\Admin\PermissionController::editAction:
+        MagmaCore\UserManager\Rbac\Permission\PermissionController::editAction:
           msg: Permission updated!
-        App\Controller\Admin\PermissionController::deleteAction:
+        MagmaCore\UserManager\Rbac\Permission\PermissionController::deleteAction:
           msg: Permission deleted!
           redirect: permission.index
 
     userRole.subscriber:
-      class: \App\EventSubscriber\UserRoleActionSubscriber
+      class: \MagmaCore\UserManager\EventSubscriber\UserRoleActionSubscriber
 
     security.subscriber:
-      class: \App\EventSubscriber\LoginActionSubscriber
+      class: \MagmaCore\UserManager\Security\EventSubscriber\LoginActionSubscriber
       register_route_feedback:
-        App\Controller\SecurityController::indexAction:
+        MagmaCore\UserManager\Security\SecurityController::indexAction:
           msg: Welcome back!
 
-    security_logout.subscriber:
-      class: \App\EventSubscriber\LogoutActionSubscriber
+    logout.subscriber:
+      class: \MagmaCore\UserManager\Security\EventSubscriber\LogoutActionSubscriber
       register_route_feedback:
-        App\Controller\SecurityController::logoutAction:
+        MagmaCore\UserManager\Security\LogoutController::logoutAction:
           msg: You've successfully logged out!
 
     password.subscriber:
-      class: \App\EventSubscriber\PasswordActionSubscriber
+      class: \MagmaCore\UserManager\PasswordRecovery\EventSubscriber\PasswordActionSubscriber
       register_route_feedback:
-        App\Controller\PasswordController::forgotAction:
+        MagmaCore\UserManager\PasswordRecovery\PasswordController::forgotAction:
           msg: Your request was successful. Please check your email address for reset link!
-        App\Controller\PasswordController::resetAction:
+        MagmaCore\UserManager\PasswordRecovery\PasswordController::resetAction:
           msg: Password reset successfully.
 
     activation.subscriber:
@@ -100,12 +106,6 @@ services:
       class: \App\EventSubscriber\ProjectActionSubscriber
       register_route_feedback:
         App\Controller\Admin\ProjectActionSubscriber::indexAction:
-          msg: Changes Saved
-
-    role_permission_assigned.subscriber:
-      class: \App\EventSubscriber\RolePermissionAssignedActionSubscriber
-      register_route_feedback:
-        App\Controller\Admin\RoleController::assignedAction:
           msg: Changes Saved
 
     menu.subscriber:

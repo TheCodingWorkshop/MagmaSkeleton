@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ $app['settings']['default_locale'] }}">
+<html lang="{{ (isset($app) ? $app['settings']['default_locale'] : null) }}">
 
 <head>
     <title>{% yield title %}</title>

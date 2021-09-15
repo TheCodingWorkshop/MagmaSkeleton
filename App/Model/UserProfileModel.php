@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use MagmaCore\UserManager\UserModel;
+
 class UserProfileModel extends UserModel
 {
 

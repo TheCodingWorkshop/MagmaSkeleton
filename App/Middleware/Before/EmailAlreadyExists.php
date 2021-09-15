@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use App\Entity\UserEntity;
-use App\Model\UserModel;
+use MagmaCore\UserManager\UserEntity;
+use MagmaCore\UserManager\UserModel;
 use Closure;
 use MagmaCore\Middleware\BeforeMiddleware;
 use MagmaCore\Utility\Sanitizer;

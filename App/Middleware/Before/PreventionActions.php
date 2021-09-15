@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
-use App\Model\RoleModel;
+use MagmaCore\UserManager\Rbac\Role\RoleModel;
 use Closure;
 use MagmaCore\Middleware\BeforeMiddleware;
 

@@ -10,7 +10,7 @@
 <!-- start content-->
 {% block content %}
     <div>
-        <p>Your account was created on {@ formatDate($row['created_at'], true) @}.
+        <p>Your account was created {@ formatDate($row['created_at'], true) @}.
             <dl>
                 <dt>Status: {{ $row['status'] }}</dt>
                 <dt>Role: {{ $privilege_user->getRole() }}</dt>
@@ -24,7 +24,7 @@
             <li><a href="/profile/account/{{$row['id']}}/password">?Edit Password</a></li>
         </ul>
         <div>
-            <a href="/">Home</a>
+            <a href="/">Home</a> | <a href="/logout">Logout</a>
         </div>
     </div>
 {% endblock %}

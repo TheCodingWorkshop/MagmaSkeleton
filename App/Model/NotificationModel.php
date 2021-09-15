@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Entity\PermissionEntity;
+use App\Entity\NotificationEntity;
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
@@ -35,7 +35,7 @@ class NotificationModel extends AbstractBaseModel
      */
     public function __construct()
     {
-        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, PermissionEntity::class);
+        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, NotificationEntity::class);
     }
 
     /**

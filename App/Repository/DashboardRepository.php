@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Model\UserModel;
+use MagmaCore\UserManager\UserModel;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Numbers\Number;
 

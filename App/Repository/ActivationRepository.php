@@ -11,13 +11,13 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Model\UserModel;
-use Exception;
+use MagmaCore\UserManager\UserModel;
 use MagmaCore\Auth\Contracts\UserActivationInterface;
 use MagmaCore\Base\BaseView;
 use MagmaCore\Mailer\Exception\MailerException;
 use MagmaCore\Mailer\MailerFacade;
 use MagmaCore\Utility\Token;
+use Exception;
 
 class ActivationRepository extends UserModel implements UserActivationInterface
 {

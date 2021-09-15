@@ -58,6 +58,17 @@ security:
   search_pattern: "[^'\x22]+"
   email_pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
   tel_pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}"
+  random_pass_char: 9
+  login_timeout: 30 # This is the period of time the user will be kicked out for
+  login_attempts: 3 # 3 incorrect attempts will time the user out for a set period of time
+  hash_cost_factor:
+    cost: 10
+  encript_password: true # password are hash by default. Set to false for the opposit behaviour 
+  password_algo: 
+    default: PASSWORD_DEFAULT
+    bcrypt: PASSWORD_BCRYPT
+    argon2i: PASSWORD_ARGON2I
+    argon2id: PASSWORD_ARGON2ID] # other options are [default, bcrypt, argon2i and argon2iD]
 
 database:
   default_driver: "mysql"
@@ -108,8 +119,21 @@ disallowed_controllers:
   - event
   - notification
   - userRole
+  - logout
 
 activation:
   title: Activate Your Account!
   message: Thanks for registering on LavaStudio. Please click the activation button below to activate your account in order to access your profile page.
   call_to_action: Activate Now
+
+password_recovery:
+  title: Password Reset Requested
+  message: You've requested to reset your password. Please click the link below to reset your password. However if you didn't make this request please click here. Password reset will expire in 30min.
+  call_to_action: Reset Password!
+
+token_expired:
+  title: Token Expired
+  message: Its seem the requested token has expired. Possible reasons could be.
+  reasons:
+    - The token was already use to reset the password
+    - The token has pass the expiration time.

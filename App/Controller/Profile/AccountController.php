@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use App\Entity\UserEntity;
-use App\Event\UserActionEvent;
+use MagmaCore\UserManager\UserEntity;
+use MagmaCore\UserManager\Event\UserActionEvent;
 use App\Forms\Profile\DeleteAccountForm;
 use App\Forms\Profile\EditEmailForm;
 use App\Forms\Profile\EditNameForm;

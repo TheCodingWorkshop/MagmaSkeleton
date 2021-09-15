@@ -16,7 +16,7 @@ login:
   action: index
 
 logout:
-  controller: security
+  controller: logout
   action: logout
 
 register:

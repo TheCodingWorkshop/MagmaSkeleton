@@ -1,25 +1,34 @@
-{% extends 'layout_auth.html' %}
+{% extends 'frontend_layout.html' %}
 
 {% block title %}Reset Password{% endblock %}
 {% block description %}MagmaCore reset password{% endblock %}<!-- Block description -->
 {% block keywords %}reset-password{% endblock %}
 {% block author %}Ricardo Miller{% endblock %}
+{% block page_header %}Reset your Password?{% endblock %}
+{% block page_tagline %}Create new password using the password field below{% endblock %}
 
-<!-- start content-->
 {% block content %}
-    <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
-    <div class="col-lg-6">
-        <div class="p-5">
-            <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-2">Reset your Password?</h1>
-                <p class="mb-4">A new password confirmation will be sent your email address. YOu will need to activate your
-                    account again?</p>
-            </div>
+    <div>
+        {% if ($token_valid !== null) : %}
             {{ $form }}
             <hr>
             <div class="text-center">
                 <a class="small" href="/login">Remembered your password? Login!</a>
             </div>
-        </div>
+        {% else : %}
+            <div class="text-center">
+                <h3>{{ isset($app['token_expired']['title']) ? $app['token_expired']['title'] : null }}</h3>
+                <p>{{ isset($app['token_expired']['message']) ? $app['token_expired']['message'] : null }}</p>
+                <ul class="uk-list uk-list-bullet">
+                    {% if (isset($app['token_expired']['reasons'])) : %}
+                        {% foreach ($app['token_expired']['reasons'] as $reason) : %}
+                            <li>{{{ $reason }}}</li>
+                        {% endforeach; %}
+                    {% endif; %}
+                </ul>
+
+                <a href="/login" class="uk-button uk-button-text">Login</a>
+            </div>
+        {% endif; %}
     </div>
 {% endblock %}

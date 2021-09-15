@@ -10,10 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Controller;
 
-use MagmaCore\Base\BaseEntity;
-
-class RolePermissionEntity extends BaseEntity
-{
-}
+class LogoutController extends \MagmaCore\UserManager\Security\LogoutController
+{ }

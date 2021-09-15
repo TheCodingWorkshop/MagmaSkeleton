@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Event\ActivateActionEvent;
-use Exception;
-use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\EventDispatcher\EventDispatcherDefaulter;
 use MagmaCore\EventDispatcher\EventDispatcherTrait;
 use MagmaCore\EventDispatcher\EventSubscriberInterface;
+use JetBrains\PhpStorm\ArrayShape;
+use Exception;
 
 /**
  * Note: If we want to flash other routes then they must be declared within the ACTION_ROUTES

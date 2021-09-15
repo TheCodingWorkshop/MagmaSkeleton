@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Event\RegistrationActionEvent;
-use App\Model\UserMetaDataModel;
+use MagmaCore\UserManager\Model\UserMetaDataModel;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Base\BaseView;
@@ -109,7 +109,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      */
     private function templateMessage(BaseActionEventInterface $event, array $user): string
     {
-        $link = $event->getObject()->getSiteUrl(self::ACTIVATION_PATH . $user['activation_hash']);
+        $link = $event->getObject()->getSiteUrl(self::ACTIVATION_PATH . '/' . $user['activation_hash']);
         $html = '<div>';
         $html .= '<h1>' . Yaml::file('app')['activation']['title'] . '</h1>';
         $html .= isset($user['random_pass']) ? '<p><strong>Temporary Password: </strong>' . $user['random_pass'] . '</p>' : '';
