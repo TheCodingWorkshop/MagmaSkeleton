@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2021 at 10:24 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Sep 17, 2021 at 10:51 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -753,7 +753,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `gravatar`, `status`, `password_hash`, `password_reset_hash`, `password_reset_expires_at`, `activation_token`, `created_byid`, `created_at`, `modified_at`, `deleted_at`, `deleted_at_datetime`, `remote_addr`, `user_failed_logins`, `user_last_failed_login`) VALUES
-(1258, 'Ricardo', 'Miller', 'rnm@example.com', 'https://www.gravatar.com/avatar/a166ea8de2bcaf91d509aadaa0e41ae5?s=200&d=mystery&r=R', 'active', '$2y$10$IhciHsJSDtyYdfT.SDUXDOLZfnazUTRugnqAh.7Dz0aW6fcg/S37i', NULL, NULL, NULL, NULL, '2021-09-15 21:17:22', NULL, NULL, NULL, '::1', 0, NULL);
+(1265, 'Ricardo', 'Miller', 'rm@example.com', 'https://www.gravatar.com/avatar/be5f3206ef3171cf48b81cb309f74c51?s=200&d=mystery&r=R', 'active', '$2y$10$kdJa8xvaWDEnR2NvfarzbOv6vLPbckbEUZbznYI5kEeSQAA3/IVJq', NULL, NULL, NULL, NULL, '2021-09-17 09:29:32', NULL, NULL, NULL, '::1', 0, NULL),
+(1269, 'Jordan', 'Britt', 'xoboriki@mailinator.com', 'https://www.gravatar.com/avatar/b73130714bf8a27bc87ef74b199c5d24?s=200&d=mystery&r=R', 'pending', '$2y$10$s7PHuUE4e7h6Rhj4xkX4g.kQVwmGazt.rdJV2XzQUFeY/AWdApgVe', NULL, NULL, 'ce80f27c128d6cafaad8d81361eff58578999deda309849395a94ebfd471da08', 1265, '2021-09-17 09:49:41', NULL, NULL, NULL, '::1', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -786,6 +787,13 @@ CREATE TABLE `user_metadata` (
   `user_browser` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `user_metadata`
+--
+
+INSERT INTO `user_metadata` (`id`, `user_id`, `login`, `logout`, `brute_force`, `user_browser`) VALUES
+(6, 1269, 'a:2:{s:10:\"last_login\";N;s:10:\"login_from\";N;}', 'a:2:{s:11:\"last_logout\";N;s:11:\"logout_from\";N;}', 'a:2:{s:13:\"failed_logins\";N;s:22:\"failed_login_timestamp\";N;}', 'O:8:\"stdClass\":30:{s:18:\"browser_name_regex\";s:6:\"~^.*$~\";s:20:\"browser_name_pattern\";s:1:\"*\";s:7:\"browser\";s:15:\"Default Browser\";s:7:\"version\";s:1:\"0\";s:8:\"majorver\";s:1:\"0\";s:8:\"minorver\";s:1:\"0\";s:8:\"platform\";s:7:\"unknown\";s:5:\"alpha\";s:0:\"\";s:4:\"beta\";s:0:\"\";s:5:\"win16\";s:0:\"\";s:5:\"win32\";s:0:\"\";s:5:\"win64\";s:0:\"\";s:6:\"frames\";s:1:\"1\";s:7:\"iframes\";s:0:\"\";s:6:\"tables\";s:1:\"1\";s:7:\"cookies\";s:0:\"\";s:16:\"backgroundsounds\";s:0:\"\";s:3:\"cdf\";s:0:\"\";s:8:\"vbscript\";s:0:\"\";s:11:\"javaapplets\";s:0:\"\";s:10:\"javascript\";s:0:\"\";s:15:\"activexcontrols\";s:0:\"\";s:8:\"isbanned\";s:0:\"\";s:14:\"ismobiledevice\";s:0:\"\";s:19:\"issyndicationreader\";s:0:\"\";s:7:\"crawler\";s:0:\"\";s:10:\"cssversion\";s:1:\"0\";s:11:\"supportscss\";s:0:\"\";s:3:\"aol\";s:0:\"\";s:10:\"aolversion\";s:1:\"0\";}');
+
 -- --------------------------------------------------------
 
 --
@@ -794,6 +802,7 @@ CREATE TABLE `user_metadata` (
 
 CREATE TABLE `user_note` (
   `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `notes` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `modified_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
@@ -807,7 +816,7 @@ CREATE TABLE `user_note` (
 
 CREATE TABLE `user_preferences` (
   `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `address` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `language` varchar(5) DEFAULT NULL,
   `week_start_on` int(10) DEFAULT NULL,
@@ -830,7 +839,8 @@ CREATE TABLE `user_role` (
 --
 
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
-(1258, 1);
+(1265, 1),
+(1269, 110);
 
 --
 -- Indexes for dumped tables
@@ -1022,7 +1032,8 @@ ALTER TABLE `users`
 -- Indexes for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_log_id` (`user_id`);
 
 --
 -- Indexes for table `user_metadata`
@@ -1035,7 +1046,8 @@ ALTER TABLE `user_metadata`
 -- Indexes for table `user_note`
 --
 ALTER TABLE `user_note`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_note_id` (`user_id`);
 
 --
 -- Indexes for table `user_preferences`
@@ -1191,7 +1203,7 @@ ALTER TABLE `tickets`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1264;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1270;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
@@ -1203,7 +1215,7 @@ ALTER TABLE `user_logs`
 -- AUTO_INCREMENT for table `user_metadata`
 --
 ALTER TABLE `user_metadata`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_note`
@@ -1271,25 +1283,25 @@ ALTER TABLE `role_permission`
 -- Constraints for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  ADD CONSTRAINT `user_log_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_log_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_metadata`
 --
 ALTER TABLE `user_metadata`
-  ADD CONSTRAINT `user_metadata_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_metadata_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_note`
 --
 ALTER TABLE `user_note`
-  ADD CONSTRAINT `user_note_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_note_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_preferences`
 --
 ALTER TABLE `user_preferences`
-  ADD CONSTRAINT `user_preferences_id` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_preferences_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_role`

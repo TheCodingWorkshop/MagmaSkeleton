@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Event\RegistrationActionEvent;
-use MagmaCore\UserManager\Model\UserMetaDataModel;
 use MagmaCore\UserManager\Model\UserRoleModel;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
@@ -51,12 +50,13 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     protected const ACTIVATION_PATH = '/activation/activate';
 
     private UserRoleModel $userRole;
+
     /**
      * Main constructor class
      *
      * @param MailerFacade $mailer
      * @param BaseView $view
-     * @return void
+     * @param UserRoleModel $userRole
      */
     public function __construct(MailerFacade $mailer, BaseView $view, UserRoleModel $userRole)
     {
@@ -86,7 +86,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     /**
      * Event flash allows flashing of any specified route defined with the ACTION_ROUTES constants
      * one can declare a message and a default route. if a default route isn't set then the script will
-     * redirect back on it self using the onSelf() method. Delete route is automatically filtered to
+     * redirect back on itself using the onSelf() method. Delete route is automatically filtered to
      * redirect back to the index page. As this is the only logical route to redirect to. after we
      * remove the object. failure to comply with this will result in 404 error as the script will
      * try to redirect to an object that no longer exists.
@@ -105,11 +105,12 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Undocumented function
+     * User registration message
      *
      * @param BaseActionEventInterface $event
      * @param array $user
      * @return string
+     * @throws Exception
      */
     private function templateMessage(BaseActionEventInterface $event, array $user): string
     {
@@ -131,21 +132,19 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      * @return bool
      * @throws MailerException
      */
-    public function sendRegistrationActivationEmail(RegistrationActionEvent $event)
+    public function sendRegistrationActivationEmail(RegistrationActionEvent $event): bool
     {
         if ($this->onRoute($event, 'register')) {
-            if ($event) {
-                $user = $this->flattenContext($event->getcontext());
-                if (is_array($user) && count($user) > 0) {
-                    $mail = $this->mailer->basicMail(
-                        'New Account',
-                        'admin@example.com',
-                        $user['email'],
-                        $this->templateMessage($event, $user)
-                    );
-                    if ($mail) {
-                        return true;
-                    }
+            $user = $this->flattenContext($event->getcontext());
+            if (is_array($user) && count($user) > 0) {
+                $mail = $this->mailer->basicMail(
+                    'New Account',
+                    'admin@example.com',
+                    $user['email'],
+                    $this->templateMessage($event, $user)
+                );
+                if ($mail) {
+                    return true;
                 }
             }
         }
@@ -157,20 +156,18 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      *
      * @param RegistrationActionEvent $event
      * @return void
+     * @throws Exception
      */
     public function assignedRegisteredUsersAsSubscriber(RegistrationActionEvent $event)
     {
         if ($this->onRoute($event, 'register')) {
-            if ($event) {
-                $user = $this->flattenContext($event->getContext());
-                if (is_array($user) && count($user) > 0) {
-                    $subRole = Yaml::file('app')['system']['default_role']['props']['id'];
-                    $push = $this->userRole->getRepo()
-                        ->getEm()
-                        ->getCrud()
-                        ->create(['user_id' => $user['last_id'], 'role_id' => $subRole]);
-                    return $push;
-                }
+            $user = $this->flattenContext($event->getContext());
+            if (is_array($user) && count($user) > 0) {
+                $subRole = Yaml::file('app')['system']['default_role']['props']['id'];
+                return $this->userRole->getRepo()
+                    ->getEm()
+                    ->getCrud()
+                    ->create(['user_id' => $user['last_id'], 'role_id' => $subRole]);
             }
         }
     }
