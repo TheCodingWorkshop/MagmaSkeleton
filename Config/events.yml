@@ -113,7 +113,7 @@ services:
       register_route_feedback:
         App\Controller\Admin\MenuController::editAction:
           msg: Changes Saved
-
+    
 #  listeners:
 #    inertia.listener:
 #      class: \MagmaCore\Inertia\InertiaListener

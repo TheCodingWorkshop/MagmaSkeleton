@@ -14,6 +14,7 @@ namespace App\EventSubscriber;
 
 use App\Event\RegistrationActionEvent;
 use MagmaCore\UserManager\Model\UserMetaDataModel;
+use MagmaCore\UserManager\Model\UserRoleModel;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use MagmaCore\Base\BaseView;
@@ -49,6 +50,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     protected const REDIRECT_PATH = '/registration/registered';
     protected const ACTIVATION_PATH = '/activation/activate';
 
+    private UserRoleModel $userRole;
     /**
      * Main constructor class
      *
@@ -56,10 +58,11 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      * @param BaseView $view
      * @return void
      */
-    public function __construct(MailerFacade $mailer, BaseView $view)
+    public function __construct(MailerFacade $mailer, BaseView $view, UserRoleModel $userRole)
     {
         $this->mailer = $mailer;
         $this->view = $view;
+        $this->userRole = $userRole;
     }
 
     /**
@@ -74,6 +77,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
         return [
             RegistrationActionEvent::NAME => [
                 ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
+                ['assignedRegisteredUsersAsSubscriber'],
                 ['sendRegistrationActivationEmail'],
             ]
         ];
@@ -146,6 +150,29 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
             }
         }
         return false;
+    }
+
+    /**
+     * Adds the basic user access for frontend registered user.
+     *
+     * @param RegistrationActionEvent $event
+     * @return void
+     */
+    public function assignedRegisteredUsersAsSubscriber(RegistrationActionEvent $event)
+    {
+        if ($this->onRoute($event, 'register')) {
+            if ($event) {
+                $user = $this->flattenContext($event->getContext());
+                if (is_array($user) && count($user) > 0) {
+                    $subRole = Yaml::file('app')['system']['default_role']['props']['id'];
+                    $push = $this->userRole->getRepo()
+                        ->getEm()
+                        ->getCrud()
+                        ->create(['user_id' => $user['last_id'], 'role_id' => $subRole]);
+                    return $push;
+                }
+            }
+        }
     }
 
 
