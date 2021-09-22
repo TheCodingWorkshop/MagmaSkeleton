@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bulk Action{% endblock %}
+{% block description %}MagmaCore bulk action users{% endblock %}
+{% block keywords %}bulk-action{% endblock %}
+
+{% block content %}
+<section class="uk-height-viewport">
+
+    <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {% include /admin/user/view_bulk_actions.html %}
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

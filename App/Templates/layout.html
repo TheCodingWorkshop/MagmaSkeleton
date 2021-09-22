@@ -15,24 +15,21 @@
     {% yield styles %}
 
     <script>
-        // $(window).on("load", function () {
-        //     $(".preloader").fadeOut("slow");;
-        // });
+        $(window).on("load", function () {
+            $(".preloader").fadeOut("slow");;
+        });
     </script>
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
 
-    <!-- {% include 'loader.html' %} -->
+    {% include 'loader.html' %}
     <div>
         {% include '_partials/_nav_header.html' %}
         <div id="sidebar" class="tm-sidebar-left uk-background-default">
             <!-- Main sidebar -->
-            <div class="uk-overflow-auto uk-height-medium">
+            <div class="uk-overflow-auto uk-height-large">
                 {% include '_partials/_sidebar.html' %}
-            </div>
-            <div class="uk-margin-medium-top">
-                <div id="sparkline"></div>
             </div>
             {% include '_partials/_sidebar_bottom_profile.html' %}
         </div>

@@ -12,24 +12,24 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use MagmaCore\UserManager\UserEntity;
-use MagmaCore\UserManager\Event\UserActionEvent;
 use App\Forms\Profile\DeleteAccountForm;
 use App\Forms\Profile\EditEmailForm;
 use App\Forms\Profile\EditNameForm;
 use App\Forms\Profile\EditPasswordForm;
-use App\Middleware\Before\AuthorizedIsNull;
-use App\Middleware\Before\isAlreadyLogin;
-use App\Middleware\Before\LoginRequired;
-use App\Middleware\Before\SessionExpires;
 use App\Model\UserProfileModel;
-use App\Repository\ActivationRepository;
-use JetBrains\PhpStorm\ArrayShape;
+use MagmaCore\UserManager\UserEntity;
+use MagmaCore\UserManager\Event\UserActionEvent;
+use MagmaCore\Administrator\Middleware\Before\AuthorizedIsNull;
+use MagmaCore\UserManager\Security\Middleware\Before\isAlreadyLogin;
+use MagmaCore\Administrator\Middleware\Before\LoginRequired;
+use MagmaCore\Administrator\Middleware\Before\SessionExpires;
+use MagmaCore\UserManager\Activation\ActivationRepository;
 use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\EditAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * This class is responsible for allowing the user to control and edit their user account

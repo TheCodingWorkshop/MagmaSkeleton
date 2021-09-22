@@ -17,7 +17,4 @@ use MagmaCore\System\App\DataColumns\SystemColumn;
 use MagmaCore\System\App\Model\EventModel;
 
 final class SystemController extends CoreSystemController
-{
-
-
-}
+{ }

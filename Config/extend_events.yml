@@ -1,0 +1,15 @@
+services:
+  subscribers:
+    project.subscriber:
+      class: \App\EventSubscriber\ProjectActionSubscriber
+      register_route_feedback:
+        App\Controller\Admin\ProjectActionSubscriber::indexAction:
+          msg: Changes Saved
+
+    
+#  listeners:
+#    inertia.listener:
+#      class: \MagmaCore\Inertia\InertiaListener
+#      props:
+#        - { name: "app.event.listener.send_registration_email_listener", event: '' }
+
