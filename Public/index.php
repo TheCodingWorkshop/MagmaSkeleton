@@ -16,7 +16,7 @@ declare(strict_types=1);
  */
 define('MICROTIME_START', microtime(true));
 define('MICROTIME_END', microtime(true));
-defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(dirname(__FILE__))));
+defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(__FILE__, 2)));
 defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . '/' . "Config/");
 defined('CORE_CONFIG_PATH') or define("CORE_CONFIG_PATH", ROOT_PATH . '/vendor/magmacore/magmacore/src/' . "System/Config/");
 defined('TEMPLATE_CACHE') or define("TEMPLATE_CACHE", ROOT_PATH . '/' . "App/Templates/Cache");
@@ -38,9 +38,9 @@ try {
         ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
         ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
-        ->setSession(Yaml::file('session'), null, true)
+        ->setSession(Yaml::file('app')['session'], null, true)
         ->setCookie([])
-        ->setCache(Yaml::file('cache'), null, true)
+        ->setCache(Yaml::file('app')['cache'], null, true)
         ->setRoutes(Yaml::file('routes'))
         ->setLogger(LOG_PATH, Yaml::file('app')['logger_handler']['file'], LogLevel::DEBUG, [])
         ->setContainerProviders(Yaml::file('providers'))
