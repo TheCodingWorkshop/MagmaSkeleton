@@ -11,11 +11,18 @@ Features
 
 1. MVC design architecture
 2. Custom PHP Framework
-3 .FormBuilder
-4 .Caching
-5. Session Management
-6. Translation Ready
-7. PSR7 & PSR-13 HTTP Ready
+3. FormBuilder Component
+4. PSR Caching Component
+5. Session Management Component (requires Cookie Manager component)
+6. Flash Messaging Component (requires Session Management Component)
+7. PSR Logger component
+8. Cookie Manager Component
+9. Templating Component
+10. Mailer component
+11. UserManager Component (requires Authentication component)
+12. Authentication Component
+13. DataView Component
+14.
 */
 06/08/2021
 
@@ -23,3 +30,49 @@ Features
 using PHP Reflection to get all methods and check the a database if the route exists
 
 2. create a fillable property for each model listing all fillable fields
+
+use MagmaCore\Bundler\Bundler;
+use MagmaCore\Blank\BlankBundler;
+use MagmaCore\Container\ContainerFactory;
+
+//$bundler = new Bundler((new ContainerFactory())->create(), ROOT_PATH);
+//$bundler
+//    ->addBundle(BlankBundler::register())
+//    ->boot($bundler);
+//
+//$blanker = $bundler->getBundle('blanker');
+//$blanker->set('name', 'Ricardo Miller');
+//echo $blanker->get('name');
+//var_dump($blanker);
+//die;
+
+use MagmaCore\DataObjectLayer\DataLayerClientFacade;
+$client = new DataLayerClientFacade('plugin', 'user_role', 'id');
+
+$all = $client->getClientRepository();
+var_dump($all->get());
+die;
+
+php bin/console magma:create test_controller
+
+use MagmaCore\Utility\Yaml;
+// use MagmaCore\Bundler\Bundler;
+use MagmaCore\Logger\LogLevel;
+// use MagmaCore\Blank\BlankBundler;
+use MagmaCore\Base\BaseApplication;
+use MagmaCore\Http\Request;
+// use MagmaCore\Container\ContainerFactory;
+
+// $bundler = new Bundler((new ContainerFactory())->create(), ROOT_PATH);
+// $bundler->addBundle(BlankBundler::register())->boot($bundler);
+
+// $blanker = $bundler->getBundle('blanker');
+// $blanker->set('name', 'Ricardo Miller');
+// echo $blanker->get('name');
+// var_dump($blanker);
+// die;
+// $request = new Request('http://bbc.co.uk');
+// $request->execute();
+// $response = $request->checkResponseForContent();
+// var_dump($response);
+// die;

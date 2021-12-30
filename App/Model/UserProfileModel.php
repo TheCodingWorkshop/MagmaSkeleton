@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use MagmaCore\Error\Error;
 use MagmaCore\UserManager\UserModel;
 
 class UserProfileModel extends UserModel
@@ -28,14 +29,13 @@ class UserProfileModel extends UserModel
      */
     public function verifyPassword(object $object, int $id, ?string $fieldName = null): bool
     {
-        if (array_key_exists('password_hash', $_POST)) {
-            if (password_verify(
-                $object->request->handler()->get('password_hash'),
-                $this->getRepo()->findObjectBy(['id' => $id], ['password_hash'])->password_hash
-            )) {
-                return true;
-            } else {
+        if (array_key_exists('client_password_hash', $object->formBuilder->getData())) {
+            $password = $object->request->handler()->get('client_password_hash');
+            $hashPassword = $this->getRepo()->findObjectBy(['id' => $id], ['password_hash']);
+            if (!password_verify($password, $hashPassword->password_hash)) {
                 return false;
+            } else {
+                return true;
             }
         }
         return false;

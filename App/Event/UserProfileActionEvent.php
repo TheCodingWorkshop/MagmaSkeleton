@@ -10,8 +10,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Event;
 
-class
-SettingController extends \MagmaCore\Settings\SettingController
-{ }
+use MagmaCore\Base\BaseActionEvent;
+
+class UserProfileActionEvent extends BaseActionEvent
+{
+
+    /** @var string - name of the event */
+    public const NAME = 'app.event.userprofile_action_event';
+
+}

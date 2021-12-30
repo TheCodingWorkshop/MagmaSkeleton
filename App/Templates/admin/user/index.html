@@ -1,10 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}User Listings{% endblock %}
-{% block description %}MagmaCore create an account{% endblock %}
-{% block keywords %}register, create an account{% endblock %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block title %}User Listings{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}register, create an account{% endblock %} {% block content %}
 <form method="post" action="/admin/user/bulk">
     <section class="uk-height-viewport">
         {@ templateExtension('uikit_simple_pagination') @}
@@ -20,11 +14,8 @@
                                     <a class="uk-button uk-button-text uk-button-large" href="/admin/user/log">
                                         <span class="uk-margin-small-right ion-28">
                                             <ion-icon name="{{ $tab['icon'] }}-outline"></ion-icon>
-                                        </span> {{ (isset($tab['tab']) ? $tab['tab'] : '') }}
-
-                                        {% if ($count_pending > 0): %}
-                                            <small class="uk-label uk-label-warning">{{ (isset($tab['data']) ? $tab['data'] : '') }}</small>
-                                        {% endif %}
+                                        </span> {{ (isset($tab['tab']) ? $tab['tab'] : '') }} {% if ($count_pending > 0): %}
+                                        <small class="uk-label uk-label-warning">{{ (isset($tab['data']) ? $tab['data'] : '') }}</small> {% endif %}
 
                                         <br>
                                         <small class="uk-text-danger">{{ (isset($tab['meta']) ? $tab['meta'] : '') }}</small>
@@ -51,5 +42,4 @@
 </form>
 {% endblock %}
 <!--  -->
-{% block scripts %}
-{% endblock %}
+{% block scripts %} {% endblock %}

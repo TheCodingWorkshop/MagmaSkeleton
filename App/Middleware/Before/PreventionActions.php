@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Middleware\Before;
 
+use Exception;
 use MagmaCore\UserManager\Rbac\Role\RoleModel;
 use Closure;
 use MagmaCore\Middleware\BeforeMiddleware;
@@ -17,6 +18,7 @@ class PreventionActions extends BeforeMiddleware
      * @param Object $middleware
      * @param Closure $next
      * @return void
+     * @throws Exception
      */
     public function middleware(object $middleware, Closure $next)
     {

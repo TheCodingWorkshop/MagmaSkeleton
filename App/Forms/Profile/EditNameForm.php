@@ -54,7 +54,7 @@ class EditNameForm extends ClientFormBuilder implements ClientFormBuilderInterfa
             ->add($this->blueprint->text('lastname', ['uk-form-width-large'], $this->hasValue('lastname')))
             ->add(
                 $this->blueprint->submit(
-                    'new-account',
+                    'name-account',
                     ['uk-button', 'uk-button-primary'],
                     'Save and Continue'
                 ),

@@ -14,27 +14,15 @@ declare(strict_types=1);
  * Load the composer autoloader library which enables us to bootstrap the application
  * and initialize the necessary components.
  */
-define('MICROTIME_START', microtime(true));
-define('MICROTIME_END', microtime(true));
-defined('ROOT_PATH') or define('ROOT_PATH', realpath(dirname(__FILE__, 2)));
-defined('CONFIG_PATH') or define("CONFIG_PATH", ROOT_PATH . '/' . "Config/");
-defined('CORE_CONFIG_PATH') or define("CORE_CONFIG_PATH", ROOT_PATH . '/vendor/magmacore/magmacore/src/' . "System/Config/");
-defined('TEMPLATE_CACHE') or define("TEMPLATE_CACHE", ROOT_PATH . '/' . "App/Templates/Cache");
-defined('LOG_PATH') or define('LOG_PATH', ROOT_PATH . '/Storage/logs');
-
-$composer = ROOT_PATH . '/vendor/autoload.php';
-if (is_file($composer)) {
-    require $composer;
-}
+require_once 'include.php';
 
 use MagmaCore\Utility\Yaml;
-use MagmaCore\Base\BaseApplication;
-use Symfony\Component\ErrorHandler\Debug;
 use MagmaCore\Logger\LogLevel;
-//Debug::enable();
+use MagmaCore\Base\BaseApplication;
 
 try {
-    (new BaseApplication())
+    /* Attempting to run a single instance of the application */
+    BaseApplication::getInstance()
         ->setPath(ROOT_PATH)
         ->setConfig(Yaml::file('app'))
         ->setErrorHandler(Yaml::file('app')['error_handler'], E_ALL)
@@ -44,9 +32,8 @@ try {
         ->setRoutes(Yaml::file('routes'))
         ->setLogger(LOG_PATH, Yaml::file('app')['logger_handler']['file'], LogLevel::DEBUG, [])
         ->setContainerProviders(Yaml::file('providers'))
+        ->setThemeBuilder(Yaml::file('app')['theme_builder'])
         ->run();
 } catch (Exception $e) {
     echo $e->getMessage();
 }
-
-                                    

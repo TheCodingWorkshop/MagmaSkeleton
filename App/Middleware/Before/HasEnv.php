@@ -29,9 +29,7 @@ class HasEnv extends BeforeMiddleware
     public function middleware(object $middleware, Closure $next)
     {
         if (!file_exists(APP_ROOT . '/.env.lip')) {
-            if ($middleware->error) {
-                $middleware->error->addError(['missing_env' => 'Error locating the system .env file.'], $middleware)->dispatchError();
-            }
+            $middleware->error?->addError(['missing_env' => 'Error locating the system .env file.'], $middleware)->dispatchError();
         }
         return $next($middleware);
     }

@@ -17,19 +17,17 @@ use App\Forms\Profile\EditEmailForm;
 use App\Forms\Profile\EditNameForm;
 use App\Forms\Profile\EditPasswordForm;
 use App\Model\UserProfileModel;
-use MagmaCore\UserManager\UserEntity;
-use MagmaCore\UserManager\Event\UserActionEvent;
+use App\Event\UserProfileActionEvent;
+use App\Entity\UserProfileEntity;
 use MagmaCore\Administrator\Middleware\Before\AuthorizedIsNull;
 use MagmaCore\UserManager\Security\Middleware\Before\isAlreadyLogin;
 use MagmaCore\Administrator\Middleware\Before\LoginRequired;
 use MagmaCore\Administrator\Middleware\Before\SessionExpires;
 use MagmaCore\UserManager\Activation\ActivationRepository;
-use MagmaCore\Auth\Roles\PrivilegedUser;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Domain\Actions\EditAction;
 use MagmaCore\Base\Domain\Actions\ShowAction;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * This class is responsible for allowing the user to control and edit their user account
@@ -62,7 +60,7 @@ class AccountController extends BaseController
         $this->diContainer(
             [
                 'repository' => UserProfileModel::class,
-                'entity' => UserEntity::class,
+                'entity' => UserProfileEntity::class,
                 'activateRepo' => ActivationRepository::class,
                 'editNameForm' => EditNameForm::class,
                 'editEmailForm' => EditEmailForm::class,
@@ -84,7 +82,7 @@ class AccountController extends BaseController
      *
      * @return array
      */
-    #[ArrayShape(['AuthorizedIsNull' => "string", 'LoginRequired' => "string", 'SessionExpires' => "string", 'isAlreadyLogin' => "string"])] protected function callBeforeMiddlewares(): array
+    protected function callBeforeMiddlewares(): array
     {
         return [
             'AuthorizedIsNull' => AuthorizedIsNull::class,
@@ -129,7 +127,7 @@ class AccountController extends BaseController
     protected function nameAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__)
+            ->execute($this, UserProfileEntity::class, UserProfileActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(['profile' => $this->findOr404(), 'app_name' => 'LavaStudio'])
             ->form($this->editNameForm)
@@ -143,7 +141,7 @@ class AccountController extends BaseController
     protected function emailAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, ['password_required'])
+            ->execute($this, UserProfileEntity::class, UserProfileActionEvent::class, NULL, __METHOD__, ['password_required'])
             ->render()
             ->with(['app_name' => 'LavaStudio'])
             ->form($this->editEmailForm)
@@ -157,7 +155,7 @@ class AccountController extends BaseController
     protected function passwordAction()
     {
         $this->editAction
-            ->execute($this, UserEntity::class, UserActionEvent::class, NULL, __METHOD__, ['password_equal'])
+            ->execute($this, UserProfileEntity::class, UserProfileActionEvent::class, NULL, __METHOD__, ['password_equal'])
             ->render()
             ->with()
             ->form($this->editPasswordForm)
@@ -171,7 +169,7 @@ class AccountController extends BaseController
     protected function deleteAction()
     {
         $this->deleteAction
-            ->execute($this, NULL, UserActionEvent::class, NULL, __METHOD__)
+            ->execute($this, NULL, UserProfileActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
             ->form($this->deleteAccount)

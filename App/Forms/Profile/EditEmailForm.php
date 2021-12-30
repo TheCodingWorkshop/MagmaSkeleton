@@ -52,7 +52,7 @@ class EditEmailForm extends ClientFormBuilder implements ClientFormBuilderInterf
             ->addRepository($dataRepository)
             ->add($this->blueprint->email('email', ['uk-form-width-large'], $this->hasValue('email')))
             ->add($this->blueprint->password(
-                'password_hash',
+                'client_password_hash',
                 ['uk-form-width-large'],
                 null,
                 'autocomplete',

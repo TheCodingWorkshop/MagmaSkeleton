@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ (isset($app) ? $app['settings']['default_locale'] : null) }}">
+
 <head>
     <title>{% yield title %}</title>
     <meta charset="{{ (isset($app) ? $app['settings']['default_charset'] : null) }}">
@@ -8,22 +9,18 @@
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
-    <meta name="turbo-cache-control" content="no-cache">
+    <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
 
-    {@ addcss() @}
-    {@ addjs([], 'header') @}
-    {% yield styles %}
-
-    <script>
+    <!-- <script>
         $(window).on("load", function () {
             $(".preloader").fadeOut("slow");;
         });
-    </script>
+    </script> -->
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
 
-    {% include 'loader.html' %}
+    <!-- {% include 'loader.html' %} -->
     <div>
         {% include '_partials/_nav_header.html' %}
         <div id="sidebar" class="tm-sidebar-left uk-background-default">
@@ -36,14 +33,13 @@
         <div class="content-padder content-background">
             <div class="uk-section-default header">
                 <div class="uk-container uk-container-expand uk-margin-bottom-remove">
-                    {% if ($current_user !==null) : %}
-                        {@ templateExtension('uikit_commander_bar') @}
-                    {% endif; %}
+                    {% if ($current_user !==null) : %} {@ templateExtension('uikit_commander_bar') @} {% endif; %}
 
                 </div>
             </div>
             <div class="uk-section-small main">
                 <div class="uk-container uk-container-expand">
+                    <!-- <div id="like_button_container"></div> -->
                     <div id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
                     {% yield content %}
 
@@ -53,8 +49,7 @@
         </div>
     </div>
 
-    {@ addjs() @}
-    {% yield scripts %}
+    {@ addjs() @} {% yield scripts %}
 </body>
 
 </html>

@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use MagmaCore\UserManager\UserFillable;
-use MagmaCore\UserManager\UserSchema;
 use MagmaCore\Base\BaseController;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
@@ -41,8 +39,6 @@ class HomeController extends BaseController
          */
         $this->diContainer(
             [
-                'schema' => UserSchema::class,
-                'userFillable' => UserFillable::class
             ]
         );
     }
@@ -69,6 +65,8 @@ class HomeController extends BaseController
      */
     protected function indexAction()
     {
+
+        // $2y$10$lH0PVKBNFC4XnCFaPYvAneTeYX8P.06ny.buOXE9zmXqbhamvz6dO
         $this->view(
             'client/home/index.html', []
         );
