@@ -1,0 +1,49 @@
+{% extends 'layout.html' %} {% block title %}Personal Space{% endblock %} {% block description %}MagmaCore edit an account{% endblock %} {% block keywords %}personal-space{% endblock %} {% block author %}Ricardo Miller{% endblock %} {% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-3@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <img class="uk-border-circle" width="40" height="40" src="/public/assets/images/undraw_profile.svg">
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">{{ $current_user->firstname }}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top"><time datetime="{{ $current_user->created_at }}">{{ $current_user->lastname }}</time></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                </div>
+                <div class="uk-card-footer">
+                    <a href="#" class="uk-button uk-button-text">Connect</a> {% include 'admin/user/personal_connect.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                    <li><a href="#">Activities</a></li>
+                    <li><a href="#">Followers</a></li>
+                    <li><a href="#">My Events</a></li>
+                </ul>
+
+                <ul class="uk-switcher uk-margin">
+                    <li>{% include 'admin/user/personal_activities.html' %}</li>
+                    <li>{% include 'admin/user/personal_followers.html' %}</li>
+                    <li>{% include 'admin/user/personal_events.html' %}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

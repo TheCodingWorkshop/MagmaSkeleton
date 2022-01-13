@@ -1,8 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}Assigned Role{% endblock %}
-{% block description %}MagmaCore assigned role{% endblock %}
-{% block keywords %}assigned-role{% endblock %}
+{% extends 'layout.html' %} {% block title %}Assigned Role{% endblock %} {% block description %}MagmaCore assigned role{% endblock %} {% block keywords %}assigned-role{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -11,9 +7,7 @@
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                    <turbo-frame id="role_form">
-                        {{ $form }}
-                    </turbo-frame>
+                    {{ $form }}
                 </div>
             </div>
         </div>
@@ -30,11 +24,7 @@
                     </dd>
                     <dt>{@ locale('permission_assigned') @}</dt>
                     <dd>
-                        {% if (isset($privi_user)) : %}
-                        {% echo sizeof($privi_user) %}
-                        {% else : %}
-                        0
-                        {% endif; %}
+                        {% if (isset($privi_user)) : %} {% echo sizeof($privi_user) %} {% else : %} 0 {% endif; %}
                     </dd>
 
                     <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($user_role_id) %} users)</span></dt>
@@ -44,17 +34,13 @@
                     <dd>
                         <div class="uk-height-1-1">
                             <ul class="uk-panel uk-panel-scrollable">
-                                {% if (isset($privi_user)) : %}
-                                {% foreach (array_keys($privi_user) as $permission) : %}
+                                {% if (isset($privi_user)) : %} {% foreach (array_keys($privi_user) as $permission) : %}
                                 <li>{{ $permission }}
                                     <a class="uk-text-danger" href="/admin/role/{@ getPermissionIDFromName($permission) @}/unassign-permission?role_id={{ $role['id'] }}">
                                         <ion-icon name="trash-outline"></ion-icon>
                                     </a>
                                 </li>
-                                {% endforeach; %}
-                                {% else : %}
-                                No Permission
-                                {% endif; %}
+                                {% endforeach; %} {% else : %} No Permission {% endif; %}
                             </ul>
                         </div>
 
@@ -70,4 +56,14 @@
 
 {% endblock %}
 <!--  -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script>
+    addEventListener("turbo:submit-start", ({
+        target
+    }) => {
+        for (const field of target.elements) {
+            field.disabled = true
+        }
+    })
+</script>
+{% endblock %}

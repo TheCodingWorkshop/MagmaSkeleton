@@ -1,8 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}Create Permission{% endblock %}
-{% block description %}MagmaCore create new permission{% endblock %}
-{% block keywords %}{% endblock %}
+{% extends 'layout.html' %} {% block title %}Create Permission{% endblock %} {% block description %}MagmaCore create new permission{% endblock %} {% block keywords %}{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -11,7 +7,7 @@
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                        {{ $form }}
+                    {{ $form }}
                 </div>
             </div>
         </div>
@@ -20,12 +16,9 @@
         <div>
             <div class="uk-card uk-card-body uk-padding-remove">
                 <h3 class="uk-card-title">What are Permissions?</h3>
-                <p>Permissions are authorization given to a role. Which can be assigned to one or more users.
-                    Permissions can either be individual or as part of a permission group. To where that
-                entire group can be assigned to one or more roles.</p>
+                <p>Permissions are authorization given to a role. Which can be assigned to one or more users. Permissions can either be individual or as part of a permission group. To where that entire group can be assigned to one or more roles.</p>
 
-                <p>Every route within the application requires a specific permission. Which your role must have in
-                order to gain access to perform the necessary action.</p>
+                <p>Every route within the application requires a specific permission. Which your role must have in order to gain access to perform the necessary action.</p>
             </div>
         </div>
     </div>
@@ -35,4 +28,15 @@
 
 {% endblock %}
 <!--  -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script>
+    addEventListener("turbo:submit-start", ({
+        target
+    }) => {
+        for (const field of target.elements) {
+            field.disabled = true
+        }
+    })
+</script>
+
+{% endblock %}

@@ -9,8 +9,8 @@
                                 <ion-icon name="person-outline"></ion-icon>
                             </div>
                             <div class="uk-width-expand">
-                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{{ $total_records }}}
-                                    Users</h3>
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{{ $total_records }}} Users
+                                </h3>
                                 <p class="uk-text-meta uk-margin-remove-top">
                                     You gained +{{{ $user_gained }}} new users in the last month
                                 </p>
@@ -49,8 +49,7 @@
                                     {{ $key }}
                                 </h3>
                                 <p class="uk-text-meta uk-margin-remove-top">
-                                    {% if (isset($value['desc']) && count($value['desc']) > 0) : %} {%
-                                    foreach($value['desc'] as $desc) : %}
+                                    {% if (isset($value['desc']) && count($value['desc']) > 0) : %} {% foreach($value['desc'] as $desc) : %}
                                     <span>{{ $desc }}</span> {% endforeach; %} {% endif; %}
                                 </p>
                             </div>

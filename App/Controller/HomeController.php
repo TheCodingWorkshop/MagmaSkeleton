@@ -66,7 +66,6 @@ class HomeController extends BaseController
     protected function indexAction()
     {
 
-        // $2y$10$lH0PVKBNFC4XnCFaPYvAneTeYX8P.06ny.buOXE9zmXqbhamvz6dO
         $this->view(
             'client/home/index.html', []
         );

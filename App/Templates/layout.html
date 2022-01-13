@@ -9,12 +9,18 @@
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
+    <!-- <meta name="turbo-visit-control" content="reload"> -->
     <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
 
     <!-- <script>
-        $(window).on("load", function () {
+        $(window).on("load", function() {
             $(".preloader").fadeOut("slow");;
         });
+        if (location.hash) {
+            setTimeout(function() {
+
+                window.scrollTo(0, 0);
+            }, 1);
     </script> -->
 </head>
 
@@ -39,8 +45,8 @@
             </div>
             <div class="uk-section-small main">
                 <div class="uk-container uk-container-expand">
-                    <!-- <div id="like_button_container"></div> -->
-                    <div id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
+                    <div id="like_button_container"></div>
+                    <div class="fade" id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
                     {% yield content %}
 
                 </div>

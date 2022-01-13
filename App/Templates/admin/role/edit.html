@@ -1,8 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}Edit Role{% endblock %}
-{% block description %}MagmaCore edit role{% endblock %}
-{% block keywords %}edit-role{% endblock %}
+{% extends 'layout.html' %} {% block title %}Edit Role{% endblock %} {% block description %}MagmaCore edit role{% endblock %} {% block keywords %}edit-role{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -22,8 +18,7 @@
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('last_updated') @}</dt>
                     <dd>
-                        {% if (isset($role['modified_at']) && $role['modified_at'] !==null) : %}
-                        {@ formatDate($role['modified_at']) @} {% else : %} Never {% endif %}
+                        {% if (isset($role['modified_at']) && $role['modified_at'] !==null) : %} {@ formatDate($role['modified_at']) @} {% else : %} Never {% endif %}
                     </dd>
                     <dt>{@ locale('created') @}</dt>
                     <dd>{@ formatDate($role['created_at']) @}
@@ -40,4 +35,15 @@
 
 {% endblock %}
 <!--  -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script>
+    addEventListener("turbo:submit-start", ({
+        target
+    }) => {
+        for (const field of target.elements) {
+            field.disabled = true
+        }
+    })
+</script>
+
+{% endblock %}

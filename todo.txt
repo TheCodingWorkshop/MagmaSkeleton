@@ -76,3 +76,17 @@ use MagmaCore\Http\Request;
 // $response = $request->checkResponseForContent();
 // var_dump($response);
 // die;
+
+
+$path = '';
+$data = null;
+$headers = [];
+
+$read = new CurlApi(
+    'https://api.publicapis.org/',
+    'random?auth=null',
+    $headers
+);
+$data = $read->show()->response()->onClose()->exec();
+var_dump($data);
+die;

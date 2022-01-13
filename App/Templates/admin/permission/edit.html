@@ -1,8 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}Edit Permission{% endblock %}
-{% block description %}MagmaCore edit permission{% endblock %}
-{% block keywords %}edit-role{% endblock %}
+{% extends 'layout.html' %} {% block title %}Edit Permission{% endblock %} {% block description %}MagmaCore edit permission{% endblock %} {% block keywords %}edit-role{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -11,7 +7,7 @@
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                        {{ $form }}
+                    {{ $form }}
                 </div>
             </div>
         </div>
@@ -22,11 +18,7 @@
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('last_updated') @}</dt>
                     <dd>
-                        {% if (isset($permission['modified_at']) && $permission['modified_at'] !==null) : %}
-                        {@ formatDate($permission['modified_at']) @}
-                        {% else : %}
-                        Never
-                        {% endif %}
+                        {% if (isset($permission['modified_at']) && $permission['modified_at'] !==null) : %} {@ formatDate($permission['modified_at']) @} {% else : %} Never {% endif %}
                     </dd>
                     <dt>{@ locale('created') @} </dt>
                     <dd>{@ formatDate($permission['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created
@@ -41,4 +33,15 @@
 
 {% endblock %}
 <!--  -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script>
+    addEventListener("turbo:submit-start", ({
+        target
+    }) => {
+        for (const field of target.elements) {
+            field.disabled = true
+        }
+    })
+</script>
+
+{% endblock %}

@@ -13,33 +13,39 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Controller\Admin\UserController as APIUserController;
-use App\Entity\UserEntity;
-use App\Event\UserActionEvent;
-use App\Schema\UserSchema;
+use App\Resource\UserResource;
+use Exception;
+use MagmaCore\CurlApi\Exception\CurlException;
 
 class UserController extends APIUserController
 {
 
+    public function __construct($routeParams)
+    {
+        parent::__construct($routeParams);
+        $this->addDefinitions(['userResource' => UserResource::class]);
+    }
+
+    /**
+     * @throws CurlException
+     * @throws Exception
+     */
     protected function indexAction()
     {
-        $this->indexAction
-            ->execute($this, NULL, NULL, UserSchema::class, __METHOD__)
-            ->render('/admin/user/index.html')
-            ->with()
-            ->table()
-            ->indexApiEndpoint();
+
+        $this->userResource->apiRead($this);
 
     }
 
-    protected function rowsAction()
-    {
-        $globalValue = $this->settings->get('global_table_rows_per_page') ?? 0;
-        $controllerTableValue = $this->controllerSettings
-                ->getRepo()
-                ->findObjectBy(['controller_name' => $this->thisRouteController()], ['records_per_page']) ?? 0;
-        $rows = (isset($controllerTableValue) && $controllerTableValue !==0) ? $controllerTableValue : $globalValue;
-        echo json_encode(array('results' => $rows));
-
-    }
+//    protected function rowsAction()
+//    {
+//        $globalValue = $this->settings->get('global_table_rows_per_page') ?? 0;
+//        $controllerTableValue = $this->controllerSettings
+//                ->getRepo()
+//                ->findObjectBy(['controller_name' => $this->thisRouteController()], ['records_per_page']) ?? 0;
+//        $rows = (isset($controllerTableValue) && $controllerTableValue !==0) ? $controllerTableValue : $globalValue;
+//        echo json_encode(array('results' => $rows));
+//
+//    }
 
 }

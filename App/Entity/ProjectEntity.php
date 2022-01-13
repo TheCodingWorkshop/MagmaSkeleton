@@ -14,5 +14,4 @@ namespace App\Entity;
 use MagmaCore\Base\BaseEntity;
 
 class ProjectEntity extends BaseEntity
-{
-}
+{}

@@ -1,16 +1,10 @@
-{% extends 'layout.html' %}
-
-{% block title %}Create An Account{% endblock %}
-{% block description %}MagmaCore create an account{% endblock %}
-{% block keywords %}new-account, create-new{% endblock %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block title %}Create An Account{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}new-account, create-new{% endblock %} {% block content %}
 <section uk-grid class="uk-height-viewport">
     <div class="uk-width-1-2@m">
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                        {{ $form }}
+                    {{ $form }}
                 </div>
             </div>
         </div>
@@ -30,4 +24,15 @@
 
 {% endblock %}
 <!--  -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<!-- <script>
+    addEventListener("turbo:submit-start", ({
+        target
+    }) => {
+        for (const field of target.elements) {
+            console(target)
+            field.disabled = true
+        }
+    })
+</script> -->
+{% endblock %}
