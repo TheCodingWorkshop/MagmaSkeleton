@@ -76,7 +76,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
     {
         return [
             RegistrationActionEvent::NAME => [
-                ['flashLoginEvent', self::FLASH_MESSAGE_PRIORITY],
+                ['flashRegistrationEvent', self::FLASH_MESSAGE_PRIORITY],
                 ['assignedRegisteredUsersAsSubscriber'],
                 ['sendRegistrationActivationEmail'],
             ]
@@ -95,7 +95,7 @@ class RegistrationActionSubscriber implements EventSubscriberInterface
      * @return void
      * @throws Exception
      */
-    public function flashLoginEvent(RegistrationActionEvent $event)
+    public function flashRegistrationEvent(RegistrationActionEvent $event)
     {
         $this->flashingEvent($event,
             function($cbEvent, $routeArray) {
