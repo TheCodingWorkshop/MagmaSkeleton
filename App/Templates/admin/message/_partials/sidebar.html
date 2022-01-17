@@ -2,17 +2,15 @@
     <div class="uk-card-body">
         <a href="/admin/message/new" class="uk-button uk-button-primary">Compose</a>
         <br/><br/>
+
         <ul class="uk-list uk-link-text uk-link-reset">
-            <li>
-                <ion-icon name="file-tray-outline"></ion-icon> <a href="/admin/message/index?status=inbox">Inbox</a></li>
-            <li>
-                <ion-icon name="star-outline"></ion-icon> <a href="/admin/message/index?status=starred">Starred</a></li>
-            <li>
-                <ion-icon name="send-outline"></ion-icon> <a href="/admin/message/index?status=send">Send Mail</a></li>
-            <li>
-                <ion-icon name="pencil-outline"></ion-icon> <a href="/admin/message/index?status=draft">Draft</a></li>
-            <li>
-                <ion-icon name="trash-outline"></ion-icon> <a href="/admin/message/index?status=trash">Trash</a></li>
+            {% foreach ($controller_message_sidebar as $key => $value) : %}
+                <li>
+                    <ion-icon name="{{ $value['icon'] }}"></ion-icon>
+                    <a href="/admin/message/index?status={{ $key }}">{{  $value['name'] }}</a>
+                </li>
+            {% endforeach; %}
         </ul>
     </div>
 </div>
+

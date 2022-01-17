@@ -15,7 +15,11 @@
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
                     <form method="POST" action="">
+                        {% if ($total_records > 0) : %}
                         {{ $table }}
+                        {% else : %}
+                            {% include 'admin/no_database_record.html' %}
+                        {% endif %}
                     </form>
 
                 </div>

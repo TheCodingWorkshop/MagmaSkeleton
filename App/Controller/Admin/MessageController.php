@@ -25,8 +25,7 @@ use App\Forms\Admin\Message\MessageReplyForm;
 use MagmaCore\Base\Domain\Actions\ReplyAction;
 
 class MessageController extends \MagmaCore\Administrator\Controller\AdminController
-{ 
-
+{
 
     public function __construct(array $routeParams)
     {
@@ -61,13 +60,29 @@ class MessageController extends \MagmaCore\Administrator\Controller\AdminControl
         }
     }
 
+    /**
+     * Return an array of template context which is accessible from any route within this controller
+     * @return array
+     */
+    protected function controllerViewGlobals(): array
+    {
+        return [
+          'controller_message_sidebar' => $this->repository->messageStatusMenu()
+        ];
+    }
+
     protected function indexAction()
     {
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
             ?->execute($this, NULL, NULL, MessageSchema::class, __METHOD__)
             ?->render()
-            ?->with()
+            ?->with(
+                [
+                    'queried_status' => $this->request->handler()->query->getAlnum('status') ?: 'inbox',
+                    'table_schema' => (string)$this->repository->getSchema()
+                ]
+            )
             ?->table()
             ?->end();
     }

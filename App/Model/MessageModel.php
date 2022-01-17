@@ -63,5 +63,15 @@ class MessageModel extends AbstractBaseModel
         // return $name->notify_title;
     }
 
+    public function messageStatusMenu(): array
+    {
+        return [
+            'inbox' => ['name' => 'Inbox', 'icon' => 'file-tray-outline'],
+            'sent' => ['name' => 'Sent', 'icon' => 'send-outline'],
+            'draft' => ['name' => 'Draft', 'icon' => 'pencil-outline'],
+            'trash' => ['name' => 'Trash', 'icon' => 'trash-outline'],
+        ];
+    }
+
 }
 

@@ -24,7 +24,7 @@ user:
         path: ''
 
 message:
-  status_choices: [inbox: Inbox, draft: Draft, send: Send, trash: Trash]
+  status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
   additional_conditions:
     status: inbox
   selectors: []
