@@ -1,7 +1,7 @@
 <ul class="uk-iconnav">
     <li>
-        <a class="uk-text-secondary ion-28 uk-margin-small-top" href="#">
-            <ion-icon name="add-outline"></ion-icon>
+        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="#">
+            <ion-icon name="add-circle"></ion-icon>
         </a>
         <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
@@ -23,20 +23,20 @@
 
     </li>
     <li>
-        <a class="uk-text-secondary ion-28 uk-margin-small-top" href="#">
-            <ion-icon name="settings-outline"></ion-icon>
+        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="/admin/setting/index">
+            <ion-icon name="settings"></ion-icon>
         </a>
     </li>
     <li>
-        <a uk-toggle="target: #notify-panel-flip" class="uk-text-secondary ion-28 uk-margin-small-top" href="#">
-            <ion-icon name="notifications-outline"></ion-icon>
+        <a uk-toggle="target: #notify-panel-flip" class="uk-text-secondary ion-22 uk-margin-small-top" href="#">
+            <ion-icon name="notifications"></ion-icon>
         </a>
         {% include components/notification_panel.html %}
     </li>
-    <li><a class="uk-text-secondary uk-margin-small-top uk-link-reset" href="#">Hi {{ $current_user->firstname . ' ' . $current_user->lastname }}</a></li>
+    <li><a class="uk-text-small uk-text-secondary uk-margin-small-top uk-link-reset" href="#">Hi {{ $current_user->firstname . ' ' . $current_user->lastname }}</a></li>
 </ul>
 <div class="uk-margin-small-left">
-    <a class="" href=""><img class="uk-border-pill" src="{{ $current_user->gravatar }}" width="45" height="45" alt="Border pill"></a>
+    <a class="" href=""><img class="uk-border-pill" src="{{ $current_user->gravatar }}" width="35" height="35" alt="Border pill"></a>
     <div uk-dropdown="mode: click">
         <ul class="uk-nav uk-dropdown-nav">
             <li class="uk-active"><a href="#">{@ locale('active') @}</a></li>

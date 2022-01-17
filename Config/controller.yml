@@ -23,6 +23,18 @@ user:
         icon: download-outline
         path: ''
 
+message:
+  status_choices: [inbox: Inbox, draft: Draft, send: Send, trash: Trash]
+  additional_conditions:
+    status: inbox
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["receiver"]
+  filter_alias: s
+  sort_columns:
+    - user_id
+    - created_at
 
 role:
   status_choices: []
@@ -111,3 +123,4 @@ system:
   sort_columns:
     - event_type
     - created_at
+

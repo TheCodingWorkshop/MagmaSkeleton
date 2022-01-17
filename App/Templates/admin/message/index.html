@@ -1,13 +1,16 @@
-{% extends 'layout.html' %}
-
-<!---->
-{% block title %}Permission{% endblock %} {% block description %}MagmaCore create permissions{% endblock %} {% block keywords %}{% endblock %} {% block author %}Ricardo Miller{% endblock %}
+{% extends 'layout.html' %} {% block title %}Message{% endblock %} {% block description %}Internal messaging system{% endblock %} {% block keywords %}{% endblock %} {% block author %}Ricardo Miller{% endblock %}
 
 <!-- start content-->
-{% block content %} {@ templateExtension('uikit_simple_pagination') @}
+{% block content %}
 <section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-4@m">
+        <div>
+            {% include 'admin/message/_partials/sidebar.html' %}
+        </div>
+    </div>
 
     <div class="uk-width-expand@m">
+        {@ templateExtension('uikit_simple_pagination') @}
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">

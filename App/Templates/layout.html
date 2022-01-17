@@ -40,12 +40,10 @@
             <div class="uk-section-default header">
                 <div class="uk-container uk-container-expand uk-margin-bottom-remove">
                     {% if ($current_user !==null) : %} {@ templateExtension('uikit_commander_bar') @} {% endif; %}
-
                 </div>
             </div>
             <div class="uk-section-small main">
                 <div class="uk-container uk-container-expand">
-                    <div id="like_button_container"></div>
                     <div class="fade" id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
                     {% yield content %}
 

@@ -5,6 +5,20 @@ services:
       register_route_feedback:
         App\Controller\Admin\ProjectActionSubscriber::indexAction:
           msg: Changes Saved
+          
+    # message.subscriber:
+    #   class: \App\EventSubscriber\MessageActionSubscriber
+    #   register_route_feedback:
+    #     App\Controller\Admin\MessageController::starredAction:
+    #       msg: Changes Saved
+    #     App\Controller\Admin\MessageController::unstarredAction:
+    #       msg: Changes Saved
+    #     App\Controller\Admin\MessageController::markedAction:
+    #       msg: Changes Saved
+    #     App\Controller\Admin\MessageController::unmarkedAction:
+    #       msg: Changes Saved
+    #     App\Controller\Admin\MessageController::newAction:
+    #       msg: Message Sent
 
     
 #  listeners:
