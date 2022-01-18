@@ -27,8 +27,9 @@
         <div class="uk-grid-small" uk-grid>
           <div class="uk-width-expand" uk-leader>{{ $pending['firstname'] . ' ' . $pending['lastname'] }}</div>
           <div>
-            <a class="ion-24" href="/admin/user/{{ $pending['id'] }}/active" class="uk-reset-link" uk-tooltip="Make Active"><ion-icon name="checkmark-outline"></ion-icon></a>
-            <a class="ion-24" uk-tooltip="Resend Email" class="uk-reset-link" href="/admin/user/{{ $pending['id'] }}/unlock"><ion-icon name="send-outline"></ion-icon></a>
+            <a class="ion-18" href="/admin/user/{{ $pending['id'] }}/edit" class="uk-reset-link" uk-tooltip="Edit Account"><ion-icon name="pencil-outline"></ion-icon></a>
+            <a class="ion-18" href="/admin/user/{{ $pending['id'] }}/active" class="uk-reset-link" uk-tooltip="Make Active"><ion-icon name="checkmark-outline"></ion-icon></a>
+            <a class="ion-18" uk-tooltip="Resend Email" class="uk-reset-link" href="/admin/user/{{ $pending['id'] }}/unlock"><ion-icon name="send-outline"></ion-icon></a>
           </div>
           <input type="hidden" name="user_id[]" value="{{ $pending['id'] }}"/>
         </div>

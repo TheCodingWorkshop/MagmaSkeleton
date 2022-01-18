@@ -27,8 +27,9 @@
             <div class="uk-grid-small" uk-grid>
               <div class="uk-width-expand" uk-leader>{{ $userLock['firstname'] . ' ' . $userLock['lastname'] }}</div>
               <div>
-                <a class="ion-24" href="" class="uk-reset-link" uk-tooltip="Permanently Delete"><ion-icon name="trash-outline"></ion-icon></a>
-                <a class="ion-24" uk-tooltip="Unlock Account" class="uk-reset-link" href="/admin/user/{{ $userLock['id'] }}/unlock"><ion-icon name="lock-open-outline"></ion-icon></a>
+                <a class="ion-18" href="/admin/user/{{ $userLock['id'] }}/edit" class="uk-reset-link" uk-tooltip="Edit Account"><ion-icon name="pencil-outline"></ion-icon></a>
+                <a class="ion-18" href="" class="uk-reset-link" uk-tooltip="Permanently Delete"><ion-icon name="trash-outline"></ion-icon></a>
+                <a class="ion-18" uk-tooltip="Unlock Account" class="uk-reset-link" href="/admin/user/{{ $userLock['id'] }}/unlock"><ion-icon name="lock-open-outline"></ion-icon></a>
               </div>
               <input type="hidden" name="user_id[]" value="{{ $userLock['id'] }}"/>
             </div>
