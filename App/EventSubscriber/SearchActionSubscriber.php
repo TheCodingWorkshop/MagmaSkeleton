@@ -67,6 +67,12 @@ class SearchActionSubscriber implements EventSubscriberInterface
 
     public function resolveGlobalSearchQuery(SearchActionEvent $event)
     {
+        $searchQuery = $this->flattenContext($event->getContext());
+       // if (is_string($searchQuery)) {
+            $query = $event->getObject()->repository->getRepo()->findBySearch(['firstname'], ['firstname' => $searchQuery]);
+       // }
+        var_dump($query);
+        die;
     }
 
 

@@ -16,6 +16,7 @@ use MagmaCore\Base\Domain\Actions\SearchAction;
 use App\Entity\SearchEntity;
 use App\Forms\Admin\Search\SearchForm;
 use App\Event\SearchActionEvent;
+use MagmaCore\UserManager\UserModel;
 
 class SearchController extends \MagmaCore\Administrator\Controller\AdminController
 {
@@ -27,14 +28,10 @@ class SearchController extends \MagmaCore\Administrator\Controller\AdminControll
         $this->addDefinitions(
             [
                 'searchAction' => SearchAction::class,
-                'searchForm' => SearchForm::class
+                'searchForm' => SearchForm::class,
+                'repository' => UserModel::class
             ]
         );
-    }
-
-    protected function indexAction()
-    {
-
     }
 
     protected function searchAction()
@@ -49,5 +46,3 @@ class SearchController extends \MagmaCore\Administrator\Controller\AdminControll
 
 
 }
-
-
