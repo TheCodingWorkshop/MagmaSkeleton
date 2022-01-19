@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %}Show Account{% endblock %}
+{% block description %}MagmaCore edit an account{% endblock %}
+{% block keywords %}show-account, show-user{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-expand@m">
+        <div>
+
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    {{ $form }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-3@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+
+                    <dt>{{ $row['firstname'] . ' ' . $row['lastname'] }}</dt>
+                    <dd>
+                        {{ $row['email'] }}
+                    </dd>
+                    <dd>
+                        ({@ getRoleFromID($row['id']) @})
+                    </dd>
+                    <dd>
+                        <a class="uk-button uk-button-small uk-button-secondary" href="">Add Note</a>
+                    </dd>
+
+                </dl>
+                <ul uk-tab>
+                    <li><a href="#">{@ locale('notes') @} <sup class="uk-badge">{{ count($notes) }}</sup></a></li>
+                </ul>
+
+                <ul class="uk-switcher uk-margin">
+                    <li>
+                        <ul class="uk-list uk-list-divider uk-list-bullet">
+                            {% foreach ($notes as $note) : %}
+                                <li>
+                                    <div class="uk-clearfix">
+                                        <div class="uk-float-left uk-inline">
+                                            <a class="uk-text-danger" href="/admin/user/{{ $note['user_id'] }}/notes"><ion-icon name="trash-outline"></ion-icon></a>
+                                            <small class="uk-text-primary">{@ formatDate($note['created_at']) @}</small>
+                                        </div><br/>
+                                        <div class="uk-float-left">
+                                            {@ truncate($note['notes'], 80, 60) @}<br/>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+                            {% endforeach %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+{% endblock %}
