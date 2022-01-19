@@ -1,17 +1,17 @@
 <ul class="uk-iconnav">
-    <li>
-        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="/admin/search/search">
-            <ion-icon name="filter-outline"></ion-icon>
-        </a>
-        <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">
-<!--            <form method="post" action="/admin/search/search" class="uk-search uk-search-navbar uk-width-1-1">-->
-<!--                <input class="uk-search-input" type="search" placeholder="Search" autofocus>-->
-<!--            </form>-->
-        </div>
-    </li>
+<!--    <li>-->
+<!--        <a class="uk-text-secondary ion-21 uk-margin-small-top" href="/admin/search/search">-->
+<!--            <ion-icon name="filter-outline"></ion-icon>-->
+<!--        </a>-->
+<!--        <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">-->
+<!--&lt;!&ndash;            <form method="post" action="/admin/search/search" class="uk-search uk-search-navbar uk-width-1-1">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="uk-search-input" type="search" placeholder="Search" autofocus>&ndash;&gt;-->
+<!--&lt;!&ndash;            </form>&ndash;&gt;-->
+<!--        </div>-->
+<!--    </li>-->
 
     <li>
-        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="#">
+        <a class="uk-text-secondary ion-21 uk-margin-small-top" href="#">
             <ion-icon name="add-circle"></ion-icon>
         </a>
         <div uk-dropdown="mode: click">
@@ -35,16 +35,22 @@
     </li>
 
     <li>
-        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="/admin/setting/index">
+        <a class="uk-text-secondary ion-21 uk-margin-small-top" href="/admin/setting/index">
             <ion-icon name="settings"></ion-icon>
         </a>
     </li>
     <li>
-        <a uk-toggle="target: #notify-panel-flip" class="uk-text-secondary ion-22 uk-margin-small-top" href="#">
-            <ion-icon name="notifications"></ion-icon>
+        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="/admin/message/index">
+            <ion-icon name="mail"></ion-icon>
         </a>
-        {% include components/notification_panel.html %}
     </li>
+
+<!--    <li>-->
+<!--        <a uk-toggle="target: #notify-panel-flip" class="uk-text-secondary ion-22 uk-margin-small-top" href="#">-->
+<!--            <ion-icon name="notifications"></ion-icon>-->
+<!--        </a>-->
+<!--        {% include components/notification_panel.html %}-->
+<!--    </li>-->
     <li><a class="uk-text-small uk-text-secondary uk-margin-small-top uk-link-reset" href="#">Hi {{ $current_user->firstname . ' ' . $current_user->lastname }}</a></li>
 </ul>
 <div class="uk-margin-small-left">

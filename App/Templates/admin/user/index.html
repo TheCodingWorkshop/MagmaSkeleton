@@ -10,12 +10,15 @@
                             {% if (count($table_tabs) > 0) : %}
                             <ul uk-tab>
                                 {% foreach ($table_tabs as $key => $tab) : %}
-                                <li>
+                                <li class="uk-text-small">
                                     <a class="uk-button uk-button-text uk-button-large" href="/admin/user/log">
-                                        <span class="uk-margin-small-right ion-28 uk-inline">
+                                        <span class="uk-margin-small-right ion-21 uk-inline">
                                             <ion-icon name="{{ $tab['icon'] }}-outline"></ion-icon>
-                                        </span> {{ (isset($tab['tab']) ? $tab['tab'] : '') }} {% if ($count_pending > 0): %}
-                                        <small class="uk-label uk-label-warning">{{ (isset($tab['data']) ? $tab['data'] : '') }}</small> {% endif %}
+                                        </span>
+                                        <span>{{ (isset($tab['tab']) ? $tab['tab'] : '') }}</span>
+                                        {% if ($count_pending > 0): %}
+                                            <small class="uk-label uk-label-warning">{{ (isset($tab['data']) ? $tab['data'] : '') }}</small>
+                                        {% endif %}
 
                                         <br>
                                         <small class="uk-text-danger">{{ (isset($tab['meta']) ? $tab['meta'] : '') }}</small>

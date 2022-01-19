@@ -9,24 +9,12 @@
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
-    <!-- <meta name="turbo-visit-control" content="reload"> -->
+<!--     <meta name="turbo-visit-control" content="reload">-->
     <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
-
-    <!-- <script>
-        $(window).on("load", function() {
-            $(".preloader").fadeOut("slow");;
-        });
-        if (location.hash) {
-            setTimeout(function() {
-
-                window.scrollTo(0, 0);
-            }, 1);
-    </script> -->
 </head>
 
-<body class="uk-text-bold uk-text-emphasis">
+<body class="uk-text-bold">
 
-    <!-- {% include 'loader.html' %} -->
     <div>
         {% include '_partials/_nav_header.html' %}
         <div id="sidebar" class="tm-sidebar-left uk-background-default">
@@ -44,7 +32,7 @@
             </div>
             <div class="uk-section-small main">
                 <div class="uk-container uk-container-expand">
-                    <div class="fade" id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
+                    <div class="uk-animation-fade" id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
                     {% yield content %}
 
                 </div>
@@ -54,6 +42,9 @@
     </div>
 
     {@ addjs() @} {% yield scripts %}
+<script>
+        $("#flash_message").fadeOut(3500);
+</script>
 </body>
 
 </html>

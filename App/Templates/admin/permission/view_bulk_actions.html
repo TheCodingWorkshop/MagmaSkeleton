@@ -38,11 +38,11 @@
         {% endif %}
 
         <div class="uk-margin">
-            <input class="uk-button uk-button-danger" type="submit" name="{{ $action === 'bulk-delete' ? 'bulkDelete-role' : 'bulkClone-role' }}" value="Continue">
-            <a href="/admin/user/index" class="uk-button uk-button-text">Cancel</a>
+            <input class="uk-button uk-button-danger" type="submit" name="{{ $action === 'bulk-delete' ? 'bulkDelete-permission' : 'bulkClone-permission' }}" value="Continue">
+            <a href="/admin/permission/index" class="uk-button uk-button-text">Cancel</a>
             <div class="uk-alert-{{ $action === 'bulk-delete' ? 'warning' : 'primary' }}" uk-alert>
                 <a class="uk-alert-close" uk-close></a>
-                <p>{{ $action === 'bulk-delete' ? 'Note. That this process is permanent, and connot be reverse.' : 'Note: each cloned user account will have the -clone suffix' }}</p>
+                <p>{{ $action === 'bulk-delete' ? 'Note. That this process is permanent, and cannot be reverse.' : 'Note: each cloned user account will have the -clone suffix' }}</p>
             </div>
         </div>
     </form>
