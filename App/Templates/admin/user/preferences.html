@@ -10,7 +10,7 @@
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                        {{ $form }}
+                    {{ $form }}
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                         {% if ($user_preference !==null) : %}
                         <span class="uk-display-block">
                             {%
-                            $exp = explode(',', unserialize($user_preference->address));
+                            $exp = explode(',', $user_preference->address);
                             $user_address = implode("<br/>", $exp);
                             %}
                             {{ $user_address }}
@@ -48,7 +48,6 @@
             </div>
         </div>
     </div>
-    </form>
 
 </section>
 

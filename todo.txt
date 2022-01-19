@@ -90,3 +90,31 @@ $read = new CurlApi(
 $data = $read->show()->response()->onClose()->exec();
 var_dump($data);
 die;
+
+object(MagmaCore\DataObjectLayer\Drivers\MysqlDatabaseConnection)#242 (3) {
+  ["pdoDriver":protected]=>
+  string(5) "mysql"
+  ["environment":"MagmaCore\DataObjectLayer\Drivers\MysqlDatabaseConnection":private]=>
+  object(MagmaCore\DataObjectLayer\DataLayerEnvironment)#234 (2) {
+    ["environmentConfiguration":protected]=>
+    object(MagmaCore\DataObjectLayer\DataLayerConfiguration)#238 (1) {
+      ["dataLayerConfiguration":"MagmaCore\DataObjectLayer\DataLayerConfiguration":private]=>
+      NULL
+    }
+    ["currentDriver":"MagmaCore\DataObjectLayer\DataLayerEnvironment":private]=>
+    string(5) "mysql"
+  }
+  ["params":protected]=>
+  array(4) {
+    [20]=>
+    bool(false)
+    [12]=>
+    bool(true)
+    [3]=>
+    int(2)
+    [19]=>
+    int(2)
+  }
+  ["dbh":"MagmaCore\DataObjectLayer\Drivers\AbstractDatabaseDriver":private]=>
+  uninitialized(?object)
+}
