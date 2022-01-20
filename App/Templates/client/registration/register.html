@@ -1,23 +1,28 @@
 {% extends 'frontend_layout.html' %}
-
+<!---->
 {% block title %}Create An Account{% endblock %}
+<!---->
 {% block description %}MagmaCore create an account{% endblock %}
+<!---->
 {% block keywords %}register, create an account{% endblock %}
+<!---->
 {% block author %}Ricardo Miller{% endblock %}
+<!---->
 {% block page_header %}{@ locale('create_an_account') @}!{% endblock %}
+<!---->
 {% block page_tagline %}Register for a new subscriber account.{% endblock %}
 
 <!-- start content-->
 {% block content %}
-    <div>
+<div>
 
-        {{ $form }}
-        <div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
-            <p class="uk-text-lead">{@ locale('already_register') @}? <br>
-                <a href="/login" class="uk-button uk-button-small uk-button-text uk-text-left">{@ locale('login') @}</a>
-            </p>
-        </div>
-        <hr>
-        <p>{@ locale('register_terms') @}</p>
+    {{ $form }}
+    <div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
+        <p class="">{@ locale('already_register') @}? <br>
+            <a href="/login" class="uk-button uk-button-small uk-button-text uk-text-left">{@ locale('login') @}</a>
+        </p>
     </div>
+    <hr>
+    <p>{@ locale('register_terms') @}</p>
+</div>
 {% endblock %}

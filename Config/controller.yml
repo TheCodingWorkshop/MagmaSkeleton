@@ -11,17 +11,6 @@ user:
     - firstname
     - created_at
     - modified_at
-  commander:
-    index:
-      import:
-        name: Import
-        icon: upload-outline
-        nav_header: WorkFlow
-        path: ''
-      export:
-        name: Export
-        icon: download-outline
-        path: ''
 
 message:
   status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
@@ -32,6 +21,7 @@ message:
   query: "status"
   filter_by: ["receiver"]
   filter_alias: s
+  searchables: []
   sort_columns:
     - user_id
     - created_at

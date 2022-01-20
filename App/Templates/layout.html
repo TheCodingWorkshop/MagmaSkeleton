@@ -9,7 +9,7 @@
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
-<!--     <meta name="turbo-visit-control" content="reload">-->
+    <!--     <meta name="turbo-visit-control" content="reload">-->
     <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
 </head>
 
@@ -42,9 +42,9 @@
     </div>
 
     {@ addjs() @} {% yield scripts %}
-<script>
-        $("#flash_message").fadeOut(3500);
-</script>
+    <script>
+        // $("#flash_message").fadeOut(3500);
+    </script>
 </body>
 
 </html>

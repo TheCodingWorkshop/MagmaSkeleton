@@ -95,7 +95,7 @@ class MessageForm extends ClientFormBuilder implements ClientFormBuilderInterfac
                 $this->blueprint->settings(false, null, false, null, true)
             )
             ->add(
-                $this->blueprint->hidden('status', 'send'),
+                $this->blueprint->hidden('status', 'sent'),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
