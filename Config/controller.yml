@@ -31,9 +31,10 @@ role:
   additional_conditions: []
   selectors: []
   records_per_page: 5
-  query: ""
+  query: "status"
   filter_by: ["role_name"]
   filter_alias: s
+  searchables: []
   sort_columns:
     - role_name
     - created_at

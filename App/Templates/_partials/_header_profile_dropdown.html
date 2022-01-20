@@ -19,26 +19,18 @@
                 <li class="uk-active"><a href="#">Add Content</a></li>
                 <li>Quickly add to the database</li>
                 <li class="uk-nav-header">Quick Links</li>
-                <li><a href="/admin/user/new">Users</a></li>
-                <li><a href="/admin/role/new">Roles</a></li>
-                <li><a href="/admin/permission/new">Permissions</a></li>
-                <li><a href="/admin/plugin/new">Plugin</a></li>
-                <li><a href="/admin/menu/new">Menu</a></li>
-                <li class="uk-nav-divider"></li>
-                <li>
-                    <a href="#">
-                        <ion-icon name="log-out-outline"></ion-icon> Logout</a>
-                </li>
+                {% foreach (['user', 'role', 'permission', 'plugin', 'setting', 'menu'] as $link) : %}
+                    {% if ($link === 'setting') : %}
+                        <li><a href="/admin/{{ $link }}/index">{{ ucwords($link) }}</a></li>
+                    {% else : %}
+                        <li><a href="/admin/{{ $link }}/new">{{ ucwords($link) }}</a></li>
+                    {% endif; %}
+                {% endforeach; %}
             </ul>
         </div>
 
     </li>
 
-    <li>
-        <a class="uk-text-secondary ion-21 uk-margin-small-top" href="/admin/setting/index">
-            <ion-icon name="settings"></ion-icon>
-        </a>
-    </li>
     <li>
         <a class="uk-text-secondary ion-22 uk-margin-small-top" href="/admin/message/index">
             <ion-icon name="mail"></ion-icon>

@@ -10,7 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
     <!--     <meta name="turbo-visit-control" content="reload">-->
-    <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
+    <meta name="turbo-cache-control" content="no-cache">
+    {@ addcss() @}
+    {@ addjs([], 'header') @}
+    {% yield styles %}
 </head>
 
 <body class="uk-text-bold">
@@ -34,14 +37,14 @@
                 <div class="uk-container uk-container-expand">
                     <div class="uk-animation-fade" id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
                     {% yield content %}
-
                 </div>
             </div>
 
         </div>
     </div>
 
-    {@ addjs() @} {% yield scripts %}
+    {@ addjs() @}
+    {% yield scripts %}
     <script>
         // $("#flash_message").fadeOut(3500);
     </script>
