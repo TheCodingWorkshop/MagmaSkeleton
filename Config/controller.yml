@@ -26,6 +26,33 @@ message:
     - user_id
     - created_at
 
+ticket:
+  status_choices: [open: Open, closed: Closed, resolves: Resolved]
+  additional_conditions: []
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["open"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - category
+    - created_at
+
+group:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: "status"
+  filter_by: ["group_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - group_name
+    - created_at
+    - modified_at
+
 role:
   status_choices: []
   additional_conditions: []

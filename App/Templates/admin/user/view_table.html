@@ -1,5 +1,10 @@
 {% if($total_records > 0): %}
+  {% if ($total_records > 0) : %}
   {{ $table }}
+  {% else : %}
+  {% include 'admin/no_database_record.html' %}
+  {% endif %}
+
 {% else : %}
   <div class="uk-card-header">
     <div class="uk-grid-small uk-flex-middle" uk-grid>

@@ -24,6 +24,24 @@ user:
     preferences:
       name: preferences
 
+group:
+  index:
+    copy:
+      name: copy
+      icon: copy-outline
+      nav_header: "Bulk Action"
+      path: ""
+    trash:
+      name: delete
+      path: ""
+      icon: trash-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Group Assignment"
+    edit:
+      name: edit
+
 role:
   index:
     copy:
@@ -60,6 +78,25 @@ permission:
     edit:
       name: edit
   new_user:
+
+ticket:
+  index:
+    copy:
+      name: copy
+      icon: copy-outline
+      nav_header: "Bulk Action"
+      path: ""
+    trash:
+      name: delete
+      path: ""
+      icon: trash-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Role Assignment"
+    edit:
+      name: edit
+
 
 project:
   index:

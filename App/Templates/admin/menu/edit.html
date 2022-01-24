@@ -1,8 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block title %}Edit Menu{% endblock %}
-{% block description %}MagmaCore edit menu{% endblock %}
-{% block keywords %}edit-menu{% endblock %}
+{% extends 'layout.html' %} {% block title %}Edit Menu{% endblock %} {% block description %}MagmaCore edit menu{% endblock %} {% block keywords %}edit-menu{% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -11,7 +7,7 @@
         <div>
             <div class="uk-card uk-card-default">
                 <div class="uk-card-body">
-                        {{ $form }}
+                    {{ $form }}
                 </div>
             </div>
         </div>
@@ -22,8 +18,7 @@
                 <dl class="uk-description-list uk-description-list-divider">
                     <dt>{@ locale('last_updated') @}</dt>
                     <dd>
-                        {% if (isset($parent_menu['modified_at']) && $parent_menu['modified_at'] !==null) : %}
-                        {@ formatDate($parent_menu['modified_at']) @} {% else : %} Never {% endif %}
+                        {% if (isset($parent_menu['modified_at']) && $parent_menu['modified_at'] !==null) : %} {@ formatDate($parent_menu['modified_at']) @} {% else : %} Never {% endif %}
                     </dd>
                     <dt>{@ locale('created') @}</dt>
                     <dd>
@@ -34,13 +29,15 @@
                     <dd>
                         <ul class="uk-nav uk-nav-default uk-width-medium" uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background">
                             {% foreach ($menu_items as $menu_item) : %}
-                                <li>
-                                    <div class="uk-card uk-card-default uk-margin-small uk-padding-small">
-                                        <span class="uk-sortable-handle uk-margin-small-right uk-text-center"><ion-icon name="menu-outline"></ion-icon></span>
-                                        <a class="uk-link-reset" href="{{ $menu_item['item_url'] }}">{{ $menu_item['item_label'] }}</a>
-                                        <a class="uk-float-right" uk-tooltip="Remove" href="/admin/menu/{{ $menu_item['id'] }}/remove-item?menu_id={{ $parent_menu['id'] }}"><ion-icon name="close-outline"></ion-icon></a>
-                                    </div>
-                                </li>
+                            <li>
+                                <div class="uk-card uk-card-default uk-margin-small uk-padding-small">
+                                    <span class="uk-sortable-handle uk-margin-small-right uk-text-center"><ion-icon name="menu-outline"></ion-icon></span>
+                                    <a class="uk-link-reset" href="{{ $menu_item['item_url'] }}">{{ $menu_item['item_label'] }}</a>
+                                    <a class="uk-float-right" uk-tooltip="Remove" href="/admin/menu/{{ $menu_item['id'] }}/remove-item?menu_id={{ $parent_menu['id'] }}">
+                                        <ion-icon name="close-outline"></ion-icon>
+                                    </a>
+                                </div>
+                            </li>
                             {% endforeach %}
 
                         </ul>

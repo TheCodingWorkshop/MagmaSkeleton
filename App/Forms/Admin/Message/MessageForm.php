@@ -33,6 +33,7 @@ class MessageForm extends ClientFormBuilder implements ClientFormBuilderInterfac
      *
      * @param FormBuilderBlueprint $blueprint
      * @param MessageModel $model
+     * @param UserModel $userModel
      */
     public function __construct(FormBuilderBlueprint $blueprint, MessageModel $model, UserModel $userModel)
     {

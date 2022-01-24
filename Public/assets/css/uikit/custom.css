@@ -153,6 +153,10 @@ body {
     color: #1e87f0;
 }
 
+.ion-18 {
+    font-size: 18px;
+}
+
 .ion-21 {
     font-size: 21px;
 }
@@ -257,4 +261,3 @@ body {
 .uk-border-bottom {
     border-bottom: 1px solid #dddddd;
 }
-
