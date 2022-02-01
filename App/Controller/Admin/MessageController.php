@@ -73,6 +73,7 @@ class MessageController extends \MagmaCore\Administrator\Controller\AdminControl
 
     protected function indexAction()
     {
+
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
             ?->execute($this, NULL, NULL, MessageSchema::class, __METHOD__)

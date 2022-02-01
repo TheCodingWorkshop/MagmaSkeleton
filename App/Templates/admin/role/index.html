@@ -1,15 +1,10 @@
-{% extends 'layout.html' %}
-
-{% block title %}Roles{% endblock %}
-{% block description %}MagmaCore roles{% endblock %}
-{% block keywords %}register, create an account{% endblock %}
-{% block author %}Ricardo Miller{% endblock %}
+{% extends 'layout.html' %} {% block title %}Roles{% endblock %} {% block description %}MagmaCore roles{% endblock %} {% block keywords %}register, create an account{% endblock %} {% block author %}Ricardo Miller{% endblock %}
 
 <!-- start content-->
 {% block content %}
 <form method="post" action="/admin/role/bulk" data-turbo="false">
     {@ templateExtension('uikit_simple_pagination') @}
-    <section uk-grid class="uk-height-viewport">
+    <section uk-griduk-height-match>
         <div class="uk-width-expand@m">
             <div>
                 <div class="uk-card uk-card-default">

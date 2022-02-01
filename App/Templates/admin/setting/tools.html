@@ -1,5 +1,4 @@
 {% extends 'layout.html' %}
-
 {% block title %}Tools{% endblock %}
 {% block description %}MagmaCore tools{% endblock %}
 {% block keywords %}tools{% endblock %}
@@ -15,7 +14,7 @@
                     {% include 'admin/setting/_parts/go_back.html' %}
                     <div class="uk-card uk-card-body uk-card-default">
                         <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-                            {% foreach (['Backup', 'Restore', 'Update'] as $option) : %}
+                            {% foreach (['System Report', 'Restore', 'Update'] as $option) : %}
                             <li><a href="#">{{ $option }}</a></li>
                             {% endforeach; %}
                         </ul>
@@ -35,11 +34,7 @@
                         </div>
                     </div>
                     <ul id="component-tab-left" class="uk-switcher">
-                        <li>
-                            There are various tools available, which should help maintain and help manage your
-                            application.
-                        </li>
-                        <li>{% include 'admin/setting/_parts/backup.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/system_report.html' %}</li>
                         <li>{% include 'admin/setting/_parts/restore.html' %}</li>
                         <li>{% include 'admin/setting/_parts/update.html' %}</li>
                     </ul>
@@ -52,4 +47,6 @@
 </section>
 {% endblock %}
 <!-- Footer scripts -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/public/assets/js/uikit/system-report.js"></script>
+{% endblock %}

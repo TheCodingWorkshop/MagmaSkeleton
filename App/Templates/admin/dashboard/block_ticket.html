@@ -8,7 +8,7 @@
                             <ion-icon name="receipt-outline"></ion-icon>
                         </div>
                         <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Tickets</h3>
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $all_tickets }} Tickets</h3>
                             <p class="uk-text-meta uk-margin-remove-top">
                                 <time datetime="2016-04-01T19:00">Last updated 30min ago</time>
                             </p>
@@ -16,12 +16,12 @@
                     </div>
                 </div>
                 <div class="uk-card-body uk-background-muted">
-                    <p>Theres currently 85 tickets.</p>
+                    <p>Theres currently {{ $all_tickets ?? 0 }} tickets.</p>
                     <ul class="uk-list uk-list-collapse uk-list-divider">
-                        <li>today's 12</li>
-                        <li>33 Open <small class="uk-text-danger">(10 high)</small></li>
-                        <li>30 Close</li>
-                        <li>0 Resolved</li>
+                        <li>today's {{ $ticket_count['tickets_today'] }}</li>
+                        <li>{{ $ticket_count['open'] ?? 0 }} Open <small class="uk-text-danger">(10 high)</small></li>
+                        <li>{{ $ticket_count['closed'] ?? 0 }} Close</li>
+                        <li>{{ $ticket_count['resolved'] ?? 0 }} Resolved</li>
                     </ul>
                 </div>
             </div>

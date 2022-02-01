@@ -1,5 +1,15 @@
-{% extends 'layout.html' %} {% block title %}Dashboard{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}register, create an account{% endblock %} {% block author %}Ricardo Miller{% endblock %} {% block
-dashboard_commander %} {% include 'admin/dashboard/commander_bar.html' %} {% endblock %} {% block styles %}
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Dashboard{% endblock %}
+<!---->
+{% block description %}MagmaCore create an account{% endblock %}
+<!---->
+{% block keywords %}register, create an account{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+<!---->
+{% block styles %}
 <style>
     .ldBar-label:after {
         font-size: 0.6em;
@@ -8,7 +18,12 @@ dashboard_commander %} {% include 'admin/dashboard/commander_bar.html' %} {% end
 {% endblock %}
 <!-- start content-->
 {% block content %}
-<section class="uk-height-viewport">
+
+<!---->
+{% include 'admin/dashboard/_parts/welcome_panel.html' %}
+<!---->
+{% include 'admin/dashboard/_parts/statistics_cards.html' %}
+<section class="">
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
         <div class="uk-card-badge ion-24">
             <a href="#offcanvas-usage" uk-toggle class="uk-link-reset">
@@ -26,7 +41,7 @@ dashboard_commander %} {% include 'admin/dashboard/commander_bar.html' %} {% end
                             <li>{% include 'admin/dashboard/block_main.html' %}</li>
                             <li>{% include 'admin/dashboard/block_ticket.html' %}</li>
                             <li>{% include 'admin/dashboard/block_session.html' %}</li>
-                             <li>{% include 'admin/dashboard/block_github.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_github.html' %}</li>
                             <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
                             <!-- <li>{% include 'admin/dashboard/block_activities.html' %}</li> -->
                             <li>{% include 'admin/dashboard/block_project.html' %}</li>
@@ -39,25 +54,31 @@ dashboard_commander %} {% include 'admin/dashboard/commander_bar.html' %} {% end
         </div>
 
     </div>
-    <div class="uk-card-body chart-content">
-    </div>
-    <div>
-        <div uk-grid>
-            <div class="uk-width-expand@m">
-                <ul id="component-tab-left-p" class="uk-switcher">
-                    <li>Main</li>
-                    <li>Session</li>
-                    <li>Github</li>
-                    <li>Health Status</li>
-                    <li>Activities</li>
-                    <li>Project Extension</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
 </section>
 
+{% include 'admin/dashboard/_parts/statistics_cards2.html' %}
+<!---->
 {% endblock %}
+
+
 <!-- Footer scripts -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+
+        function datetime() {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/dashboard/datetime',
+                timeout: 1000,
+                success: function(data) {
+                    $("#timer").html(data);
+                    window.setTimeout(datetime, 500);
+                }
+            });
+        }
+        datetime();
+
+    });
+</script>
+{% endblock %}

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use MagmaCore\Base\Exception\BaseException;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
 
 class ProfileController extends UserController

@@ -21,7 +21,7 @@ class MessageValidate extends AbstractDataRepositoryValidation
 {
 
     /** @var array $errors */
-    protected array $errors = [];
+    protected $errors = [];
     /** @var array $dataBag */
     protected array $dataBag = [];
     /** @var ValidationRule $rules */

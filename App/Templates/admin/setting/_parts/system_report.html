@@ -1,0 +1,33 @@
+
+<h3 class="uk-button uk-button-text">MagmaCore System Report</h3>
+<hr/>
+
+<div>
+    <p>Please include this information when requesting support:</p>
+    <p class="submit"><a uk-tooltip="Click to copy" href="#" class="uk-button uk-button-secondary debug-report">Get System Report</a></p>
+    <div class="uk-hidden" id="debug-report"><textarea class="uk-textarea" readonly="readonly"></textarea></div>
+</div>
+<table id="table_data" class="uk-table uk-table-small uk-width-1-1 uk-table-striped report_table plain-text">
+    <thead class="alert-info">
+    <tr><th class="uk-text-danger" colspan="2">MagmaCore(CMS) System Report</th></tr>
+    </thead>
+    <tbody>
+        {% foreach ($system_report['core'] as $coreKey => $coreValue) : %}
+            <tr>
+                <td>{% echo str_replace('_', ' ', ucwords($coreKey)) %}</td>
+                <td>{{ $coreValue }}</td>
+            </tr>
+        {% endforeach; %}
+    </tbody>
+    <thead class="alert-info">
+    <tr><th class="uk-text-danger" colspan="2">PHP/MySQL System Report</th></tr>
+    </thead>
+    <tbody>
+        {% foreach ($system_report['php'] as $phpKey => $phpValue) : %}
+            <tr>
+                <td>{% echo str_replace('_', ' ', ucwords($phpKey)) %}</td>
+                <td>{{ $phpValue }}</td>
+            </tr>
+        {% endforeach; %}
+    </tbody>
+</table>

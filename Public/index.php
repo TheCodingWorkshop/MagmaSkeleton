@@ -14,6 +14,7 @@ declare(strict_types=1);
  * Load the composer autoloader library which enables us to bootstrap the application
  * and initialize the necessary components.
  */
+
 require_once 'include.php';
 
 use MagmaCore\Utility\Yaml;
@@ -32,7 +33,7 @@ try {
         ->setRoutes(Yaml::file('routes'))
         ->setLogger(LOG_PATH, Yaml::file('app')['logger_handler']['file'], LogLevel::DEBUG, [])
         ->setContainerProviders(Yaml::file('providers'))
-        ->setThemeBuilder(Yaml::file('app')['theme_builder'])
+        ->setThemeBuilder(Yaml::file('app')['theme_builder'], true)
         ->run();
 } catch (Exception $e) {
     echo $e->getMessage();

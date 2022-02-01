@@ -1,0 +1,23 @@
+dashboard: Dashboard
+user: User
+users: Users
+menu: Menu
+menus: Menus
+permission: Permission
+permissions: Permissions
+role: Role
+roles: Roles
+group: Group
+groups: Groups
+setting: Setting
+settings: Settings
+system: System
+systems: Systems
+message: Message
+messages: Messages
+ticket: Ticket
+tickets: Tickets
+add_new: Add New
+view: View
+edit: Edit
+delete: Delete
