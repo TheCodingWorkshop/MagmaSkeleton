@@ -19,4 +19,12 @@
 
 {% endblock %}
 <!--  -->
-{% block scripts %} {% endblock %}
+{% block scripts %}
+<script>
+    var editor = new Editor({
+        element: document.getElementById("reply_markdown")
+    });
+    editor.render();
+</script>
+
+{% endblock %}

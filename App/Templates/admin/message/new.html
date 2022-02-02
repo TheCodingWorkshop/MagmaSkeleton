@@ -21,5 +21,9 @@
 <!--  -->
 {% block scripts %}
 <script>
+    var editor = new Editor({
+        element: document.getElementById("message_editor")
+    });
+    editor.render();
 </script>
 {% endblock %}

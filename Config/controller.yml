@@ -26,6 +26,20 @@ message:
     - user_id
     - created_at
 
+post:
+  status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
+  additional_conditions: []
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["title"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - title
+    - created_at
+
+
 ticket:
   status_choices: [open: Open, closed: Closed, resolves: Resolved]
   additional_conditions: []

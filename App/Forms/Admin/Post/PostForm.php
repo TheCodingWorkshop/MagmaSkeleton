@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Forms\Admin\Message;
+namespace App\Forms\Admin\Post;
 
 use Exception;
 use App\Model\PostModel;
@@ -59,63 +59,45 @@ class PostForm extends ClientFormBuilder implements ClientFormBuilderInterface
     {
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "permissionForm"])
             ->addRepository($dataRepository)
-            // ->add(
-            //     $this->blueprint->select('receiver', ['uk-select', 'uk-form-blank', 'uk-border-bottom'], null, null, true), 
-            //     $this->blueprint->choices(
-            //         array_column($this->userModel->getRepo()->findAll(), 'email'),
-            //         '',
-            //         $this
-            //     ),
-            //     $this->blueprint->settings(false, null, false, null, true)
-
-            // )
             ->add(
-                $this->blueprint->text('receiver', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('receiver'), false, 'To'),
-                NULL,
-                $this->blueprint->settings(false, null, false, null, true)
-
-            )
-
-            ->add(
-                $this->blueprint->text('subject', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('subject'), false, 'Subject'),
+                $this->blueprint->text('title', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('title'), false, 'Title'),
                 NULL,
                 $this->blueprint->settings(false, null, false, null, true)
 
             )
             ->add(
-                $this->blueprint->textarea('body', ['uk-textarea', 'uk-form-blank'], null, 'Message'),
-                $this->hasValue('body'),
+                $this->blueprint->text('slug', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('slug'), false, 'Slug'),
+                NULL,
                 $this->blueprint->settings(false, null, false, null, true)
+
             )
             ->add(
-                $this->blueprint->upload('attachment', ['uk-button', 'uk-button-small', 'uk-button-default'], 'Upload', true),
-                '<span class="ion-28"><ion-icon name="attach"></ion-icon></span>',
+                $this->blueprint->textarea('article', ['uk-textarea', 'uk-form-blank', 'uk-border-bottom', 'uk-height-medium', 'uk-text-wrap'], 'markdown_editor', 'What\'s your article?'),
+                $this->hasValue('article'),
                 $this->blueprint->settings(false, null, false, null, true)
             )
+
+            ->add(
+                $this->blueprint->text('url', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('url'), false, 'Url'),
+                NULL,
+                $this->blueprint->settings(false, null, false, null, true, null, 'Your post url will be auto-generated')
+
+            )
+
             ->add(
                 $this->blueprint->hidden('status', 'sent'),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
             ->add(
-                $this->blueprint->hidden('is_marked', '0'),
-                null,
-                $this->blueprint->settings(false, null, false, null, true)
-            )
-            ->add(
-                $this->blueprint->hidden('is_starred', '0'),
-                null,
-                $this->blueprint->settings(false, null, false, null, true)
-            )
-            ->add(
                 $this->blueprint->submit(
-                    $this->hasValue('id') ? 'edit-message' : 'new-message',
+                    $this->hasValue('id') ? 'edit-post' : 'new-post',
                     ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
-                    'Send'
+                    'Post'
                 ),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
-            ->build(['before' => '<div class="uk-margin">', 'after' => '</div>']);
+            ->build(['before' => '<div class="uk-margin">', 'after' => '</div>'], false, true);
     }
 }

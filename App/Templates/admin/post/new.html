@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}New Message{% endblock %}
+<!----->
+{% block description %}MagmaCore edit a post{% endblock %}
+<!---->
+{% block keywords %}show-post{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %} {% block content%}
+<!---->
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-4@m">
+        <div>
+            {% include 'admin/post/_partials/sidebar.html' %}
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <form action="/admin/post/new" method="post" enctype="application/x-www-form-urlencoded" id="postForm" class="uk-form-stacked" target="_self">
+
+            <div>
+                {% include 'admin/post/_partials/page_nav.html' %}
+                <ul class="uk-switcher uk-margin">
+                    <li>
+                        <div class="uk-card uk-card-body uk-card-default">
+                            {{ $form }}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-body uk-card-default">
+                            {{ $form_media }}
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-card uk-card-body uk-card-default">
+                            {{ $form_meta }}
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </form>
+    </div>
+
+
+</section>
+
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+<script>
+    var editor = new Editor({
+        element: document.getElementById("markdown_editor")
+    });
+    editor.render();
+</script>
+{% endblock %}

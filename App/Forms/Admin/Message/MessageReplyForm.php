@@ -59,7 +59,7 @@ class MessageReplyForm extends ClientFormBuilder implements ClientFormBuilderInt
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "permissionForm"])
             ->addRepository($dataRepository)
             ->add(
-                $this->blueprint->textarea('body', ['uk-textarea uk-form-blank'], null, 'Message'), 
+                $this->blueprint->textarea('body', ['uk-textarea uk-form-blank'], 'reply_markdown', 'Message'), 
                 $this->hasValue('body'),
                 $this->blueprint->settings(false, null, false, null, true)
             )

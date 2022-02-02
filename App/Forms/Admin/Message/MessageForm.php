@@ -86,7 +86,7 @@ class MessageForm extends ClientFormBuilder implements ClientFormBuilderInterfac
 
             )
             ->add(
-                $this->blueprint->textarea('body', ['uk-textarea', 'uk-form-blank'], null, 'Message'),
+                $this->blueprint->textarea('body', ['uk-textarea', 'uk-form-blank', 'uk-border-bottom'], 'message_editor', 'Message'),
                 $this->hasValue('body'),
                 $this->blueprint->settings(false, null, false, null, true)
             )
