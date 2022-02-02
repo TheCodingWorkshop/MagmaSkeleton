@@ -12,23 +12,23 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
-use App\Model\PostModel;
+use App\Model\CategoryModel;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 use MagmaCore\Datatable\DataColumnTrait;
 
-class PostColumn extends AbstractDatatableColumn
+class CategoryColumn extends AbstractDatatableColumn
 {
 
     use DataColumnTrait;
 
-    private PostModel $postModel;
+    private CategoryModel $categoryModel;
 
-    public function __construct(PostModel $postModel)
+    private string $controller = 'category';
+
+    public function __construct(CategoryModel $categoryModel)
     {
-        $this->postModel = $postModel;
+        $this->CategoryModel = $categoryModel;
     }
-
-    private string $controller = 'post';
 
     /**
      * @param array $dbColumns
@@ -50,100 +50,67 @@ class PostColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'title',
-                'dt_row' => 'Title',
+                'db_row' => 'cat_name',
+                'dt_row' => 'Name',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
                 'searchable' => true,
                 'formatter' => function ($row, $tempExt) {
-                    //$data = $this->postModel->getUser($row['user_id']);
-                    $html = '<div class="uk-grid-small uk-flex-middle" uk-grid>';
-                    $html .= '<div class="uk-width-auto">';
-                    $html .= '<img class="uk-border-circle" width="40" height="40" src="/public/assets/images/undraw_profile.svg">';
-                    $html .= '</div>';
-
-                    $html .= ' <div class="uk-width-expand">';
-                    $html .= '<div class="uk-clearfix">';
-                    $html .= '<div class="uk-float-left uk-text-small">';
-                    $html .= $row['title'];
-                    $html .= '</div>';
-                    $html .= '<div class="uk-float-right">';
-                    //$html .= $this->messageActions($row, $tempExt);
-                    $html .= '</div>';
+                    $html = '<div class="uk-clearfix">';
+                    $html .= '<div class="uk-float-left uk-margin-small-right">';
+                    $html .= '<div>';
+                    // $expiration = $this->roleOnExpiration(['current_role_id' => $row['id']]);
+                    // if (isset($expiration->current_role_id) && $expiration->current_role_id !==null) {
+                    //     $html .= '<span uk-tooltip="Expiration Set"><ion-icon name="time-outline"></ion-icon></span>';
+                    // }
 
                     $html .= '</div>';
-                    $html .= '<p class="uk-text-meta uk-margin-remove-top uk-text-truncate"><a class="uk-text-link uk-link-reset" href="/admin/post/' . $row['id'] . '/edit ">' . $this->truncate($row['summary']) . '</a></p>
-                        ';
+                    $html .= '<div>';
+                    $html .= '<span class="uk-text-primary"><ion-icon name="information-circle-outline"></ion-icon></span>';
+                    $html .= '</div>';
+                    $html .= '</div>';
+                    $html .= '<div class="uk-float-left">';
+                    $html .= $row["cat_name"] . "<br/>";
+                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["role_description"] . '</small></div>';
+                    $html .= '</div>';
                     $html .= '</div>';
 
                     return $html;
+
                 }
             ],
             [
-                'db_row' => 'slug',
+                'db_row' => 'cat_slug',
                 'dt_row' => 'Slug',
                 'class' => '',
                 'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['slug'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'url',
-                'dt_row' => 'Url',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['url'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'article',
-                'dt_row' => 'Article',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['article'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'summary',
-                'dt_row' => 'Summary',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['summary'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'status',
-                'dt_row' => 'Status',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
+                'sortable' => false,
                 'searchable' => true,
                 'formatter' => function ($row, $tempExt) {
                     return $row['status'] ?? 'None';
                 }
             ],
             [
-                'db_row' => 'author',
+                'db_row' => 'cat_parent',
+                'dt_row' => 'Parent',
+                'class' => '',
+                'show_column' => false,
+                'sortable' => true,
+                'searchable' => false,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['cat_parent'] ?? 0;
+                }
+            ],
+            [
+                'db_row' => 'created_byid',
                 'dt_row' => 'Author',
                 'class' => '',
                 'show_column' => false,
                 'sortable' => true,
                 'searchable' => true,
                 'formatter' => function ($row, $tempExt) {
-                    return $row['author'] ?? 'None';
+                    return $row['created_byid'] ?? 'None';
                 }
             ],
             [
@@ -161,7 +128,7 @@ class PostColumn extends AbstractDatatableColumn
             ],
             [
                 'db_row' => 'modified_at',
-                'dt_row' => 'Modified',
+                'dt_row' => 'Last Updated',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
@@ -169,8 +136,7 @@ class PostColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $tempExt) {
                     $html = '';
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
-                        //$html .= "$tempExt->getUserById($row[$row_name]);"
-                        $html .= $tempExt->tableDateFormat($row, "modified_at", true);
+                        $html .= $tempExt->tableDateFormat($row, "modified_at");
                         $html .= '<div><small>By Admin</small></div>';
                     } else {
                         $html .= '<small>Never!</small>';
@@ -178,6 +144,7 @@ class PostColumn extends AbstractDatatableColumn
                     return $html;
                 }
             ],
+
             [
                 'db_row' => '',
                 'dt_row' => 'Action',
@@ -214,15 +181,6 @@ class PostColumn extends AbstractDatatableColumn
         ];
     }
 
-
-    public function truncate(string $str, int $max = 100, int $min = 80)
-    {
-        if (strlen($str) > $max)
-            $str = substr($str, 0, $min) . ' ...';
-
-        return $str;
-    }
-
     /**
      * Undocumented function
      *
@@ -233,13 +191,7 @@ class PostColumn extends AbstractDatatableColumn
     private function itemsDropdown(array $row, string $controller): array
     {
         $items = [
-            'notes' => ['name' => 'add notes', 'icon' => 'reader-outline'],
             'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
-            'privilege' => ['name' => 'Edit Privilege', 'icon' => 'key-outline'],
-            'preferences' => ['name' => 'Edit Preferences', 'icon' => 'options-outline'],
-            'show' => ['name' => 'show', 'icon' => 'eye-outline'],
-            'clone' => ['name' => 'clone', 'icon' => 'copy-outline'],
-            'lock' => ['name' => 'lock account', 'icon' => 'lock-closed-outline'],
             'trash' => ['name' => 'trash account', 'icon' => 'trash-bin-outline']
         ];
         return array_map(
@@ -249,4 +201,12 @@ class PostColumn extends AbstractDatatableColumn
         );
     }
 
+
+    public function truncate(string $str, int $max = 100, int $min = 80)
+    {
+        if (strlen($str) > $max)
+            $str = substr($str, 0, $min) . ' ...';
+
+        return $str;
+    }
 }

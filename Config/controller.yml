@@ -39,6 +39,32 @@ post:
     - title
     - created_at
 
+category:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 15
+  query: ""
+  filter_by: ["cat_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - cat_name
+    - created_at
+
+tag:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 15
+  query: ""
+  filter_by: ["tag_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - tag_name
+    - created_at
+
 
 ticket:
   status_choices: [open: Open, closed: Closed, resolves: Resolved]
