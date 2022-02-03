@@ -11,6 +11,7 @@ user:
     - firstname
     - created_at
     - modified_at
+  trash_can_support: false
 
 message:
   status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
@@ -25,6 +26,7 @@ message:
   sort_columns:
     - user_id
     - created_at
+  trash_can_support: false
 
 post:
   status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
@@ -38,10 +40,12 @@ post:
   sort_columns:
     - title
     - created_at
+  trash_can_support: false
 
 category:
   status_choices: []
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 15
   query: ""
@@ -51,6 +55,8 @@ category:
   sort_columns:
     - cat_name
     - created_at
+  trash_can_support: true
+
 
 tag:
   status_choices: []
@@ -64,6 +70,8 @@ tag:
   sort_columns:
     - tag_name
     - created_at
+  trash_can_support: false
+
 
 
 ticket:
@@ -78,6 +86,7 @@ ticket:
   sort_columns:
     - category
     - created_at
+  trash_can_support: false
 
 group:
   status_choices: []
@@ -92,6 +101,7 @@ group:
     - group_name
     - created_at
     - modified_at
+  trash_can_support: false
 
 role:
   status_choices: []
@@ -106,6 +116,7 @@ role:
     - role_name
     - created_at
     - modified_at
+  trash_can_support: true
 
 permission:
   status_choices: []
@@ -119,6 +130,7 @@ permission:
     - permission_name
     - created_at
     - modified_at
+  trash_can_support: true
 
 setting:
   status_choices: []
@@ -130,6 +142,7 @@ setting:
   filter_alias: s
   sort_columns:
     - setting_name
+  trash_can_support: false
 
 plugin:
   status_choices: []
@@ -143,7 +156,8 @@ plugin:
     - plugin_name
     - created_at
     - modified_at
-    -
+  trash_can_support: false
+    
 project:
   status_choices: []
   additional_conditions: []
@@ -156,7 +170,8 @@ project:
     - type
     - created_at
     - modified_at
-    -
+  trash_can_support: false
+
 menu:
   status_choices: []
   additional_conditions: []
@@ -169,7 +184,8 @@ menu:
     - menu_name
     - created_at
     - modified_at
-    -
+  trash_can_support: false
+
 system:
   status_choices: []
   additional_conditions: []
@@ -181,4 +197,5 @@ system:
   sort_columns:
     - event_type
     - created_at
+  trash_can_support: false
 

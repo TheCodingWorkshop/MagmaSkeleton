@@ -59,8 +59,8 @@ class CategoryModel extends AbstractBaseModel
 
     public function getNameForSelectField($id)
     {
-        // $name = $this->getRepo()->findObjectBy(['id' => $id], ['notify_title']);
-        // return $name->notify_title;
+        $name = $this->getRepo()->findObjectBy(['id' => $id], ['cat_name']);
+        return $name->cat_name;
     }
 
 

@@ -13,8 +13,9 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use App\Model\CategoryModel;
-use MagmaCore\Datatable\AbstractDatatableColumn;
 use MagmaCore\Datatable\DataColumnTrait;
+use App\Forms\Admin\Category\CategoryForm;
+use MagmaCore\Datatable\AbstractDatatableColumn;
 
 class CategoryColumn extends AbstractDatatableColumn
 {
@@ -22,12 +23,14 @@ class CategoryColumn extends AbstractDatatableColumn
     use DataColumnTrait;
 
     private CategoryModel $categoryModel;
+    private CategoryForm $form;
 
     private string $controller = 'category';
 
-    public function __construct(CategoryModel $categoryModel)
+    public function __construct(CategoryModel $categoryModel, CategoryForm $form)
     {
         $this->CategoryModel = $categoryModel;
+        $this->form = $form;
     }
 
     /**
@@ -155,11 +158,31 @@ class CategoryColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $tempExt) {
                     return $tempExt->action(
                         [
+                            // 'edit_modal' => [
+                            //     'icon' => 'create-outline',
+                            //     'tooltip' => 'Edit',
+                            //     'toggle_modal_edit' => true,
+                            //     'callback' => function($row, $tempExt) {
+                            //         return $tempExt->getModal(
+                            //             [
+                            //                 'toggle_id' => 'edit-modal-category-' . $row['id'],
+                            //                 'modal_title' => 'Edit [' . $row['cat_name'] . ']' ,
+                            //                 'modal_content' => $this->form
+                            //                 ->createForm(
+                            //                     '/admin/category/' . $row['id'] . '/edit', 
+                            //                     $row
+                            //                 )
+                            //             ]
+                            //         );
+                            //     }
+                            // ],
+                            // 'trash' => ['tooltip' => 'Trash', 'icon' => 'trash']
+                
                             'more' => [
                                 'icon' => 'ion-more',
                                 'callback' => function ($row, $tempExt) {
                                     return $tempExt->getDropdown(
-                                        $this->itemsDropdown($row, $this->controller),
+                                        $this->itemsDropdown($row, $this->controller, $tempExt),
                                         $this->getDropdownStatus($row),
                                         $row,
                                         $this->controller,
@@ -188,7 +211,7 @@ class CategoryColumn extends AbstractDatatableColumn
      * @param string $controller
      * @return array
      */
-    private function itemsDropdown(array $row, string $controller): array
+    private function itemsDropdown(array $row, string $controller, $tempExt): array
     {
         $items = [
             'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
@@ -202,11 +225,4 @@ class CategoryColumn extends AbstractDatatableColumn
     }
 
 
-    public function truncate(string $str, int $max = 100, int $min = 80)
-    {
-        if (strlen($str) > $max)
-            $str = substr($str, 0, $min) . ' ...';
-
-        return $str;
-    }
 }

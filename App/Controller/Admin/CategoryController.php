@@ -35,6 +35,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
                 'commander' => CategoryCommander::class,
                 'entity' => CategoryEntity::class,
                 'categoryForm' => CategoryForm::class,
+                'schema' => CategorySchema::class
             ]
         );
     }
@@ -52,6 +53,11 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
                 ->findAndReturn($this->thisRouteID())
                 ->or404();
         }
+    }
+
+    public function schemaAsString()
+    {
+        return CategorySchema::class;
     }
 
     protected function indexAction()
@@ -92,6 +98,30 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
             )
             ->form($this->categoryForm)
             ->end();
+    }
+
+    protected function bulkAction()
+    {
+        if (isset($_POST['empty_trash'])) {
+            $action = $_POST['empty_trash_ids'];
+            var_dump($action);
+            die;
+    
+        } 
+        if (isset($_POST['bulk-delete']) || isset($_POST['bulk-clone'])) {
+            $action = $_POST['id'];
+            var_dump($action);
+            die;
+        }
+        die;
+    }
+
+    protected function trashAction()
+    {
+        $this->ifCanTrashAction
+            ->setAccess($this, Access::CAN_TRASH)
+            ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__, [], [], CategorySchema::class)
+            ->endAfterExecution();
     }
 
 

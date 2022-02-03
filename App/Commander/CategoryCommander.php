@@ -80,7 +80,7 @@ class CategoryCommander extends CategoryModel implements ApplicationCommanderInt
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Category',
-            'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'name'),
+            'edit' => "Edit [" . $this->getHeaderBuildEdit($controller, 'cat_name') . ']',
             default => "Unknown"
         };
     }
