@@ -63,11 +63,6 @@ class CategoryColumn extends AbstractDatatableColumn
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<div>';
-                    // $expiration = $this->roleOnExpiration(['current_role_id' => $row['id']]);
-                    // if (isset($expiration->current_role_id) && $expiration->current_role_id !==null) {
-                    //     $html .= '<span uk-tooltip="Expiration Set"><ion-icon name="time-outline"></ion-icon></span>';
-                    // }
-
                     $html .= '</div>';
                     $html .= '<div>';
                     $html .= '<span class="uk-text-primary"><ion-icon name="information-circle-outline"></ion-icon></span>';
@@ -182,7 +177,7 @@ class CategoryColumn extends AbstractDatatableColumn
                                 'icon' => 'ion-more',
                                 'callback' => function ($row, $tempExt) {
                                     return $tempExt->getDropdown(
-                                        $this->itemsDropdown($row, $this->controller, $tempExt),
+                                        $this->columnActions($row, $this->controller, $tempExt),
                                         $this->getDropdownStatus($row),
                                         $row,
                                         $this->controller,
@@ -196,7 +191,7 @@ class CategoryColumn extends AbstractDatatableColumn
                         $this->controller,
                         false,
                         'Are You Sure!',
-                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['subject']}</strong> role."
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['cat_name']}</strong> category."
                     );
                 }
             ],
@@ -205,22 +200,19 @@ class CategoryColumn extends AbstractDatatableColumn
     }
 
     /**
-     * Undocumented function
+     * @inheritDoc
      *
      * @param array $row
-     * @param string $controller
+     * @param string|null $controller
+     * @param object|null $tempExt
      * @return array
      */
-    private function itemsDropdown(array $row, string $controller, $tempExt): array
+    public function columnActions(array $row = [], ?string $controller = null, ?object $tempExt = null): array
     {
-        $items = [
-            'edit' => ['name' => 'edit', 'icon' => 'create-outline'],
-            'trash' => ['name' => 'trash account', 'icon' => 'trash-bin-outline']
-        ];
-        return array_map(
-            fn($key, $value) => array_merge(['path' => $this->adminPath($row, $controller, $key)], $value),
-            array_keys($items),
-            $items
+        return $this->filterColumnActions(
+            $row, 
+            $this->columnBasicLinks($this), /* can merge additional links here to this column */
+            $controller
         );
     }
 

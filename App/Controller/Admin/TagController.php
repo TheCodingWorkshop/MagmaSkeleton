@@ -13,16 +13,16 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use MagmaCore\Base\Access;
-use App\Model\CategoryModel;
-use App\Entity\CategoryEntity;
-use App\Schema\CategorySchema;
-use App\Event\CategoryActionEvent;
-use App\DataColumns\CategoryColumn;
-use App\Commander\CategoryCommander;
-use App\Forms\Admin\Category\CategoryForm;
+use App\Model\TagModel;
+use App\Entity\TagEntity;
+use App\Schema\TagSchema;
+use App\Event\TagActionEvent;
+use App\DataColumns\TagColumn;
+use App\Commander\TagCommander;
+use App\Forms\Admin\Tag\TagForm;
 use MagmaCore\Base\Traits\ControllerCommonTrait;
 
-class CategoryController extends \MagmaCore\Administrator\Controller\AdminController
+class TagController extends \MagmaCore\Administrator\Controller\AdminController
 {
 
     use ControllerCommonTrait;
@@ -33,12 +33,12 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
         $this->addDefinitions(
             [
-                'repository' => CategoryModel::class,
-                'column' => CategoryColumn::class,
-                'commander' => CategoryCommander::class,
-                'entity' => CategoryEntity::class,
-                'categoryForm' => CategoryForm::class,
-                'schema' => CategorySchema::class
+                'repository' => TagModel::class,
+                'column' => TagColumn::class,
+                'commander' => TagCommander::class,
+                'entity' => TagEntity::class,
+                'tagForm' => TagForm::class,
+                'schema' => TagSchema::class
             ]
         );
     }
@@ -60,7 +60,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
     public function schemaAsString()
     {
-        return CategorySchema::class;
+        return TagSchema::class;
     }
 
     protected function indexAction()
@@ -68,7 +68,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
-            ?->execute($this, NULL, NULL, CategorySchema::class, __METHOD__)
+            ?->execute($this, NULL, NULL, TagSchema::class, __METHOD__)
             ?->render()
             ?->with(
                 [
@@ -81,10 +81,10 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     protected function newAction()
     {
         $this->newAction
-            ->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__)
+            ->execute($this, TagEntity::class, TagActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
-            ->form($this->categoryForm)
+            ->form($this->tagForm)
             ->end();
     }
 
@@ -92,14 +92,14 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     {
         $this->editAction
             ->setAccess($this, Access::CAN_EDIT)
-            ->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__)
+            ->execute($this, TagEntity::class, TagActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
                 [
-                    'cat' => $this->toArray($this->findOr404())
+                    'tag' => $this->toArray($this->findOr404())
                 ]
             )
-            ->form($this->categoryForm)
+            ->form($this->tagForm)
             ->end();
     }
 
@@ -115,7 +115,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     {
         $this->ifCanTrashAction
             ->setAccess($this, Access::CAN_TRASH)
-            ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__, [], [], CategorySchema::class)
+            ->execute($this, NULL, TagActionEvent::class, NULL, __METHOD__, [], [], TagSchema::class)
             ->endAfterExecution();
     }
 
@@ -129,7 +129,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     {
         $this->changeStatusAction
         ->setAccess($this, Access::CAN_UNTRASH)
-        ->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__,[], [],['deleted_at' => 0])
+        ->execute($this, TagEntity::class, TagActionEvent::class, NULL, __METHOD__,[], [],['deleted_at' => 0])
         ->endAfterExecution();
 
     }
@@ -138,7 +138,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     {
         $this->deleteAction
             ->setAccess($this, Access::CAN_DELETE)
-            ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__)
+            ->execute($this, NULL, TagActionEvent::class, NULL, __METHOD__)
             ->endAfterExecution();
 
     }
@@ -150,7 +150,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
      */
     public function bulkAction()
     {
-        $this->chooseBulkAction($this, CategoryActionEvent::class);
+        $this->chooseBulkAction($this, TagActionEvent::class);
     }
 
 

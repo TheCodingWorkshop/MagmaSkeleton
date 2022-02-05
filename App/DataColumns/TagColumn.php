@@ -12,23 +12,26 @@ declare(strict_types=1);
 
 namespace App\DataColumns;
 
-use App\Model\PostModel;
-use MagmaCore\Datatable\AbstractDatatableColumn;
+use App\Model\TagModel;
 use MagmaCore\Datatable\DataColumnTrait;
+use App\Forms\Admin\Tag\TagForm;
+use MagmaCore\Datatable\AbstractDatatableColumn;
 
-class PostColumn extends AbstractDatatableColumn
+class TagColumn extends AbstractDatatableColumn
 {
 
     use DataColumnTrait;
 
-    private PostModel $postModel;
+    private TagModel $TagModel;
+    private TagForm $form;
 
-    public function __construct(PostModel $postModel)
+    private string $controller = 'tag';
+
+    public function __construct(TagModel $TagModel, TagForm $form)
     {
-        $this->postModel = $postModel;
+        $this->TagModel = $TagModel;
+        $this->form = $form;
     }
-
-    private string $controller = 'post';
 
     /**
      * @param array $dbColumns
@@ -50,100 +53,67 @@ class PostColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'title',
-                'dt_row' => 'Title',
+                'db_row' => 'cat_name',
+                'dt_row' => 'Name',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
                 'searchable' => true,
                 'formatter' => function ($row, $tempExt) {
-                    //$data = $this->postModel->getUser($row['user_id']);
-                    $html = '<div class="uk-grid-small uk-flex-middle" uk-grid>';
-                    $html .= '<div class="uk-width-auto">';
-                    $html .= '<img class="uk-border-circle" width="40" height="40" src="/public/assets/images/undraw_profile.svg">';
-                    $html .= '</div>';
-
-                    $html .= ' <div class="uk-width-expand">';
-                    $html .= '<div class="uk-clearfix">';
-                    $html .= '<div class="uk-float-left uk-text-small">';
-                    $html .= $row['title'];
-                    $html .= '</div>';
-                    $html .= '<div class="uk-float-right">';
-                    //$html .= $this->messageActions($row, $tempExt);
-                    $html .= '</div>';
+                    $html = '<div class="uk-clearfix">';
+                    $html .= '<div class="uk-float-left uk-margin-small-right">';
+                    $html .= '<div>';
+                    // $expiration = $this->roleOnExpiration(['current_role_id' => $row['id']]);
+                    // if (isset($expiration->current_role_id) && $expiration->current_role_id !==null) {
+                    //     $html .= '<span uk-tooltip="Expiration Set"><ion-icon name="time-outline"></ion-icon></span>';
+                    // }
 
                     $html .= '</div>';
-                    $html .= '<p class="uk-text-meta uk-margin-remove-top uk-text-truncate"><a class="uk-text-link uk-link-reset" href="/admin/post/' . $row['id'] . '/edit ">' . $this->truncate($row['summary']) . '</a></p>
-                        ';
+                    $html .= '<div>';
+                    $html .= '<span class="uk-text-primary"><ion-icon name="information-circle-outline"></ion-icon></span>';
+                    $html .= '</div>';
+                    $html .= '</div>';
+                    $html .= '<div class="uk-float-left">';
+                    $html .= $row["tag_name"] . "<br/>";
+                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["tag_description"] . '</small></div>';
+                    $html .= '</div>';
                     $html .= '</div>';
 
                     return $html;
+
                 }
             ],
             [
-                'db_row' => 'slug',
+                'db_row' => 'tag_slug',
                 'dt_row' => 'Slug',
                 'class' => '',
                 'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['slug'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'url',
-                'dt_row' => 'Url',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['url'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'article',
-                'dt_row' => 'Article',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['article'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'summary',
-                'dt_row' => 'Summary',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['summary'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'status',
-                'dt_row' => 'Status',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => true,
+                'sortable' => false,
                 'searchable' => true,
                 'formatter' => function ($row, $tempExt) {
                     return $row['status'] ?? 'None';
                 }
             ],
             [
-                'db_row' => 'author',
+                'db_row' => 'tag_parent',
+                'dt_row' => 'Parent',
+                'class' => '',
+                'show_column' => false,
+                'sortable' => true,
+                'searchable' => false,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['tag_parent'] ?? 0;
+                }
+            ],
+            [
+                'db_row' => 'created_byid',
                 'dt_row' => 'Author',
                 'class' => '',
                 'show_column' => false,
                 'sortable' => true,
                 'searchable' => true,
                 'formatter' => function ($row, $tempExt) {
-                    return $row['author'] ?? 'None';
+                    return $row['created_byid'] ?? 'None';
                 }
             ],
             [
@@ -161,7 +131,7 @@ class PostColumn extends AbstractDatatableColumn
             ],
             [
                 'db_row' => 'modified_at',
-                'dt_row' => 'Modified',
+                'dt_row' => 'Last Updated',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
@@ -169,8 +139,7 @@ class PostColumn extends AbstractDatatableColumn
                 'formatter' => function ($row, $tempExt) {
                     $html = '';
                     if (isset($row["modified_at"]) && $row["modified_at"] != null) {
-                        //$html .= "$tempExt->getUserById($row[$row_name]);"
-                        $html .= $tempExt->tableDateFormat($row, "modified_at", true);
+                        $html .= $tempExt->tableDateFormat($row, "modified_at");
                         $html .= '<div><small>By Admin</small></div>';
                     } else {
                         $html .= '<small>Never!</small>';
@@ -178,6 +147,7 @@ class PostColumn extends AbstractDatatableColumn
                     return $html;
                 }
             ],
+
             [
                 'db_row' => '',
                 'dt_row' => 'Action',
@@ -192,7 +162,7 @@ class PostColumn extends AbstractDatatableColumn
                                 'icon' => 'ion-more',
                                 'callback' => function ($row, $tempExt) {
                                     return $tempExt->getDropdown(
-                                        $this->columnActions($row, $this->controller),
+                                        $this->columnActions($row, $this->controller, $tempExt),
                                         $this->getDropdownStatus($row),
                                         $row,
                                         $this->controller,
@@ -206,7 +176,7 @@ class PostColumn extends AbstractDatatableColumn
                         $this->controller,
                         false,
                         'Are You Sure!',
-                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['subject']}</strong> role."
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['tag_name']}</strong> Tag."
                     );
                 }
             ],

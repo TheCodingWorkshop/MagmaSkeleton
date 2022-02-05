@@ -60,7 +60,8 @@ category:
 
 tag:
   status_choices: []
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 15
   query: ""
@@ -70,7 +71,7 @@ tag:
   sort_columns:
     - tag_name
     - created_at
-  trash_can_support: false
+  trash_can_support: true
 
 
 
@@ -105,7 +106,8 @@ group:
 
 role:
   status_choices: []
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 5
   query: "status"
@@ -120,7 +122,8 @@ role:
 
 permission:
   status_choices: []
-  additional_conditions: []
+  additional_conditions: 
+    deleted_at: 0
   selectors: []
   records_per_page: 5
   query: ""

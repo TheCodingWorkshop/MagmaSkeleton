@@ -13,11 +13,14 @@ declare(strict_types=1);
 namespace App\DataColumns;
 
 use MagmaCore\UserManager\UserModel;
+use MagmaCore\Datatable\DataColumnTrait;
 use MagmaCore\Datatable\AbstractDatatableColumn;
 
 class MessageColumn extends AbstractDatatableColumn
 {
 
+    use DataColumnTrait;
+    
     private UserModel $userModel;
 
     public function __construct(UserModel $userModel)
@@ -195,11 +198,18 @@ class MessageColumn extends AbstractDatatableColumn
         return $html;
     }
 
-    public function truncate(string $str, int $max = 100, int $min = 80)
+    /**
+     * @inheritDoc
+     *
+     * @param array $row
+     * @param string|null $controller
+     * @param object|null $tempExt
+     * @return array
+     */
+    public function columnActions(array $row = [], ?string $controller = null, ?object $tempExt = null): array
     {
-        if (strlen($str) > $max)
-            $str = substr($str, 0, $min) . ' ...';
-
-        return $str;
+        return [];
     }
+
+
 }

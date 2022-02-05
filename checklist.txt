@@ -1,0 +1,8 @@
+permission:
+    1. can view permissions
+    2. can add permission
+    3. can edit permission
+    4. can trash permission
+    5. can restore permission from trash
+    6. can bulk restore permission from trash
+    7. can bulk delete permission within the trash (this is the only place we can bulk delete)
