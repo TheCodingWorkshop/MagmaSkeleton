@@ -174,7 +174,7 @@ class CategoryColumn extends AbstractDatatableColumn
                             // 'trash' => ['tooltip' => 'Trash', 'icon' => 'trash']
                 
                             'more' => [
-                                'icon' => 'ion-more',
+                                'icon' => 'more',
                                 'callback' => function ($row, $tempExt) {
                                     return $tempExt->getDropdown(
                                         $this->columnActions($row, $this->controller, $tempExt),

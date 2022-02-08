@@ -20,6 +20,8 @@ require_once 'include.php';
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Logger\LogLevel;
 use MagmaCore\Base\BaseApplication;
+use MagmaCore\Widget\WidgetFactory;
+use MagmaCore\DataObjectLayer\ClientRepository\ClientRepositoryFactory;
 
 try {
     /* Attempting to run a single instance of the application */

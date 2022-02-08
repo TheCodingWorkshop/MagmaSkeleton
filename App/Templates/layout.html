@@ -10,10 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
     <!--     <meta name="turbo-visit-control" content="reload">-->
-    <meta name="turbo-cache-control" content="no-cache">
-    {@ addcss() @}
-    {@ addjs([], 'header') @}
-    {% yield styles %}
+    <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
 </head>
 
 <body class="uk-text-bold">
@@ -43,8 +40,7 @@
         </div>
     </div>
 
-    {@ addjs() @}
-    {% yield scripts %}
+    {@ addjs() @} {% yield scripts %}
     <script>
         // $("#flash_message").fadeOut(3500);
     </script>

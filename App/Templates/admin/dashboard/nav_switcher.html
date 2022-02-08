@@ -2,7 +2,7 @@
     {% foreach($nav_switcher as $key => $value) : %}
     <li>
         <a uk-tooltip="{{ ucwords($key) }}" class="switcher-item-{{ $key }}" href="#">
-            <ion-icon name="{{ $value['icon'] }}" size="large"></ion-icon>
+            {@ icon($value['icon']) @}
         </a>
     </li>
     {% endforeach; %}

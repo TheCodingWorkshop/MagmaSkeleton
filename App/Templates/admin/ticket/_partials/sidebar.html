@@ -7,10 +7,9 @@
             {% foreach ($ticket_message_sidebar as $key => $value) : %}
             <li>
                 <ion-icon name="{{ $value['icon'] }}"></ion-icon>
-                <a href="/admin/ticket/index?status={{ $key }}">{{  $value['name'] }}</a>
+                <a data-turbo="true" href="/admin/ticket/index?status={{ $key }}">{{  $value['name'] }}</a>
             </li>
             {% endforeach; %}
         </ul>
     </div>
 </div>
-

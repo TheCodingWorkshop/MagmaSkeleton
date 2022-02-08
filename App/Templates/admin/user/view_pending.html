@@ -1,7 +1,7 @@
 <div class="uk-card-header">
     <div class="uk-grid-small uk-flex-middle" uk-grid>
-        <div class="uk-width-auto ion-64">
-            <ion-icon name="warning-outline"></ion-icon>
+        <div class="uk-width-auto">
+            {@ icon('warning', 3.5) @}
         </div>
         <div class="uk-width-expand">
             <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ count($pendings) > 0 ? count($pendings) : 0 }} Pending</h3>
@@ -28,13 +28,13 @@
                     <div class="uk-width-expand" uk-leader>{{ $pending['firstname'] . ' ' . $pending['lastname'] }}</div>
                     <div>
                         <a class="ion-18" href="/admin/user/{{ $pending['id'] }}/edit" class="uk-reset-link" uk-tooltip="Edit Account">
-                            <ion-icon name="pencil-outline"></ion-icon>
+                            {@ icon('pencil', 0.8) @}
                         </a>
                         <a class="ion-18" href="/admin/user/{{ $pending['id'] }}/active" class="uk-reset-link" uk-tooltip="Make Active">
-                            <ion-icon name="checkmark-outline"></ion-icon>
+                            {@ icon('check', 0.8) @}
                         </a>
                         <a class="ion-18" uk-tooltip="Resend Email" class="uk-reset-link" href="/admin/user/{{ $pending['id'] }}/unlock">
-                            <ion-icon name="send-outline"></ion-icon>
+                            {@ icon('forward', 0.8) @}
                         </a>
                     </div>
                     <input type="hidden" name="user_id[]" value="{{ $pending['id'] }}" />

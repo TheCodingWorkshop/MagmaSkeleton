@@ -1,13 +1,16 @@
 {% extends 'layout.html' %}
-
+<!---->
 {% block title %}General Settings{% endblock %}
+<!---->
 {% block description %}MagmaCore settings{% endblock %}
+<!---->
 {% block keywords %}team{% endblock %}
+<!---->
 {% block author %}Ricardo Miller{% endblock %}
-{% block styles %} {% endblock %}
+<!---->
+{% block styles %} {% endblock %} {% block content %}
 
-
-{% block content %}
+<!---->
 <section class="uk-height-viewport">
     <div>
         <div uk-grid>
@@ -27,8 +30,8 @@
             <div class="uk-width-expand@m">
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto ion-64">
-                            <ion-icon name="settings-outline"></ion-icon>
+                        <div class="uk-width-auto">
+                            {@ icon('cog', 3.5) @}
                         </div>
                         <div class="uk-width-expand">
                             <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">General Settings {% include 'admin/setting/_parts/add_button.html' %}</h3>

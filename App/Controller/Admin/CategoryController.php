@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use MagmaCore\Base\Access;
+use MagmaCore\Utility\Yaml;
 use App\Model\CategoryModel;
 use App\Entity\CategoryEntity;
 use App\Schema\CategorySchema;
@@ -65,7 +66,14 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
     protected function indexAction()
     {
+        // $categoryArgs = Yaml::file('controller')['category'];
+        // $data = $this->repository
+        // ->getRepo()
+        // ->findWithSearchAndPaging($this->request->handler(), $categoryArgs);
 
+        // var_dump($data);
+        // die;
+        
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
             ?->execute($this, NULL, NULL, CategorySchema::class, __METHOD__)

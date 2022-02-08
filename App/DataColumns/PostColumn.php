@@ -189,7 +189,7 @@ class PostColumn extends AbstractDatatableColumn
                     return $tempExt->action(
                         [
                             'more' => [
-                                'icon' => 'ion-more',
+                                'icon' => 'more',
                                 'callback' => function ($row, $tempExt) {
                                     return $tempExt->getDropdown(
                                         $this->columnActions($row, $this->controller),

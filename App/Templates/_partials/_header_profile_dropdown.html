@@ -1,48 +1,29 @@
 <ul class="uk-iconnav">
-<!--    <li>-->
-<!--        <a class="uk-text-secondary ion-21 uk-margin-small-top" href="/admin/search/search">-->
-<!--            <ion-icon name="filter-outline"></ion-icon>-->
-<!--        </a>-->
-<!--        <div class="uk-drop" uk-drop="mode: click; pos: left-center; offset: 0">-->
-<!--&lt;!&ndash;            <form method="post" action="/admin/search/search" class="uk-search uk-search-navbar uk-width-1-1">&ndash;&gt;-->
-<!--&lt;!&ndash;                <input class="uk-search-input" type="search" placeholder="Search" autofocus>&ndash;&gt;-->
-<!--&lt;!&ndash;            </form>&ndash;&gt;-->
-<!--        </div>-->
-<!--    </li>-->
-
     <li>
-        <a class="uk-text-secondary ion-21 uk-margin-small-top" href="#">
-            <ion-icon name="add-circle"></ion-icon>
+        <a class="uk-text-secondary uk-margin-small-top" href="#">
+            {@ icon('plus-circle', 1) @}
         </a>
         <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
                 <li class="uk-active"><a href="#">Add Content</a></li>
                 <li>Quickly add to the database</li>
                 <li class="uk-nav-header">Quick Links</li>
-                {% foreach (['user', 'role', 'permission', 'plugin', 'setting', 'menu'] as $link) : %}
-                    {% if ($link === 'setting') : %}
-                        <li><a href="/admin/{{ $link }}/index">{{ ucwords($link) }}</a></li>
-                    {% else : %}
-                        <li><a href="/admin/{{ $link }}/new">{{ ucwords($link) }}</a></li>
-                    {% endif; %}
-                {% endforeach; %}
+                {% foreach (['user', 'role', 'permission', 'plugin', 'setting', 'menu'] as $link) : %} {% if ($link === 'setting') : %}
+                <li><a href="/admin/{{ $link }}/index">{{ ucwords($link) }}</a></li>
+                {% else : %}
+                <li><a href="/admin/{{ $link }}/new">{{ ucwords($link) }}</a></li>
+                {% endif; %} {% endforeach; %}
             </ul>
         </div>
 
     </li>
 
     <li>
-        <a class="uk-text-secondary ion-22 uk-margin-small-top" href="/admin/message/index">
-            <ion-icon name="mail"></ion-icon>
+        <a class="uk-text-secondary uk-margin-small-top" href="/admin/message/index">
+            {@ icon('mail', 1) @}
         </a>
     </li>
 
-<!--    <li>-->
-<!--        <a uk-toggle="target: #notify-panel-flip" class="uk-text-secondary ion-22 uk-margin-small-top" href="#">-->
-<!--            <ion-icon name="notifications"></ion-icon>-->
-<!--        </a>-->
-<!--        {% include components/notification_panel.html %}-->
-<!--    </li>-->
     <li><a class="uk-text-small uk-text-secondary uk-margin-small-top uk-link-reset" href="#">Hi {{ $current_user->firstname . ' ' . $current_user->lastname }}</a></li>
 </ul>
 <div class="uk-margin-small-left">
@@ -51,21 +32,21 @@
         <ul class="uk-nav uk-dropdown-nav">
             <li class="uk-active"><a href="#">{@ locale('active') @}</a></li>
             <li><a href="/admin/user/{{ $current_user->id }}/personal">{{ $privilege_user->fullname }}</a>
-                <span><ion-icon name="ribbon-outline"></ion-icon> {{ $privilege_user->getRole() }}</span>
+                <span>{@ icon('bookmark', 1) @} {{ $privilege_user->getRole() }}</span>
             </li>
             <li class="uk-nav-header">Options</li>
             <li>
                 <a href="/admin/user/{{ $current_user->id }}/edit">
-                    <ion-icon name="person-outline"></ion-icon> Profile</a>
+                    {@ icon('user', 1) @} Profile</a>
             </li>
             <li>
                 <a href="/admin/setting/index">
-                    <ion-icon name="settings-outline"></ion-icon> Settings</a>
+                    {@ icon('cog', 1) @} Settings</a>
             </li>
             <li class="uk-nav-divider"></li>
             <li>
                 <a href="/logout">
-                    <ion-icon name="log-out-outline"></ion-icon> Logout</a>
+                    {@ icon('sign-out', 1) @} Logout</a>
             </li>
         </ul>
     </div>

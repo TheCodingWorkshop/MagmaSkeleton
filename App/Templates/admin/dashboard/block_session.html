@@ -4,8 +4,8 @@
             <div class="uk-card uk-card-body uk-card-secondary">
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto ion-64">
-                            <ion-icon name="bar-chart-outline"></ion-icon>
+                        <div class="uk-width-auto">
+                            {@ icon('history', 3.5) @}
                         </div>
                         <div class="uk-width-expand">
                             <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Sessions</h3>
@@ -53,25 +53,7 @@
             </div>
         </div>
         <div>
-            <div class="uk-card uk-card-body">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto ion-64">
-                            <ion-icon name="analytics-outline"></ion-icon>
-                        </div>
-                        <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Website Traffic</h3>
-                            <p class="uk-text-meta uk-margin-remove-top">
-                                <time datetime="2016-04-01T19:00">Most popular traffic coming from Google</time>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="uk-card-body">
-                    <p>The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc.</p>
-                </div>
-
-            </div>
+            {@ getWidget('website_traffic_widget') @}
         </div>
     </div>
 </div>

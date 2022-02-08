@@ -25,9 +25,9 @@
 {% include 'admin/dashboard/_parts/statistics_cards.html' %}
 <section class="">
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
-        <div class="uk-card-badge ion-24">
+        <div class="uk-card-badge">
             <a href="#offcanvas-usage" uk-toggle class="uk-link-reset">
-                <ion-icon name="settings-outline"></ion-icon>
+                {@ icon('cog', 0.9) @}
             </a>
         </div>
         <div>
@@ -41,13 +41,10 @@
                             <li>{% include 'admin/dashboard/block_main.html' %}</li>
                             <li>{% include 'admin/dashboard/block_ticket.html' %}</li>
                             <li>{% include 'admin/dashboard/block_session.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_github.html' %}</li>
                             <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
-                            <!-- <li>{% include 'admin/dashboard/block_activities.html' %}</li> -->
                             <li>{% include 'admin/dashboard/block_project.html' %}</li>
-                            <!-- <li>{% include 'admin/dashboard/block_notifications.html' %}</li> -->
                         </ul>
-                        {% include 'admin/dashboard/dashboard_toggle.html' %}
+                        {% include 'admin/dashboard/offcanvas/dashboard_toggle.html' %}
                     </div>
                 </div>
             </div>

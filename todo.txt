@@ -118,3 +118,12 @@ object(MagmaCore\DataObjectLayer\Drivers\MysqlDatabaseConnection)#242 (3) {
   ["dbh":"MagmaCore\DataObjectLayer\Drivers\AbstractDatabaseDriver":private]=>
   uninitialized(?object)
 }
+
+$create = new WidgetFactory;
+$widget = $create->create(ClientRepositoryFactory::class, ['active_now_widget' => ['table' => 'user', 'table_id' => 'id']]);
+$widget = $create->create(ClientRepositoryFactory::class, ['bounce_rate_widget' => ['table' => 'user', 'table_id' => 'id']]);
+
+    
+var_dump($widget->renderWidget());
+var_dump($widget->renderWidget());
+die;

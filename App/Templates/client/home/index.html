@@ -1,12 +1,16 @@
 {% extends 'frontend_layout.html' %}
-
+<!---->
 {% block title %}Home{% endblock %}
+<!---->
 {% block description %}MagmaCore secure login{% endblock %}
+<!---->
 {% block keywords %}login{% endblock %}
+<!----->
 {% block author %}{% endblock %}
-{% block page_header %}{@ locale('framework_name') @}{% endblock %}
-{% block page_tagline %} Welcome and thanks for choosing Magmacore framework. You are using the current stable version
-<small>v1.2</small> {% endblock %}
+<!---->
+{% block page_header %} {% endblock %}
+<!---->
+{% block page_tagline %} Welcome and thanks for choosing Magmacore framework. You are using the current stable version<small>v1.2</small> {% endblock %}
 
 <!-- start content-->
 {% block content %}
@@ -31,17 +35,20 @@
                             <li>Email: {{{ $current_user->email }}}</li>
                         </ul>
                     </dd>
-                    <a href="/logout">
-                        <ion-icon name="log-out-outline" size="large"></ion-icon>
+                    <a class="uk-icon-link" href="/logout">
+                        {@ icon('sign-out') @}
                     </a>
+                    <!---->
                     {% if ($privilege_user->hasPrivilege('have_admin_access')) : %}
                     <a href="/admin/dashboard/index">
-                        <ion-icon name="speedometer-outline" size="large"></ion-icon>
+                        {@ icon('home') @}
                     </a>
+                    <!---->
                     {% else : %}
                     <a href="/profile/account/index">
-                        <ion-icon name="person-outline" size="large"></ion-icon>
+                        {@ icon('user') @}
                     </a>
+                    <!---->
                     {% endif; %}
 
                 </dl>

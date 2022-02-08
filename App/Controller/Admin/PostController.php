@@ -71,6 +71,11 @@ class PostController extends AdminController
         ];
     }
 
+    public function schemaAsString(): string
+    {
+        return PostSchema::class;
+    }
+
     protected function indexAction()
     {
         $this->indexAction
@@ -125,6 +130,56 @@ class PostController extends AdminController
             )
             ->form($this->postForm)
             ->end();
+    }
+
+        /**
+     * Route which puts the item within the trash. This is only for supported models
+     * and is effectively changing the deleted_at column to 1. All datatable queries 
+     * deleted_at column should be set to 0. this will prevent any trash items 
+     * from showing up in the main table
+     *
+     * @return void
+     */
+    protected function trashAction()
+    {
+        $this->ifCanTrashAction
+            ->setAccess($this, Access::CAN_TRASH)
+            ->execute($this, NULL, PostActionEvent::class, NULL, __METHOD__, [], [], PostSchema::class)
+            ->endAfterExecution();
+    }
+
+    /**
+     * As trashing an item changes the deleted_at column to 1 we can reset that to 0
+     * for individual items.
+     *
+     * @return void
+     */
+    protected function untrashAction()
+    {
+        $this->changeStatusAction
+        ->setAccess($this, Access::CAN_UNTRASH)
+        ->execute($this, PostEntity::class, PostActionEvent::class, NULL, __METHOD__,[], [],['deleted_at' => 0])
+        ->endAfterExecution();
+
+    }
+
+    protected function hardDeleteAction()
+    {
+        $this->deleteAction
+            ->setAccess($this, Access::CAN_DELETE)
+            ->execute($this, NULL, PostActionEvent::class, NULL, __METHOD__)
+            ->endAfterExecution();
+
+    }
+
+    /**
+     * Bulk action route
+     *
+     * @return void
+     */
+    public function bulkAction()
+    {
+        $this->chooseBulkAction($this, PostActionEvent::class);
     }
 
 }

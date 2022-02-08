@@ -2,20 +2,20 @@
 
 <!-- start content-->
 {% block content %}
-<section class="uk-height-viewport">
-    {@ templateExtension('uikit_simple_pagination') @}
+<form method="post" action="/admin/menu/bulk" data-turbo="false">
+    <section class="uk-height-viewport">
+        {@ templateExtension('uikit_simple_pagination') @}
 
-    <div class="uk-width-expand@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    <form method="POST" action="">
-                        {{ $table }}
-                    </form>
+        <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {% if ($total_records > 0) : %} {{ $table }} {% else : %} {% include 'admin/no_database_record.html' %} {% endif; %}
+                    </div>
                 </div>
+                {@ templateExtension('uikit_pagination') @}
             </div>
-            {@ templateExtension('uikit_pagination') @}
         </div>
-    </div>
-</section>
+    </section>
+</form>
 {% endblock %}

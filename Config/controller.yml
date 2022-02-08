@@ -30,7 +30,8 @@ message:
 
 post:
   status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 15
   query: "status"
@@ -40,14 +41,14 @@ post:
   sort_columns:
     - title
     - created_at
-  trash_can_support: false
+  trash_can_support: true
 
 category:
   status_choices: []
   additional_conditions:
     deleted_at: 0
   selectors: []
-  records_per_page: 15
+  records_per_page: 5
   query: ""
   filter_by: ["cat_name"]
   filter_alias: s
@@ -77,7 +78,8 @@ tag:
 
 ticket:
   status_choices: [open: Open, closed: Closed, resolves: Resolved]
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 15
   query: "status"
@@ -87,11 +89,12 @@ ticket:
   sort_columns:
     - category
     - created_at
-  trash_can_support: false
+  trash_can_support: true
 
 group:
   status_choices: []
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 5
   query: "status"
@@ -102,7 +105,7 @@ group:
     - group_name
     - created_at
     - modified_at
-  trash_can_support: false
+  trash_can_support: true
 
 role:
   status_choices: []
@@ -177,7 +180,8 @@ project:
 
 menu:
   status_choices: []
-  additional_conditions: []
+  additional_conditions:
+    deleted_at: 0
   selectors: []
   records_per_page: 5
   query: ""
@@ -187,7 +191,7 @@ menu:
     - menu_name
     - created_at
     - modified_at
-  trash_can_support: false
+  trash_can_support: true
 
 system:
   status_choices: []
