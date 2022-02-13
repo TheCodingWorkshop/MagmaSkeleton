@@ -12,7 +12,7 @@
 {% block content %}
 <form method="post" action="/admin/tag/bulk" data-turbo="false">
     {@ templateExtension('uikit_simple_pagination') @}
-    <section uk-grid uk-height-match>
+    <section class="uk-height-viewport" uk-grid>
         <div class="uk-width-expand@m">
             <div>
                 <div class="uk-card uk-card-default">

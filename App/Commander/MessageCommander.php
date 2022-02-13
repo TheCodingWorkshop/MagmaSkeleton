@@ -34,7 +34,8 @@ class MessageCommander extends MessageModel implements ApplicationCommanderInter
         'show',
         'reply',
         'edit',
-        'assigned'
+        'assigned',
+        'settings'
     ];
 
     private array $noCommander = [];
@@ -86,6 +87,7 @@ class MessageCommander extends MessageModel implements ApplicationCommanderInter
             'show' => 'View Message',
             'reply' => 'Reply',
             'edit' => "Edit " . $this->getHeaderBuildEdit($controller, 'name'),
+            'settings' => 'Message Settings',
             default => "Unknown"
         };
     }

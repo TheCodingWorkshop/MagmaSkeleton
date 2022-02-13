@@ -45,7 +45,13 @@ class CategoryForm extends ClientFormBuilder implements ClientFormBuilderInterfa
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
-        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "categoryForm"])
+        return $this->form(
+            [
+                'action' => $action, 
+                'class' => ['uk-form-stacked'], 
+                "id" => "categoryForm",
+            ]
+            )
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('cat_name', [], $this->hasValue('cat_name')))
             ->add($this->blueprint->text('cat_slug', [], $this->hasValue('cat_slug')))
@@ -55,7 +61,6 @@ class CategoryForm extends ClientFormBuilder implements ClientFormBuilderInterfa
                     $this->hasValue('id') ? 'edit-category' : 'new-category',
                     ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
                     'Save',
-                   // "UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> Saving...', status: 'success', timeout: 3000})"
                 ),
                 null,
                 $this->blueprint->settings(false, null, false, null, true)

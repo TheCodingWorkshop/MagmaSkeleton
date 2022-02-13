@@ -31,7 +31,8 @@ class CategoryCommander extends CategoryModel implements ApplicationCommanderInt
     protected const INNER_ROUTES = [
         'index',
         'new',
-        'edit'
+        'edit',
+        'settings'
     ];
 
     private array $noCommander = [];

@@ -1,27 +1,20 @@
-{% extends 'layout.html' %}
-
-{% block title %}Access Denied{% endblock %}
-{% block description %}MagmaCore create an account{% endblock %}
-{% block keywords %}access denied{% endblock %}
-{% block author %}Ricardo Miller{% endblock %}
-
-{% block styles %}
+{% extends 'layout.html' %} {% block title %}Access Denied{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}access denied{% endblock %} {% block author %}Ricardo Miller{% endblock %} {% block styles %}
 <style>
     * {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
     }
-
+    
     body {
         padding: 0;
         margin: 0;
     }
-
+    
     #notfound {
         position: relative;
         height: 50vh;
     }
-
+    
     #notfound .notfound {
         position: absolute;
         left: 50%;
@@ -30,21 +23,21 @@
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
-
+    
     .notfound {
         max-width: 767px;
         width: 100%;
         line-height: 1.4;
         padding: 0px 15px;
     }
-
+    
     .notfound .notfound-404 {
         position: relative;
         height: 150px;
         line-height: 150px;
         margin-bottom: 25px;
     }
-
+    
     .notfound .notfound-404 h1 {
         font-family: 'Titillium Web', sans-serif;
         font-size: 186px;
@@ -57,14 +50,14 @@
         background-size: cover;
         background-position: center;
     }
-
+    
     .notfound h2 {
         font-family: 'Titillium Web', sans-serif;
         font-size: 26px;
         font-weight: 700;
         margin: 0;
     }
-
+    
     .notfound p {
         font-family: 'Montserrat', sans-serif;
         font-size: 14px;
@@ -72,7 +65,7 @@
         margin-bottom: 0px;
         text-transform: uppercase;
     }
-
+    
     .notfound a {
         font-family: 'Titillium Web', sans-serif;
         display: inline-block;
@@ -89,11 +82,11 @@
         -webkit-transition: 0.2s all;
         transition: 0.2s all;
     }
-
+    
     .notfound a:hover {
         opacity: 0.8;
     }
-
+    
     @media only screen and (max-width: 767px) {
         .notfound .notfound-404 {
             height: 110px;
@@ -103,13 +96,12 @@
             font-size: 120px;
         }
     }
-
 </style>
 {% endblock %}
 
 <!-- start content-->
 {% block content %}
-<section class="uk-height-viewport">
+<section class="uk-height-viewport" uk-grid>
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
         <div id="notfound">
             <div class="notfound">

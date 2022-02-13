@@ -1,37 +1,7 @@
 <div>
     <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
         <div>
-            <div class="uk-card uk-card-body uk-card-primary uk-text-white">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            {@ icon('user', 3.5) @}
-                        </div>
-                        <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{{ $total_records }}} Users
-                            </h3>
-                            <p class="uk-text-meta uk-margin-remove-top">
-                                You gained +{{{ $user_gained }}} new users in the last month
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="uk-card-body">
-                    <p class="uk-text-small">-<a data-turbo="false" href="/admin/user/index?status=pending">{{{
-                            $pending_users }}}</a> {@ locale('user_still_pending') @}
-                    </p>
-                    <ul class="uk-list uk-list-collapse uk-list-divider">
-                        {% foreach ($user_percentage as $key => $value) : %}
-                        <li>
-                            <div class="uk-grid-small" uk-grid>
-                                <div class="uk-width-expand" uk-leader>{{ $key }}</div>
-                                <div>{{ $value['percentage'] }}%</div>
-                            </div>
-                        </li>
-                        {% endforeach; %}
-                    </ul>
-                </div>
-            </div>
+            {@ getWidget('member_widget', 'users', 'id') @}
         </div>
         <div>
             {@ getWidget('lists_widget', null, null, $main_cards) @}

@@ -1,5 +1,23 @@
+dashboard:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 0
+  query: 
+  filter_by: []
+  filter_alias: ''
+  sort_columns: []
+  trash_can_support: ''
+
+
 user:
-  status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
+  #status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
+  status_choices:
+    - active
+    - pending
+    - trash
+    - lock
+
   additional_conditions:
     status: active
   selectors: []
@@ -11,7 +29,7 @@ user:
     - firstname
     - created_at
     - modified_at
-  trash_can_support: false
+  trash_can_support: 'false'
 
 message:
   status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
@@ -26,7 +44,7 @@ message:
   sort_columns:
     - user_id
     - created_at
-  trash_can_support: false
+  trash_can_support: 'false'
 
 post:
   status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
@@ -41,7 +59,7 @@ post:
   sort_columns:
     - title
     - created_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 category:
   status_choices: []
@@ -56,7 +74,7 @@ category:
   sort_columns:
     - cat_name
     - created_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 
 tag:
@@ -72,7 +90,7 @@ tag:
   sort_columns:
     - tag_name
     - created_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 
 
@@ -89,7 +107,7 @@ ticket:
   sort_columns:
     - category
     - created_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 group:
   status_choices: []
@@ -105,7 +123,7 @@ group:
     - group_name
     - created_at
     - modified_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 role:
   status_choices: []
@@ -121,7 +139,7 @@ role:
     - role_name
     - created_at
     - modified_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 permission:
   status_choices: []
@@ -136,7 +154,7 @@ permission:
     - permission_name
     - created_at
     - modified_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 setting:
   status_choices: []
@@ -148,7 +166,7 @@ setting:
   filter_alias: s
   sort_columns:
     - setting_name
-  trash_can_support: false
+  trash_can_support: 'false'
 
 plugin:
   status_choices: []
@@ -162,7 +180,7 @@ plugin:
     - plugin_name
     - created_at
     - modified_at
-  trash_can_support: false
+  trash_can_support: 'false'
     
 project:
   status_choices: []
@@ -176,7 +194,7 @@ project:
     - type
     - created_at
     - modified_at
-  trash_can_support: false
+  trash_can_support: 'false'
 
 menu:
   status_choices: []
@@ -191,7 +209,7 @@ menu:
     - menu_name
     - created_at
     - modified_at
-  trash_can_support: true
+  trash_can_support: 'true'
 
 system:
   status_choices: []
@@ -204,5 +222,5 @@ system:
   sort_columns:
     - event_type
     - created_at
-  trash_can_support: false
+  trash_can_support: 'false'
 

@@ -6,8 +6,10 @@
         <ul class="uk-list uk-link-text uk-link-reset">
             {% foreach ($ticket_message_sidebar as $key => $value) : %}
             <li>
-                <ion-icon name="{{ $value['icon'] }}"></ion-icon>
-                <a data-turbo="true" href="/admin/ticket/index?status={{ $key }}">{{  $value['name'] }}</a>
+                {@ icon($value['icon'], 0.9) @}
+                <!---->
+                {@ protectedAnchor(['href' => '/admin/ticket/index?status=' . $key], null, $value['name'], ['can_view_ticket']) @}
+
             </li>
             {% endforeach; %}
         </ul>

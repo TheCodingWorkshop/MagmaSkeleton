@@ -23,6 +23,7 @@ use MagmaCore\UserManager\UserModel;
 use App\Forms\Admin\Message\MessageForm;
 use App\Forms\Admin\Message\MessageReplyForm;
 use MagmaCore\Base\Domain\Actions\ReplyAction;
+use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class MessageController extends \MagmaCore\Administrator\Controller\AdminController
 {
@@ -168,6 +169,24 @@ class MessageController extends \MagmaCore\Administrator\Controller\AdminControl
             ->endAfterExecution();
     }
 
+    protected function settingsAction()
+    {
+        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
+        $this->sessionUpdateAction
+            ->execute($this, NULL, MessageActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
+            ->render()
+            ->with(
+                [
+                    'session_data' => $sessionData,
+                    'page_title' => 'Message Settings',
+                    'last_updated' => $this->controllerSessionBackupModel
+                        ->getRepo()
+                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
+                ]
+            )
+            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
+            ->end();
+    }
 
 
 }

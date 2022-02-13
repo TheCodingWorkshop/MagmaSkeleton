@@ -9,35 +9,55 @@
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="turbo-root" content="/">
-    <!--     <meta name="turbo-visit-control" content="reload">-->
     <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
+    <style>
+        .preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
+    </style>
+    <script>
+        $(window).on("load", function() {
+            $(".preloader").fadeOut("slow");;
+        });
+    </script>
 </head>
 
 <body class="uk-text-bold">
-
+    {% include 'loader.html' %}
     <div>
         {% include '_partials/_nav_header.html' %}
-        <div id="sidebar" class="tm-sidebar-left uk-background-default">
+        <aside id="sidebar" class="tm-sidebar-left uk-background-default">
             <!-- Main sidebar -->
             <div class="uk-overflow-auto uk-height-large">
                 {% include '_partials/_sidebar.html' %}
             </div>
-            {% include '_partials/_sidebar_bottom_profile.html' %}
-        </div>
-        <div class="content-padder content-background">
-            <div class="uk-section-default header">
+        </aside>
+
+        <main class="content-padder content-background">
+            <section class="uk-section-default header">
                 <div class="uk-container uk-container-expand uk-margin-bottom-remove">
                     {% if ($current_user !==null) : %} {@ templateExtension('uikit_commander_bar') @} {% endif; %}
                 </div>
-            </div>
-            <div class="uk-section-small main">
-                <div class="uk-container uk-container-expand">
-                    <div class="uk-animation-fade" id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
-                    {% yield content %}
-                </div>
-            </div>
+            </section>
 
-        </div>
+            <section class="main">
+                <div class="uk-animation-fade uk-text-center" id="flash_message">
+                    {@ templateExtension('uikit_flash_message') @}
+                </div>
+
+                <div class="uk-container uk-container-expand">
+                    <div class="{{ $this_action === 'index' ? '' : 'uk-margin-top uk-margin-bottom' }}">
+                        {% yield content %}
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
     {@ addjs() @} {% yield scripts %}

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use MagmaCore\Base\Access;
-use MagmaCore\Utility\Yaml;
 use App\Model\CategoryModel;
 use App\Entity\CategoryEntity;
 use App\Schema\CategorySchema;
@@ -22,6 +21,7 @@ use App\DataColumns\CategoryColumn;
 use App\Commander\CategoryCommander;
 use App\Forms\Admin\Category\CategoryForm;
 use MagmaCore\Base\Traits\ControllerCommonTrait;
+use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class CategoryController extends \MagmaCore\Administrator\Controller\AdminController
 {
@@ -160,6 +160,27 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     {
         $this->chooseBulkAction($this, CategoryActionEvent::class);
     }
+
+    protected function settingsAction()
+    {
+        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
+        $this->sessionUpdateAction
+            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
+            ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
+            ->render()
+            ->with(
+                [
+                    'session_data' => $sessionData,
+                    'page_title' => 'Category Settings',
+                    'last_updated' => $this->controllerSessionBackupModel
+                        ->getRepo()
+                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
+                ]
+            )
+            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
+            ->end();
+    }
+
 
 
 }

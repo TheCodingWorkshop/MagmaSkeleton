@@ -18,4 +18,48 @@
         </div>
     </section>
 </form>
+{% endblock %} {% block scripts %}
+<script>
+    $(document).on('submit', '#menuQuickEdit', function(e) {
+        e.preventDefault();
+        var order = $("input[name='menu_order']").val();
+        var icon = $("input[name='menu_icon']").val();
+        // var emailAddress = $("input[name='emailAddress']").val();
+        // var city = $("input[name='city']").val();
+        // var country = $("input[name='country']").val();
+        $.ajax({
+            method: "POST",
+            url: "/admin/menu/quickSave",
+            data: {
+                menuOrder: order,
+                menuIcon: icon,
+            },
+            success: function(data) {
+                //$('#quickSaveMessage').load('show-data.php');
+                $('#quickSaveMessage').html(data);
+
+            }
+        });
+    });
+    // var editData = function(id) {
+    //     $('#menuQuickEdit').load('update-form.php')
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "update-data.php",
+    //         data: {
+    //             editId: id
+    //         },
+    //         dataType: "html",
+    //         success: function(data) {
+    //             var userData = JSON.parse(data);
+    //             $("input[name='id']").val(userData.id);
+    //             $("input[name='fullName']").val(userData.fullName);
+    //             $("input[name='emailAddress']").val(userData.emailAddress);
+    //             $("input[name='city']").val(userData.city);
+    //             $("input[name='country']").val(userData.country);
+
+    //         }
+    //     });
+    // };
+</script>
 {% endblock %}

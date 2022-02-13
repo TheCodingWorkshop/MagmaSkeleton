@@ -12,15 +12,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use MagmaCore\Base\Access;
 use App\Model\TagModel;
 use App\Entity\TagEntity;
 use App\Schema\TagSchema;
+use MagmaCore\Base\Access;
 use App\Event\TagActionEvent;
 use App\DataColumns\TagColumn;
 use App\Commander\TagCommander;
 use App\Forms\Admin\Tag\TagForm;
 use MagmaCore\Base\Traits\ControllerCommonTrait;
+use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class TagController extends \MagmaCore\Administrator\Controller\AdminController
 {
@@ -152,6 +153,27 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
     {
         $this->chooseBulkAction($this, TagActionEvent::class);
     }
+
+    protected function settingsAction()
+    {
+        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
+        $this->sessionUpdateAction
+            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
+            ->execute($this, NULL, TagActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
+            ->render()
+            ->with(
+                [
+                    'session_data' => $sessionData,
+                    'page_title' => 'Tag Settings',
+                    'last_updated' => $this->controllerSessionBackupModel
+                        ->getRepo()
+                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
+                ]
+            )
+            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
+            ->end();
+    }
+
 
 
 }

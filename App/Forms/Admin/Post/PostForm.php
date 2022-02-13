@@ -57,7 +57,7 @@ class PostForm extends ClientFormBuilder implements ClientFormBuilderInterface
      */
     public function createForm(string $action, ?object $dataRepository = null, ?object $callingController = null): string
     {
-        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "permissionForm"])
+        return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "postForm"])
             ->addRepository($dataRepository)
             ->add(
                 $this->blueprint->text('title', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('title'), false, 'Title'),
@@ -72,23 +72,19 @@ class PostForm extends ClientFormBuilder implements ClientFormBuilderInterface
 
             )
             ->add(
-                $this->blueprint->textarea('article', ['uk-textarea', 'uk-form-blank', 'uk-border-bottom', 'uk-height-medium', 'uk-text-wrap'], 'markdown_editor', 'What\'s your article?'),
-                $this->hasValue('article'),
-                $this->blueprint->settings(false, null, false, null, true)
-            )
-
-            ->add(
                 $this->blueprint->text('url', ['uk-form-blank', 'uk-border-bottom'], $this->hasValue('url'), false, 'Url'),
                 NULL,
                 $this->blueprint->settings(false, null, false, null, true, null, 'Your post url will be auto-generated')
 
             )
 
+
             ->add(
-                $this->blueprint->hidden('status', 'sent'),
-                null,
+                $this->blueprint->textarea('article', ['uk-textarea', 'uk-form-blank', 'uk-border-bottom', 'uk-height-medium', 'uk-text-wrap'], 'markdown_editor', 'What\'s your article?'),
+                $this->hasValue('article'),
                 $this->blueprint->settings(false, null, false, null, true)
             )
+
             ->add(
                 $this->blueprint->submit(
                     $this->hasValue('id') ? 'edit-post' : 'new-post',
@@ -98,6 +94,7 @@ class PostForm extends ClientFormBuilder implements ClientFormBuilderInterface
                 null,
                 $this->blueprint->settings(false, null, false, null, true)
             )
+            
             ->build(['before' => '<div class="uk-margin">', 'after' => '</div>'], false, true);
     }
 }

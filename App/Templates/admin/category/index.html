@@ -12,7 +12,7 @@
 {% block content %}
 <form method="post" action="/admin/category/bulk" data-turbo="false">
     {@ templateExtension('uikit_simple_pagination') @}
-    <section uk-grid uk-height-match>
+    <section class="uk-height-viewport" uk-grid>
         <div class="uk-width-expand@m">
             <div>
                 <div class="uk-card uk-card-default">
@@ -25,10 +25,4 @@
         </div>
     </section>
 </form>
-{% endblock %} {% block scripts %}
-<!-- <script>
-    UIkit.util.on('#offcanvas-flip', 'show', function() {
-        alert('i am open')
-    });
-</script> -->
-{% endblock %}
+{% endblock %} {% block scripts %}{% endblock %}

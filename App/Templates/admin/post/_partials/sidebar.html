@@ -5,9 +5,8 @@
             <!---->
             {% if ($post['id']) : %}
             <a href="" class="uk-text-danger uk-text-middle">
-                <ion-icon class="ion-24" name="trash-outline"></ion-icon>
-            </a>
-            {% endif; %}
+                {@ icon('trash', 1.2) @}
+            </a> {% endif; %}
 
         </div>
         <br/><br/>
@@ -19,7 +18,7 @@
             <div class="uk-text-meta uk-margin-small-bottom">
                 <a href="" class="uk-text-primary">
                 14 Comments
-                <ion-icon class="ion-24" name="chatbubbles-outline"></ion-icon>
+                {@ icon('comments', 1.2) @}
                 </a>
             </div>
         </div>

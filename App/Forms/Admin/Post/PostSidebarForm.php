@@ -14,6 +14,7 @@ namespace App\Forms\Admin\Post;
 
 use Exception;
 use App\Model\PostModel;
+use MagmaCore\IconLibrary;
 use MagmaCore\FormBuilder\ClientFormBuilder;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\ClientFormBuilderInterface;
@@ -60,7 +61,13 @@ class PostSidebarForm extends ClientFormBuilder implements ClientFormBuilderInte
         return $this->form(['action' => $action, 'class' => ['uk-form-stacked'], "id" => "postMediaForm"])
             ->addRepository($dataRepository)
             ->add(
-                $this->blueprint->select('status', ['uk-select', 'uk-form-blank', 'uk-border-bottom'], null, null, false), 
+                $this->blueprint->select(
+                    'status[]', 
+                    ['uk-select', 'uk-form-blank', 'uk-border-bottom'], 
+                    null, 
+                    null, 
+                    false
+                ), 
                 $this->blueprint->choices(
                     ['draft', 'published', 'schedule'],
                     (string)$this->hasValue('status'),
@@ -69,7 +76,13 @@ class PostSidebarForm extends ClientFormBuilder implements ClientFormBuilderInte
                 $this->blueprint->settings(false, null, false, null, true, null, 'Post Status')
             )
             ->add(
-                $this->blueprint->select('visible', ['uk-select', 'uk-form-blank', 'uk-border-bottom'], null, null, false), 
+                $this->blueprint->select(
+                    'visible[]', 
+                    ['uk-select', 'uk-form-blank', 'uk-border-bottom'], 
+                    null, 
+                    null, 
+                    false
+                ), 
                 $this->blueprint->choices(
                     ['public', 'private', 'protected'],
                     (string)$this->hasValue('visible'),
@@ -79,7 +92,7 @@ class PostSidebarForm extends ClientFormBuilder implements ClientFormBuilderInte
             )
             ->add(
                 $this->blueprint->upload('attachment', ['uk-button', 'uk-button-small', 'uk-button-default'], '', true),
-                '<span class="ion-28"><ion-icon name="cloud-upload"></ion-icon></span>',
+                '<span class="ion-28">' . IconLibrary::getIcon('camera', 1.2) . '</span>',
                 $this->blueprint->settings(false, null, false, null, true, null, 'Featured Image')
             )
 

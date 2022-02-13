@@ -34,7 +34,8 @@ class PostCommander extends PostModel implements ApplicationCommanderInterface
         'show',
         'reply',
         'edit',
-        'assigned'
+        'assigned',
+        'settings'
     ];
 
     private array $noCommander = [];

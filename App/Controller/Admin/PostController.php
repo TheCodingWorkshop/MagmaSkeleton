@@ -24,6 +24,7 @@ use App\Forms\Admin\Post\PostMetaForm;
 use App\Forms\Admin\Post\PostMediaForm;
 use App\Forms\Admin\Post\PostSidebarForm;
 use MagmaCore\Administrator\Controller\AdminController;
+use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class PostController extends AdminController
 {
@@ -77,7 +78,7 @@ class PostController extends AdminController
     }
 
     protected function indexAction()
-    {
+    {        
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
             ?->execute($this, NULL, NULL, PostSchema::class, __METHOD__)
@@ -132,7 +133,7 @@ class PostController extends AdminController
             ->end();
     }
 
-        /**
+    /**
      * Route which puts the item within the trash. This is only for supported models
      * and is effectively changing the deleted_at column to 1. All datatable queries 
      * deleted_at column should be set to 0. this will prevent any trash items 
@@ -181,6 +182,27 @@ class PostController extends AdminController
     {
         $this->chooseBulkAction($this, PostActionEvent::class);
     }
+
+    protected function settingsAction()
+    {
+
+        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
+        $this->sessionUpdateAction
+            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
+            ->execute($this, NULL, PostActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
+            ->render()
+            ->with(
+                [
+                    'session_data' => $sessionData,
+                    'page_title' => 'Post Settings',
+                    'last_updated' => '30 min ago',
+                    'controller' => $this->thisRouteController()
+                ]
+            )
+            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
+            ->end();
+    }
+
 
 }
 
