@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use App\Controller\Admin\CategoryController;
+use MagmaCore\Utility\Utilities;
 use MagmaCore\Collection\Collection;
-use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use App\Controller\Admin\CategoryController;
 use MagmaCore\ValidationRule\ValidationRule;
+use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class CategoryValidate extends AbstractDataRepositoryValidation
 {
@@ -60,11 +61,13 @@ class CategoryValidate extends AbstractDataRepositoryValidation
     {
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields((array)$entityCollection->all());
+        $catName = (isset($dataCollection['cat_slug']) && $dataCollection['cat_slug'] !=='' ? $dataCollection['cat_slug'] : $dataCollection['cat_name']);
+
         $newCleanData = [];
         if (null !== $dataCollection) {
             $newCleanData = [
                 'cat_name' => $this->isSet('cat_name', $dataCollection, $dataRepository),
-                'cat_slug' => $this->isSet('cat_slug', $dataCollection, $dataRepository),
+                'cat_slug' => Utilities::titleSlugConverter($catName),
                 'cat_parent' => $this->isSet('cat_parent', $dataCollection, $dataRepository),
                 'created_byid' => $this->getCreator($dataCollection),
             ];

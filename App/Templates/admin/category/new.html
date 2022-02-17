@@ -34,13 +34,36 @@
 {% endblock %}
 <!--  -->
 {% block scripts %}
-<script>
-    addEventListener("turbo:submit-start", ({
-        target
-    }) => {
-        for (const field of target.elements) {
-            field.disabled = true
-        }
+
+<!-- <script type="application/javascript">
+    const form = document.getElementById("categoryForm")
+
+    function postData(url, data, method = "POST") {
+        const message = document.getElementById("status-message")
+        fetch(url, {
+                method: method,
+                body: data,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                message.innerHTML = response.message
+            })
+            .catch(error => {
+                error.json().then(response => {
+                    message.innerHTML = response.message
+                })
+            })
+    }
+
+
+    const submitEvent = form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+
+        postData("http://localhost/admin/category/new", formData);
     })
-</script>
+</script> -->
 {% endblock %}

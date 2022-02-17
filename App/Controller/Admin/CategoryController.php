@@ -66,13 +66,6 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
     protected function indexAction()
     {
-        // $categoryArgs = Yaml::file('controller')['category'];
-        // $data = $this->repository
-        // ->getRepo()
-        // ->findWithSearchAndPaging($this->request->handler(), $categoryArgs);
-
-        // var_dump($data);
-        // die;
         
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
@@ -180,7 +173,6 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
             ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
             ->end();
     }
-
 
 
 }

@@ -24,8 +24,11 @@
                                         <span class="uk-margin-small-right uk-inline">
                                             {@ icon($tab['icon']) @}
                                         </span>
-                                        <!-- <span>{{ (isset($tab['tab']) ? $tab['tab'] : '') }}</span> {% if ($count_pending > 0): %}
-                                        <small class="uk-label uk-label-warning">{{ (isset($tab['data']) ? $tab['data'] : '') }}</small> {% endif %} -->
+
+                                        <span>{{ (isset($tab['tab']) ? $tab['tab'] : '') }}</span> {% if ($count_pending > 0): %}
+                                        <sup uk-tooltip="Pending Accounts" class="uk-label uk-label-warning">
+                                            {{ (isset($tab['data']) && $tab['data'] !='' ? $tab['data'] : '') }}
+                                        </sup> {% endif %}
 
                                         <br>
                                         <small class="uk-text-danger">{{ (isset($tab['meta']) ? $tab['meta'] : '') }}</small>

@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace App\Validate;
 
-use App\Controller\Admin\TagController;
+use MagmaCore\Utility\Utilities;
 use MagmaCore\Collection\Collection;
-use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
+use App\Controller\Admin\TagController;
 use MagmaCore\ValidationRule\ValidationRule;
+use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
 class TagValidate extends AbstractDataRepositoryValidation
 {
@@ -60,11 +61,13 @@ class TagValidate extends AbstractDataRepositoryValidation
     {
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields((array)$entityCollection->all());
+        $tagName = (isset($dataCollection['tag_slug']) && $dataCollection['tag_slug'] !=='' ? $dataCollection['tag_slug'] : $dataCollection['tag_name']);
+
         $newCleanData = [];
         if (null !== $dataCollection) {
             $newCleanData = [
                 'tag_name' => $this->isSet('tag_name', $dataCollection, $dataRepository),
-                'tag_slug' => $this->isSet('tag_slug', $dataCollection, $dataRepository),
+                'tag_slug' => Utilities::titleSlugConverter($tagName),
                 'created_byid' => $this->getCreator($dataCollection),
             ];
             /* We can return an empty dataBag even if we have nothing to send */

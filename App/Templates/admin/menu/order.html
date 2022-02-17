@@ -1,0 +1,33 @@
+{% extends 'layout.html' %} {% block title %}Menu Order{% endblock %} {% block description %}MagmaCore edit menu order{% endblock %} {% block keywords %}edit-menu-order{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-4@m">
+        <div>
+            <div class="uk-card">
+                <ul class="uk-nav uk-nav-default uk-width-large" uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background">
+                    {% foreach ($callback as $call) : %}
+                    <li>
+                        <a href="/admin/menu/order?menu_id={{ $call['id'] }}">{{ $call['menu_name'] }}</a>
+                        <input type="hidden" name="menu_order" value="{{ $call['menu_order'] }}" />
+                    </li>
+                    {% endforeach; %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default uk-padding-small">
+                <div class="uk-card-body">
+                    {% include 'admin/menu/_partials/order_body.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

@@ -1,0 +1,19 @@
+<article class="uk-article">
+
+    <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{ $menu_item['menu_name'] }}</a></h1>
+    <p>Menu Order {{ $menu_item['menu_order'] ?? null }}</p>
+    <p class="uk-article-meta">Created By <a href="#">Super User</a>{@ formatDate($menu_item['created_at']) @}
+        <a href="#">MenuController</a></p>
+
+    <p class="uk-text-lead">{{ $menu_item['menu_description'] }}</p>
+
+    <div class="uk-grid-small uk-child-width-auto" uk-grid>
+        <div>
+            <a class="uk-button uk-button-text" href="#">Read more</a>
+        </div>
+        <div>
+            <a class="uk-button uk-button-text" href="#">5 Comments</a>
+        </div>
+    </div>
+
+</article>

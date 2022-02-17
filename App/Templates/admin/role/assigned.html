@@ -39,7 +39,7 @@
                     </dd>
 
                     <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($user_role_id) %} users)</span></dt>
-                    <dd>{@ getUserOrderedListsFromRoles($user_role_id, true) @}</dd>
+                    <dd>{@ getUserOrderedListsFromRoles($user_role_id, true, 3) @}</dd>
 
                     <dt>{@ locale('permissions') @}</dt>
                     <dd>
