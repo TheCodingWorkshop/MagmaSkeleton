@@ -17,12 +17,12 @@ use MagmaCore\Enums\Contracts\StatusInterface;
 /**
  * Strictly for PHP 8.1 onwards
  */
-enum Status: string implements StatusInterface 
+enum Status: string implements StatusInterface
 {
 
-    case DRAFT;
-    case PUBLISHED;
-    case ARCHIVED;
+    case DRAFT = 'draft';
+    case PUBLISHED = 'published';
+    case ARCHIVED = 'archived';
 
     public function color(): string
     {

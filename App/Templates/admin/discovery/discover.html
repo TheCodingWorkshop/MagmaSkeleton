@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Controller Discovery{% endblock %}
+<!---->
+{% block description %}MagmaCore controller discovery{% endblock %}
+<!---->
+{% block keywords %}controller-discovery{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+{% block styles %} {% endblock %}
+<!---->
+{% block content %}
+<!---->
+
+<section uk-grid class="uk-height-match uk-margin-top">
+    <div class="uk-width-1-4@m">
+        <div>
+            <ul class="uk-list uk-list-collapse uk-list-divider">
+                <li class="uk-active uk-margin-bottom">
+                    <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Controllers</h3>
+                    <small>List of registered controllers so far. To register simple visit the route.</small>
+                </li>
+                {% foreach ($controllers as $controller): %}
+                    <li>
+                        <a class="uk-link-reset" href="/admin/discovery/discover?edit={{ $controller['id'] }}">{{ $controller['controller'] }}</a>
+                    </li>
+                {% endforeach; %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    {% if ($controller_singular !==null): %}
+                    <form method="post" action="" class="uk-form-stacked">
+                        <dl class="uk-description-list">
+                            <dt class="uk-text-primary">Controller</dt>
+                            <dd>{@ str($controller_singular->controller) @}</dd>
+                            <dt class="uk-text-primary">Methods</dt>
+                            <p class="uk-margin-remove-top">Select the methods below. In which you want to register to be a child menu item for the parent menu. [{{ $this_route }}]
+                            Note you can further modify these items from the menu page. <code><a class="uk-link-reset" href="">edit in menu item</a></code></p>
+                            <dd>
+                                <div class="uk-panel uk-panel-scrollable uk-height-max-medium">
+                                    <ul class="uk-list uk-list-collapse">
+                                        {% foreach ($methods as $method): %}
+                                        <li>
+                                            <label><input class="uk-checkbox" type="checkbox"> {{ $method }}</label>
+                                        </li>
+                                        {% endforeach; %}
+                                    </ul>
+                                </div>
+                            </dd>
+                            <dt class="uk-text-primary">Registered</dt>
+                            <dd>{@ formatDate($controller_singular->created_at) @}</dd>
+                        </dl>
+                        <hr>
+                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Discovery</h3>
+                        <p>Discovery will automatically alert you of any method changes to {{ $controller_singular->controller }} controller class.</p>
+                         <code>
+                               {@ discovery($session, $controller_singular->controller) @}
+                         </code>
+                        <div class="uk-margin">
+                            <input type="submit" class="uk-button uk-button-small uk-button-primary" value="Approved" name="add-discovery-method" />
+                        </div>
+                    </form>
+
+                    {% else : %}
+                    <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Discovery</h3>
+                    <p>The discovery tool allows you to see and monitor each method within each controller class. Any changes to existing method i.e if you delete or add new methods
+                    they will show up here.</p>
+                    <p>The system will then give you the option to either push a new method to the controller list of approved methods. Which ultimately allows you to
+                    pin the method as a menu item to the controller. If this controller is used as a sidebar parent menu.</p>
+
+                    <code>
+                        <ul class="uk-list uk-list-divider uk-list-collapse">
+                            <li>
+                                <div class="uk-clearfix">
+                                    <div class="uk-float-left">New discovery <a class="uk-link-reset" href="/admin/discovery/discover?edit=24">[tag]</a></div>
+                                    <div class="uk-float-right">2 method</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="uk-clearfix">
+                                    <div class="uk-float-left">New discovery [permission]</div>
+                                    <div class="uk-float-right">1 method</div>
+                                </div>
+
+                            </li>
+                            <li>
+                                <div class="uk-clearfix">
+                                    <div class="uk-float-left">New discovery [user]</div>
+                                    <div class="uk-float-right">5 method</div>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </code>
+                    {% endif; %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!---->
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

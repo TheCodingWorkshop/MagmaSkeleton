@@ -224,3 +224,15 @@ system:
     - created_at
   trash_can_support: 'false'
 
+notification:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["notify_title"]
+  filter_alias: s
+  sort_columns:
+    - notify_title
+    - created_at
+  trash_can_support: 'false'

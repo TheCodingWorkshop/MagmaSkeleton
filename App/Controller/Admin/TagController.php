@@ -174,7 +174,14 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
             ->end();
     }
 
+    protected function testAction()
+    {
 
+    }
+    protected function peopleAction()
+    {
+
+    }
 
 }
 

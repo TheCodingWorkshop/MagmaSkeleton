@@ -364,3 +364,26 @@ tag:
       name: perferences
   new_user:
 
+notification:
+  index:
+    copy:
+      name: copy
+      icon: copy-outline
+      nav_header: "Bulk Action"
+      path: ""
+    trash:
+      name: delete
+      path: ""
+      icon: trash-outline
+  not_index:
+    show:
+      name: show
+      nav_header: "View Action"
+    edit:
+      name: edit
+    privileges:
+      name: privilege
+    perferences:
+      name: perferences
+  new_user:
+

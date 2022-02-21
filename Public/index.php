@@ -20,6 +20,7 @@ require_once 'include.php';
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Logger\LogLevel;
 use MagmaCore\Base\BaseApplication;
+// use Josantonius\ErrorHandler\ErrorHandler;
 
 try {
     /* Attempting to run a single instance of the application */
@@ -33,7 +34,6 @@ try {
         ->setRoutes(Yaml::file('routes'))
         ->setLogger(LOG_PATH, Yaml::file('app')['logger_handler']['file'], LogLevel::DEBUG, [])
         ->setContainerProviders(Yaml::file('providers'))
-        ->setThemeBuilder(Yaml::file('app')['theme_builder'], true)
         ->run();
 } catch (Exception $e) {
     echo $e->getMessage();
