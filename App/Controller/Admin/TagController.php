@@ -178,10 +178,5 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
     {
 
     }
-    protected function peopleAction()
-    {
-
-    }
-
 }
 

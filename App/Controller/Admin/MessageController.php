@@ -188,6 +188,11 @@ class MessageController extends \MagmaCore\Administrator\Controller\AdminControl
             ->end();
     }
 
+    protected function draftAction()
+    {
+
+    }
+
 
 }
 

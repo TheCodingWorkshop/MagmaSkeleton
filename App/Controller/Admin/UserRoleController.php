@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-final class UserRoleController extends \MagmaCore\UserManager\Controller\UserRoleController
+class UserRoleController extends \MagmaCore\UserManager\Controller\UserRoleController
 {
 
 }

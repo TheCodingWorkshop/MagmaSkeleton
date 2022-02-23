@@ -236,3 +236,14 @@ notification:
     - notify_title
     - created_at
   trash_can_support: 'false'
+
+discovery:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 0
+  query: ""
+  filter_by: ["controller"]
+  filter_alias: s
+  sort_columns: []
+  trash_can_support: 'false'

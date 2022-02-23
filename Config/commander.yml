@@ -364,7 +364,7 @@ tag:
       name: perferences
   new_user:
 
-notification:
+discovery:
   index:
     copy:
       name: copy

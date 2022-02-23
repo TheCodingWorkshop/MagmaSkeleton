@@ -175,5 +175,10 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     }
 
 
+
+    protected function testAction()
+    {
+    }
+
 }
 

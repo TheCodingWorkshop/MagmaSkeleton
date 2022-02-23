@@ -1,0 +1,28 @@
+<ul class="uk-list uk-list-collapse uk-list-divider">
+  <li class="uk-active uk-margin-bottom">
+    <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">
+      Controllers
+      <sup><span class="uk-text-meta">{{ $count_controller }}</span></sup>
+    </h3>
+    <small>List of registered controllers so far. To register simple visit the route.</small>
+  </li>
+  {% foreach ($controllers as $controller): %}
+  <li>
+    <div class="uk-clearfix">
+      <div class="uk-float-left">
+        <a class="uk-link-reset" href="/admin/discovery/discover?edit={{ $controller['id'] }}">
+          {@ str($controller['controller']) @}
+        </a>
+      </div>
+      <div class="uk-float-right">
+        {% if ($controller['current_method_count']): %}
+          <code>
+            <a class="uk-link-reset" uk-tooltip="{% printf('%s new %s method discovered', $controller['current_method_count'], $controller['controller']) %}" href="/admin/discovery/discover?edit={{ $controller['id'] }}">[{{ $controller['current_method_count'] }}]</a>
+          </code>
+        {% else : %}
+        {% endif; %}
+      </div>
+    </div>
+  </li>
+  {% endforeach; %}
+</ul>

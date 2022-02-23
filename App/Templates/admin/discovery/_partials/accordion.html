@@ -1,0 +1,64 @@
+<ul uk-accordion>
+  <li class="uk-open">
+    <a class="uk-accordion-title" href="#">Basic</a>
+    <div class="uk-accordion-content">
+
+      <form method="post" action="" class="uk-form-stacked">
+        <dl class="uk-description-list">
+          <dt class="uk-text-primary">Controller</dt>
+          <dd>{@ str($controller_singular->controller) @}</dd>
+          <dt class="uk-text-primary">Methods <sup class="uk-text-meta uk-text-bolder">{{ count($methods) }}</sup></dt>
+          <p class="uk-margin-remove-top">Select the methods below. In which you want to register to be a child menu item for the parent menu. [{{ $this_route }}]
+            Note you can further modify these items from the menu page. <code><a class="uk-link-reset" href="">edit in menu item</a></code></p>
+          <dd>
+            <div class="uk-panel uk-panel-scrollable uk-height-max-medium">
+              <ul class="uk-list uk-list-collapse">
+                {% foreach ($methods as $method): %}
+                <li>
+                  <label><input class="uk-checkbox" type="checkbox"> {{ $method }} <span uk-tooltip="testing">{@ icon('question', 0.7) @}</span></label>
+                </li>
+                {% endforeach; %}
+              </ul>
+            </div>
+          </dd>
+          <dt class="uk-text-primary">Registered</dt>
+          <dd>{@ formatDate($controller_singular->created_at) @}</dd>
+        </dl>
+      </form>
+
+
+    </div>
+  </li>
+  <li>
+    <a class="uk-accordion-title" href="#">Advance</a>
+    <div class="uk-accordion-content">
+      <form class="uk-form-stacked">
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-text">Text</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="form-stacked-text" type="text" placeholder="Some text...">
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-select">Select</label>
+          <div class="uk-form-controls">
+            <select class="uk-select" id="form-stacked-select">
+              <option>Option 01</option>
+              <option>Option 02</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <div class="uk-form-label">Radio</div>
+          <div class="uk-form-controls">
+            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label><br>
+            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
+          </div>
+        </div>
+
+      </form>    </div>
+  </li>
+</ul>
