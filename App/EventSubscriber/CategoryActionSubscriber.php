@@ -53,6 +53,7 @@ class CategoryActionSubscriber implements EventSubscriberInterface
         return [
             CategoryActionEvent::NAME => [
                 ['flashMessageEvent', self::FLASH_MESSAGE_PRIORITY],
+                ['categoryNotification']
             ]
         ];
     }
@@ -74,6 +75,40 @@ class CategoryActionSubscriber implements EventSubscriberInterface
     public function flashMessageEvent(CategoryActionEvent $event)
     {
         $this->flashingEvent($event);
+    }
+
+    /**
+     * Add a system notification each time a request has been made from the user controller
+     * @param CategoryActionEvent $event
+     * @throws Exception
+     */
+    public function categoryNotification(CategoryActionEvent $event)
+    {
+        $this->notify($event, CategoryActionEvent::NAME, function($event, $trait) {
+            $method = $event->getMethod();
+            /* Get the ID of the currently logged-in user */
+            $currentUserID = $event->getObject()->getSession()->get('user_id');
+            /* Get object of the currently logged-in user */
+            //$user = $event->getObject()->repository->getUser($currentUserID);
+
+            $preActionEditSession = $event->getObject()->getSession()->get('pre_action_edit_category');
+            unset(
+                $preActionEditSession['_CSRF_INDEX'],
+                $preActionEditSession['_CSRF_TOKEN'],
+                $preActionEditSession['edit-category'],
+                $preActionEditSession['new-category'],
+            );
+
+            list($desc, $title) = $trait->resolveContextForDescription($event, $preActionEditSession, $method, null);
+            return [
+                'notify_title' => $title,
+                'notify_description' => $desc,
+                'notify_type' => 'system',
+                'notifier' => 'dunno yet',
+                'created_byid' => $currentUserID,
+            ];
+
+        });
     }
 
 

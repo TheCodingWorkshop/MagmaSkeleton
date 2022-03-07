@@ -60,9 +60,11 @@
         </main>
     </div>
 
+    {@ getWidget('notification_widget', 'notifications', 'id', ['id' => 'notification-panel']) @}
+
     {@ addjs() @} {% yield scripts %}
     <script>
-        // $("#flash_message").fadeOut(3500);
+         $("#flash_message").fadeOut(5000);
     </script>
 </body>
 

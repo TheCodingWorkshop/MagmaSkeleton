@@ -35,9 +35,9 @@
       <form class="uk-form-stacked">
 
         <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text">Text</label>
+          <label class="uk-form-label" for="form-stacked-text">Controller Name</label>
           <div class="uk-form-controls">
-            <input class="uk-input" id="form-stacked-text" type="text" placeholder="Some text...">
+            <input class="uk-input uk-form-blank uk-border-bottom" id="form-stacked-text" type="text" value="{{ $controller_singular->controller }}">
           </div>
         </div>
 
@@ -52,10 +52,10 @@
         </div>
 
         <div class="uk-margin">
-          <div class="uk-form-label">Radio</div>
+          <div class="uk-form-label">Controller</div>
           <div class="uk-form-controls">
-            <label><input class="uk-radio" type="radio" name="radio1"> Option 01</label><br>
-            <label><input class="uk-radio" type="radio" name="radio1"> Option 02</label>
+            <label><input class="uk-radio" type="radio" name="radio1"> Activate</label><br>
+            <label><input class="uk-radio" type="radio" name="radio1"> Deactivate</label>
           </div>
         </div>
 
