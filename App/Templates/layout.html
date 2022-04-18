@@ -8,17 +8,11 @@
     <meta name="keywords" content="{% yield keywords %}">
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="turbo-root" content="/">
-    <meta name="turbo-cache-control" content="no-cache"> {@ addcss() @} {@ addjs([], 'header') @} {% yield styles %}
+    {@ addcss() @} 
+    {@ addjs([], 'header') @} 
+    {% yield styles %}
     <style>
-        .preloader {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-        }
+        .badge-secondary {background-color:#222222;}
     </style>
     <script>
         $(window).on("load", function() {
@@ -29,13 +23,13 @@
 
 <body class="uk-text-bold">
     {% include 'loader.html' %}
+
     <div>
         {% include '_partials/_nav_header.html' %}
         <aside id="sidebar" class="tm-sidebar-left uk-background-default">
             <!-- Main sidebar -->
-            <div class="uk-overflow-auto uk-height-large">
-                {% include '_partials/_sidebar.html' %}
-            </div>
+            {@ templateExtension('uikit_navigation') @}
+            {% include '_partials/_bottom_nav.html' %}
         </aside>
 
         <main class="content-padder content-background">
@@ -56,13 +50,14 @@
                     </div>
                 </div>
             </section>
-
+            {% include '_partials/_footer.html' %}
         </main>
     </div>
 
-    {@ getWidget('notification_widget', 'notifications', 'id', ['id' => 'notification-panel']) @}
+    {@ getWidget('notification_widget', 'notifications', 'id', ['id' => 'notification-panel', 'limit' => 3, 'orderby' => 'id DESC']) @}
 
-    {@ addjs() @} {% yield scripts %}
+    {@ addjs() @} 
+    {% yield scripts %}
     <script>
          $("#flash_message").fadeOut(5000);
     </script>

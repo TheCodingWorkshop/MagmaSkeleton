@@ -247,3 +247,14 @@ discovery:
   filter_alias: s
   sort_columns: []
   trash_can_support: 'false'
+
+history:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 100
+  query: ""
+  filter_by: ["controller"]
+  filter_alias: s
+  sort_columns: []
+  trash_can_support: 'false'

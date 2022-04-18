@@ -58,7 +58,7 @@ class HomeController extends BaseController
     }
 
     /**
-     * Entry method which is hit on request. This method should be implement within
+     * Entry method which is hit on request. This method should be implemented within
      * all sub controller class as a default landing point when a request is
      * made.
      *

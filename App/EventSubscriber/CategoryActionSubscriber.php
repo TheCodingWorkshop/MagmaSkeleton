@@ -26,7 +26,7 @@ class CategoryActionSubscriber implements EventSubscriberInterface
 
     use EventDispatcherTrait;
 
-    /** @var int - we want this to execute last so it doesn't interrupt other process */
+    /** @var int - we want this to execute last, so it doesn't interrupt other process */
     private const FLASH_MESSAGE_PRIORITY = -1000;
 
     /**
@@ -52,8 +52,8 @@ class CategoryActionSubscriber implements EventSubscriberInterface
     {
         return [
             CategoryActionEvent::NAME => [
-                ['flashMessageEvent', self::FLASH_MESSAGE_PRIORITY],
-                ['categoryNotification']
+                ['flashCategoryEvent', self::FLASH_MESSAGE_PRIORITY],
+                //['categoryNotification']
             ]
         ];
     }
@@ -72,9 +72,9 @@ class CategoryActionSubscriber implements EventSubscriberInterface
      * @return void
      * @throws Exception
      */
-    public function flashMessageEvent(CategoryActionEvent $event)
+    public function flashCategoryEvent(CategoryActionEvent $event)
     {
-        $this->flashingEvent($event);
+        $this->flashingExtendedEvent($event);
     }
 
     /**

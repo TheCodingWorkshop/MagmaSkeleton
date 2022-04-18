@@ -137,11 +137,15 @@ class CategoryValidate extends AbstractDataRepositoryValidation
                 $entityCollection['cat_slug'] === $dataRepository->cat_slug
             ) {
                 if ($controller = $this->rules->getController()) {
-                    if ($controller->error) {
-                        $controller->error
-                            ->addError(['no_change' => 'No Changes'], $controller)
-                            ->dispatchError(self::REDIRECT_BACK_TO);
-                    }
+//                    if ($controller->error) {
+//                        $controller->error
+//                            ->addError(['no_change' => 'No Changes'], $controller)
+//                            ->dispatchError(self::REDIRECT_BACK_TO);
+//                    }
+
+                    $controller->error
+                        ?->addError(['no_change' => 'No Changes'], $controller)
+                        ->dispatchError(self::REDIRECT_BACK_TO);
                 }
             }
 

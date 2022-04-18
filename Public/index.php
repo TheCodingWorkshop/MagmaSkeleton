@@ -20,7 +20,7 @@ require_once 'include.php';
 use MagmaCore\Utility\Yaml;
 use MagmaCore\Logger\LogLevel;
 use MagmaCore\Base\BaseApplication;
-// use Josantonius\ErrorHandler\ErrorHandler;
+
 
 try {
     /* Attempting to run a single instance of the application */

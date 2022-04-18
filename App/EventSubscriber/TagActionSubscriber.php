@@ -52,7 +52,7 @@ class TagActionSubscriber implements EventSubscriberInterface
     {
         return [
             TagActionEvent::NAME => [
-                ['flashMessageEvent', self::FLASH_MESSAGE_PRIORITY],
+                ['flashTagEvent', self::FLASH_MESSAGE_PRIORITY],
             ]
         ];
     }
@@ -71,9 +71,9 @@ class TagActionSubscriber implements EventSubscriberInterface
      * @return void
      * @throws Exception
      */
-    public function flashMessageEvent(TagActionEvent $event)
+    public function flashTagEvent(TagActionEvent $event)
     {
-        $this->flashingEvent($event);
+        $this->flashingExtendedEvent($event);
     }
 
 

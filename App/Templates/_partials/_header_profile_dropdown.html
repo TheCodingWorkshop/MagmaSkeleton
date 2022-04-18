@@ -1,4 +1,12 @@
 <ul class="uk-iconnav">
+    <li><a href="/admin/user/1270/show" uk-icon="icon: user"></a></li>
+    <li><a href="#" uk-icon="icon: file-edit"></a></li>
+    <li><a href="#" uk-icon="icon: copy"></a></li>
+    <li><a href="/logout"><span uk-icon="icon: sign-out"></span> (21)</a></li>
+</ul>
+
+
+<!-- <ul class="uk-iconnav">
     <li>
         <a class="uk-text-secondary uk-margin-small-top" href="#">
             {@ icon('plus-circle', 1) @}
@@ -8,11 +16,13 @@
                 <li class="uk-active"><a href="#">Add Content</a></li>
                 <li>Quickly add to the database</li>
                 <li class="uk-nav-header">Quick Links</li>
-                {% foreach (['user', 'role', 'permission', 'plugin', 'setting', 'menu'] as $link) : %} {% if ($link === 'setting') : %}
-                <li><a href="/admin/{{ $link }}/index">{{ ucwords($link) }}</a></li>
-                {% else : %}
-                <li><a href="/admin/{{ $link }}/new">{{ ucwords($link) }}</a></li>
-                {% endif; %} {% endforeach; %}
+                {% foreach (['user', 'role', 'permission', 'plugin', 'setting', 'menu'] as $link) : %} 
+                    {% if ($link === 'setting') : %}
+                        <li><a href="/admin/{{ $link }}/index">{{ ucwords($link) }}</a></li>
+                    {% else : %}
+                        <li><a href="/admin/{{ $link }}/new">{{ ucwords($link) }}</a></li>
+                    {% endif; %} 
+                {% endforeach; %}
             </ul>
         </div>
 
@@ -50,4 +60,4 @@
             </li>
         </ul>
     </div>
-</div>
+</div> -->

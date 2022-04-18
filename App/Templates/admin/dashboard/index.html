@@ -1,27 +1,16 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}Dashboard{% endblock %}
-<!---->
 {% block description %}MagmaCore create an account{% endblock %}
-<!---->
 {% block keywords %}register, create an account{% endblock %}
-<!---->
 {% block author %}Ricardo Miller{% endblock %}
-<!---->
-<!---->
-{% block styles %}
-<style>
-    .ldBar-label:after {
-        font-size: 0.6em;
-    }
-</style>
-{% endblock %}
+
+{% block styles %}{% endblock %}
+
 <!-- start content-->
 {% block content %}
 
-<!---->
-{% include 'admin/dashboard/_parts/welcome_panel.html' %}
-<!---->
+{% include 'admin/dashboard/_parts/statistics_cards2.html' %}
+
 {% include 'admin/dashboard/_parts/statistics_cards.html' %}
 <section class="">
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
@@ -53,16 +42,12 @@
     </div>
 </section>
 
-{% include 'admin/dashboard/_parts/statistics_cards2.html' %}
-<!---->
-<!-- {% include 'admin/dashboard/_parts/news_block.html' %} -->
-<!---->
 {% endblock %}
 
 
 <!-- Footer scripts -->
 {% block scripts %}
-<script>
+<!-- <script>
     $(document).ready(function() {
 
         function datetime() {
@@ -79,5 +64,5 @@
         datetime();
 
     });
-</script>
+</script> -->
 {% endblock %}

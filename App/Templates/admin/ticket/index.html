@@ -1,9 +1,13 @@
-{% extends 'layout.html' %} {% block title %}Ticket{% endblock %} {% block description %}Internal ticket system{% endblock %} {% block keywords %}{% endblock %} {% block author %}Ricardo Miller{% endblock %}
+{% extends 'layout.html' %} 
+{% block title %}Ticket{% endblock %} 
+{% block description %}Internal ticket system{% endblock %} 
+{% block keywords %}{% endblock %} 
+{% block author %}Ricardo Miller{% endblock %}
 
 <!-- start content-->
 {% block content %}
-<form method="post" action="/admin/ticket/bulk" data-turbo="false">
-    <section class="uk-height-viewport" uk-grid>
+<form method="post" action="/admin/ticket/bulk">
+    <section uk-grid class="uk-height-match uk-margin-top">
         <div class="uk-width-1-4@m">
             <div>
                 {% include 'admin/ticket/_partials/sidebar.html' %}
@@ -15,7 +19,11 @@
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
-                        {% if ($total_records > 0) : %} {{ $table }} {% else : %} {% include 'admin/no_database_record.html' %} {% endif %}
+                        {% if ($total_records > 0) : %} 
+                        {{ $table }} 
+                        {% else : %} 
+                        {% include 'admin/no_database_record.html' %} 
+                        {% endif %}
                     </div>
                 </div>
                 {@ templateExtension('uikit_pagination') @}

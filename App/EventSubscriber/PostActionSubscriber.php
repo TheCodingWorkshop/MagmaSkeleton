@@ -52,7 +52,7 @@ class PostActionSubscriber implements EventSubscriberInterface
     {
         return [
             PostActionEvent::NAME => [
-                ['flashMessageEvent', self::FLASH_MESSAGE_PRIORITY],
+                ['flashPostEvent', self::FLASH_MESSAGE_PRIORITY],
             ]
         ];
     }
@@ -71,9 +71,9 @@ class PostActionSubscriber implements EventSubscriberInterface
      * @return void
      * @throws Exception
      */
-    public function flashMessageEvent(PostActionEvent $event)
+    public function flashPostEvent(PostActionEvent $event)
     {
-        $this->flashingEvent($event);
+        $this->flashingExtendedEvent($event);
     }
 
 
