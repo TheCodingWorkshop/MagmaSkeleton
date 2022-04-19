@@ -1,0 +1,52 @@
+<div class="uk-card-header">
+    <div class="uk-grid-small uk-flex-middle" uk-grid>
+        <div class="uk-width-auto">
+            {@ icon('trash', 3.5) @}
+        </div>
+        <div class="uk-width-expand">
+            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ count($lists) > 0 ? count($lists) : 0 }} Trash</h3>
+            <p class="uk-text-meta uk-margin-remove-top">
+                <span>Theres currently {% echo count($lists) %} item in the trash.</span>
+            </p>
+            <div class="uk-search">
+                <a href="" class="uk-search-icon-flip" uk-search-icon></a>
+                <input type="search" class="uk-search-input uk-search-large uk-form-blank uk-border-bottom" onkeyup="listFilter('list_trash_filter', 'filtered_list_trash')" id="list_trash_filter" placeholder="Filter Lists..." />
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if (count($lists) > 0) : %}
+<div class="uk-card-body uk-card-warning">
+    <form method="post" action="/admin/user/bulkDelete">
+        {% if (isset($lists) && count($lists) > 0) : %}
+        <ul class="uk-list uk-list-collapse uk-list-divider" id="filtered_list_trash">
+            {% foreach ($lists as $list) : %}
+            <li>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-expand" uk-leader>{{ $list['firstname'] . ' ' . $list['lastname'] }}</div>
+                    <div>
+                        <a class="ion-18" href="/admin/user/{{ $list['id'] }}/edit" class="uk-reset-link" uk-tooltip="Edit Account">
+                            {@ icon('pencil', 0.8) @}
+                        </a>
+                        <a class="ion-18" href="/admin/user/{{ $list['id'] }}/delete" class="uk-reset-link" uk-tooltip="Permanently Delete">
+                            {@ icon('trash', 0.8) @}
+                        </a>
+                        <a class="ion-18" uk-tooltip="Restore" class="uk-reset-link" href="/admin/user/{{ $list['id'] }}/trash-restore">
+                            {@ icon('refresh', 0.8) @}
+                        </a>
+                    </div>
+                    <input type="hidden" name="id[]" value="{{ $list['id'] }}" />
+                </div>
+
+            </li>
+            {% endforeach %}
+        </ul>
+        {% endif %}
+
+        <div class="uk-margin">
+            <input class="uk-button uk-button-small uk-button-danger" type="submit" name="bulkDelete-user" value="Empty Trash">
+        </div>
+    </form>
+</div>
+{% endif %}

@@ -1,0 +1,20 @@
+{% extends 'frontend_layout.html' %}
+
+{% block title %}Activate Expired{% endblock %}
+{% block description %}MagmaCore activation expired{% endblock %}
+{% block keywords %}activation-expired{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+{% block page_header %}{@ locale('activation_failed') @}!{% endblock %}
+{% block page_tagline %}{% endblock %}
+
+<!-- start content-->
+{% block content %}
+    <div>
+        <p>{@ locale('time_expired') }</p>
+        <p>
+            Unfortunately the activation failed. Because the link is only valid for 1 hour. This would mean the account you
+            created would have been automatically deleted. Please try registering again.
+        </p>
+        <a href="/register" class="uk-button uk-button-large uk-button-primary">{@ locale('register_again') }</a>
+    </div>
+{% endblock %}

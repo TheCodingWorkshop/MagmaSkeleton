@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Tools{% endblock %}
+<!---->
+{% block description %}MagmaCore tools{% endblock %}
+<!---->
+{% block keywords %}tools{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+{% block styles %} {% endblock %}
+<!---->
+{% block content %}
+<section class="uk-height-viewport">
+    <turbo-frame>
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    {% include 'admin/setting/_parts/go_back.html' %}
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                            {% foreach (['System Report', 'Restore', 'Update'] as $option) : %}
+                            <li><a href="#">{{ $option }}</a></li>
+                            {% endforeach; %}
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="uk-width-expand@m">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                {@ icon('nut', 3.5) @}
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Tools</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul id="component-tab-left" class="uk-switcher">
+                        <li>{% include 'admin/setting/_parts/system_report.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/restore.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/update.html' %}</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </turbo-frame>
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %}
+<script type="text/javascript" src="/public/assets/js/uikit/system-report.js"></script>
+{% endblock %}

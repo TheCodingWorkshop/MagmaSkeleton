@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}Show Notification{% endblock %}
+{% block description %}MagmaCore viewing notification{% endblock %}
+{% block keywords %}show-notification{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-1@m">
+        <div>
+
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <dl class="uk-description-list uk-description-list-divider">
+                        <dt>Title</dt>
+                        <dd><code>{{ $row['notify_title'] }}</code></dd>
+                        <dt>Description</dt>
+                        <dd><pre class="uk-text-danger uk-text-meta uk-text-bolder">{{{ $row['notify_description'] }}}</pre></dd>
+                        <dt>Status</dt>
+                        <dd><code>{{{ $row['notify_status'] }}}</code></dd>
+                        <dt>Notification Type</dt>
+                        <dd><code>{{{ $row['notify_type'] }}}</code></dd>
+                        <dt>Submitted</dt>
+                        <dd><code>{@ formatDate($row['created_at']) @}</code></dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+
+                </dl>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+{% endblock %}

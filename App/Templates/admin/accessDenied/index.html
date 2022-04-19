@@ -1,0 +1,29 @@
+{% extends 'layout.html' %} {% block title %}Access Denied{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}access denied{% endblock %} {% block author %}Ricardo Miller{% endblock %} {% block styles %}
+{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section class="uk-height-viewport">
+
+    <div class="uk-container uk-container-xsmall uk-margin-large-top">
+        <div class="uk-card uk-card-body uk-background-default">
+            <div class="uk-card-header">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        {@ icon('warning', 3.5) @}
+                    </div>
+                    <div class="uk-width-expand">
+                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">403 Permission Denied</h3>
+                        <p class="">
+                            You do not have enough privilege to access the queried object. Or perform the requested operation. For more information, please contact your application CMS Administrator.
+                        </p>
+                        <hr>
+                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">However</h3>
+                        <p>Temporary permission can be granted if there's a particular tasks which you've been assigned to perform. Please <a href="">click here</a> to request temporary permission from the system administrator.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</section>
+{% endblock %}

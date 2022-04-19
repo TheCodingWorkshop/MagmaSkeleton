@@ -1,0 +1,28 @@
+{% extends 'layout.html' %} {% block title %}Ticket{% endblock %} {% block description %}Internal ticket system{% endblock %} {% block keywords %}{% endblock %} {% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<br/>
+<form method="post" action="/admin/ticket/bulk">
+    <section class="uk-height-viewport" uk-grid>
+        <div class="uk-width-1-4@m">
+            <div>
+                {% include 'admin/ticket/_partials/sidebar.html' %}
+            </div>
+        </div>
+
+        <div class="uk-width-expand@m">
+            {@ templateExtension('uikit_simple_pagination') @}
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {% if ($total_records > 0) : %} {{ $table }} {% else : %} {% include 'admin/no_database_record.html' %} {% endif %}
+                    </div>
+                </div>
+                {@ templateExtension('uikit_pagination') @}
+            </div>
+        </div>
+    </section>
+
+</form>
+{% endblock %}

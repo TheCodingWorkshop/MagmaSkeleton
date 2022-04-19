@@ -1,0 +1,25 @@
+{% extends 'template_email.html' %}
+
+<!-- start content-->
+{% block content %}
+    <div>
+        <div uk-grid>
+            <div class="uk-width-expand@m">
+                <h1 class="uk-heading-small">Activate Your Account!</h1>
+                <p>Hello {{{ $accountee_name }}}</p>
+                {% if($random_pass) : %}
+                <p><strong>Temporary Password:</strong>{{{ $random_pass }}}</p>
+                {% endif; %}
+                <p>Thanks for registering on {{ $website }}. Please click the activation button below to activate your
+                    account in order to access your profile page.</p>
+                <div class="uk-child-width-1-2@s uk-grid-small" uk-grid>
+                    <p class="uk-text-lead">
+                        <a href="{{{ $activation_link }}}"
+                           class="uk-button uk-button-small uk-button-text uk-display-block uk-text-left">Activate Now</a>
+                    </p>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock %}

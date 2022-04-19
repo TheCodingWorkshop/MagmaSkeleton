@@ -1,0 +1,19 @@
+{% extends 'frontend_layout.html' %}
+
+{% block title %}Activate Your Account{% endblock %}
+{% block description %}MagmaCore account activation{% endblock %}
+{% block keywords %}activation{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+{% block page_header %}{@ locale('your_activated') @}!{% endblock %}
+{% block page_tagline %}{% endblock %}
+
+
+<!-- start content-->
+{% block content %}
+    <div>
+        <p>Welcome back</p>
+        <p>Your account is now activated and you now have full access to our content and free to update your profile
+            information.</p>
+        <a href="/profile/account/index" class="uk-button uk-button-large uk-button-primary">My Account</a>
+    </div>
+{% endblock %}

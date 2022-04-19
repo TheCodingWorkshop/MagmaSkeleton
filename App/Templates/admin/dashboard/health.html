@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Dashboard Health{% endblock %}
+<!---->
+{% block description %}MagmaCore health{% endblock %}
+<!---->
+{% block keywords %}health{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+{% block styles %} {% endblock %}
+<!---->
+{% block content %}
+<form action="/admin/{{ $this_route }}/settings" method="post" enctype="application/x-www-form-urlencoded" id="{{ $this_route }}SettingsForm" class="uk-form-stacked" target="_self">
+
+    <section class="uk-height-viewport">
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                            <li><a href="#">Options</a></li>
+                        </ul>
+                        <p class="uk-text-meta">
+
+                        </p>
+                    </div>
+                </div>
+                <div class="uk-width-expand@m">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                {@ icon('lifesaver', 3.5) @}
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $page_title }}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul id="component-tab-left" class="uk-switcher">
+                        <li>{{ $form }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

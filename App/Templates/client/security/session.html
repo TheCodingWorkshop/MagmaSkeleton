@@ -1,0 +1,17 @@
+{% extends 'frontend_layout.html' %}
+
+{% block title %}Session Expired{% endblock %}
+{% block description %}MagmaCore your session has expired{% endblock %}
+{% block keywords %}session expires{% endblock %}
+{% block author %}{% endblock %}
+{% block page_header %}{@ locale('session_expired') @}!{% endblock %}
+{% block page_tagline %}{% endblock %}
+
+<!-- start content-->
+{% block content %}
+    <div>
+        <p>Your session was expired. Because the application was left idling for too long. Click the login button below to
+            login again</p>
+        <a href="/login" class="uk-button uk-button-small uk-button-primary">{@ locale('login') @}</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %} {% block title %}Message{% endblock %} {% block description %}Internal messaging system{% endblock %} {% block keywords %}{% endblock %} {% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid class="uk-height-match uk-margin-top">
+    <div class="uk-width-1-4@m">
+        <div>
+            {% include 'admin/message/_partials/sidebar.html' %}
+        </div>
+    </div>
+
+    <div class="uk-width-expand@m">
+        {@ templateExtension('uikit_simple_pagination') @}
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <form method="POST" action="">
+                        {% if ($total_records > 0) : %} {{ $table }} {% else : %} {% include 'admin/no_database_record.html' %} {% endif %}
+                    </form>
+
+                </div>
+            </div>
+            {@ templateExtension('uikit_pagination') @}
+        </div>
+    </div>
+</section>
+{% endblock %}

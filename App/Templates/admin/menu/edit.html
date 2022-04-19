@@ -1,0 +1,55 @@
+{% extends 'layout.html' %} {% block title %}Edit Menu{% endblock %} {% block description %}MagmaCore edit menu{% endblock %} {% block keywords %}edit-menu{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    {{ $form }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('last_updated') @}</dt>
+                    <dd>
+                        {% if (isset($parent_menu['modified_at']) && $parent_menu['modified_at'] !==null) : %} {@ formatDate($parent_menu['modified_at']) @} {% else : %} Never {% endif %}
+                    </dd>
+                    <dt>{@ locale('created') @}</dt>
+                    <dd>
+                        {@ formatDate($parent_menu['created_at']) @} <small class="uk-text-primary uk-text-bolder">Created by:
+                        {{{ $parent_menu['created_byid'] }}}</small>
+                    </dd>
+                    <dt>{@ locale('method_name') @} ({% echo count($menu_items) %} menu items)</dt>
+                    <dd>
+                        <ul class="uk-nav uk-nav-default uk-width-medium" uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background">
+                            {% foreach ($menu_items as $menu_item) : %}
+                            <li>
+                                <div class="uk-card uk-card-default uk-margin-small uk-padding-small">
+                                    <span class="uk-sortable-handle uk-margin-small-right uk-text-center"><ion-icon name="menu-outline"></ion-icon></span>
+                                    <a class="uk-link-reset" href="{{ $menu_item['item_url'] }}">{{ $menu_item['item_label'] }}</a>
+                                    <a class="uk-float-right" uk-tooltip="Remove" href="/admin/menu/{{ $menu_item['id'] }}/remove-item?menu_id={{ $parent_menu['id'] }}">
+                                        {@ icon('close', 0.8) @}
+                                    </a>
+                                </div>
+                            </li>
+                            {% endforeach %}
+
+                        </ul>
+                    </dd>
+
+                </dl>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

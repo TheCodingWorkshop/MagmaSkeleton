@@ -1,0 +1,9 @@
+<ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+    {% foreach($nav_switcher as $key => $value) : %}
+    <li>
+        <a uk-tooltip="{{ ucwords($key) }}" class="switcher-item-{{ $key }}" href="#">
+            {@ icon($value['icon']) @}
+        </a>
+    </li>
+    {% endforeach; %}
+</ul>

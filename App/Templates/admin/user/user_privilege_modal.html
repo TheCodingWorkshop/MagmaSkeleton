@@ -1,0 +1,29 @@
+<!-- This is the modal -->
+<div id="advance-role" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <form method="post" action="/admin/user/{{ $row['id'] }}/privilege-expiration">
+        <h2 class="uk-modal-title">Set Expiration</h2>
+        <p>Set an expiration for this role. Note only use this if you are giving temporary advance access to a user. When the expiration expires the user will automatically revert back to their previous role. We recommend creating a new role and apply this feature.</p>
+        <p>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="duration">Duration (Date)</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="duration" name="duration" type="date">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="duration">Duration (Time)</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="time" name="time" type="time">
+            </div>
+        </div>
+
+        </p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="submit" name="privilegeExpiration-user">Save</button>
+        </p>
+
+    </form>
+  </div>
+</div>

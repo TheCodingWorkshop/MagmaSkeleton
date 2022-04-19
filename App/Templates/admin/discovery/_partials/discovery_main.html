@@ -1,0 +1,22 @@
+<h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Discovery</h3>
+<p>The Discovery tool allows you to discover new undiscovered controllers and any new methods that is added to the controller after the initial installation. This allows your application to keep track of all registered controller and action methods. Which can then be used to do stuff like.</p>
+<ul class="uk-list uk-list-collapse uk-list-disc uk-list-divider">
+    <li>Create Parent menu (for sidebar)</li>
+    <li>Create child menu items for parent menu</li>
+    <li>Enable/Disable controllers</li>
+    <li>Auto-generate permission strings from action methods</li>
+    <li>Enable/Disable the settings page for each controller</li>
+</ul>
+
+<p>
+    {% printf('Controllers are what we define as route <code>%s</code>. These routes consist of multiple segments, take the example shown the <code>[admin] = namespace</code>, <code>[discovery] = controler</code> and <code>[discover] = action</code>. On certain routes you may also comes across dynamic segment. These are segments which is used to identify a particular object. These are at times defined as <code>id / token</code>. The most common of all id the `id` segment which is used to modify a specific object within the data store', $_SERVER['QUERY_STRING']) %}
+</p>
+
+<p>This section is a guide which helps us control and maintain how the system controllers are used.</p>
+
+{% include 'admin/discovery/_partials/controller_discovery_form.html' %}
+
+{% if ($discoveries) : %}
+    <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Latest Discovery</h3>
+    <p>{@ showDiscoveries($discoveries) @}</p>
+{% endif; %}

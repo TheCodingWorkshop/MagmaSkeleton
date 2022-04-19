@@ -1,0 +1,17 @@
+<div class="uk-card uk-card-default">
+    <div class="uk-card-body">
+        <a href="/admin/ticket/new" class="uk-button uk-button-primary">New Ticket</a>
+        <br/><br/>
+
+        <ul class="uk-list uk-link-text uk-link-reset">
+            {% foreach ($ticket_message_sidebar as $key => $value) : %}
+            <li>
+                {@ icon($value['icon'], 0.9) @}
+                <!---->
+                {@ protectedAnchor(['href' => '/admin/ticket/index?status=' . $key], null, $value['name'], ['can_view_ticket']) @}
+
+            </li>
+            {% endforeach; %}
+        </ul>
+    </div>
+</div>

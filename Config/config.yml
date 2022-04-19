@@ -1,0 +1,12 @@
+user:
+  model:
+    status_column: []
+    additionl_condition: []
+    records_per_page: 5
+    query: ""
+    filter_by: ["controller"]
+    sort_column: []
+    filter_alias: s
+    trash_column_support: "false"
+  commander:
+    

@@ -1,0 +1,11 @@
+/vendor/
+/App/Templates/cache/
+/.env
+/composer.lock
+/Storage/
+/App/Templates/.cache/
+/node_modules/
+/.cache/
+/App/Migrations/
+/.idea/
+/todo.txt

@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Purge Settings{% endblock %}
+<!---->
+{% block description %}MagmaCore settings{% endblock %}
+<!---->
+{% block keywords %}team{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+{% block styles %} {% endblock %}
+<!---->
+{% block content %}
+<section class="uk-height-viewport">
+    <div>
+        <div uk-grid>
+            <div class="uk-width-1-4@m">
+                {% include 'admin/setting/_parts/go_back.html' %}
+                <div class="uk-card uk-card-body uk-card-default">
+                    <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                        <li><a href="#">{@ locale('general') @}</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="uk-width-expand@m">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            {@ icon('trash', 3) @}
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{@ locale('purge') @}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
+                        </div>
+                    </div>
+                </div>
+                <ul id="component-tab-left" class="uk-switcher">
+                    <li>
+                        <p>Purge the template cache by releasing the old template files</p>
+                        <div class="uk-panel uk-panel-scrollable uk-margin uk-card-danger">
+                            <ul>
+                                {% foreach ($template_files as $key => $value) : %}
+                                <!--  -->
+                                {% if ($value == '.' || $value == '..') : %}
+                                <!--  -->
+                                {% continue; %}
+                                <!--  -->
+                                {% endif; %}
+                                <li>{{ $key }} {{ $value }}</li>
+                                {% endforeach; %}
+                            </ul>
+                        </div>
+                        {{ $form }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}

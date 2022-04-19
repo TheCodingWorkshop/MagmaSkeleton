@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Dashboard{% endblock %}
+<!---->
+{% block description %}MagmaCore create an account{% endblock %}
+<!---->
+{% block keywords %}register, create an account{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+<!---->
+{% block styles %}
+<style>
+    .ldBar-label:after {
+        font-size: 0.6em;
+    }
+</style>
+{% endblock %}
+<!-- start content-->
+{% block content %}
+
+<!---->
+{% include 'admin/dashboard/_parts/welcome_panel.html' %}
+<!---->
+{% include 'admin/dashboard/_parts/statistics_cards.html' %}
+<section class="">
+    <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
+        <div class="uk-card-badge">
+            <a href="#offcanvas-usage" uk-toggle class="uk-link-reset">
+                {@ icon('cog', 0.9) @}
+            </a>
+        </div>
+        <div>
+            <div>
+                <div uk-grid>
+                    <div class="uk-width-auto@m">
+                        {% include 'admin/dashboard/nav_switcher.html' %}
+                    </div>
+                    <div class="uk-width-expand@m">
+                        <ul id="component-tab-left" class="uk-switcher">
+                            <li>{% include 'admin/dashboard/block_main.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_ticket.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_session.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
+                            <li>{% include 'admin/dashboard/block_project.html' %}</li>
+                        </ul>
+                        {% include 'admin/dashboard/offcanvas/dashboard_toggle.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% include 'admin/dashboard/_parts/statistics_cards2.html' %}
+<!---->
+<!-- {% include 'admin/dashboard/_parts/news_block.html' %} -->
+<!---->
+{% endblock %}
+
+
+<!-- Footer scripts -->
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+
+        function datetime() {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/dashboard/datetime',
+                timeout: 1000,
+                success: function(data) {
+                    $("#timer").html(data);
+                    window.setTimeout(datetime, 500);
+                }
+            });
+        }
+        datetime();
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+<ul class="uk-list">
+    {% foreach (['application' => ['icon' => 'world', 'name' => 'Application Configuration'], 'localisation' => ['icon' => 'microphone', 'name' => 'Localisation'], 'branding' => ['icon' => 'paint-bucket', 'name' => 'Branding'], 'extension' => ['icon' => 'server',
+    'name' => 'Extensions']] as $key => $value) : %}
+
+    <li>
+        <div class="uk-card-header uk-padding-remove-bottom">
+            <div class="uk-grid-small uk-flex-middle" uk-grid>
+                <div class="uk-width-auto ion-64">
+                    {@ icon($value['icon'], 3) @}
+                </div>
+                <div class="uk-width-expand uk-padding-remove-bottom">
+                    <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">
+                        {% if (isset($value['name']) && $value['name'] !=='') : %}
+                        <span>{{ $value['name'] }}</span> {% else : %}
+                        <span>{% str_replace('_', ' ', $key) %}</span> {% endif; %}
+                    </h3>
+                    <p class="uk-text-meta uk-margin-remove-top uk-button uk-button-text"><a href="/admin/setting/{{ $key }}">Configure</a></p>
+                </div>
+            </div>
+        </div>
+
+    </li>
+    {% endforeach; %}
+</ul>

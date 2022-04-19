@@ -1,0 +1,80 @@
+{% extends 'layout.html' %} {% block title %}Assigned Role{% endblock %} {% block description %}MagmaCore assigned role{% endblock %} {% block keywords %}assigned-role{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    {{ $form }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <p>
+                    <h3 class="uk-card-title uk-margin-remove">Manage Roles & Permission</h3>
+                    Manage system roles and permissions. By only assigning the relevnt permissions for the selected role.
+                </p>
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('role') @}</dt>
+                    <dd>{{{ $role['role_name'] }}}
+                        <small class="uk-text-primary">
+                            Created: {@ formatDate($role['created_at'], true) @}
+                        </small>
+                    </dd>
+
+                    <dt>Assigned Other Roles</dt>
+                    <dd>
+                        {% foreach ($roles as $role) : %} {% if ($role['id'] === $current_role_id) : %} {% else : %} {@ protectedAnchor(['href' => '/admin/role/' . $role['id'] . '/assigned', 'class' => 'uk-link-reset', 'title' => 'Assigned Permission', 'icon' => 'link'], null,
+                        $role['role_name'], ['can_assign_role']) @} {% endif; %} {% endforeach; %}
+                    </dd>
+
+                    <dt>{@ locale('permission_assigned') @}</dt>
+                    <dd>
+                        {% if (isset($privi_user)) : %} {% echo sizeof($privi_user) %} {% else : %} 0 {% endif; %}
+                    </dd>
+
+                    <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($user_role_id) %} users)</span></dt>
+                    <dd>{@ getUserOrderedListsFromRoles($user_role_id, true, 3) @}</dd>
+
+                    <dt>{@ locale('permissions') @}</dt>
+                    <dd>
+                        <div class="uk-height-1-1">
+                            <ul class="uk-panel uk-panel-scrollable">
+                                {% if (isset($privi_user)) : %} {% foreach (array_keys($privi_user) as $permission) : %}
+                                <li>{{ $permission }}
+                                    <a uk-tooltip="Remove" class="uk-text-danger" href="/admin/role/{@ getPermissionIDFromName($permission) @}/unassign-permission?role_id={{ $role['id'] }}">
+                                        {@ icon('trash', 0.7) @}
+                                    </a>
+                                </li>
+                                {% endforeach; %} {% else : %} No Permission {% endif; %}
+                            </ul>
+                        </div>
+
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+<script>
+    addEventListener("turbo:submit-start", ({
+        target
+    }) => {
+        for (const field of target.elements) {
+            field.disabled = true
+        }
+    })
+</script>
+{% endblock %}

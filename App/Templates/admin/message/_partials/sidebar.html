@@ -1,0 +1,16 @@
+<div class="uk-card uk-card-default">
+    <div class="uk-card-body">
+        <a href="/admin/message/new" class="uk-button uk-button-primary">Compose</a>
+        <br/><br/>
+
+        <ul class="uk-list uk-link-text uk-link-reset">
+            {% foreach ($controller_message_sidebar as $key => $value) : %}
+                <li>
+                    <ion-icon name="{{ $value['icon'] }}"></ion-icon>
+                    <a href="/admin/message/index?status={{ $key }}">{{  $value['name'] }}</a>
+                </li>
+            {% endforeach; %}
+        </ul>
+    </div>
+</div>
+

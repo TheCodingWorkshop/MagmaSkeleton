@@ -1,0 +1,38 @@
+<div class="uk-child-width-1-1@s uk-margin-bottom uk-margin-top">
+    <div>
+        <div class="uk-clearfix">
+            <div class="uk-float-left">
+                <h3 class="uk-card-title uk-text-bolder uk-margin-remove">
+                    {% if ($this_action === 'index') : %} Dashboard {% elseif ($this_action === 'settings') : %} Dashboard Settings {% endif; %}
+                </h3>
+            </div>
+            <!-- <div class="uk-float-left uk-margin-small-left" style="margin-top: 7px;">
+                Two new notifications awaits attention
+            </div> -->
+            <div class="uk-float-right">
+                <ul class="uk-iconnav uk-margin-small-top">
+                    <li>
+                        <div id="timer"></div>
+                    </li>
+                    <li>
+                        <a uk-tooltip="Health OK" href="/admin/dashboard/health">
+                            {@ icon('lifesaver', 0.9) @}
+                        </a>
+                    </li>
+                    <li>
+                        <a uk-tooltip="Dashboard Settings" href="/admin/dashboard/settings">
+                            {@ icon('settings', 0.9) @}
+                        </a>
+                    </li>
+                    <li>
+                        <a uk-tooltip="Manage Users" href="/admin/user/overview">
+                            {@ icon('user', 0.9) @}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+
+    </div>
+</div>

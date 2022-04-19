@@ -1,0 +1,53 @@
+en:
+  success:
+    title: Your're Activated
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_tite: Your're Activated
+      account_button: My Account
+      page_content: Welcome back your account is now activated and you now have full access to our content and free to update your profile information.
+  fail:
+    title: Activation Expired!
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_tite: Activation Expired!
+      account_button: Register Again!
+      page_content: Time Expired!. Unfortunately the activation failed. Because the link is only valid for 1 hour. This would mean the account you created would have been automatically deleted. Please try registering again..
+
+fr:
+  success:
+    title: Your're Activated
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_tite: Your're Activated
+      account_button: My Account
+      page_content: Welcome back your account is now activated and you now have full access to our content and free to update your profile information.
+  fail:
+    title: Activation Expired!
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_tite: Activation Expired!
+      account_button: Register Again!
+      page_content: Time Expired!. Unfortunately the activation failed. Because the link is only valid for 1 hour. This would mean the account you created would have been automatically deleted. Please try registering again..
+
+es:
+  success:
+    title: Your're Activated
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_tite: Your're Activated
+      account_button: My Account
+      page_content: Welcome back your account is now activated and you now have full access to our content and free to update your profile information.
+  fail:
+    title: Activation Expired!
+    description: Meta description goes here
+    keywords: {}
+    body:
+      page_tite: Activation Expired!
+      account_button: Register Again!
+      page_content: Time Expired!. Unfortunately the activation failed. Because the link is only valid for 1 hour. This would mean the account you created would have been automatically deleted. Please try registering again..

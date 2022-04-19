@@ -1,0 +1,27 @@
+<div class="uk-card uk-card-default">
+    <div class="uk-card-body">
+        <div class="uk-inline">
+            <a href="/admin/post/new" class="uk-button uk-button-primary">Write</a>
+            <!---->
+            {% if ($post['id']) : %}
+            <a href="" class="uk-text-danger uk-text-middle">
+                {@ icon('trash', 1.2) @}
+            </a> {% endif; %}
+
+        </div>
+        <br/><br/>
+        <!---->
+        {{ $form_sidebar }}
+        <!---->
+        {% if ($post['id']) : %}
+        <div class="uk-margin">
+            <div class="uk-text-meta uk-margin-small-bottom">
+                <a href="" class="uk-text-primary">
+                14 Comments
+                {@ icon('comments', 1.2) @}
+                </a>
+            </div>
+        </div>
+        {% endif; %}
+    </div>
+</div>

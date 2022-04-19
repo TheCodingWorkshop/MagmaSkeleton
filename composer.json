@@ -1,0 +1,57 @@
+{
+    "name": "magmacore/magma-base",
+    "description": "Barebone starter library for MagmaCore framework",
+    "keywords": [
+        "magma-base",
+        "magmacore",
+        "php",
+        "framework",
+        "project"
+    ],
+    "type": "library",
+    "time": "2021-01-01",
+    "readme": "https://github.com/TheCodingWorkshop/MagmaSkeleton/blob/main/README.md",
+    "support": {
+        "email": "lavastudio.v1@gmail.com",
+        "source": "https://github.com/TheCodingWorkshop/MagmaSkeleton.git",
+        "wiki": "https://github.com/TheCodingWorkshop/MagmaSkeleton/wiki",
+        "issues": "https://github.com/TheCodingWorkshop/MagmaSkeleton/issues"
+    },
+    "homepage": "https://thecodingworkshop.github.io/MagmaCore__/",
+    "license": "MIT",
+    "authors": [{
+        "name": "TheCodingWorkshop",
+        "email": "riccodingworkshop@gmail.com"
+    }],
+    "minimum-stability": "beta",
+    "require": {
+        "ext-mbstring": "*",
+        "ext-iconv": "*",
+        "ext-pdo": "*",
+
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-simplexml": "*",
+        "magmacore/magmacore": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "phpmailer/phpmailer": "^6.2",
+        "symfony/console": "^5.3",
+        "symfony/http-client": "^6.0",
+        "nyholm/psr7": "^1.4",
+        "cboden/ratchet": "^0.4.4",
+        "josantonius/errorhandler": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MagmaSkeleton\\Tests\\": "tests/"
+        }
+    },
+    "suggest": {
+        "magmacore/magmacore": "added for a complete management system."
+    }
+}

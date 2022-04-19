@@ -1,0 +1,264 @@
+dashboard:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 0
+  query: 
+  filter_by: []
+  filter_alias: ''
+  sort_columns: []
+  trash_can_support: ''
+
+
+user:
+  #status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
+  status_choices:
+    - active
+    - pending
+    - trash
+    - lock
+
+  additional_conditions:
+    status: active
+  selectors: []
+  records_per_page: 5
+  query: status
+  filter_by: ["lastname"]
+  filter_alias: s
+  sort_columns:
+    - firstname
+    - created_at
+    - modified_at
+  trash_can_support: 'false'
+
+message:
+  status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
+  additional_conditions:
+    status: inbox
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["receiver"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - user_id
+    - created_at
+  trash_can_support: 'false'
+
+post:
+  status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["title"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - title
+    - created_at
+  trash_can_support: 'true'
+
+category:
+  status_choices: []
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["cat_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - cat_name
+    - created_at
+  trash_can_support: 'true'
+
+
+tag:
+  status_choices: []
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 15
+  query: ""
+  filter_by: ["tag_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - tag_name
+    - created_at
+  trash_can_support: 'true'
+
+
+
+ticket:
+  status_choices: [open: Open, closed: Closed, resolves: Resolved]
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["open"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - category
+    - created_at
+  trash_can_support: 'true'
+
+group:
+  status_choices: []
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 5
+  query: "status"
+  filter_by: ["group_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - group_name
+    - created_at
+    - modified_at
+  trash_can_support: 'true'
+
+role:
+  status_choices: []
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 5
+  query: "status"
+  filter_by: ["role_name"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - role_name
+    - created_at
+    - modified_at
+  trash_can_support: 'true'
+
+permission:
+  status_choices: []
+  additional_conditions: 
+    deleted_at: 0
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["permission_name"]
+  filter_alias: s
+  sort_columns:
+    - permission_name
+    - created_at
+    - modified_at
+  trash_can_support: 'true'
+
+setting:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["setting_name"]
+  filter_alias: s
+  sort_columns:
+    - setting_name
+  trash_can_support: 'false'
+
+plugin:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["plugin_name"]
+  filter_alias: s
+  sort_columns:
+    - plugin_name
+    - created_at
+    - modified_at
+  trash_can_support: 'false'
+    
+project:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["type", "status", "coordinator"]
+  filter_alias: s
+  sort_columns:
+    - type
+    - created_at
+    - modified_at
+  trash_can_support: 'false'
+
+menu:
+  status_choices: []
+  additional_conditions:
+    deleted_at: 0
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["menu_name", "parent_menu"]
+  filter_alias: s
+  sort_columns:
+    - menu_name
+    - created_at
+    - modified_at
+  trash_can_support: 'true'
+
+system:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["event_log_name"]
+  filter_alias: s
+  sort_columns:
+    - event_type
+    - created_at
+  trash_can_support: 'false'
+
+notification:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["notify_title"]
+  filter_alias: s
+  sort_columns:
+    - notify_title
+    - created_at
+  trash_can_support: 'false'
+
+discovery:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 0
+  query: ""
+  filter_by: ["controller"]
+  filter_alias: s
+  sort_columns: []
+  trash_can_support: 'false'
+
+employee:
+  status_choices: []
+  additional_conditions: []
+  selectors: []
+  records_per_page: 5
+  query: ""
+  filter_by: ["type", "status", "coordinator"]
+  filter_alias: s
+  sort_columns:
+    - employee_name
+    - created_at
+    - modified_at
+  trash_can_support: 'false'
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{ (isset($app) ? $app['settings']['default_locale'] : null) }}">
+
+<head>
+    <title>{% yield title %}</title>
+    <meta charset="{{ $app['settings']['default_charset'] }}">
+    <meta name="description" content="{% yield description %}">
+    <meta name="keywords" content="{% yield keywords %}">
+    <meta name="author" content="{% yield author %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamics styles and scripts -->
+    {@ addcss() @}
+    <!---->
+    {@ addjs([], 'header') @}
+    <!---->
+    {% yield styles %}
+</head>
+
+<body class="uk-text-bold uk-text-emphasis">
+    <div class="uk-section uk-section-primary">
+        <div class="uk-container uk-container-small">
+            <h1><span class="">{% yield page_header %}</span></h1>
+            <p class="uk-text-large uk-text-bolder">{% yield page_tagline %}</p>
+        </div>
+    </div>
+
+    <div class="uk-container uk-container-small uk-margin">
+        <div id="flash_message">{@ templateExtension('uikit_flash_message') @}</div>
+        {% yield content %}
+    </div>
+
+    {@ addjs() @} {% yield scripts %}
+
+</body>
+
+</html>

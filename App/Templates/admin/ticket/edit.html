@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Edit Ticket{% endblock %}
+{% block description %}MagmaCore edit a ticket{% endblock %}
+{% block keywords %}show-account, edit-ticket{% endblock %}
+{% block author %}Ricardo Miller{% endblock %} {% block content%}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-4@m">
+        <div>
+            {% include 'admin/ticket/_partials/sidebar.html' %}
+        </div>
+    </div>
+
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-card-default">
+                {{ $form }}
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+<script>
+</script>
+{% endblock %}

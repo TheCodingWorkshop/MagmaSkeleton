@@ -1,0 +1,58 @@
+<div class="uk-grid-small uk-flex-middle" uk-grid>
+    <div class="uk-width-auto">
+        <img class="uk-border-circle" width="40" height="40" src="{{ $user['gravatar'] }}">
+    </div>
+    <div class="uk-width-expand">
+        <div class="uk-clearfix">
+            <div class="uk-float-left">
+                <small>{{ $user['email'] }}</small>
+
+                <div class="uk-inline">
+                    <ion-icon name="caret-down"></ion-icon>
+                    <div uk-drop>
+                        <div class="uk-card uk-card-body uk-card-secondary uk-text-meta">
+                            <ul class="uk-list">
+                                <li>From: {{ $user['firstname'] . ' ' . $user['lastname'] }} <strong>{{ $row['author'] }}</strong></li>
+                                <li>To: {{ $row['receiver'] }}</li>
+                                <li>Date: {{ $row['created_at'] }}</li>
+                                <li>Subject: {{ $row['subject'] }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-float-right ">
+
+                <ul class="uk-iconnav ">
+                    <li>
+                        <a uk-tooltip="Reply" title="Reply" href="/admin/message/{{ $row['id'] }}/reply">
+                            <ion-icon name="arrow-undo-outline"></ion-icon>
+                        </a>
+                    </li>
+                    <li>
+                        <a uk-tooltip="Forward" title="Reply" href="/admin/message/{{ $row['id'] }}/forward">
+                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                        </a>
+                    </li>
+
+                    <li><small><time datetime="{{ $row['created_at'] }}">{@ formatDate($row['created_at']) @}</time></small></li>
+
+                    <li>
+                        <a uk-tooltip="Starred" href="/admin/message/{{ $row['id'] }}/starred">
+                            <ion-icon name="star-outline"></ion-icon>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="# ">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </a>
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

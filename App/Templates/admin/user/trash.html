@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %}User Listings{% endblock %}
+{% block description %}MagmaCore create an account{% endblock %}
+{% block keywords %}register, create an account{% endblock %}
+
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                        <div>
+                            <div class="uk-card-header">
+                                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                    <div class="uk-width-auto ion-64">
+                                        <ion-icon name="trash-outline"></ion-icon>
+                                    </div>
+                                    <div class="uk-width-expand">
+                                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Trash</h3>
+                                        <p class="uk-text-meta uk-margin-remove-top">
+                                            <span>{% echo count($lists) %} item in trash</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-card-body uk-card-warning">
+                                <p>Theres currently {% echo count($lists) %} item in the trash.</p>
+                                <form method="post" action="">
+                                    {% if (isset($lists) && count($lists) > 0) : %}
+                                    <ul class="uk-list uk-list-collapse uk-list-divider">
+                                        {% foreach ($lists as $list) : %}
+                                        <li>
+                                            <div class="uk-grid-small" uk-grid>
+                                                <div class="uk-width-expand" uk-leader>{{ $list['firstname'] . ' ' . $list['lastname'] }}</div>
+                                                <div><a class="ion-24" href="" class="uk-reset-link" uk-tooltip="Permanently Delete"><ion-icon name="trash-outline"></ion-icon></a>
+                                                    <a class="ion-24" uk-tooltip="Restore" class="uk-reset-link" href="/admin/user/{{ $list['id'] }}/trash-restore"><ion-icon name="refresh-outline"></ion-icon></a>
+                                                </div>
+                                                <input type="hidden" name="user_id[]" value="{{ $list['id'] }}"/>
+                                            </div>
+
+                                        </li>
+                                        {% endforeach %}
+                                    </ul>
+                                    {% endif %}
+
+                                    <div class="uk-margin">
+                                        <input class="uk-button uk-button-danger" type="submit" name="bulk-delete" value="Empty Trash">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+                </dl>
+            </div>
+        </div>
+    </div>
+    </form>
+
+</section>
+{% endblock %}
+<!--  -->
+{% block scripts %}
+{% endblock %}

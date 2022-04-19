@@ -1,0 +1,78 @@
+<?php
+/*
+ * This file is part of the MagmaCore package.
+ *
+ * (c) Ricardo Miller <ricardomiller@lava-studio.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace App\Model;
+
+use MagmaCore\Error\Error;
+use MagmaCore\UserManager\UserModel;
+
+class UserProfileModel extends UserModel
+{
+
+    /**
+     * Verify the user password before making changes. Ensuring the correct user
+     * is making changes.
+     *
+     * @param Object $object - the current object to which the method is called from
+     * @param int $id - the users ID
+     * @param Null|string $fieldName
+     * @return boolean
+     */
+    public function verifyPassword(object $object, int $id, ?string $fieldName = null): bool
+    {
+        if (array_key_exists('client_password_hash', $object->formBuilder->getData())) {
+            $password = $object->request->handler()->get('client_password_hash');
+            $hashPassword = $this->getRepo()->findObjectBy(['id' => $id], ['password_hash']);
+            if (!password_verify($password, $hashPassword->password_hash)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return true if both password fields matches
+     *
+     * @param Object $object
+     * @param Object $cleanData
+     * @return boolean
+     */
+    public function isPasswordMatching(object $object, object $cleanData): bool
+    {
+        if ($cleanData->client_password_hash === $cleanData->password_hash_retype) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns true only if the current account ID matches the current sessions ID
+     * returns false otherwise
+     *
+     * @param Object $object
+     * @return boolean
+     */
+    public function isOwnAccount(object $object): bool
+    {
+        if ($object) {
+            $userID = $object->formBuilder->getData()['user_id'];
+            if (intval($userID) === $_SESSION['user_id']) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+}

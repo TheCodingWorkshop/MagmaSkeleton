@@ -1,0 +1,50 @@
+<div class="uk-card-header">
+    <div class="uk-grid-small uk-flex-middle" uk-grid>
+        <div class="uk-width-auto ion-64">
+            <ion-icon name="{{ $action === 'bulk-delete' ? 'trash-outline' : 'copy-outline' }}"></ion-icon>
+        </div>
+        <div class="uk-width-expand">
+
+            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ count($selected) > 0 ? count($selected) : 0 }} items selected to be {{ $action === 'bulk-delete' ? 'deleted' : 'cloned' }}</h3>
+            <p class="uk-text-meta uk-margin-remove-top">
+                <span>There's currently {% echo count($selected) %} items selected</span>
+            </p>
+            <div class="uk-search">
+                <a href="" class="uk-search-icon-flip" uk-search-icon></a>
+                <input type="search" class="uk-search-input uk-search-large uk-form-blank uk-border-bottom" onkeyup="listFilter('list_filter', 'filtered_list_lock')" id="list_filter" placeholder="Filter Lists..." />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% if (count($selected) > 0) : %}
+<div class="uk-card-body uk-card-{{ $action === 'bulk-delete' ? 'danger' : 'success' }}">
+    <form method="post" action="/admin/permission/bulk-{{ $action === 'bulk-delete' ? 'delete' : 'clone' }}">
+        {% if (isset($selected) && count($selected) > 0) : %}
+        <ul class="uk-list uk-list-collapse uk-list-divider" id="filtered_list_lock">
+            {% foreach ($selected as $select) : %}
+            <li>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-expand" uk-leader>
+                        (#{{ $select }}) {@ getItemNameByID($select)->permission_name @}
+                    </div>
+                    <input type="hidden" name="id[]" value="{{ $select }}" />
+                </div>
+
+            </li>
+            {% endforeach %}
+        </ul>
+        {% endif %}
+
+        <div class="uk-margin">
+            <input class="uk-button uk-button-danger" type="submit" name="{{ $action === 'bulk-delete' ? 'bulkDelete-permission' : 'bulkClone-permission' }}" value="Continue">
+            <a href="/admin/permission/index" class="uk-button uk-button-text">Cancel</a>
+            <div class="uk-alert-{{ $action === 'bulk-delete' ? 'warning' : 'primary' }}" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>{{ $action === 'bulk-delete' ? 'Note. That this process is permanent, and cannot be reverse.' : 'Note: each cloned user account will have the -clone suffix' }}</p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endif %}

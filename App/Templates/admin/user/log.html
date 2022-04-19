@@ -1,0 +1,44 @@
+{% extends 'layout.html' %} {% block title %}User Listings{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}register, create an account{% endblock %} {% block content %}
+<section class="uk-height-viewport">
+
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <form method="POST" action="">
+                        <table class="uk-table uk-table-divider uk-table-small">
+                            <thead>
+                                <tr>
+                                    <th class="uk-table-shrink">Request</th>
+                                    <th class="uk-table-expand">Context</th>
+                                    <th class="uk-width-small">Status</th>
+                                    <th class="uk-width-small">Date</th>
+                                    <th>Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Update</td>
+                                    <td>Table Data</td>
+                                    <td>Info</td>
+                                    <td>June 29, 2021</td>
+                                    <td>200</td>
+                                </tr>
+                                <tr>
+                                    <td>Create</td>
+                                    <td>Table Data</td>
+                                    <td>Info</td>
+                                    <td>Jul 1, 2021</td>
+                                    <td>201</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

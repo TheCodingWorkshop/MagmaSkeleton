@@ -1,0 +1,21 @@
+{% extends 'layout.html' %} {% block title %}Roles{% endblock %} {% block description %}MagmaCore roles{% endblock %} {% block keywords %}register, create an account{% endblock %} {% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<form method="post" action="/admin/role/bulk" data-turbo="false">
+    {@ templateExtension('uikit_simple_pagination') @}
+    <section class="uk-height-viewport" uk-grid>
+        <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {% if ($total_records > 0) : %} {{ $table }} {% else : %} {% include 'admin/no_database_record.html' %} {% endif; %}
+                    </div>
+                </div>
+                {@ templateExtension('uikit_pagination') @}
+            </div>
+        </div>
+    </section>
+
+</form>
+{% endblock %}

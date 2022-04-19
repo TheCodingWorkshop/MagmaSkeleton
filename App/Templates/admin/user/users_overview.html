@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+<!---->
+{% block title %}Users Overview{% endblock %}
+<!---->
+{% block description %}MagmaCore user overview{% endblock %}
+<!---->
+{% block keywords %}show-overview, overview-user{% endblock %}
+<!---->
+{% block author %}Ricardo Miller{% endblock %}
+<!---->
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3 class="uk-card-title uk-text-bolder uk-margin-remove">Overview</h3>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <ul uk-tab>
+                    <li><a href="#">{@ locale('history') @}</a></li>
+                    <li><a href="#">{@ locale('recent_activity') @}</a></li>
+                    <li><a href="#">Current Tasks <sup class="uk-badge">4</sup></a></li>
+                </ul>
+
+                <ul class="uk-switcher uk-margin">
+                    <li>{@ locale('not_enough_data') @}
+                        <ion-icon name="help-outline"></ion-icon>
+                    </li>
+                    <li>
+                        {% include 'admin/user/overview_recent_activities.html' %}
+                    </li>
+                    <li>
+                        {% include 'admin/user/overview_current_task.html' %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

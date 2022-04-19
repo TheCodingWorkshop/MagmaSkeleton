@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block title %}Create New Project{% endblock %}
+{% block description %}MagmaCore create a project{% endblock %}
+{% block keywords %}new-project, create-new{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+  <div class="uk-width-1-2@m">
+    <div>
+      <div class="uk-card uk-card-default">
+        <div class="uk-card-body">
+            {{ $form }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="uk-width-1-2@m">
+    <div>
+      <div class="uk-card uk-card-body uk-padding-remove">
+        <div class="uk-margin">
+          <div class="uk-form-label"></div>
+          <div class="uk-form-controls">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </form>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %} {% endblock %}

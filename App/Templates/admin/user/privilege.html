@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Account{% endblock %}
+{% block description %}MagmaCore edit an account{% endblock %}
+{% block keywords %}edit-account, edit-user{% endblock %}
+
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+  <div class="uk-width-1-2@m">
+    <div>
+
+      <div class="uk-card uk-card-default">
+        <div class="uk-card-body">
+            <form method="post" action="/admin/user/{{ $row['id'] }}/privilege">
+              <div class="uk-margin">
+                <div class="uk-form-label"><h4>Roles</h4></div>
+                <div class="uk-form-controls">
+                  {% if (is_array($roles) && count($roles)>0) : %}
+                  <ul class="uk-list uk-list-striped">
+                  {% foreach ($roles as $key => $value) : %}
+                    <li>
+                      <label>
+                        <input type="radio" class="uk-radio" name="role_id" value="{{ $value['id'] }}" {% if (isset($user_role) && $user_role[0] == $value['id']): %} checked {% endif %} /> {{ $value['role_name'] }}
+                      </label>
+                    </li>
+                  {% endforeach; %}
+                  </ul>
+                  {% endif; %}
+                </div>
+              </div>
+              <div class="uk-margin">
+                <input class="uk-button uk-button-secondary" type="submit" value="Update" name="privilege-user" id="privilege-user">
+              </div>
+
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="uk-width-1-2@m">
+    <div>
+      <div class="uk-card uk-card-body uk-padding-remove">
+        <h2>{{{ $row['firstname'] }}} {{{ $row['lastname'] }}}</h2>
+        <dl class="uk-description-list uk-description-list-divider">
+          <dt>{@ locale('name') @}</dt>
+          <dd>Current Role: {@ getRoleFromID($row['id']) @}
+          {% if (isset($temp_role)) : %}
+            {% foreach($temp_role as $key => $value) : %}
+            {% endforeach; %}
+            <a href="#advance-role" uk-toggle><small>Set Duration?</small></a>
+            {% include '/admin/user/user_privilege_modal.html' %}
+            {% endif; %}
+          </dd>
+
+        </dl>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

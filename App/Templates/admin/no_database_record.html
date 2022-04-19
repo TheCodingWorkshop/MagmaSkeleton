@@ -1,0 +1,19 @@
+<article class="uk-container uk-container-xsmall">
+    <div class="uk-card-header uk-padding-remove">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                {@ icon('folder', 3.5) @}
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $total_records }} {% echo ucwords($queried_status ?? 'records') %}
+                    <sup><a data-turbo="true" class="uk-icon-link" uk-tooltip="Add Record" href="/admin/{{ $this_route }}/new">{@ icon('plus-circle', 0.9) @}</a></sup>
+                </h3>
+                <p class="uk-text-meta uk-margin-remove-top">
+                    <span>There's currently {{ $total_records }} {{ $queried_status ?? 'record' }} in <span class="uk-text-primary">{{ $table_schema }}</span> table </span>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+</article>

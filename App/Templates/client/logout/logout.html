@@ -1,0 +1,20 @@
+{% extends 'frontend_layout.html' %}
+
+{% block title %}Sign Out{% endblock %}
+{% block description %}MagmaCore secure login{% endblock %}
+{% block keywords %}sign-out{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+{% block page_header %}{@ locale('sign_out') @}{% endblock %}
+{% block page_tagline %}You're about to sign out sorry to see you go.{% endblock %}
+
+<!-- start content-->
+{% block content %}
+    <div>
+        <article class="uk-article">
+            <p class="uk-text-lead uk-margin-medium">
+                {{ $form }} Or
+                <a href="/" class="uk-button uk-button-text uk-text-primary">Cancel</a>.
+            </p>
+        </article>
+    </div>
+{% endblock %}

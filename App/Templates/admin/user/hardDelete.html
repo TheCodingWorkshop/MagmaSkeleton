@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block title %}Delete Account{% endblock %}
+{% block description %}MagmaCore edit an account{% endblock %}
+{% block keywords %}delete-account, delete-user{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-2@m">
+        <div>
+
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <h4 class="uk-heading uk-text-danger">{@ locale('hard_delete_excerpt') @}.
+                    </h4>
+                    <dl class="uk-description-list uk-description-list-divider">
+                        <dt>{@ locale('role') @}</dt>
+                        <dd>{@ getRoleFromID($row['id']) @}</dd>
+                        <dt>{@ locale('account') @}</dt>
+                        <dd>{{{ $row['status'] }}}</dd>
+                        <dt>{@ locale('member_since') @}</dt>
+                        <dd>{@ altDateFormat('F Y', $row['created_at']) @}</dd>
+                    </dl>
+                    <form action="/admin/user/{{{ $row['id'] }}}/delete" method="post">
+                        <button class="uk-button uk-button-danger uk-button-large">{@ locale('delete_account') @}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>Conutions</dt>
+                    <dt>Posts/Comments</dt>
+                    <dd>No created content was found for this user.</dd>
+                    <dt>Account Assets</dt>
+                    <dd>No uploads or downloads was connected to this user account.</dd>
+                    <dt>Description term</dt>
+                    <dd></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

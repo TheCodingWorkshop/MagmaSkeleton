@@ -1,0 +1,66 @@
+<div>
+    <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+        <div>
+            <div class="uk-card uk-card-body uk-card-secondary">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            {@ icon('github', 3.5) @}
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom uk-text-bolder">Github Summary</h3>
+                            <p class="uk-text-meta uk-margin-remove-top">
+                                <span>Over 80 Commits & 2.4k</span>
+                                <!---->
+                                {@ icon('star', 0.8) @}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body">
+                    <p>MagmaCore framework has 25 new issues reported on Github.</p>
+                    <ul class="uk-list uk-list-collapse">
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Fixed</div>
+                                <div>6</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Won't Fixed</div>
+                                <div>17</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Closed</div>
+                                <div>6</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Re-opened</div>
+                                <div>2</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Pull Request</div>
+                                <div>27</div>
+                            </div>
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div>
+            {@ getWidget('backup_status_widget', 'updates', 'id') @}
+        </div>
+    </div>
+</div>

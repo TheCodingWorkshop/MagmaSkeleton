@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Account{% endblock %}
+{% block description %}MagmaCore edit an account{% endblock %}
+{% block keywords %}edit-account, edit-user{% endblock %}
+
+{% block content %}
+<section uk-grid class="uk-height-viewport">
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    {{ $form }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-1-2@m">
+        <div>
+            <div class="uk-card uk-card-body uk-padding-remove">
+                <h2></h2>
+                <p>
+                <dl class="uk-description-list uk-description-list-divider">
+                    <dt>{@ locale('address_book') @}</dt>
+                    <dd>
+                        {% if ($user_preference !==null) : %}
+                        <span class="uk-display-block">
+                            {%
+                            $exp = explode(',', $user_preference->address);
+                            $user_address = implode("<br/>", $exp);
+                            %}
+                            {{ $user_address }}
+                        </span> {% else : %} No Address added (this is optional) {% endif; %}
+
+                    </dd>
+                    <dt>{@ locale('last_updated') @}</dt>
+                    <dd>
+                            <span>
+                            {% if (isset($user_preference) && $user_preference->updated_at !==null): %}
+                            {{{ $user_preference->updated_at }}}
+                            {% else : %}
+                            None Yet!
+                            {% endif; %}
+                        </span>
+                    </dd>
+                </dl>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock %}

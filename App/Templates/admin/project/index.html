@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}Projects{% endblock %}
+{% block description %}MagmaCore Projects{% endblock %}
+{% block keywords %}projects{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+{% block styles %} {% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section class="uk-height-viewport">
+    <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        <form method="POST" action="">
+                            {{ $table }}
+                        </form>
+
+                    </div>
+                </div>
+                {@ templateExtension('uikit_pagination') @}
+            </div>
+    </div>
+</section>
+{% endblock %}
+<!-- Footer scripts -->
+{% block scripts %} {% endblock %}
