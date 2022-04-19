@@ -1,8 +1,10 @@
-<ul class="uk-iconnav">
-    <li><a href="/admin/user/1270/show" uk-icon="icon: user"></a></li>
-    <li><a href="#" uk-icon="icon: file-edit"></a></li>
-    <li><a href="#" uk-icon="icon: copy"></a></li>
-    <li><a href="/logout"><span uk-icon="icon: sign-out"></span> (21)</a></li>
+<ul class="uk-iconnav uk-text-white">
+    <li class="uk-margin-small-right" uk-tooltip="{{ $current_user->firstname . ' ' . $current_user->lastname }}"><a href="/admin/user/1270/show" class="uk-button uk-button-text uk-link-reset">Welcome admin.</a></li>
+    <li class="uk-margin-small-right"><a href="" class="uk-button uk-button-text uk-link-reset">Documentation.</a></li>
+    <li class="uk-margin-small-right"><a href="" class="uk-button uk-button-text uk-link-reset">Changelog.<sup class="uk-text-danger">v1.3</sup></a></li>
+
+    <li class="uk-margin-small-right" uk-tooltip="Site Settings"><a href="" uk-icon="icon: world"></a></li>
+    <li><a uk-tooltip="Sign Out" href="/logout"><span uk-icon="icon: sign-out"></span></a></li>
 </ul>
 
 

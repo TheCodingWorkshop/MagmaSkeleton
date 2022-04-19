@@ -2,12 +2,10 @@
     {% foreach($nav_switcher as $key => $value) : %}
     <li>
         <a uk-tooltip="{{ ucwords($key) }}" class="switcher-item-{{ $key }}" href="#">
-           
             {@ icon($value['icon']) @}
             {% if ($key === 'ticket') : %}
-            <sup class="uk-text-danger" uk-tooltip="Ticket approval required">{@ icon('alert-circle', 22, 'ion') @}</sup>
-        {% endif; %}
-
+                <sup class="uk-text-danger" uk-tooltip="Ticket approval required">{@ icon('alert-circle', 22, 'ion') @}</sup>
+            {% endif; %}
         </a>
     </li>
     {% endforeach; %}

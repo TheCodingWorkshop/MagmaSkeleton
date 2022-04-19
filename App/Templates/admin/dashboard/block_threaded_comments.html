@@ -1,0 +1,59 @@
+<div>
+    <div class="uk-child-width-1-2@m uk-grid-small uk-grid-match" uk-grid>
+        <div>
+            <div class="uk-card uk-card-body uk-card-secondary">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            {@ icon('comments', 3.5) @}
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Threaded Comments</h3>
+                            <p class="uk-text-meta uk-margin-remove-top">
+                                <time datetime="2016-04-01T19:00">+1.4k visits today</time>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-card-body">
+                    <p>Public Feedbacks are 2.5%<span><ion-icon name="arrow-up-outline"></ion-icon></span> higher than last week.
+                    </p>
+                    <ul class="uk-list uk-list-collapse uk-list-divider">
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Approved</div>
+                                <div>44</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Pending</div>
+                                <div>54</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Spam</div>
+                                <div>3</div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <div class="uk-grid-small" uk-grid>
+                                <div class="uk-width-expand" uk-leader>Trash</div>
+                                <div>48</div>
+                            </div>
+
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            {@ getWidget('website_traffic_widget') @}
+        </div>
+    </div>
+</div>
