@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}Permission{% endblock %} 
+{% block title %}Changelog{% endblock %} 
 {% block description %}MagmaCore create permissions{% endblock %} 
 {% block keywords %}{% endblock %} 
 {% block author %}Ricardo Miller{% endblock %}
@@ -7,21 +7,14 @@
 <!-- start content-->
 {% block content %}
 <form method="post" action="/admin/permission/bulk">
-    {@ templateExtension('uikit_simple_pagination') @}
 
     <section uk-grid class="uk-height-viewport">
         <div class="uk-width-expand@m">
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
-                        {% if ($total_records > 0) : %} 
-                        {{ $table }} 
-                        {% else : %} 
-                        {% include 'admin/no_database_record.html' %} 
-                        {% endif; %}
                     </div>
                 </div>
-                {@ templateExtension('uikit_pagination') @}
             </div>
         </div>
     </section>

@@ -12,14 +12,13 @@
 {% include 'admin/dashboard/_parts/statistics_cards2.html' %}
 
 {% include 'admin/dashboard/_parts/statistics_cards.html' %}
-<h3 class="uk-card-title uk-text-bolder uk-margin-remove">Interactive Panel</h3>
-<hr>
+{% include 'admin/dashboard/_parts/dashboard_interactive_heading.html' %}
 <section class="">
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
         <div class="uk-card-badge">
-            <a href="#offcanvas-usage" uk-toggle class="uk-link-reset">
+            <!-- <a href="#offcanvas-usage" uk-toggle class="uk-link-reset">
                 {@ icon('cog', 0.9) @}
-            </a>
+            </a> -->
         </div>
         <div>
             <div>
@@ -44,6 +43,42 @@
 
     </div>
 </section>
+
+<div class="uk-width-expand@m uk-margin">
+    <table class="uk-table uk-table-middle uk-table-divider">
+        <thead>
+            <tr>
+                <th class="uk-width-small">ID</th>
+                <th>Project Name</th>
+                <th>Team</th>
+                <th>Feedback</th>
+                <th>Date</th>
+                <th>Project Status</th>
+                <th>Preview</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2345</td>
+                <td>Mansfield Hospital.</td>
+                <td>
+                    <img class="uk-rounded" src="/public/assets/images/undraw_profile.svg" width="40">
+                    <img src="/public/assets/images/undraw_profile_1.svg" width="40">
+                    <img src="/public/assets/images/undraw_profile_2.svg" width="40">
+                </td>
+                <td>
+                    <div>
+                        <span class="uk-text-small"><small> (+50)</small></span>
+                        <progress class="uk-progress" value="50" max="100"></progress>
+                    </div>    
+                </td>
+                <td>April 21, 2022</td>
+                <td>Active</td>
+                <td>{@ icon('push', 1.0) @}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
 
