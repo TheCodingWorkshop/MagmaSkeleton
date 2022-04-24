@@ -1,5 +1,6 @@
 {% extends 'layout.html' %} {% block title %}Create An Account{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}new-account, create-new{% endblock %} {% block content %}
 
+<!-- {@ canAccess($privilege_user) @} -->
 <section uk-grid class="uk-height-viewport">
     <div class="uk-width-1-2@m">
         <div>
@@ -16,6 +17,7 @@
             <div class="uk-card uk-card-default uk-card-body">
                 <h3 class="uk-card-title">{@ locale('last_5_users') @}</h3>
                 <p>Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
             </div>
 
         </div>
