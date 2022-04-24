@@ -1,27 +1,14 @@
 <div uk-grid class="uk-child-width-1-1@s uk-child-width-1-3@m uk-child-width-1-3@xl uk-margin-bottom">
     <div>
-        {@ getWidget('active_now_widget', 'users', 'id') @}
+        {@ getWidget('users_widget', 'users', 'id') @}
     </div>
     <div>
-        {@ getWidget('content_widget', 'users', 'id') @}
+        {@ getWidget('total_visit_widget', 'users', 'id') @}
     </div>
     <div>
         <div>
-            <div class="left-content-box uk-margin-top">
-                
-                <div>
-                    <span class="uk-text-small">Page Views <small> (+50)</small></span>
-                    <progress class="uk-progress" value="50" max="100"></progress>
-                </div>
-                <div>
-                    <span class="uk-text-small">Total Active <small> (+78)</small></span>
-                    <progress class="uk-progress success" value="78" max="100"></progress>
-                </div>
-                <div>
-                    <span class="uk-text-small">Active Session<small> (12)</small></span>
-                    <progress class="uk-progress warning" value="12" max="100"></progress>
-                </div>
-            
+            <div class="left-content-box">
+                {@ getWidget('progress_bar_widget', '', '', $progress_bar_data) @}            
             </div>
         </div>
         </div>

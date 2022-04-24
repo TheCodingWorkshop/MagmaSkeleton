@@ -10,9 +10,9 @@
 {% block content %}
 
 {% include 'admin/dashboard/_parts/statistics_cards2.html' %}
-
 {% include 'admin/dashboard/_parts/statistics_cards.html' %}
 {% include 'admin/dashboard/_parts/dashboard_interactive_heading.html' %}
+
 <section class="">
     <div class="uk-card uk-card-default uk-card-body uk-width-expand@m">
         <div class="uk-card-badge">
@@ -28,12 +28,13 @@
                     </div>
                     <div class="uk-width-expand@m">
                         <ul id="component-tab-left" class="uk-switcher">
+                            <li>{% include 'admin/dashboard/block_just_now.html' %}</li>
                             <li>{% include 'admin/dashboard/block_main.html' %}</li>
                             <li>{% include 'admin/dashboard/block_ticket.html' %}</li>
                             <li>{% include 'admin/dashboard/block_session.html' %}</li>
                             <li>{% include 'admin/dashboard/block_threaded_comments.html' %}</li>
                             <li>{% include 'admin/dashboard/block_project.html' %}</li>
-                            <li>{% include 'admin/dashboard/block_health_status.html' %}</li>
+                            <!-- <li>{% include 'admin/dashboard/block_health_status.html' %}</li> -->
                         </ul>
                         {% include 'admin/dashboard/offcanvas/dashboard_toggle.html' %}
                     </div>
