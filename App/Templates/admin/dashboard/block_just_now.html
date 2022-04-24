@@ -17,7 +17,16 @@
                 </div>
                 <div class="uk-card-body">
                     <p>MagmaCore is running the latest stable version v1.3</p>
-                    <ul class="uk-list uk-list-collapse">
+                    <div id="just_now_panel"></div>
+                    <script>
+                            $("#just_now_panel").sparkline([123, 94, 67, 72, 70, 64, 82, 74], {
+                            type: 'bar',
+                            height: '100',
+                            barWidth: '25',
+                            barColor: '#ffffff'
+                        });
+                    </script>
+                    <!-- <ul class="uk-list uk-list-collapse">
                         <li>
                             <div class="uk-grid-small" uk-grid>
                                 <div class="uk-width-expand" uk-leader>Users</div>
@@ -53,14 +62,12 @@
 
                         </li>
 
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
         </div>
         <div>
-            <a class="weatherwidget-io" href="https://forecast7.com/en/53d52n1d13/doncaster/" data-label_1="DONCASTER" data-label_2="WEATHER" >DONCASTER WEATHER</a>
-            <script>
-            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-            </script>        </div>
+            {@ getWidget('lists_widget', null, null, $main_cards) @}
+        </div>
     </div>
 </div>
