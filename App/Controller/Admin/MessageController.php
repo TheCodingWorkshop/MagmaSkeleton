@@ -72,6 +72,12 @@ class MessageController extends \MagmaCore\Administrator\Controller\AdminControl
         ];
     }
 
+    public function schemaAsString()
+    {
+        return MessageSchema::class;
+    }
+
+
     protected function indexAction()
     {
 

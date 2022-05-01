@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block title %}System Trash{% endblock %}
+{% block description %}View the system trash{% endblock %}
+{% block keywords %}trash{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<section class="uk-height-viewport">
+    <div class="uk-width-expand@m">
+        <div>
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto uk-text-danger">
+                                {@ icon('trash', 3.5) @}
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom"></h3>
+                                <div class="uk-search">
+                                    <a href="" class="uk-search-icon-flip" uk-search-icon></a>
+                                    <input type="search"
+                                        class="uk-search-input uk-search-large uk-form-blank uk-border-bottom"
+                                        onkeyup="listFilter('list_filter', 'filtered_list_lock')" id="list_filter"
+                                        placeholder="Filter Lists..." />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uk-card-body uk-card-default uk-dark">
+
+                        {% if (isset($models) && count($models) > 0) : %}
+                        <ul class="uk-list uk-list-collapse uk-list-divider" id="filtered_list_lock">
+                            {% foreach ($models as $model) : %}
+                            {% if (isset($model['items_in_trash']) && $model['items_in_trash'] > 0) : %}
+                            <form method="post" action="/admin/{@ str($model['object'], 'lower') @}/bulk">
+                            <li>
+                                <div class="uk-grid-small" uk-grid>
+                                    <div class="uk-width-expand" uk-leader><span uk-tooltip="Items" class="uk-text-danger">( {{
+                                            $model['items_in_trash'] }} )</span> {{ $model['object'] }} <span
+                                            class="uk-text-small uk-text-warning">({{ $model['object_path'] }})</span>
+                                    </div>
+                                    <div>
+                                        {% if (isset($model['items_id']) && count($model['items_id']) > 0) : %}
+                                        {% foreach ($model['items_id'] as $id) : %}
+                                        <input type="hidden" name="id[]" value="{{ $id['id'] }}" />
+                                        {% endforeach; %}
+                                        <button type="submit" class="uk-button uk-button-small uk-button-default" name="emptyTrash-{@ str($model['object'], 'lower') @}">{@ icon('trash', 0.8) @}</button>
+                                        <button type="submit" class="uk-button uk-button-small uk-button-default" name="restoreTrash-{@ str($model['object'], 'lower') @}">{@ icon('reply', 0.8) @}</button>
+
+                                        {% endif; %}
+                                    </div>
+                                </div>
+
+                            </li>
+                            </form>
+
+                            {% endif; %}
+                            {% endforeach %}
+                        </ul>
+                        {% else : %}
+                        No trash
+                        {% endif; %}
+
+                        <div class="uk-margin">
+                            <input class="uk-button uk-button-danger" type="submit" name="bulkUnlockAll-user"
+                                value="Empty Trash">
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+<!--  -->
+{% block scripts %}
+{% endblock %}

@@ -9,7 +9,11 @@
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
-                        {% if ($total_records > 0) : %} {{ $table }} {% else : %} {% include 'admin/no_database_record.html' %} {% endif; %}
+                        {% if ($total_records > 0) : %} 
+                        {{ $table }} 
+                        {% else : %} 
+                        {% include 'admin/no_database_record.html' %} 
+                        {% endif; %}
                     </div>
                 </div>
                 {@ templateExtension('uikit_pagination') @}

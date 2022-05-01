@@ -1,0 +1,24 @@
+<ul class="uk-list uk-list-collapse uk-list-divider">
+    <li class="uk-active uk-margin-bottom">
+      <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">
+        Changelog
+        <sup><span class="uk-text-meta">v1.3.6</span></sup>
+      </h3>
+      <small>Welcome to the <span class="uk-text-danger">MagmaCore Changelog</span></small>
+      <form class="uk-search uk-search-default uk-margin-small">
+        <input class="uk-search-input" type="search" placeholder="Filter by version...">
+    </form>
+    </li>
+    {% foreach (array_reverse($changelogs) as $changelog): %}
+    <li>
+      <div class="uk-clearfix">
+        <div class="uk-float-left">
+          <a class="uk-link-reset" href="/admin/support/changelog?version={{ $changelog['version'] }}">
+            v{@ str($changelog['version']) @} <span class="uk-text-small uk-text-{{ $changelog['label'] }}">{{ $changelog['type'] }}</span>
+          </a>
+        </div>
+      </div>
+    </li>
+    {% endforeach; %}
+  </ul>
+  

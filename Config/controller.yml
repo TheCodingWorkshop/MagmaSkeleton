@@ -11,13 +11,7 @@ dashboard:
 
 
 user:
-  #status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
-  status_choices:
-    - active
-    - pending
-    - trash
-    - lock
-
+  status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
   additional_conditions:
     status: active
   selectors: []
@@ -29,7 +23,7 @@ user:
     - firstname
     - created_at
     - modified_at
-  trash_can_support: 'false'
+  trash_can_support: 'true'
 
 message:
   status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
@@ -44,7 +38,7 @@ message:
   sort_columns:
     - user_id
     - created_at
-  trash_can_support: 'false'
+  trash_can_support: 'true'
 
 post:
   status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
@@ -90,7 +84,7 @@ tag:
   sort_columns:
     - tag_name
     - created_at
-  trash_can_support: 'true'
+  trash_can_support: 'false'
 
 
 

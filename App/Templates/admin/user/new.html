@@ -1,4 +1,9 @@
-{% extends 'layout.html' %} {% block title %}Create An Account{% endblock %} {% block description %}MagmaCore create an account{% endblock %} {% block keywords %}new-account, create-new{% endblock %} {% block content %}
+{% extends 'layout.html' %} 
+{% block title %}Create An Account{% endblock %} 
+{% block description %}MagmaCore create an account{% endblock %} 
+{% block keywords %}new-account, create-new{% endblock %} 
+
+{% block content %}
 
 <!-- {@ canAccess($privilege_user) @} -->
 <section uk-grid class="uk-height-viewport">
@@ -16,8 +21,19 @@
         <div>
             <div class="uk-card uk-card-default uk-card-body">
                 <h3 class="uk-card-title">{@ locale('last_5_users') @}</h3>
-                <p>Lorem ipsum <a href="#">dolor</a> sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
+                <p>The last 5 registered user accounts</p>
+                <ul class="uk-list uk-list-divider uk-list-striped uk-text-small">
+                    {% if (isset($last_5_users)) : %}
+                        {% foreach ($last_5_users as $user) : %}
+                            <li>
+                                <div class="uk-clearfix">
+                                    <span class="uk-float-left">{@ icon('user', 0.8) @} <a class="uk-link-reset" href="/admin/user/{{ $user['id'] }}/edit">{{ $user['firstname'] . ' ' . $user['lastname'] }}</a></span>
+                                    <span class="uk-float-right">{@ formatDate($user['created_at'], true) @}</span>
+                                </div>
+                            </li>
+                        {% endforeach; %}
+                    {% endif; %}
+                </ul>
             </div>
 
         </div>
