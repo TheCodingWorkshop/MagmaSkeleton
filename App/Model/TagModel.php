@@ -23,6 +23,10 @@ class TagModel extends AbstractBaseModel
     /** @var string */
     protected const TABLESCHEMAID = 'id';
     public const COLUMN_STATUS = [];
+    /* columns to include when cloning object */
+    protected array $cloneableKeys = ['tag_name', 'tag_slug'];
+    /* columns to exclude when cloning objects */
+    protected array $unsettableClone = ['id'];
 
 
     /**

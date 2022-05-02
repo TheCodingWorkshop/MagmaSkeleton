@@ -37,7 +37,7 @@ class CategoryCommander extends CategoryModel implements ApplicationCommanderInt
 
     private array $noCommander = [];
     private array $noNotification = self::INNER_ROUTES;
-    private array $noCustomizer = ['edit', 'show'];
+    private array $noCustomizer = ['edit', 'show', 'new'];
     private array $noManager = ['show'];
     private array $noAction = [];
     private array $noFilter = ['edit', 'show'];

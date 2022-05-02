@@ -22,7 +22,12 @@ class CategoryModel extends AbstractBaseModel
     protected const TABLESCHEMA = 'categories';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
+    /* does the model have any status is not return empty array */
     public const COLUMN_STATUS = [];
+    /* columns to include when cloning object */
+    protected array $cloneableKeys = ['cat_name', 'cat_slug'];
+    /* columns to exclude when cloning objects */
+    protected array $unsettableClone = ['id'];
 
 
     /**

@@ -1,14 +1,14 @@
 user:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/user/log"
+    setting:
+      name: settings
+      path: "/admin/user/settings"
+      icon: cog
     export:
       name: export
       path: ""
@@ -26,15 +26,15 @@ user:
 
 group:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/group/log"
+    setting:
+      name: settings
+      path: "/admin/group/settings"
+      icon: cog
   not_index:
     assigned:
       name: assigned
@@ -44,15 +44,15 @@ group:
 
 role:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/role/log"
+    setting:
+      name: settings
+      path: "/admin/role/settings"
+      icon: cog
   not_index:
     assigned:
       name: assigned
@@ -62,15 +62,15 @@ role:
 
 permission:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/permission/log"
+    setting:
+      name: settings
+      path: "/admin/permission/settings"
+      icon: cog
   not_index:
     assigned:
       name: assigned
@@ -81,15 +81,15 @@ permission:
 
 ticket:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/ticket/log"
+    setting:
+      name: settings
+      path: "/admin/ticket/settings"
+      icon: cog
   not_index:
     assigned:
       name: assigned
@@ -205,15 +205,15 @@ accessDenied:
   new_user:
 menu:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/menu/log"
+    setting:
+      name: settings
+      path: "/admin/menu/settings"
+      icon: cog
   not_index:
     show:
       name: show
@@ -251,15 +251,15 @@ notification:
 
 message:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/message/log"
+    setting:
+      name: settings
+      path: "/admin/message/settings"
+      icon: cog
   not_index:
     show:
       name: show
@@ -297,15 +297,15 @@ system:
 
 post:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/post/log"
+    setting:
+      name: settings
+      path: "/admin/post/settings"
+      icon: cog
   not_index:
     show:
       name: show
@@ -320,15 +320,15 @@ post:
 
 category:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/category/log"
+    setting:
+      name: settings
+      path: "/admin/category/settings"
+      icon: cog
   not_index:
     show:
       name: show
@@ -343,15 +343,15 @@ category:
 
 tag:
   index:
-    copy:
-      name: copy
-      icon: copy-outline
-      nav_header: "Bulk Action"
-      path: ""
-    trash:
-      name: delete
-      path: ""
-      icon: trash-outline
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/tag/log"
+    setting:
+      name: settings
+      path: "/admin/tag/settings"
+      icon: cog
   not_index:
     show:
       name: show

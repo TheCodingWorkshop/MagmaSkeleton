@@ -23,6 +23,19 @@ use App\Forms\Admin\Category\CategoryForm;
 use MagmaCore\Base\Traits\ControllerCommonTrait;
 use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
+/**
+ * methods
+ * 
+ * indexAction
+ * showAction
+ * newAction
+ * editAction
+ * copyAction
+ * trashAction
+ * untrashAction
+ * hardDeleteAction
+ * bulkAction
+ */
 class CategoryController extends \MagmaCore\Administrator\Controller\AdminController
 {
 
@@ -103,6 +116,17 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
             ->end();
     }
 
+    protected function copyAction()
+    {
+        $this->copyAction 
+            ->setAccess($this, Access::CAN_COPY)
+            ->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__)
+            ->render()
+            ->with()
+            ->form()
+            ->end();
+    }
+
     /**
      * Route which puts the item within the trash. This is only for supported models
      * and is effectively changing the deleted_at column to 1. All datatable queries 
@@ -153,6 +177,11 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
         $this->chooseBulkAction($this, CategoryActionEvent::class);
     }
 
+    /**
+     * Category settings page
+     *
+     * @return Response
+     */
     protected function settingsAction()
     {
         $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
@@ -171,12 +200,6 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
             )
             ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
             ->end();
-    }
-
-
-
-    protected function testAction()
-    {
     }
 
 }
