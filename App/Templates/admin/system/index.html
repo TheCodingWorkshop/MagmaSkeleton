@@ -1,33 +1,27 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}System Event Viewer{% endblock %}
-<!---->
 {% block description %}View the system event log{% endblock %}
-<!---->
 {% block keywords %}events{% endblock %}
-<!---->
 {% block author %}Ricardo Miller{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<form>
-    <section class="uk-height-viewport">
-        {@ templateExtension('uikit_simple_pagination') @}
-        <div class="uk-width-expand@m">
-            <div>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-body">
-                        {{ $table }}
+    <form>
+        <section class="uk-height-viewport">
+            {@ templateExtension('uikit_simple_pagination') @}
+            <div class="uk-width-expand@m">
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            {% include 'admin/common_datatable.html' %}
+                        </div>
                     </div>
+                    {@ templateExtension('uikit_pagination') @}
                 </div>
-                {@ templateExtension('uikit_pagination') @}
             </div>
-        </div>
 
-    </section>
+        </section>
 
-</form>
-
+    </form>
 {% endblock %}
-<!--  -->
+
 {% block scripts %} {% endblock %}

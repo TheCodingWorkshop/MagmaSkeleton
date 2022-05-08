@@ -1,0 +1,5 @@
+{% if ($total_records > 0) : %} 
+    {{ $table }} 
+{% else : %} 
+    {% include 'admin/_global/_global_no_records.html' %} 
+{% endif; %}

@@ -11,8 +11,9 @@ dashboard:
 
 
 user:
-  status_choices: [active: Active, pending: Pending, lock: Lock, trash: Trash]
+  status_choices: [active: Active, pending: Pending, lock: Lock]
   additional_conditions:
+    deleted_at: 0
     status: active
   selectors: []
   records_per_page: 5

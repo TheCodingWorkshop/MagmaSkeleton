@@ -1,20 +1,23 @@
-{% extends 'layout.html' %} {% block title %}Role Log{% endblock %} {% block description %}MagmaCore role log{% endblock %} {% block keywords %}register, create an account{% endblock %} {% block author %}Ricardo Miller{% endblock %}
+{% extends 'layout.html' %} 
+{% block title %}Role Log{% endblock %} 
+{% block description %}MagmaCore role log{% endblock %} 
+{% block keywords %}register, create an account{% endblock %} 
+{% block author %}Ricardo Miller{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<form>
-    <section>
-        <div class="uk-width-expand@m">
-            <div>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-body">
-                        {{ $table }}
+    <form>
+        <section>
+            <div class="uk-width-expand@m">
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            {{ $table }}
+                        </div>
                     </div>
+                    {@ templateExtension('uikit_pagination') @}
                 </div>
-                {@ templateExtension('uikit_pagination') @}
             </div>
-        </div>
-    </section>
+        </section>
 
-</form>
+    </form>
 {% endblock %}

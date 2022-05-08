@@ -1,43 +1,35 @@
 {% extends 'layout.html' %}
-
-<!---->
 {% block title %}Settings{% endblock %}
-<!---->
 {% block description %}MagmaCore settings{% endblock %}
-<!---->
 {% block keywords %}team{% endblock %}
-<!---->
 {% block author %}Ricardo Miller{% endblock %}
-<!---->
 {% block styles %} {% endblock %}
 
-<!---->
 {% block content %}
+    <section class="uk-height-viewport uk-margin-top">
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                            <li class="uk-nav-header">Options</li>
+                            {% foreach(['system', 'application', 'services'] as $option) : %}
+                            <li><a href="#">{{ $option }}</a></li>
+                            {% endforeach; %}
+                        </ul>
 
-<section class="uk-height-viewport uk-margin-top">
-    <div>
-        <div uk-grid>
-            <div class="uk-width-1-4@m">
-                <div class="uk-card uk-card-body uk-card-default">
-                    <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-                        <li class="uk-nav-header">Options</li>
-                        {% foreach(['system', 'application', 'services'] as $option) : %}
-                        <li><a href="#">{{ $option }}</a></li>
-                        {% endforeach; %}
+                    </div>
+                </div>
+                <div class="uk-width-expand@m">
+                    <ul id="component-tab-left" class="uk-switcher">
+                        <li>{% include 'admin/setting/_parts/general.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/application.html' %}</li>
+                        <li>{% include 'admin/setting/_parts/services.html' %}</li>
                     </ul>
-
                 </div>
             </div>
-            <div class="uk-width-expand@m">
-                <ul id="component-tab-left" class="uk-switcher">
-                    <li>{% include 'admin/setting/_parts/general.html' %}</li>
-                    <li>{% include 'admin/setting/_parts/application.html' %}</li>
-                    <li>{% include 'admin/setting/_parts/services.html' %}</li>
-                </ul>
-            </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
-<!-- Footer scripts -->
+
 {% block scripts %} {% endblock %}

@@ -4,29 +4,25 @@
 {% block keywords %}{% endblock %} 
 {% block author %}Ricardo Miller{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<form method="post" action="">
-
-    <section uk-grid class="uk-height-match uk-margin-top">
-        <div class="uk-width-1-4@m">
-            <div>
-                {% include 'admin/support/_partials/documentation_sidebar.html' %}
+    <form method="post" action="">
+        <section uk-grid class="uk-height-match uk-margin-top">
+            <div class="uk-width-1-4@m">
+                <div>
+                    {% include 'admin/support/_partials/documentation_sidebar.html' %}
+                </div>
             </div>
-        </div>
-    
-        <div class="uk-width-expand@m">
-            <div>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Getting Started</h3>
-                        <p>How to get started using MagmaCore framework for your next project.</p>
+        
+            <div class="uk-width-expand@m">
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Getting Started</h3>
+                            <p>How to get started using MagmaCore framework for your next project.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    
-</form>
+        </section>
+    </form>
 {% endblock %}

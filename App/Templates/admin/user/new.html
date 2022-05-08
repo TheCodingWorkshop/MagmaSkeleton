@@ -4,54 +4,40 @@
 {% block keywords %}new-account, create-new{% endblock %} 
 
 {% block content %}
-
-<!-- {@ canAccess($privilege_user) @} -->
-<section uk-grid class="uk-height-viewport">
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    {{ $form }}
+    <section uk-grid class="uk-height-viewport">
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {{ $form }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="uk-width-expand@m">
-        <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                <h3 class="uk-card-title">{@ locale('last_5_users') @}</h3>
-                <p>The last 5 registered user accounts</p>
-                <ul class="uk-list uk-list-divider uk-list-striped uk-text-small">
-                    {% if (isset($last_5_users)) : %}
-                        {% foreach ($last_5_users as $user) : %}
-                            <li>
-                                <div class="uk-clearfix">
-                                    <span class="uk-float-left">{@ icon('user', 0.8) @} <a class="uk-link-reset" href="/admin/user/{{ $user['id'] }}/edit">{{ $user['firstname'] . ' ' . $user['lastname'] }}</a></span>
-                                    <span class="uk-float-right">{@ formatDate($user['created_at'], true) @}</span>
-                                </div>
-                            </li>
-                        {% endforeach; %}
-                    {% endif; %}
-                </ul>
+        <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <h3 class="uk-card-title">{@ locale('last_5_users') @}</h3>
+                    <p>The last 5 registered user accounts</p>
+                    <ul class="uk-list uk-list-divider uk-list-striped uk-text-small">
+                        {% if (isset($last_5_users)) : %}
+                            {% foreach ($last_5_users as $user) : %}
+                                <li>
+                                    <div class="uk-clearfix">
+                                        <span class="uk-float-left">{@ icon('user', 0.8) @} <a class="uk-link-reset" href="/admin/user/{{ $user['id'] }}/edit">{{ $user['firstname'] . ' ' . $user['lastname'] }}</a></span>
+                                        <span class="uk-float-right">{@ formatDate($user['created_at'], true) @}</span>
+                                    </div>
+                                </li>
+                            {% endforeach; %}
+                        {% endif; %}
+                    </ul>
+                </div>
+
             </div>
-
         </div>
-    </div>
 
-</section>
+    </section>
+{% endblock %}
 
-{% endblock %}
-<!--  -->
-{% block scripts %}
-<!-- <script>
-    addEventListener("turbo:submit-start", ({
-        target
-    }) => {
-        for (const field of target.elements) {
-            console(target)
-            field.disabled = true
-        }
-    })
-</script> -->
-{% endblock %}
+{% block scripts %}{% endblock %}

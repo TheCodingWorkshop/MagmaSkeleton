@@ -1,54 +1,49 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}General Settings{% endblock %}
-<!---->
 {% block description %}MagmaCore settings{% endblock %}
-<!---->
 {% block keywords %}team{% endblock %}
-<!---->
 {% block author %}Ricardo Miller{% endblock %}
-<!---->
-{% block styles %} {% endblock %} {% block content %}
+{% block styles %} {% endblock %} 
 
-<!---->
-<section class="uk-height-viewport">
-    <div>
-        <div uk-grid>
-            <div class="uk-width-1-4@m">
-                {% include 'admin/setting/_parts/go_back.html' %}
-                <div class="uk-card uk-card-body uk-card-default">
-                    <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+{% block content %}
+    <section class="uk-height-viewport">
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    {% include 'admin/setting/_parts/go_back.html' %}
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
 
-                        <li class="uk-nav-header">Options</li>
-                        {% foreach(['General', 'Formatting', 'Avatar', 'Misc'] as $option) : %}
-                        <li><a href="#">{{ $option }}</a></li>
-                        {% endforeach; %}
-                    </ul>
+                            <li class="uk-nav-header">Options</li>
+                            {% foreach(['General', 'Formatting', 'Avatar', 'Misc'] as $option) : %}
+                            <li><a href="#">{{ $option }}</a></li>
+                            {% endforeach; %}
+                        </ul>
 
-                </div>
-            </div>
-            <div class="uk-width-expand@m">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto">
-                            {@ icon('cog', 3.5) @}
-                        </div>
-                        <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">General Settings {% include 'admin/setting/_parts/add_button.html' %}</h3>
-                            <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
-                        </div>
                     </div>
                 </div>
-                <ul id="component-tab-left" class="uk-switcher">
-                    <li>{{ $form }}</li>
-                    <li>{{ $form_formatting }}</li>
-                    <li>{{ $form_avatar }}</li>
-                    <li>{{ $form_default }}</li>
-                </ul>
+                <div class="uk-width-expand@m">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                {@ icon('cog', 3.5) @}
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">General Settings {% include 'admin/setting/_parts/add_button.html' %}</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul id="component-tab-left" class="uk-switcher">
+                        <li>{{ $form }}</li>
+                        <li>{{ $form_formatting }}</li>
+                        <li>{{ $form_avatar }}</li>
+                        <li>{{ $form_default }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
-<!-- Footer scripts -->
+
 {% block scripts %} {% endblock %}

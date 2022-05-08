@@ -4,62 +4,44 @@
 {% block keywords %}history{% endblock %} 
 {% block author %}Ricardo Miller{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<form method="post" action="/admin/menu/bulk" data-turbo="false">
-    <section class="uk-height-viewport">
-        {@ templateExtension('uikit_simple_pagination') @}
+    <form method="post" action="/admin/menu/bulk" data-turbo="false">
+        <section class="uk-height-viewport uk-margin-top">
 
-        <div class="uk-width-expand@m">
-            <div>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-body">
-                        <ul uk-accordion>
-                            <li class="uk-open">
-                                <a class="uk-accordion-title" href="#">Search History</a>
-                                <div class="uk-accordion-content">
-                                    <p>Search back back up to a point of where you last visited.</p>
-                                    <form class="uk-search uk-search-default">
-                                        <span uk-search-icon></span>
-                                        <input class="uk-search-input" type="search" placeholder="Search">
-                                    </form>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="uk-accordion-title" href="#">Recently Visited</a>
-                                <div class="uk-accordion-content">
-                                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor reprehenderit.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="uk-accordion-title" href="#">Last 7 days</a>
-                                <div class="uk-accordion-content">
-                                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
-                                </div>
-                            </li>
-                        </ul>
-                        <!-- {% if ($total_records > 0) : %} 
-                        {{ $table }} 
-                        {% else : %} 
-                        {% include 'admin/no_database_record.html' %} 
-                        {% endif; %} -->
-                        <!-- <h5>Recently Visited</h5> -->
-                        <!-- {% var_dump(array_map('unserialize', array_unique(array_map('serialize', $list_data)))) %} -->
-                        <!-- <ul class="uk-list uk-list-striped">
-                            {% foreach ($list_data as $history) : %}
-                                <li>
-                                {{ $history['history_user'] }} - <a href="{{ $history['history_path'] }}">{{ $history['history_path'] }}</a>
+            <div class="uk-width-expand@m">
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            <ul uk-accordion>
+                                <li class="uk-open">
+                                    <a class="uk-accordion-title" href="#">Search History</a>
+                                    <div class="uk-accordion-content">
+                                        <p>Search back back up to a point of where you last visited.</p>
+                                        <form class="uk-search uk-search-default">
+                                            <span uk-search-icon></span>
+                                            <input class="uk-search-input" type="search" placeholder="Search">
+                                        </form>
+                                    </div>
                                 </li>
-                            {% endforeach; %}
-                        </ul> -->
+                                <li>
+                                    <a class="uk-accordion-title" href="#">Recently Visited</a>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="uk-accordion-title" href="#">Last 7 days</a>
+                                    <div class="uk-accordion-content">
+                                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                {@ templateExtension('uikit_pagination') @}
             </div>
-        </div>
-    </section>
-</form>
-
+        </section>
+    </form>
 {% endblock %}
-<!---->
+
 {% block scripts %} {% endblock %}

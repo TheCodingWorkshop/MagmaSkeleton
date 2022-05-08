@@ -4,61 +4,58 @@
 {% block keywords %}{% endblock %} 
 {% block author %}Ricardo Miller{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<section uk-grid class="uk-height-match uk-margin-top">
-    <div class="uk-width-1-4@m">
-
-            {% if (isset($_GET['version'])) : %}
-                <a class="uk-link-reset" href="{@ path('admin_support_changelog') @}">
-            {@ icon('arrow-left', 1.0) @}
-            {% else : %}
-                <a class="uk-link-reset" href="/admin/support/refresh">
-            {@ icon('refresh', 1.0) @}
-            {% endif; %}
-        </a>
-        <div>
-            {% include 'admin/support/_partials/changelog_sidebar.html' %}
+    <section uk-grid class="uk-height-match uk-margin-top">
+        <div class="uk-width-1-4@m">
+                {% if (isset($_GET['version'])) : %}
+                    <a class="uk-link-reset" href="{@ path('admin_support_changelog') @}">
+                {@ icon('arrow-left', 1.0) @}
+                {% else : %}
+                    <a class="uk-link-reset" href="/admin/support/refresh">
+                {@ icon('refresh', 1.0) @}
+                {% endif; %}
+            </a>
+            <div>
+                {% include 'admin/support/_partials/changelog_sidebar.html' %}
+            </div>
         </div>
-    </div>
 
-    <div class="uk-width-expand@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Changelog</h3>
-                    <hr>
-                    {% if (count($changelogs) > 0) : %}
-                        <ul uk-accordion>
-                        {% foreach( $changelogs as $changelog) : %}
-                            {% if (isset($_GET['version']) && $_GET['version'] === $changelog['version']) : %}
-                                <li class="uk-open">
-                                    <a class="uk-padding-small uk-accordion-title uk-label uk-label-{{ $changelog['label'] ? $changelog['label'] : 'secondary' }}" href="#"><span><ion-icon name="{{ $changelog['icon'] ? $changelog['icon'] : 'alert' }}"></ion-icon></span> {{ $changelog['type'] }}</a>
-                                    <div class="uk-accordion-content">
-                                        <p>{{ $changelog['desc'] }}</p>
-                                        <ul class="uk-list uk-list-bullet uk-list-collapse">
-                                            {% if (isset($changelog['lists']) && is_array($changelog['lists']) && count($changelog['lists']) > 0) : %}
-                                                {% foreach ($changelog['lists'] as $list) : %}
-                                                    <li>{{ $list }}</li>
-                                                {% endforeach; %}
-                                            {% endif; %}
-                                        </ul>
-                                    </div>
-                                </li>
-                            {% endif; %}
-                        {% endforeach; %}
+        <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Changelog</h3>
+                        <hr>
+                        {% if (count($changelogs) > 0) : %}
+                            <ul uk-accordion>
+                            {% foreach( $changelogs as $changelog) : %}
+                                {% if (isset($_GET['version']) && $_GET['version'] === $changelog['version']) : %}
+                                    <li class="uk-open">
+                                        <a class="uk-padding-small uk-accordion-title uk-label uk-label-{{ $changelog['label'] ? $changelog['label'] : 'secondary' }}" href="#"><span><ion-icon name="{{ $changelog['icon'] ? $changelog['icon'] : 'alert' }}"></ion-icon></span> {{ $changelog['type'] }}</a>
+                                        <div class="uk-accordion-content">
+                                            <p>{{ $changelog['desc'] }}</p>
+                                            <ul class="uk-list uk-list-bullet uk-list-collapse">
+                                                {% if (isset($changelog['lists']) && is_array($changelog['lists']) && count($changelog['lists']) > 0) : %}
+                                                    {% foreach ($changelog['lists'] as $list) : %}
+                                                        <li>{{ $list }}</li>
+                                                    {% endforeach; %}
+                                                {% endif; %}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                {% endif; %}
+                            {% endforeach; %}
+                            </ul>
+                        {% endif; %}
+                        <ul class="uk-iconnav">
+                            <li><a href="#" uk-icon="icon: plus"></a></li>
+                            <li><a href="#" uk-icon="icon: file-edit"></a></li>
+                            <li><a href="#" uk-icon="icon: copy"></a></li>
+                            <li><a href="#"><span uk-icon="icon: bag"></span> (2)</a></li>
                         </ul>
-                    {% endif; %}
-                    <ul class="uk-iconnav">
-                        <li><a href="#" uk-icon="icon: plus"></a></li>
-                        <li><a href="#" uk-icon="icon: file-edit"></a></li>
-                        <li><a href="#" uk-icon="icon: copy"></a></li>
-                        <li><a href="#"><span uk-icon="icon: bag"></span> (2)</a></li>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 {% endblock %}

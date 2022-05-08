@@ -3,77 +3,65 @@
 {% block description %}MagmaCore assigned group{% endblock %}
 {% block keywords %}assigned-group{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<section uk-grid class="uk-height-viewport">
+  <section uk-grid class="uk-height-viewport">
 
-  <div class="uk-width-1-2@m">
-    <div>
-      <div class="uk-card uk-card-default">
-        <div class="uk-card-body">
-          {{ $form }}
+    <div class="uk-width-1-2@m">
+      <div>
+        <div class="uk-card uk-card-default">
+          <div class="uk-card-body">
+            {{ $form }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="uk-width-1-2@m">
-    <div>
-      <div class="uk-card uk-card-body uk-padding-remove">
-        <dl class="uk-description-list">
-          <dt>{@ locale('group') @}</dt>
-          <dd>{{{ $group['group_name'] }}}
-            <small class="uk-text-primary">
-              Created: {@ formatDate($group['created_at'], true) @}
-            </small>
-          </dd>
-          <dt>{@ locale('group_assigned') @}</dt>
+    <div class="uk-width-1-2@m">
+      <div>
+        <div class="uk-card uk-card-body uk-padding-remove">
+          <dl class="uk-description-list">
+            <dt>{@ locale('group') @}</dt>
+            <dd>{{{ $group['group_name'] }}}
+              <small class="uk-text-primary">
+                Created: {@ formatDate($group['created_at'], true) @}
+              </small>
+            </dd>
+            <dt>{@ locale('group_assigned') @}</dt>
+            <dd>
+              {% if (isset($privi_user)) : %}
+                {% echo sizeof($privi_user) %}
+                {% else : %}
+                0
+                {% endif; %}
+            </dd>
+
+          <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($user_group_id) %} users)</span></dt>
+          <dd>{@ getUserOrderedListsFromRoles($user_group_id) @}</dd>
+
+          <dt>{@ locale('roles') @}</dt>
           <dd>
-            {% if (isset($privi_user)) : %}
-              {% echo sizeof($privi_user) %}
-              {% else : %}
-              0
-              {% endif; %}
+              <div class="uk-height-1-1">
+                  <ul class="uk-panel uk-panel-scrollable">
+                      {% if (isset($privi_user)) : %}
+                      {% foreach (array_keys($privi_user) as $roles) : %}
+                      <li>{{ $roles }}
+                      </li>
+                      {% endforeach; %}
+                      {% else : %}
+                      No Roles
+                      {% endif; %}
+                  </ul>
+              </div>
+
           </dd>
 
-        <dt>{@ locale('assigned_to') @} <span class="uk-text-primary uk-text-bolder">({% echo count($user_group_id) %} users)</span></dt>
-        <dd>{@ getUserOrderedListsFromRoles($user_group_id) @}</dd>
+          </dl>
 
-        <dt>{@ locale('roles') @}</dt>
-        <dd>
-            <div class="uk-height-1-1">
-                <ul class="uk-panel uk-panel-scrollable">
-                    {% if (isset($privi_user)) : %}
-                    {% foreach (array_keys($privi_user) as $roles) : %}
-                    <li>{{ $roles }}
-                    </li>
-                    {% endforeach; %}
-                    {% else : %}
-                    No Roles
-                    {% endif; %}
-                </ul>
-            </div>
-
-        </dd>
-
-        </dl>
-
+        </div>
       </div>
     </div>
-  </div>
-
-</section>
+  </section>
 
 {% endblock %}
-<!--  -->
-{% block scripts %}
-<script>
-  addEventListener("turbo:submit-start", ({
-    target
-    }) => {
-    for (const field of target.elements) {
-      field.disabled = true
-    }
-  })
-</script>
-{% endblock %}
+
+{% block scripts %}{% endblock %}

@@ -8,15 +8,13 @@
     <meta name="keywords" content="{% yield keywords %}">
     <meta name="author" content="{% yield author %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Dynamics styles and scripts -->
     {@ addcss() @}
-    <!---->
     {@ addjs([], 'header') @}
-    <!---->
     {% yield styles %}
 </head>
 
 <body class="uk-text-bold uk-text-emphasis">
+
     <div class="uk-section uk-section-secondary">
         <div class="uk-container uk-container-small">
             <h1><span class="">{% yield page_header %}</span></h1>
@@ -29,8 +27,8 @@
         {% yield content %}
     </div>
 
-    {@ addjs() @} {% yield scripts %}
+    {@ addjs() @} 
+    {% yield scripts %}
 
 </body>
-
 </html>

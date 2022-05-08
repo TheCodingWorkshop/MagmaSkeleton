@@ -1,80 +1,73 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}Security Settings{% endblock %}
-<!---->
 {% block description %}MagmaCore settings{% endblock %}
-<!---->
 {% block keywords %}team{% endblock %}
-<!---->
 {% block author %}Ricardo Miller{% endblock %}
-<!---->
 {% block styles %} {% endblock %}
-<!---->
+
 {% block content %}
-<section class="uk-height-viewport">
-    <div>
-        <div uk-grid>
-            <div class="uk-width-1-4@m">
-                {% include 'admin/setting/_parts/go_back.html' %}
-                <div class="uk-card uk-card-body uk-card-default">
-                    <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-                        <li><a href="#">General</a></li>
-                    </ul>
+    <section class="uk-height-viewport">
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    {% include 'admin/setting/_parts/go_back.html' %}
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                            <li><a href="#">General</a></li>
+                        </ul>
 
-                </div>
-            </div>
-            <div class="uk-width-expand@m">
-                <div class="uk-card-header">
-                    <div class="uk-grid-small uk-flex-middle" uk-grid>
-                        <div class="uk-width-auto ion-64">
-                            {@ icon('microphone', 3.5); @}
-                        </div>
-                        <div class="uk-width-expand">
-                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Localisation</h3>
-                            <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
-                        </div>
                     </div>
                 </div>
-                <div class="uk-text-bolder uk-text-secondary">
-                    <ul id="component-tab-left" class="uk-switcher">
-                        <li>{{ $form }}</li>
-                    </ul>
-                    <hr> {% if ($total_locale > 0) : %}
-                    <h3 class="uk-card-title uk-text-bolder uk-margin-medium-bottom">Available Languages</h3>
-                    {% endif; %} {% foreach($all as $key => $value) : %}
-                    <div class="uk-clearfix{{ isset($id) && $id == $value['id'] ? ' uk-alert uk-alert-danger' : '' }}">
-                        <div class="uk-float-left">
-
-                            <div>
-                                <img class="uk-border-circle" alt="{{ $value['file_name'] }}" src="/public/assets/images/flags/{{ strtolower($value['locale']) }}.svg" width="20" />
-                                <span>{{ ucwords($value['file_name']) }} ({{ $value['locale'] }})</span> - {{ $value['file_path'] }}</div>
-                        </div>
-                        <div class="uk-float-right">
-                            <ul class="uk-iconnav">
-                                <li uk-tooltip="Upload On"><small>{@ formatDate($value['created_at'], true) @}</small></li>
-                                <li>
-                                    <a uk-tooltip="Edit {{ $value['locale'] }}" href="/admin/setting/{{ $value['id'] }}/localisation">
-                                        <ion-icon name="pencil-outline"></ion-icon>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a uk-tooltip="Delete {{ $value['locale'] }}" class="uk-text-danger" href="/admin/setting/localisation?delete_id={{ $value['id'] }}">
-                                        <ion-icon name="trash-outline"></ion-icon>
-                                    </a>
-                                </li>
-                                <li><a uk-tooltip="{{ $value['locale'] }} Size" class="uk-text-secondary" href="#"><small>({{ $value['file_size'] }}KB)</small></a></li>
-                            </ul>
+                <div class="uk-width-expand@m">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto ion-64">
+                                {@ icon('microphone', 3.5); @}
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Localisation</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">Last updated 30min ago</p>
+                            </div>
                         </div>
                     </div>
-                    <hr> {% endforeach; %}
-                </div>
+                    <div class="uk-text-bolder uk-text-secondary">
+                        <ul id="component-tab-left" class="uk-switcher">
+                            <li>{{ $form }}</li>
+                        </ul>
+                        <hr> {% if ($total_locale > 0) : %}
+                        <h3 class="uk-card-title uk-text-bolder uk-margin-medium-bottom">Available Languages</h3>
+                        {% endif; %} {% foreach($all as $key => $value) : %}
+                        <div class="uk-clearfix{{ isset($id) && $id == $value['id'] ? ' uk-alert uk-alert-danger' : '' }}">
+                            <div class="uk-float-left">
 
+                                <div>
+                                    <img class="uk-border-circle" alt="{{ $value['file_name'] }}" src="/public/assets/images/flags/{{ strtolower($value['locale']) }}.svg" width="20" />
+                                    <span>{{ ucwords($value['file_name']) }} ({{ $value['locale'] }})</span> - {{ $value['file_path'] }}</div>
+                            </div>
+                            <div class="uk-float-right">
+                                <ul class="uk-iconnav">
+                                    <li uk-tooltip="Upload On"><small>{@ formatDate($value['created_at'], true) @}</small></li>
+                                    <li>
+                                        <a uk-tooltip="Edit {{ $value['locale'] }}" href="/admin/setting/{{ $value['id'] }}/localisation">
+                                            <ion-icon name="pencil-outline"></ion-icon>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a uk-tooltip="Delete {{ $value['locale'] }}" class="uk-text-danger" href="/admin/setting/localisation?delete_id={{ $value['id'] }}">
+                                            <ion-icon name="trash-outline"></ion-icon>
+                                        </a>
+                                    </li>
+                                    <li><a uk-tooltip="{{ $value['locale'] }} Size" class="uk-text-secondary" href="#"><small>({{ $value['file_size'] }}KB)</small></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr> {% endforeach; %}
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-
-
-</section>
+    </section>
 {% endblock %}
-<!-- Footer scripts -->
+
 {% block scripts %} {% endblock %}

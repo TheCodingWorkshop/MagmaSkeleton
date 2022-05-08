@@ -1,46 +1,32 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}Create Tag{% endblock %}
-<!---->
 {% block description %}MagmaCore create new tag{% endblock %}
-<!---->
 {% block keywords %}new-tag, create-new{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<section uk-grid class="uk-height-viewport">
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    {{ $form }}
+    <section uk-grid class="uk-height-viewport">
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {{ $form }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-body uk-padding-remove">
-                <h3 class="uk-card-title">What are Tags?</h3>
-                <p>Roles are a group of permission. Which can be assigned to multiple users within. Roles can have an unlimited amount of permissions. Permissions that can be added and remove at any point.
-                </p>
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-body uk-padding-remove">
+                    <h3 class="uk-card-title">What are Tags?</h3>
+                    <p>Roles are a group of permission. Which can be assigned to multiple users within. Roles can have an unlimited amount of permissions. Permissions that can be added and remove at any point.
+                    </p>
 
+                </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
 
 {% endblock %}
-<!--  -->
-{% block scripts %}
-<script>
-    addEventListener("turbo:submit-start", ({
-        target
-    }) => {
-        for (const field of target.elements) {
-            field.disabled = true
-        }
-    })
-</script>
-{% endblock %}
+
+{% block scripts %}{% endblock %}

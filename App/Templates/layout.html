@@ -11,56 +11,24 @@
     {@ addcss() @} 
     {@ addjs([], 'header') @} 
     {% yield styles %}
-    <style>
-        .badge-secondary {background-color:#222222;}
-    </style>
-    <script>
-        $(window).on("load", function() {
-            $(".preloader").fadeOut("slow");;
-        });
-    </script>
+    <style>.badge-secondary {background-color:#222222;}</style>
+    <script>$(window).on("load", function() {$(".preloader").fadeOut("slow");;});</script>
+    <script>$("#flash_message").fadeOut(5000);</script>
+
 </head>
 
 <body class="uk-text-bold">
     {% include 'loader.html' %}
 
     <div>
-        {% include '_partials/_nav_header.html' %}
-        <aside id="sidebar" class="tm-sidebar-left uk-background-default">
-            <!-- Main sidebar -->
-            {@ templateExtension('uikit_navigation') @}
-            {% include '_partials/_bottom_nav.html' %}
-        </aside>
-
-        <main class="content-padder content-background">
-            <section class="uk-section-default header">
-                <div class="uk-container uk-container-expand uk-margin-bottom-remove">
-                    {% if ($current_user !==null) : %} {@ templateExtension('uikit_commander_bar') @} {% endif; %}
-                </div>
-            </section>
-
-            <section class="main">
-                <div class="uk-animation-fade uk-text-center" id="flash_message">
-                    {@ templateExtension('uikit_flash_message') @}
-                </div>
-
-                <div class="uk-container uk-container-expand">
-                    <div class="{{ $this_action === 'index' ? '' : 'uk-margin-top uk-margin-bottom' }}">
-                        {% yield content %}
-                    </div>
-                </div>
-            </section>
-            {% include '_partials/_footer.html' %}
-        </main>
+        {% include '_global/_block_header.html' %}
+        {% include '_global/_block_sidebar.html' %}
+        {% include '_global/_block_content.html' %}
     </div>
 
     {@ getWidget('notification_widget', 'notifications', 'id', ['id' => 'notification-panel', 'limit' => 3, 'orderby' => 'id DESC']) @}
 
     {@ addjs() @} 
     {% yield scripts %}
-    <script>
-         $("#flash_message").fadeOut(5000);
-    </script>
 </body>
-
 </html>

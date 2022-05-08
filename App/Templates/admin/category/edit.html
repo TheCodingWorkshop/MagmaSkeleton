@@ -1,53 +1,41 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}Edit Category{% endblock %}
-<!---->
 {% block description %}MagmaCore edit category{% endblock %}
-<!---->
 {% block keywords %}edit-category{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<section uk-grid class="uk-height-viewport">
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    {{ $form }}
+    <section uk-grid class="uk-height-viewport">
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {{ $form }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-body uk-padding-remove">
-                <dl class="uk-description-list uk-description-list-divider">
-                    <dt>{@ locale('last_updated') @}</dt>
-                    <dd>
-                        {% if (isset($cat['modified_at']) && $cat['modified_at'] !==null) : %} {@ formatDate($cat['modified_at']) @} {% else : %} Never {% endif %}
-                    </dd>
-                    <dt>{@ locale('created') @}</dt>
-                    <dd>{@ formatDate($cat['created_at']) @}
-                        <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($cat['created_byid']) @}</small>
-                    </dd>
-                </dl>
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-body uk-padding-remove">
+                    <dl class="uk-description-list uk-description-list-divider">
+                        <dt>{@ locale('last_updated') @}</dt>
+                        <dd>
+                            {% if (isset($cat['modified_at']) && $cat['modified_at'] !==null) : %} 
+                                <span>{@ formatDate($cat['modified_at']) @}</span> 
+                            {% else : %} 
+                                <span>Never</span> 
+                            {% endif %}
+                        </dd>
+                        <dt>{@ locale('created') @}</dt>
+                        <dd>{@ formatDate($cat['created_at']) @}
+                            <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($cat['created_byid']) @}</small>
+                        </dd>
+                    </dl>
+                </div>
             </div>
         </div>
-    </div>
 
-</section>
-
+    </section>
 {% endblock %}
-<!--  -->
-{% block scripts %}
-<script>
-    addEventListener("turbo:submit-start", ({
-        target
-    }) => {
-        for (const field of target.elements) {
-            field.disabled = true
-        }
-    })
-</script>
 
-{% endblock %}
+{% block scripts %}{% endblock %}

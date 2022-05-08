@@ -1,69 +1,32 @@
 {% extends 'layout.html' %}
-<!---->
 {% block title %}Create Category{% endblock %}
-<!---->
 {% block description %}MagmaCore create new category{% endblock %}
-<!---->
 {% block keywords %}new-category, create-new{% endblock %}
 
-<!-- start content-->
 {% block content %}
-<section uk-grid class="uk-height-viewport">
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-default">
-                <div class="uk-card-body">
-                    {{ $form }}
+    <section uk-grid class="uk-height-viewport">
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {{ $form }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="uk-width-1-2@m">
-        <div>
-            <div class="uk-card uk-card-body uk-padding-remove">
-                <h3 class="uk-card-title">What are Categories?</h3>
-                <p>Roles are a group of permission. Which can be assigned to multiple users within. Roles can have an unlimited amount of permissions. Permissions that can be added and remove at any point.
-                </p>
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-body uk-padding-remove">
+                    <h3 class="uk-card-title">What are Categories?</h3>
+                    <p>Roles are a group of permission. Which can be assigned to multiple users within. Roles can have an unlimited amount of permissions. Permissions that can be added and remove at any point.
+                    </p>
 
+                </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
 
 {% endblock %}
-<!--  -->
-{% block scripts %}
 
-<!-- <script type="application/javascript">
-    const form = document.getElementById("categoryForm")
-
-    function postData(url, data, method = "POST") {
-        const message = document.getElementById("status-message")
-        fetch(url, {
-                method: method,
-                body: data,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(response => {
-                message.innerHTML = response.message
-            })
-            .catch(error => {
-                error.json().then(response => {
-                    message.innerHTML = response.message
-                })
-            })
-    }
-
-
-    const submitEvent = form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-
-        postData("http://localhost/admin/category/new", formData);
-    })
-</script> -->
-{% endblock %}
+{% block scripts %}{% endblock %}

@@ -1,0 +1,32 @@
+<ul class="uk-iconnav uk-text-white">
+    {% 
+        $array = [
+            'welcome' => ['title' => 'Welcome', 'path' => ''],
+            'documentation' => ['title' => 'Documentation', 'path' => '/admin/support/documentation'],
+            'changelog' => ['title' => 'Changelog', 'path' => '/admin/support/changelog'],
+            'settings' => ['title' => 'Settings', 'path' => '/admin/setting/index'], 
+            'logout' => ['title' => 'sign-out', 'path' => '/logout']
+        ];
+    %}
+
+    {% foreach ($array as $key => $value) : %}
+        <li class="uk-margin-small-right">
+            {% 
+                $nowUser = $current_user->firstname; 
+                $changelogVersion = 'v' . $app['app']['app_version'];
+                $currentUserProfile = '/admin/user/' . $current_user->id . '/show'
+            %}
+            <a 
+            class="uk-button uk-button-text uk-link-reset" 
+            uk-tooltip="{{ $value['title'] }}" 
+            href="{{ isset($key) && $key === 'welcome' ? $currentUserProfile : $value['path'] }}">
+                {% if (isset($key) && $key === 'logout') : %}
+                    {@ icon($value['title'], 1.0) @}
+                {% else : %}
+                    {{ isset($key) && $key === 'welcome' ? $value['title'] . ' ' . $nowUser : $value['title'] }}
+                    {{ isset($key) && $key === 'changelog' ? "<sup class='uk-text-danger'>$changelogVersion</sup>" : '' }}
+                {% endif; %}
+            </a>
+        </li>
+    {% endforeach; %}
+</ul>

@@ -1,0 +1,20 @@
+<main class="content-padder content-background">
+    <section class="uk-section-default header">
+        <div class="uk-container uk-container-expand uk-margin-bottom-remove">
+            {% if ($current_user !==null) : %} {@ templateExtension('uikit_commander_bar') @} {% endif; %}
+        </div>
+    </section>
+
+    <section class="main">
+        <div class="uk-animation-fade uk-text-center" id="flash_message">
+            {@ templateExtension('uikit_flash_message') @}
+        </div>
+
+        <div class="uk-container uk-container-expand">
+            <div class="{{ $this_action === 'index' ? '' : 'uk-margin-top uk-margin-bottom' }}">
+                {% yield content %}
+            </div>
+        </div>
+    </section>
+    {% include '_global/_block_footer.html' %}
+</main>
