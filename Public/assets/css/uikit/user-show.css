@@ -82,4 +82,6 @@
       font-size: 18px;
       color: darkblue;
   }
-  
+  .panel-height {
+    min-height: 290px;
+  }
