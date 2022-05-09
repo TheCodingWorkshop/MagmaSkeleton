@@ -5,6 +5,10 @@
 {% block keywords %}show-account, show-user{% endblock %}
 {% block author %}Ricardo Miller{% endblock %}
 
+{% block styles %}
+{@ localCss('/uikit/user-show.css') @}
+{% endblock %}
+
 {% block content %}
 <section uk-grid class="uk-height-viewport">
     <div class="uk-width-1-2@m">
@@ -67,14 +71,14 @@
                 </ul>
 
                 <ul class="uk-switcher uk-margin">
-                    <li>{@ locale('not_enough_data') @}
-                        <ion-icon name="help-outline"></ion-icon>
+                    <li>
+                        {% include 'admin/user/history_timeline.html' %}
                     </li>
                     <li>
-                        {@ locale('not_enough_data') @}
+                        {% include 'admin/user/activity_timeline.html' %}
                     </li>
                     <li>
-                        <textarea id="summernote" name="editordata" class="uk-textarea uk-form-blank uk-border-bottom" placeholder="{{ $row['firstname'] }} notes?" rows="10" col="10"></textarea>
+                        {% include 'admin/user/notes_list.html' %}
                     </li>
                 </ul>
             </div>
