@@ -127,3 +127,36 @@ $widget = $create->create(ClientRepositoryFactory::class, ['bounce_rate_widget' 
 var_dump($widget->renderWidget());
 var_dump($widget->renderWidget());
 die;
+
+    /**
+     * This will prevent the active user  within the session from deleting and trashing their own account.
+     * 
+     * if the token route is active and it matches the userID from the current session and any 
+     * of 4 defined action is being carried out. Then we want to prevent. The action from completing
+     * We must also take into account when deleting via bulk. As this will allow the user to be trash
+     *
+     * @return void
+     */
+    public function disableDeleteCurrentUser(BeforeControllerActionEvent $event)
+    {
+        $userID = $event->getObject()->getSession()->get('user_id');
+        $token = $event->getObject()->thisRouteID();
+        $action = $event->getMethod();
+        $controller = $event->getObject()->thisRouteController();
+        $postData = $event->getObject()->formBuilder->getData();
+        $user = $event->getObject()->repository->getUser($userID);
+
+        if (
+            array_key_exists('bulkTrash-' . $controller, $postData) || 
+            array_key_exists('bulkClone-' . $controller, $postData)) {
+            if (in_array($userID, $postData['id'])) {
+                $event->getObject()->flashMessage(sprintf('The action was reject. Because an item in your bulk selection is yourself [id = %s]', $userID), $event->getObject()->flashWarning());
+                $event->getObject()->redirect('/admin/user/index');
+            }
+        } else if (isset($token) && $token === $userID && in_array($action, self::PREVENTION_ROUTES)) {
+            $event->getObject()->flashMessage(sprintf('The action was reject. The action is not permitted on yourself  [id = %s]', $userID), $event->getObject()->flashWarning());
+            $event->getObject()->redirect('/admin/user/index');
+        }
+
+                
+    }
