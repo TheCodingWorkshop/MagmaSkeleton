@@ -50,14 +50,14 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
      *
      * @return mixed
      */
-    public function findOr404(): mixed
-    {
-        if (isset($this)) {
-            return $this->repository->getRepo()
-                ->findAndReturn($this->thisRouteID())
-                ->or404();
-        }
-    }
+    // public function findOr404(): mixed
+    // {
+    //     if (isset($this)) {
+    //         return $this->repository->getRepo()
+    //             ->findAndReturn($this->thisRouteID())
+    //             ->or404();
+    //     }
+    // }
 
     public function schemaAsString()
     {

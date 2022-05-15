@@ -160,3 +160,55 @@ die;
 
                 
     }
+
+        /**
+         * t1 = users
+         * t2 = user_preferences
+         * t3 = user_metadata
+         * t4 = user_note
+         *         $sql = "SELECT t2.permission_name FROM role_permission as t1 JOIN permissions as t2 ON t1.permission_id = t2.id WHERE t1.role_id = :role_id";
+
+         */
+        //$sql = 'SELECT * FROM users, user_metadata, user_preferences, user_note, user_role WHERE users.id = user_metadata.user_id AND user_preferences.user_id AND user_note.user_id AND user_role.user_id AND users.id = 1270';
+        // $sql = 'SELECT * 
+        // FROM users 
+        //     INNER JOIN user_preferences 
+        //         USING (user_id) 
+        //     INNER JOIN user_metadata 
+        //         USING (user_id) 
+        //     INNER JOIN user_note 
+        //         USING (user_id) 
+        //     ORDER BY id';
+
+
+        // $sql = 'SELECT * FROM 
+        // users t1 
+        //     LEFT JOIN user_preferences t2 
+        //         ON t1.id = t2.user_id
+        //     LEFT JOIN user_metadata t3
+        //         ON t1.id = t3.user_id
+        //     LEFT JOIN user_note t4
+        //         ON t1.id = t4.user_id
+        //     LEFT JOIN user_role t5
+        //         ON t1.id = t5.user_id
+        //     WHERE t1.id = :id
+        // ';
+
+
+        // $data = $this->repository->getRepo()->getEm()->getCrud()->rawQuery($sql, ['id' => 1270], 'fetch_all');
+
+        $relationship = $this->repository->relationship(function($baseModel){
+            return $baseModel
+                ->addParent($this->repository)->select('t1') /* optional second argument $selectors can select what to return */
+                ->addChild(UserMetadataModel::class, fn($baseModel, $model) => $baseModel->leftJoin($model::FOREIGNKEY, 't2'))
+                ->addChild(UserNoteModel::class, fn($baseModel, $model) => $baseModel->leftJoin($model::FOREIGNKEY, 't3'))
+                ->addChild(UserPreferenceModel::class, fn($baseModel, $model) => $baseModel->leftJoin($model::FOREIGNKEY, 't4'))
+                ->addChild(UserRoleModel::class, fn($baseModel, $model) => $baseModel->leftJoin($model::FOREIGNKEY, 't5'))
+                ->where(1270) /* optional use where() when a single item is required. argument required in item ID */
+                ->getRelations(); /* must return this method at the end */
+        });
+
+        // $this->dump($relationship);
+        echo $this->restful->response($relationship);
+        die;
+

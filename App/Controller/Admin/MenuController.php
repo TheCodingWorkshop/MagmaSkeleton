@@ -17,12 +17,6 @@ use MagmaCore\PanelMenu\EventSubscriber\MenuActionSubscriber;
 class MenuController extends \MagmaCore\PanelMenu\MenuController
 {
 
-    protected function trashAction()
-    {
-        $this->deleteAction
-            ->execute($this, NULL, MenuActionSubscriber::class, NULL, __METHOD__)
-            ->endAfterExecution();
-    }
 
 }
 

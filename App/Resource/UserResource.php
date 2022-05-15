@@ -20,6 +20,8 @@ class UserResource extends UserModel
 
     public function apiRead(?object $controller = null)
     {
+        $data = $this->repository->getRepo()->findWithSearchAndPaging($this->request->handler(), $this);
+
         $args = Yaml::file('controller')[$controller->thisRouteController()];
         $args['records_per_page'] = 5;
         $repository = $controller->repository->getRepo()->findWithSearchAndPaging($controller->request->handler(), $args);

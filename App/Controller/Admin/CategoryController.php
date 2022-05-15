@@ -63,14 +63,14 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
      *
      * @return mixed
      */
-    public function findOr404(): mixed
-    {
-        if (isset($this)) {
-            return $this->repository->getRepo()
-                ->findAndReturn($this->thisRouteID())
-                ->or404();
-        }
-    }
+    // public function findOr404(): mixed
+    // {
+    //     if (isset($this)) {
+    //         return $this->repository->getRepo()
+    //             ->findAndReturn($this->thisRouteID())
+    //             ->or404();
+    //     }
+    // }
 
     public function schemaAsString()
     {
@@ -175,6 +175,11 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     public function bulkAction()
     {
         $this->chooseBulkAction($this, CategoryActionEvent::class);
+    }
+
+    protected function testAction()
+    {
+        
     }
 
     /**

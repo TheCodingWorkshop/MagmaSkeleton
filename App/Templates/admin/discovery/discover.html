@@ -8,13 +8,11 @@
 {% block content %}
     <section uk-grid class="uk-height-match uk-margin-top">
         <div class="uk-width-1-4@m">
-
-
                 {% if (isset($_GET['edit'])) : %}
                     <a class="uk-link-reset" href="{@ path('admin_discovery_discover') @}">
                 {@ icon('arrow-left', 1.0) @}
                 {% else : %}
-                    <a class="uk-link-reset" href="/admin/discovery/refresh">
+                    <a class="uk-link-reset" href="/admin/discovery/discoveryRefresh">
                 {@ icon('refresh', 1.0) @}
                 {% endif; %}
             </a>
@@ -28,21 +26,19 @@
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-body">
                         {% if ($controller_singular !==null): %}
-                        {% include 'admin/discovery/_partials/accordion.html' %}
-                        <hr>
-                        <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Discovery</h3>
-                        <p>Discovery will automatically alert you of any method changes to {{ $controller_singular->controller }} controller class.</p>
-                        <code>
-                            {% if ($new_methods) : %}
-                            {@ discover($new_methods) @}
-                            {% else : %}
-                            Nothing's been discovered as yet!
-                            {% endif; %}
-                        </code>
-
-
+                            {% include 'admin/discovery/_partials/accordion.html' %}
+                            <hr>
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Discovery</h3>
+                            <p>Discovery will automatically alert you of any method changes to {{ $controller_singular->controller }} controller class.</p>
+                            <code>
+                                {% if ($new_methods) : %}
+                                    {@ discover($new_methods) @}
+                                {% else : %}
+                                    <span>Nothing's been discovered as yet!</span>
+                                {% endif; %}
+                            </code>
                         {% else : %}
-                        {% include 'admin/discovery/_partials/discovery_main.html' %}
+                            {% include 'admin/discovery/_partials/discovery_main.html' %}
                         {% endif; %}
 
                     </div>
