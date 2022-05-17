@@ -11,21 +11,22 @@
             <div uk-grid>
                 <div class="uk-width-1-4@m">
                     <div class="uk-card uk-card-body uk-card-default">
-                        <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
+                        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
                             <li class="uk-nav-header">Options</li>
                             {% foreach(['system', 'application', 'services'] as $option) : %}
-                            <li><a href="#">{{ $option }}</a></li>
+                                <li><a href="/admin/setting/index?edit={{ $option }}">{{ $option }}</a></li>
                             {% endforeach; %}
                         </ul>
-
                     </div>
                 </div>
                 <div class="uk-width-expand@m">
-                    <ul id="component-tab-left" class="uk-switcher">
-                        <li class="uk-active">{% include 'admin/setting/_parts/general.html' %}</li>
-                        <li>{% include 'admin/setting/_parts/application.html' %}</li>
-                        <li>{% include 'admin/setting/_parts/services.html' %}</li>
-                    </ul>
+                    {% if (isset($_GET['edit']) && $_GET['edit'] === 'system' || ! $_GET['edit']) : %}
+                        {% include 'admin/setting/_parts/general.html' %}
+                    {% elseif (isset($_GET['edit']) && $_GET['edit'] === 'application') : %}
+                        {% include 'admin/setting/_parts/application.html' %}
+                    {% elseif (isset($_GET['edit']) && $_GET['edit'] === 'services') : %}
+                        {% include 'admin/setting/_parts/services.html' %}
+                    {% endif; %}
                 </div>
             </div>
         </div>

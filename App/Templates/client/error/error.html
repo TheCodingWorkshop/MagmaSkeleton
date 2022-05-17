@@ -1,0 +1,31 @@
+{% extends 'layout.html' %} 
+{% block title %}Error{% endblock %} 
+{% block description %}MagmaCore create an account{% endblock %} 
+{% block keywords %}error{% endblock %} 
+{% block author %}Ricardo Miller{% endblock %} 
+{% block styles %}{% endblock %}
+
+{% block content %}
+    <section class="uk-height-viewport">
+        <div class="uk-container uk-margin-large-top">
+            <div class="uk-card uk-card-body uk-background-default">
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            {@ icon('question', 3.5) @}
+                        </div>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Error: Invalid Controller Request <sup uk-tooltip="Internal server error">500</sup></h3>
+                            <p class="">
+                                Sorry but the route you're trying to access doesn't exists. This could mean either the controller is not spelled correctly. Or it doesn't exists within your application.
+                                <div>
+                                    <code>You requested: {{ $invalid_controller_request !=='' ? $invalid_controller_request : $invalid_route_request }}</code>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

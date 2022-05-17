@@ -13,10 +13,9 @@
                     {% include 'admin/setting/_parts/go_back.html' %}
                     <div class="uk-card uk-card-body uk-card-default">
                         <ul class="uk-tab-left" uk-tab="connect: #component-tab-left; animation: uk-animation-fade">
-
                             <li class="uk-nav-header">Options</li>
                             {% foreach(['General', 'Formatting', 'Avatar', 'Misc'] as $option) : %}
-                            <li><a href="#">{{ $option }}</a></li>
+                                <li><a href="#">{{ $option }}</a></li>
                             {% endforeach; %}
                         </ul>
 
