@@ -2,21 +2,21 @@
     <div class="uk-card-header uk-padding-remove">
         <div class="uk-grid-small uk-flex-middle" uk-grid>
             <div class="uk-width-auto">
-                {% if (isset($_GET['s']) && $_GET['s'] !=='') : %}
-                {@ icon('search', 3.5) @}
+                {% if ($is_searching) : %}
+                    {@ icon('search', 3.5) @}
                 {% else : %}
-                {@ icon('folder', 3.5) @}
+                    {@ icon('folder', 3.5) @}
                 {% endif; %}
                             </div>
             <div class="uk-width-expand">
-                {% if (isset($_GET['s']) && $_GET['s'] !=='') : %}
+                {% if ($is_searching) : %}
                 <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $total_records }} {% echo ucwords($queried_status ?? 'records found') %}
                     <sup><a class="uk-button uk-button-small uk-button-secondary uk-icon-link" uk-tooltip="Add Record" href="/admin/{{ $this_route }}/new">Go Back</a></sup></h3>
                     <p class="uk-text-meta uk-margin-remove-top">
-                        Your search for <code>`{{ $_GET['s'] }}`</code> return <code>{{ $total_records }}</code> results.
+                        Your search for <code>`{{ $search_query_value }}`</code> return <code>{{ $total_records }}</code> results.
                     </p>
                     <p class="uk-text-small uk-padding-small uk-padding-remove-top">
-                        Remember your search parameter is set to lastname. if you are not searching via the lastname parameter it can be changed <a href="/admin/user/settings">here</a>
+                        Remember your search parameter is set to <code>{{ $search_parameters }}</code>. if you are not searching via these parameter it can be changed <a href="/admin/{{ $this_route }}/settings">here</a> your `{{ $this_route }}` table settings.
                     </p>
     
 

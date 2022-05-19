@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}Request Permission{% endblock %}
+{% block description %}request-temporary-permission{% endblock %}
+{% block keywords %}request permission{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+
+{% block content %}
+    <section class="uk-height-viewport">
+        <div class="uk-width-expand@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {{ $form }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %} {% endblock %}

@@ -22,11 +22,16 @@
                         {% if ($current_user->status === 'pending') : %}
                         {% include 'admin/user/banner/user_not_active.html' %}
                         {% endif; %}
-                        <dt>Account Health</dt>
+                        <dt><h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $user['firstname'] }} Links</h3></dt>
                         <dd>
-                            <ul class="uk-list uk-text-small">
-                                <li>{{ $user['activation_token'] === null ? '<ion-icon name="checkmark-outline"></ion-icon> Activation Hash OK' : '<ion-icon name="close-outline"></ion-icon> Actiavtion Hash Error' }}</li>
-                                <li>{{ $user['password_reset_hash'] === null ? '<ion-icon name="checkmark-outline"></ion-icon> Password Reset Hash OK' : '<ion-icon name="close-outline"></ion-icon> Password reset hash request but not used.' }}</li>
+                            <ul class="uk-nav uk-nav-default">
+                                <li><a href="/admin/user/{{ $user['id'] }}/show">Profile</a></li>
+                                <li><a href="/admin/user/{{ $user['id'] }}/preferences">Preferences</a></li>
+                                <li><a href="/admin/user/{{ $user['id'] }}/privilege">Privilege</a></li>
+                                <li><a href="/admin/user/{{ $user['id'] }}/notes">Add Notes</a></li>
+
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="/admin/user/{{ $user['id'] }}/trash">{@ icon('trash', 1.2) @}</a></li>
                             </ul>
                         </dd>
                     </dl>
