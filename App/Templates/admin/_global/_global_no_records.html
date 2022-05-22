@@ -11,7 +11,7 @@
             <div class="uk-width-expand">
                 {% if ($is_searching) : %}
                 <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $total_records }} {% echo ucwords($queried_status ?? 'records found') %}
-                    <sup><a class="uk-button uk-button-small uk-button-secondary uk-icon-link" uk-tooltip="Add Record" href="/admin/{{ $this_route }}/new">Go Back</a></sup></h3>
+                    <sup><a class="uk-button uk-button-small uk-button-secondary uk-icon-link" uk-tooltip="Add Record" href="/admin/{{ $this_route }}/index">Go Back</a></sup></h3>
                     <p class="uk-text-meta uk-margin-remove-top">
                         Your search for <code>`{{ $search_query_value }}`</code> return <code>{{ $total_records }}</code> results.
                     </p>

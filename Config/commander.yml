@@ -11,8 +11,13 @@ user:
       icon: cog
     export:
       name: export
-      path: ""
+      path: "/admin/user/export"
       icon: download-outline
+    import:
+      name: import
+      path: "/admin/user/import"
+      icon: upload-outline
+
   not_index:
     show:
       name: show

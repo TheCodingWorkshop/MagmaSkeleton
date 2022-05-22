@@ -4,7 +4,9 @@
 {% block keywords %}edit-role{% endblock %}
 
 {% block content %}
-    <section uk-grid class="uk-height-viewport">
+<!-- <div uk-alert>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div> -->
+
+    <section uk-grid class="">
         <div class="uk-width-1-2@m">
             <div>
                 <div class="uk-card uk-card-default">
@@ -26,8 +28,8 @@
                         <dd>{@ formatDate($role['created_at']) @}
                             <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($role['created_byid']) @}</small>
                         </dd>
-                        <dt>{@ locale('qualified_permission') @}</dt>
-                        <dd></dd>
+                        <dt>{@ locale('created_by') @}</dt>
+                        <dd>{@ getAuthorByID($role['created_byid']) @}</dd>
                     </dl>
                 </div>
             </div>
