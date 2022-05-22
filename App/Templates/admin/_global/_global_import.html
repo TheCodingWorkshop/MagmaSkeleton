@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block title %}Import Data{% endblock %}
+{% block description %}MagmaCore import{% endblock %}
+{% block keywords %}import{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+<form action="/admin/{{ $this_route }}/import" method="post" enctype="application/x-www-form-urlencoded" id="{{ $this_route }}importForm" class="uk-form-stacked" target="_self">
+
+    <section class="uk-height-viewport">
+        <div>
+            <div uk-grid>
+                <div class="uk-width-1-4@m">
+                    <div class="uk-card uk-card-body uk-card-default">
+                        <p class="uk-text-meta">
+                            <div uk-alert>
+                                <h3>Notice</h3>
+                                <p>Support file types are <code>.csv</code> and <code>.xml</code> only.</p>
+                                <p>Imported data gets saves directly to the model database table.</p>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+                <div class="uk-width-expand@m">
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                {@ icon('pull', 3.5) @}
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">Import {{ $this_route }} Data 
+                                    <!-- <button type="submit" name="export-{{ $this_route }}-reset" class="uk-button uk-button-small uk-button-default">{@ icon('reply', 0.9) @} Reset</button> -->
+                                </h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    You can only import the data which belongs to this model
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div>{{ $form }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>{% endblock %} 
+
+{% block scripts %} {% endblock %}
