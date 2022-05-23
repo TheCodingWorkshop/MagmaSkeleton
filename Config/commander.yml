@@ -40,6 +40,14 @@ group:
       name: settings
       path: "/admin/group/settings"
       icon: cog
+    export:
+      name: export
+      path: "/admin/group/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/group/import"
+      icon: upload-outline
   not_index:
     assigned:
       name: assigned
@@ -58,6 +66,14 @@ role:
       name: settings
       path: "/admin/role/settings"
       icon: cog
+    export:
+      name: export
+      path: "/admin/role/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/role/import"
+      icon: upload-outline
   not_index:
     assigned:
       name: assigned
@@ -76,6 +92,15 @@ permission:
       name: settings
       path: "/admin/permission/settings"
       icon: cog
+    export:
+      name: export
+      path: "/admin/permission/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/permission/import"
+      icon: upload-outline
+
   not_index:
     assigned:
       name: assigned
