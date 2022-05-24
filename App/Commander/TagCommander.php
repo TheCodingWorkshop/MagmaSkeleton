@@ -32,7 +32,9 @@ class TagCommander extends CategoryModel implements ApplicationCommanderInterfac
         'index',
         'new',
         'edit',
-        'settings'
+        'settings',
+        "export",
+        "import"
     ];
 
     private array $noCommander = [];
@@ -81,6 +83,8 @@ class TagCommander extends CategoryModel implements ApplicationCommanderInterfac
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Create Tag',
+            'import' => 'Import',
+            'export' => 'Export',
             'edit' => "Edit [" . $this->getHeaderBuildEdit($controller, 'tag_name') . ']',
             default => "Unknown"
         };

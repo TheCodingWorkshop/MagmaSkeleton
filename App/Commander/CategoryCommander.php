@@ -32,7 +32,9 @@ class CategoryCommander extends CategoryModel implements ApplicationCommanderInt
         'index',
         'new',
         'edit',
-        'settings'
+        'settings',
+        "export",
+        "import"
     ];
 
     private array $noCommander = [];
@@ -81,6 +83,8 @@ class CategoryCommander extends CategoryModel implements ApplicationCommanderInt
         return match ($controller->thisRouteAction()) {
             'index' => $this->getStatusColumnFromQueryParams($controller),
             'new' => 'Category',
+            'import' => 'Import',
+            'export' => 'Export',
             'edit' => "Edit [" . $this->getHeaderBuildEdit($controller, 'cat_name') . ']',
             default => "Unknown"
         };

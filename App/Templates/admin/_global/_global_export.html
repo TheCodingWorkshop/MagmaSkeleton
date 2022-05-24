@@ -18,6 +18,10 @@
                                 <h3>Notice</h3>
                                 <p>File are downloaded as {{ $export['export_format'] }} format</p>
                                 <p>Use the settings to build your exported data. The settings won't change until you click the reset button.</p>
+                                <p class="uk-text-warning">
+                                    <span class="uk-inline-block">Have you got data to import</span>
+                                    <a uk-tooltip="Import" class="uk-text-bolder" href="/admin/{{ $this_route }}/import">{@ icon('pull', 1.2) @}</a>
+                                </p>
                             </div>
                         </p>
                     </div>

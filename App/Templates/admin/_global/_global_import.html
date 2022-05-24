@@ -6,7 +6,6 @@
 
 <!-- start content-->
 {% block content %}
-<form action="/admin/{{ $this_route }}/import" method="post" enctype="application/x-www-form-urlencoded" id="{{ $this_route }}importForm" class="uk-form-stacked" target="_self">
 
     <section class="uk-height-viewport">
         <div>
@@ -18,6 +17,11 @@
                                 <h3>Notice</h3>
                                 <p>Support file types are <code>.csv</code> and <code>.xml</code> only.</p>
                                 <p>Imported data gets saves directly to the model database table.</p>
+                                <p class="uk-text-warning">
+                                    <span class="uk-inline-block">Export your data for this model</span>
+                                    <a uk-tooltip="Export" class="uk-text-bolder" href="/admin/{{ $this_route }}/export">{@ icon('push', 1.2) @}</a>
+                                </p>
+
                             </div>
                         </p>
                     </div>
@@ -40,11 +44,26 @@
                     </div>
 
 
-                    <div>{{ $form }}</div>
+                    <div>
+                        {{ $form }}
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-</form>{% endblock %} 
 
-{% block scripts %} {% endblock %}
+{% endblock %} 
+
+{% block scripts %} 
+<script type="text/javascript">
+    function validateFile() {
+        var csvInputFile = document.forms["frmCSVImport"]["file"].value;
+        if (csvInputFile == "") {
+          error = "No source found to import. Please choose a CSV file. ";
+          $("#response").html(error).addClass("error");;
+          return false;
+        }
+        return true;
+      }
+    </script>
+{% endblock %}

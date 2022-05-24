@@ -359,6 +359,14 @@ category:
       name: settings
       path: "/admin/category/settings"
       icon: cog
+    export:
+      name: export
+      path: "/admin/category/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/category/import"
+      icon: upload-outline
   not_index:
     show:
       name: show

@@ -39,25 +39,12 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
                 'commander' => TagCommander::class,
                 'entity' => TagEntity::class,
                 'tagForm' => TagForm::class,
-                'schema' => TagSchema::class
+                'schema' => TagSchema::class,
+                'rawSchema' => TagSchema::class
             ]
         );
     }
 
-    /**
-     * Returns a 404 error page if the data is not present within the database
-     * else return the requested object
-     *
-     * @return mixed
-     */
-    // public function findOr404(): mixed
-    // {
-    //     if (isset($this)) {
-    //         return $this->repository->getRepo()
-    //             ->findAndReturn($this->thisRouteID())
-    //             ->or404();
-    //     }
-    // }
 
     public function schemaAsString()
     {

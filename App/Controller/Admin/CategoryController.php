@@ -52,25 +52,11 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
                 'commander' => CategoryCommander::class,
                 'entity' => CategoryEntity::class,
                 'categoryForm' => CategoryForm::class,
-                'schema' => CategorySchema::class
+                'schema' => CategorySchema::class,
+                'rawSchema' => CategorySchema::class
             ]
         );
     }
-
-    /**
-     * Returns a 404 error page if the data is not present within the database
-     * else return the requested object
-     *
-     * @return mixed
-     */
-    // public function findOr404(): mixed
-    // {
-    //     if (isset($this)) {
-    //         return $this->repository->getRepo()
-    //             ->findAndReturn($this->thisRouteID())
-    //             ->or404();
-    //     }
-    // }
 
     public function schemaAsString()
     {

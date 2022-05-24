@@ -9,6 +9,12 @@
                             <div uk-alert>
                                 <h3>Notice</h3>
                                 <p>It is recommended that you backup your settings by clicking the Backup button.</p>
+                                <p>
+                                    <ul class="uk-iconnav">
+                                        <li><a href="/admin/{{ $this_route }}/import" uk-icon="icon: push"></a></li>
+                                        <li><a href="/admin/{{ $this_route }}/export" uk-icon="icon: pull"></a></li>
+                                    </ul>
+                                </p>
                             </div>
                             <button type="submit" name="settings-{{ $this_route }}" class="uk-button uk-button-small uk-button-secondary">{@ icon('pull', 0.9) @} Save</button>
 
