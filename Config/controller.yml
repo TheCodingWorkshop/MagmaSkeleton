@@ -12,9 +12,7 @@ dashboard:
 
 user:
   status_choices: [active: Active, pending: Pending, lock: Lock]
-  additional_conditions:
-    deleted_at: 0
-    status: active
+  additional_conditions: deleted_at:0, status:active
   selectors: []
   records_per_page: 5
   query: status
@@ -28,8 +26,7 @@ user:
 
 message:
   status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
-  additional_conditions:
-    status: inbox
+  additional_conditions: status:index
   selectors: []
   records_per_page: 15
   query: "status"
@@ -43,8 +40,7 @@ message:
 
 post:
   status_choices: [draft: Draft, published: Published, schedule: Schedule, trash: Trash]
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 15
   query: "status"
@@ -58,8 +54,7 @@ post:
 
 category:
   status_choices: []
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: ""
@@ -74,8 +69,7 @@ category:
 
 tag:
   status_choices: []
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 15
   query: ""
@@ -87,12 +81,9 @@ tag:
     - created_at
   trash_can_support: 'false'
 
-
-
 ticket:
   status_choices: [open: Open, closed: Closed, resolves: Resolved]
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 15
   query: "status"
@@ -106,8 +97,7 @@ ticket:
 
 group:
   status_choices: []
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: "status"
@@ -122,8 +112,7 @@ group:
 
 role:
   status_choices: []
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: "status"
@@ -138,8 +127,7 @@ role:
 
 permission:
   status_choices: []
-  additional_conditions: 
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: ""
@@ -153,8 +141,7 @@ permission:
 
 setting:
   status_choices: []
-  additional_conditions: []
-  selectors: []
+  additional_conditions: deleted_at:0
   records_per_page: 5
   query: ""
   filter_by: ["setting_name"]
@@ -165,7 +152,7 @@ setting:
 
 plugin:
   status_choices: []
-  additional_conditions: []
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: ""
@@ -179,7 +166,7 @@ plugin:
     
 project:
   status_choices: []
-  additional_conditions: []
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: ""
@@ -193,8 +180,7 @@ project:
 
 menu:
   status_choices: []
-  additional_conditions:
-    deleted_at: 0
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: ""
@@ -208,7 +194,7 @@ menu:
 
 system:
   status_choices: []
-  additional_conditions: []
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: ""

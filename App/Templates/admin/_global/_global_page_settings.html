@@ -24,6 +24,9 @@
                             <div class="uk-width-expand">
                                 <h3 class="uk-card-title uk-text-bolder uk-margin-remove-bottom">{{ $page_title }} <button type="submit" name="settings-{{ $this_route }}-backup" class="uk-button uk-button-small uk-button-secondary">{@ icon('database', 0.9) @} Backup</button>
                                     <button type="submit" name="settings-{{ $this_route }}-reset" class="uk-button uk-button-small uk-button-default">{@ icon('trash', 0.9) @} Reset</button>
+
+                                    <button uk-tooltip="Previous backup available" type="submit" name="settings-{{ $this_route }}-restore" class="uk-button uk-button-small uk-button-default">{@ icon('refresh', 0.9) @} Restore</button>
+
                                 </h3>
 
                                 <p class="uk-text-meta uk-margin-remove-top">
