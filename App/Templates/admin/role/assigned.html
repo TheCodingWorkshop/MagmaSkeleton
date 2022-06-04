@@ -49,7 +49,7 @@
                                 <ul class="uk-panel uk-panel-scrollable">
                                     {% if (isset($privi_user)) : %} {% foreach (array_keys($privi_user) as $permission) : %}
                                     <li>{{ $permission }}
-                                        <a uk-tooltip="Remove" class="uk-text-danger" href="/admin/role/{@ getPermissionIDFromName($permission) @}/unassign-permission?role_id={{ $role['id'] }}">
+                                        <a uk-tooltip="Remove" class="uk-text-danger" href="/admin/role/{@ getPermissionIDFromName($permission) @}/unassign-permission?role_id={{ $this_id }}">
                                             {@ icon('trash', 0.7) @}
                                         </a>
                                     </li>

@@ -1,11 +1,12 @@
 {% extends 'layout.html' %}
-{% block title %}Tags{% endblock %}
-{% block description %}MagmaCore tags{% endblock %}
-{% block keywords %}tag{% endblock %}
+{% block title %}Holidays{% endblock %}
+{% block description %}MagmaCore holiday{% endblock %}
+{% block keywords %}holidays{% endblock %}
 {% block author %}Ricardo Miller{% endblock %}
 
+<!-- start content-->
 {% block content %}
-    <form method="post" action="/admin/tag/bulk" data-turbo="false">
+    <form method="post" action="/admin/holiday/bulk">
         {@ templateExtension('uikit_simple_pagination') @}
         <section uk-grid>
             <div class="uk-width-expand@m">
@@ -20,4 +21,6 @@
             </div>
         </section>
     </form>
-{% endblock %}
+{% endblock %} 
+
+{% block scripts %} {% endblock %}

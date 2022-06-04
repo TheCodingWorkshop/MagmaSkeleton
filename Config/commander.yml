@@ -29,6 +29,59 @@ user:
     preferences:
       name: preferences
 
+leave:
+  index:
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/leave/log"
+    setting:
+      name: settings
+      path: "/admin/leave/settings"
+      icon: cog
+    export:
+      name: export
+      path: "/admin/leave/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/leave/import"
+      icon: upload-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Group Assignment"
+    edit:
+      name: edit
+
+holiday:
+  index:
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/holiday/log"
+    setting:
+      name: settings
+      path: "/admin/holiday/settings"
+      icon: cog
+    export:
+      name: export
+      path: "/admin/holiday/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/holiday/import"
+      icon: upload-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Holiday Assignment"
+    edit:
+      name: edit
+
+
 group:
   index:
     log:

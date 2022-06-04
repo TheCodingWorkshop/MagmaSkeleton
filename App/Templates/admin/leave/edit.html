@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %}Edit Category{% endblock %}
-{% block description %}MagmaCore edit category{% endblock %}
-{% block keywords %}edit-category{% endblock %}
+{% block title %}Edit Leave Type{% endblock %}
+{% block description %}MagmaCore edit leave type{% endblock %}
+{% block keywords %}edit-leave-type{% endblock %}
 
 {% block content %}
     <section uk-grid>
@@ -20,15 +20,15 @@
                     <dl class="uk-description-list uk-description-list-divider">
                         <dt>{@ locale('last_updated') @}</dt>
                         <dd>
-                            {% if (isset($cat['modified_at']) && $cat['modified_at'] !==null) : %} 
-                                <span>{@ formatDate($cat['modified_at']) @}</span> 
+                            {% if (isset($leave['modified_at']) && $leave['modified_at'] !==null) : %} 
+                                <span>{@ formatDate($leave['modified_at']) @}</span> 
                             {% else : %} 
                                 <span>Never</span> 
                             {% endif %}
                         </dd>
                         <dt>{@ locale('created') @}</dt>
-                        <dd>{@ formatDate($cat['created_at']) @}
-                            <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($cat['created_byid']) @}</small>
+                        <dd>{@ formatDate($leave['created_at']) @}
+                            <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($leave['created_byid']) @}</small>
                         </dd>
                     </dl>
                 </div>

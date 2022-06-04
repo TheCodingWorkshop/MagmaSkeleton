@@ -27,7 +27,7 @@ defined('CORE_CONFIG_PATH') or
 defined('TEMPLATE_CACHE') or 
     define("TEMPLATE_CACHE", ROOT_PATH . '/' . "App/Templates/Cache");
 defined('LOG_PATH') or 
-    define('LOG_PATH', ROOT_PATH . '/Storage/logs');
+    define('LOG_PATH', ROOT_PATH . '/Storage/logs.txt');
 
 /**
  * Load the composer library

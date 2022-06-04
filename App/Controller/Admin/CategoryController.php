@@ -65,6 +65,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
     protected function indexAction()
     {        
+         
         $this->indexAction
             ?->setAccess($this, Access::CAN_VIEW)
             ?->execute($this, NULL, NULL, CategorySchema::class, __METHOD__)
@@ -80,6 +81,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     protected function newAction()
     {
         $this->newAction
+            ?->setAccess($this, Access::CAN_VIEW)
             ->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()

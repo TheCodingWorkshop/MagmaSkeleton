@@ -24,6 +24,35 @@ user:
     - modified_at
   trash_can_support: 'true'
 
+leave:
+  status_choices: [active: Active, disable: Disable]
+  additional_conditions: status:active
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["leave_type"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - id
+    - leave_type
+    - created_at
+  trash_can_support: 'true'
+
+holiday:
+  status_choices: [active: Active, deactive: Deactive]
+  additional_conditions: deleted_at:0, status:active
+  selectors: []
+  records_per_page: 5
+  query: status
+  filter_by: ["name", "slug"]
+  filter_alias: s
+  sort_columns:
+    - id
+    - leave_type
+    - created_at
+  trash_can_support: 'true'
+
 message:
   status_choices: [inbox: Inbox, draft: Draft, sent: Sent, trash: Trash]
   additional_conditions: status:index
