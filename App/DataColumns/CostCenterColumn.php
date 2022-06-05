@@ -14,20 +14,20 @@ namespace App\DataColumns;
 
 use MagmaCore\Datatable\DataColumnTrait;
 use MagmaCore\Datatable\AbstractDatatableColumn;
-use App\Model\HolidayModel;
+use App\Model\CostCenterModel;
 
-class HolidayColumn extends AbstractDatatableColumn
+class CostCenterColumn extends AbstractDatatableColumn
 {
 
     use DataColumnTrait;
 
-    private HolidayModel $hollidayModel;
+    private CostCenterModel $costCenterModel;
 
-    private string $controller = 'holiday';
+    private string $controller = 'costCenter';
 
-    public function __construct(HolidayModel $hollidayModel)
+    public function __construct(CostCenterModel $costCenterModel)
     {
-        $this->hollidayModel = $hollidayModel;
+        $this->costCenterModel = $costCenterModel;
     }
 
     /**
@@ -46,7 +46,7 @@ class HolidayColumn extends AbstractDatatableColumn
                 'sortable' => false,
                 'searchable' => false,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="holidays-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '">';
+                    return '<input type="checkbox" class="uk-checkbox" id="costcenters-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '">';
                 }
             ],
             [
@@ -61,8 +61,8 @@ class HolidayColumn extends AbstractDatatableColumn
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<span class="uk-text-primary">';
-                    $html .= '<a href="' . ($isActive ? '/admin/holiday/' . $row['id'] . '/deactive' : '/admin/holiday/' . $row['id'] . '/active') . '">';
-                    $html .= '<span uk-tooltip="' . ($isActive ? 'Click to De-activate Holiday' : 'Click to Activate Holiday') . '">' . ($isActive ? '<ion-icon name="checkmark-outline"></ion-icon>' : '<ion-icon name="close-outline"></ion-icon>') . '</span>';
+                    $html .= '<a href="' . ($isActive ? '/admin/costCenter/' . $row['id'] . '/deactive' : '/admin/costCenter/' . $row['id'] . '/active') . '">';
+                    $html .= '<span uk-tooltip="' . ($isActive ? 'Click to De-activate costCenter' : 'Click to Activate costCenter') . '">' . ($isActive ? '<ion-icon name="checkmark-outline"></ion-icon>' : '<ion-icon name="close-outline"></ion-icon>') . '</span>';
                     $html .= '</a>';
                     $html .= '</span>';
                     $html .= '<div>';
@@ -93,25 +93,14 @@ class HolidayColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'holiday_date',
-                'dt_row' => 'Date <sup class="uk-text-small uk-text-danger uk-text-bolder">(' . date('Y') . ')</sup>',
+                'db_row' => 'code',
+                'dt_row' => 'Code',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
                 'searchable' => true,
-                'formatter' => function ($row, $tempExt) use ($callingController) {
-                    /* Substitue days are days given as substitute days when the corresponding holiday falls on a weekend */
-                    $christmasDay = 'Dec 25th';
-                    $boxingDay = 'Dec 26th';
-                    $newYearsDay = 'Jan 1st';
-                    if (
-                        $row['name'] == 'Christmas Day' && $row['holiday_date'] !== $christmasDay ||
-                        $row['name'] == 'Boxing Day' && $row['holiday_date'] !== $boxingDay || 
-                        $row['name'] == 'New Years Day' && $row['holiday_date'] !== $newYearsDay) {
-                            return $row['holiday_date'] . ' <span uk-tooltip="Holiday falls on a weekend. So is substituted for the following date" class="uk-text-meta uk-text-primary">(Substitute Day)</span>';
-                    } else {
-                        return $row['holiday_date'] ?? 'None';
-                    }
+                'formatter' => function ($row, $tempExt) {
+                    return $row['code'] ?? 'None';
                 }
             ],
 
@@ -186,7 +175,7 @@ class HolidayColumn extends AbstractDatatableColumn
                         $this->controller,
                         false,
                         'Are You Sure!',
-                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['name']}</strong> category."
+                        "You are about to carry out an irreversable action. Are you sure you want to delete <strong class=\"uk-text-danger\">{$row['name']}</strong> cost center."
                     );
                 }
             ],

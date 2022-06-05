@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block title %}Edit Branch{% endblock %}
+{% block description %}MagmaCore edit branch{% endblock %}
+{% block keywords %}edit-bracnh{% endblock %}
+
+{% block content %}
+    <section uk-grid>
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        {{ $form }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-1-2@m">
+            <div>
+                <div class="uk-card uk-card-body uk-padding-remove">
+                    <dl class="uk-description-list uk-description-list-divider">
+                        <dt>{@ locale('last_updated') @}</dt>
+                        <dd>
+                            {% if (isset($branch['modified_at']) && $branch['modified_at'] !==null) : %} 
+                                <span>{@ formatDate($branch['modified_at']) @}</span> 
+                            {% else : %} 
+                                <span>Never</span> 
+                            {% endif %}
+                        </dd>
+                        <dt>{@ locale('created') @}</dt>
+                        <dd>{@ formatDate($branch['created_at']) @}
+                            <small class="uk-text-primary uk-text-bolder">Created by: {@ getAuthorByID($branch['created_byid']) @}</small>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+
+{% block scripts %}{% endblock %}

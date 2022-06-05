@@ -13,13 +13,13 @@ namespace App\Model;
 
 use MagmaCore\Base\AbstractBaseModel;
 use MagmaCore\Base\Exception\BaseInvalidArgumentException;
-use App\Entity\HolidayEntity;
+use App\Entity\CostCenterEntity;
 
-class HolidayModel extends AbstractBaseModel
+class CostCenterModel extends AbstractBaseModel
 {
 
     /** @var string */
-    protected const TABLESCHEMA = 'holidays';
+    protected const TABLESCHEMA = 'cost_centers';
     /** @var string */
     protected const TABLESCHEMAID = 'id';
     /* does the model have any status is not return empty array */
@@ -40,7 +40,7 @@ class HolidayModel extends AbstractBaseModel
      */
     public function __construct()
     {
-        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, HolidayEntity::class);
+        parent::__construct(self::TABLESCHEMA, self::TABLESCHEMAID, CostCenterEntity::class);
     }
 
     /**
@@ -66,17 +66,6 @@ class HolidayModel extends AbstractBaseModel
     {
         $name = $this->getRepo()->findObjectBy(['id' => $id], ['name']);
         return $name->name;
-    }
-
-    public function getPublicBankHolidays(string $holidayName = null)
-    {
-        $year = date('Y');
-        $formatHolidayName = str_replace(' ', '_', strtolower($holidayName));
-        foreach ($this->calculateBankHolidays((int)$year) as $key => $bankHoliday) {
-            if (!is_null($holidayName) && $key === $formatHolidayName) {
-                return date('M jS', strtotime($bankHoliday));
-            }
-        }
     }
 
 

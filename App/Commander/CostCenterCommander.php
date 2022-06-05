@@ -15,10 +15,10 @@ namespace App\Commander;
 use MagmaCore\CommanderBar\ApplicationCommanderInterface;
 use MagmaCore\CommanderBar\ApplicationCommanderTrait;
 use MagmaCore\CommanderBar\CommanderUnsetterTrait;
-use App\Model\HolidayModel;
+use App\Model\CostCenterModel;
 use Exception;
 
-class HolidayCommander extends HolidayModel implements ApplicationCommanderInterface
+class CostCenterCommander extends CostCenterModel implements ApplicationCommanderInterface
 {
 
     use ApplicationCommanderTrait;
@@ -55,7 +55,7 @@ class HolidayCommander extends HolidayModel implements ApplicationCommanderInter
      */
     public function getYml(): array
     {
-        return $this->findYml('holiday');
+        return $this->findYml('costCenter');
     }
 
     /**
@@ -81,8 +81,8 @@ class HolidayCommander extends HolidayModel implements ApplicationCommanderInter
 
         $this->controller = $controller;
         return match ($controller->thisRouteAction()) {
-            'index' => 'Holidays',
-            'new' => 'Holiday',
+            'index' => 'Cost Center',
+            'new' => 'Add New Cost Center',
             'import' => 'Import',
             'export' => 'Export',
             'edit' => "Edit [" . $this->getHeaderBuildEdit($controller, 'name') . ']',

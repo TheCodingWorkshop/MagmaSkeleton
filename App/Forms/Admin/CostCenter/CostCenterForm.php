@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Forms\Admin\Holidays;
+namespace App\Forms\Admin\CostCenter;
 
 use Exception;
 use MagmaCore\FormBuilder\ClientFormBuilder;
@@ -18,7 +18,7 @@ use MagmaCore\FormBuilder\ClientFormBuilderInterface;
 use MagmaCore\FormBuilder\FormBuilderBlueprint;
 use MagmaCore\FormBuilder\FormBuilderBlueprintInterface;
 
-class HolidayForm extends ClientFormBuilder implements ClientFormBuilderInterface
+class CostCenterForm extends ClientFormBuilder implements ClientFormBuilderInterface
 {
 
     /** @var FormBuilderBlueprintInterface $blueprint */
@@ -55,11 +55,11 @@ class HolidayForm extends ClientFormBuilder implements ClientFormBuilderInterfac
             ->addRepository($dataRepository)
             ->add($this->blueprint->text('name', [], $this->hasValue('name')))
             ->add($this->blueprint->text('slug', [], $this->hasValue('slug')))
-            ->add($this->blueprint->datePicker('holiday_date', ['uk-input uk-form-width-medium'], $this->hasValue('holiday_date')))
+            ->add($this->blueprint->text('code', [], $this->hasValue('code')))
             ->add($this->blueprint->textarea('description', ['uk-textarea'], 'description'), $this->hasValue('description'))
             ->add(
                 $this->blueprint->submit(
-                    $this->hasValue('id') ? 'edit-holiday' : 'new-holiday',
+                    $this->hasValue('id') ? 'edit-costcenter' : 'new-costcenter',
                     ['uk-button', 'uk-button-primary', 'uk-form-width-medium'],
                     'Save',
                 ),

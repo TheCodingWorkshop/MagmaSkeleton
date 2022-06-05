@@ -14,11 +14,11 @@ namespace App\Validate;
 
 use MagmaCore\Utility\Utilities;
 use MagmaCore\Collection\Collection;
-use App\Controller\Admin\HolidayController;
+use App\Controller\Admin\BranchController;
 use MagmaCore\ValidationRule\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
-class HolidayValidate extends AbstractDataRepositoryValidation
+class BranchValidate extends AbstractDataRepositoryValidation
 {
 
     /** @var array $errors */
@@ -29,7 +29,7 @@ class HolidayValidate extends AbstractDataRepositoryValidation
     protected ValidationRule $rules;
 
     /** @var string */
-    protected const REDIRECT_BACK_TO = '/admin/holiday/index';
+    protected const REDIRECT_BACK_TO = '/admin/branch/index';
 
     /**
      * Main class constructor. Uses the ValidateRule class has a dependency
@@ -45,7 +45,7 @@ class HolidayValidate extends AbstractDataRepositoryValidation
     public function __construct(ValidationRule $rules)
     {
         $this->rules = $rules;
-        $this->rules->addObject(HolidayController::class, $this);
+        $this->rules->addObject(BranchController::class, $this);
     }
 
     /**
@@ -65,10 +65,9 @@ class HolidayValidate extends AbstractDataRepositoryValidation
         $newCleanData = [];
         if (null !== $dataCollection) {
             $newCleanData = [
-                'name' => $this->isSet('name', $dataCollection, $dataRepository),
-                'slug' => Utilities::titleSlugConverter($holidayName),
-                'description' => $this->isSet('description', $dataCollection, $dataRepository),
-                'holiday_date' => !$dataRepository ? $controller->repository->getPublicBankHolidays($holidayName) : 'None',
+                'branch' => $this->isSet('branch', $dataCollection, $dataRepository),
+                'code' => $this->isSet('code', $dataCollection, $dataRepository),
+                'address' => $this->isSet('address', $dataCollection, $dataRepository),
                 'created_byid' => $this->getCreator($dataCollection),
             ];
             /* We can return an empty dataBag even if we have nothing to send */
@@ -133,8 +132,8 @@ class HolidayValidate extends AbstractDataRepositoryValidation
     {
         if ($dataRepository !== null) {
             if (
-                $entityCollection['name'] === $dataRepository->name &&
-                $entityCollection['slug'] === $dataRepository->slug
+                $entityCollection['branch'] === $dataRepository->branch &&
+                $entityCollection['code'] === $dataRepository->code
             ) {
                 if ($controller = $this->rules->getController()) {
                     $controller->error
@@ -162,7 +161,7 @@ class HolidayValidate extends AbstractDataRepositoryValidation
             function ($key, $value, $entityCollection, $dataRepository) {
                 if ($rules = $this->rules) {
                     return match ($key) {
-                        'name' => $rules->addRule("required"),
+                        'branch', 'code' => $rules->addRule("required"),
                         default => $this->throwWarningIfNoChange($entityCollection, $dataRepository)
                     };
                 }

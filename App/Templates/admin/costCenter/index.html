@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
-{% block title %}Projects{% endblock %}
-{% block description %}MagmaCore projects{% endblock %}
-{% block keywords %}projects{% endblock %}
+{% block title %}Cost Center{% endblock %}
+{% block description %}MagmaCore cost center{% endblock %}
+{% block keywords %}cost center{% endblock %}
 {% block author %}Ricardo Miller{% endblock %}
 
 <!-- start content-->
 {% block content %}
-    <form method="post" action="/admin/project/bulk">
+    <form method="post" action="/admin/costCenter/bulk">
         {@ templateExtension('uikit_simple_pagination') @}
         <section uk-grid>
             <div class="uk-width-expand@m">

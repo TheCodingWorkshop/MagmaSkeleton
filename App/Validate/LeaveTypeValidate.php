@@ -133,8 +133,8 @@ class LeaveTypeValidate extends AbstractDataRepositoryValidation
     {
         if ($dataRepository !== null) {
             if (
-                $entityCollection['leave_type'] === $dataRepository->cat_name &&
-                $entityCollection['leave_type_slug'] === $dataRepository->cat_slug
+                $entityCollection['leave_type'] === $dataRepository->leave_type &&
+                $entityCollection['leave_type_slug'] === $dataRepository->leave_type_slug
             ) {
                 if ($controller = $this->rules->getController()) {
                     $controller->error

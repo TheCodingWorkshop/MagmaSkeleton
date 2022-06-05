@@ -67,7 +67,7 @@ class LeaveTypeColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
                     $html .= $row["leave_type"] . "<br/>";
-                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $row["leave_description"] . '</small></div>';
+                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $this->truncate($row['leave_description'], 100, 70) . '</small></div>';
                     $html .= '</div>';
                     $html .= '</div>';
 

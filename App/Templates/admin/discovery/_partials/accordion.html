@@ -2,8 +2,25 @@
   <li class="uk-open">
     <a class="uk-accordion-title" href="#">Basic</a>
     <div class="uk-accordion-content">
-
-      <form method="post" action="" class="uk-form-stacked">
+      <table class="uk-table uk-table-justify uk-table-divider">
+        <thead>
+            <tr>
+                <th class="uk-width-large">Controller</th>
+                <th>Methods</th>
+                <th>Published</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{@ str($controller_singular->controller) @} (alias: {@ str($controller_singular->controller, 'lower') @})</td>
+                <td>{{ count($methods) }}</td>
+                <td>{@ formatDate($controller_singular->created_at) @}</td>
+                <td><a href="">Enable</a></td>
+            </tr>
+        </tbody>
+    </table>
+      <!-- <form method="post" action="" class="uk-form-stacked">
         <dl class="uk-description-list">
           <dt class="uk-text-primary">Controller</dt>
           <dd>{@ str($controller_singular->controller) @} (alias: {@ str($controller_singular->controller, 'lower') @})</dd>
@@ -29,13 +46,50 @@
           <dd>{{ $controller_singular->method_permissions ?? null }}</dd>
 
         </dl>
-      </form>
+      </form> -->
+
+
+    </div>
+  </li>
+
+  <li>
+    <a class="uk-accordion-title" href="#">Permissions</a>
+    <div class="uk-accordion-content">
+
+      {{ $discovery_permission_form }}
+      <!-- <form method="post" action="" class="uk-form-stacked">
+        <dl class="uk-description-list">
+          <dt class="uk-text-primary">Controller</dt>
+          <dd>{@ str($controller_singular->controller) @} (alias: {@ str($controller_singular->controller, 'lower') @})</dd>
+          <dt class="uk-text-primary">Methods <sup class="uk-text-meta uk-text-bolder">{{ count($methods) }}</sup></dt>
+          <p class="uk-margin-remove-top">Select the methods below. In which you want to register to be a child menu item for the parent menu. [{{ $this_route }}]
+            Note you can further modify these items from the menu page. <code><a class="uk-link-reset" href="">edit in menu item</a></code></p>
+          <dd>
+            <div class="uk-panel uk-panel-scrollable uk-height-max-medium">
+              <ul class="uk-list uk-list-collapse">
+                {% foreach ($methods as $method): %}
+                <li>
+                  <label><input class="uk-checkbox" type="checkbox"> {{ $method }} <span uk-tooltip="testing">{@ icon('question', 0.7) @}</span></label>
+                </li>
+                {% endforeach; %}
+              </ul>
+            </div>
+          </dd>
+          <dt class="uk-text-primary">Registered</dt>
+          <dd>{@ formatDate($controller_singular->created_at) @}</dd>
+
+          <dt class="uk-text-primary">Method Permission</dt>
+          <p class="uk-margin-remove-top">By default every protected routes within each controller has a permission string attached. Which means a user would require the necessary permission privileeg to access the route.</p>
+          <dd>{{ $controller_singular->method_permissions ?? null }}</dd>
+
+        </dl>
+      </form> -->
 
 
     </div>
   </li>
   <li>
-    <a class="uk-accordion-title" href="#">Advance</a>
+    <a class="uk-accordion-title" href="#">Methods</a>
     <div class="uk-accordion-content">
       <form class="uk-form-stacked">
 

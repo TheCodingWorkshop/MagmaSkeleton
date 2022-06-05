@@ -75,3 +75,74 @@ services:
           msg: Leave type permanently deleted!
           redirect: leave.index
 
+    holiday.subscriber:
+      class: \App\EventSubscriber\HolidayActionSubscriber
+      register_route_feedback:
+        App\Controller\Admin\HolidayController::newAction:
+          msg: Added Successfully!
+          redirect: holiday.new
+        App\Controller\Admin\HolidayController::editAction:
+          msg: Updated Successfully!
+        App\Controller\Admin\HolidayController::trashAction:
+          msg: Trashed Successfully!
+          redirect: holiday.index
+        App\Controller\Admin\HolidayController::untrashAction:
+          msg: Restored Successfully!
+          redirect: holiday.index
+        App\Controller\Admin\HolidayController::hardDeleteAction:
+          msg: Deleted Successfully!
+          redirect: holiday.index
+        App\Controller\Admin\HolidayController::activeAction:
+          msg: Updated Successfully!
+          redirect: holiday.index
+        App\Controller\Admin\HolidayController::deactiveAction:
+          msg: Updated Successfully!
+          redirect: holiday.index
+
+    costcenter.subscriber:
+      class: \App\EventSubscriber\CostCenterActionSubscriber
+      register_route_feedback:
+        App\Controller\Admin\CostCenterController::newAction:
+          msg: Added Successfully!
+          redirect: costcenter.new
+        App\Controller\Admin\CostCenterController::editAction:
+          msg: Updated Successfully!
+        App\Controller\Admin\CostCenterController::trashAction:
+          msg: Trashed Successfully!
+          redirect: costcenter.index
+        App\Controller\Admin\CostCenterController::untrashAction:
+          msg: Restored Successfully!
+          redirect: costcenter.index
+        App\Controller\Admin\CostCenterController::hardDeleteAction:
+          msg: Deleted Successfully!
+          redirect: costcenter.index
+        App\Controller\Admin\CostCenterController::activeAction:
+          msg: Updated Successfully!
+          redirect: costcenter.index
+        App\Controller\Admin\CostCenterController::deactiveAction:
+          msg: Updated Successfully!
+          redirect: costcenter.index
+
+    branch.subscriber:
+      class: \App\EventSubscriber\BranchActionSubscriber
+      register_route_feedback:
+        App\Controller\Admin\BranchController::newAction:
+          msg: Added Successfully!
+          redirect: branch.new
+        App\Controller\Admin\BranchController::editAction:
+          msg: Updated Successfully!
+        App\Controller\Admin\BranchController::trashAction:
+          msg: Trashed Successfully!
+          redirect: branch.index
+        App\Controller\Admin\BranchController::untrashAction:
+          msg: Restored Successfully!
+          redirect: branch.index
+        App\Controller\Admin\BranchController::hardDeleteAction:
+          msg: Deleted Successfully!
+          redirect: branch.index
+        App\Controller\Admin\BranchController::activeAction:
+          msg: Updated Successfully!
+          redirect: branch.index
+        App\Controller\Admin\BranchController::deactiveAction:
+          msg: Updated Successfully!
+          redirect: branch.index

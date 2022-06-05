@@ -14,20 +14,20 @@ namespace App\DataColumns;
 
 use MagmaCore\Datatable\DataColumnTrait;
 use MagmaCore\Datatable\AbstractDatatableColumn;
-use App\Model\HolidayModel;
+use App\Model\BranchModel;
 
-class HolidayColumn extends AbstractDatatableColumn
+class BranchColumn extends AbstractDatatableColumn
 {
 
     use DataColumnTrait;
 
-    private HolidayModel $hollidayModel;
+    private BranchModel $branchModel;
 
-    private string $controller = 'holiday';
+    private string $controller = 'Branch';
 
-    public function __construct(HolidayModel $hollidayModel)
+    public function __construct(BranchModel $branchModel)
     {
-        $this->hollidayModel = $hollidayModel;
+        $this->branchModel = $branchModel;
     }
 
     /**
@@ -46,12 +46,12 @@ class HolidayColumn extends AbstractDatatableColumn
                 'sortable' => false,
                 'searchable' => false,
                 'formatter' => function ($row) {
-                    return '<input type="checkbox" class="uk-checkbox" id="holidays-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '">';
+                    return '<input type="checkbox" class="uk-checkbox" id="Branchs-' . $row['id'] . '" name="id[]" value="' . $row['id'] . '">';
                 }
             ],
             [
-                'db_row' => 'name',
-                'dt_row' => 'Name',
+                'db_row' => 'branch',
+                'dt_row' => 'Branch',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => true,
@@ -61,8 +61,8 @@ class HolidayColumn extends AbstractDatatableColumn
                     $html = '<div class="uk-clearfix">';
                     $html .= '<div class="uk-float-left uk-margin-small-right">';
                     $html .= '<span class="uk-text-primary">';
-                    $html .= '<a href="' . ($isActive ? '/admin/holiday/' . $row['id'] . '/deactive' : '/admin/holiday/' . $row['id'] . '/active') . '">';
-                    $html .= '<span uk-tooltip="' . ($isActive ? 'Click to De-activate Holiday' : 'Click to Activate Holiday') . '">' . ($isActive ? '<ion-icon name="checkmark-outline"></ion-icon>' : '<ion-icon name="close-outline"></ion-icon>') . '</span>';
+                    $html .= '<a href="' . ($isActive ? '/admin/branch/' . $row['id'] . '/deactive' : '/admin/branch/' . $row['id'] . '/active') . '">';
+                    $html .= '<span uk-tooltip="' . ($isActive ? 'Click to De-activate Branch' : 'Click to Activate Branch') . '">' . ($isActive ? '<ion-icon name="checkmark-outline"></ion-icon>' : '<ion-icon name="close-outline"></ion-icon>') . '</span>';
                     $html .= '</a>';
                     $html .= '</span>';
                     $html .= '<div>';
@@ -72,8 +72,8 @@ class HolidayColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
-                    $html .= $row["name"] . "<br/>";
-                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $this->truncate($row['description'], 100, 70) . '</small></div>';
+                    $html .= $row["branch"] . "<br/>";
+                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $this->truncate($row['address'], 100, 70) . '</small></div>';
                     $html .= '</div>';
                     $html .= '</div>';
 
@@ -82,8 +82,19 @@ class HolidayColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'slug',
-                'dt_row' => 'Slug',
+                'db_row' => 'code',
+                'dt_row' => 'Code',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['code'] ?? 'None';
+                }
+            ],
+            [
+                'db_row' => 'status',
+                'dt_row' => 'Status',
                 'class' => '',
                 'show_column' => false,
                 'sortable' => false,
@@ -93,25 +104,14 @@ class HolidayColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'holiday_date',
-                'dt_row' => 'Date <sup class="uk-text-small uk-text-danger uk-text-bolder">(' . date('Y') . ')</sup>',
+                'db_row' => 'address',
+                'dt_row' => 'Address',
                 'class' => '',
-                'show_column' => true,
+                'show_column' => false,
                 'sortable' => false,
                 'searchable' => true,
-                'formatter' => function ($row, $tempExt) use ($callingController) {
-                    /* Substitue days are days given as substitute days when the corresponding holiday falls on a weekend */
-                    $christmasDay = 'Dec 25th';
-                    $boxingDay = 'Dec 26th';
-                    $newYearsDay = 'Jan 1st';
-                    if (
-                        $row['name'] == 'Christmas Day' && $row['holiday_date'] !== $christmasDay ||
-                        $row['name'] == 'Boxing Day' && $row['holiday_date'] !== $boxingDay || 
-                        $row['name'] == 'New Years Day' && $row['holiday_date'] !== $newYearsDay) {
-                            return $row['holiday_date'] . ' <span uk-tooltip="Holiday falls on a weekend. So is substituted for the following date" class="uk-text-meta uk-text-primary">(Substitute Day)</span>';
-                    } else {
-                        return $row['holiday_date'] ?? 'None';
-                    }
+                'formatter' => function ($row, $tempExt) {
+                    return $row['code'] ?? 'None';
                 }
             ],
 

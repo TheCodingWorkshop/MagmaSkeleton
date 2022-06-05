@@ -13,17 +13,17 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use MagmaCore\Base\Access;
-use App\Model\HolidayModel;
-use App\Entity\HolidayEntity;
-use App\Schema\HolidaySchema;
-use App\Event\HolidayActionEvent;
-use App\DataColumns\HolidayColumn;
-use App\Commander\HolidayCommander;
-use App\Forms\Admin\Holidays\HolidayForm;
+use App\Model\CostCenterModel;
+use App\Entity\CostCenterEntity;
+use App\Schema\CostCenterSchema;
+use App\Event\CostCenterActionEvent;
+use App\DataColumns\CostCenterColumn;
+use App\Commander\CostCenterCommander;
+use App\Forms\Admin\CostCenter\CostCenterForm;
 use MagmaCore\Base\Traits\ControllerCommonTrait;
 use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
-class HolidayController extends \MagmaCore\Administrator\Controller\AdminController
+class CostCenterController extends \MagmaCore\Administrator\Controller\AdminController
 {
 
     use ControllerCommonTrait;
@@ -34,13 +34,13 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
 
         $this->addDefinitions(
             [
-                'repository' => HolidayModel::class,
-                'column' => HolidayColumn::class,
-                'commander' => HolidayCommander::class,
-                'entity' => HolidayEntity::class,
-                'holidayForm' => HolidayForm::class,
-                'schema' => HolidaySchema::class,
-                'rawSchema' => HolidaySchema::class
+                'repository' => CostCenterModel::class,
+                'column' => CostCenterColumn::class,
+                'commander' => CostCenterCommander::class,
+                'entity' => CostCenterEntity::class,
+                'costCenterForm' => CostCenterForm::class,
+                'schema' => CostCenterSchema::class,
+                'rawSchema' => CostCenterSchema::class
 
             ]
         );
@@ -48,14 +48,14 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
 
     public function schemaAsString()
     {
-        return HolidaySchema::class;
+        return CostCenterSchema::class;
     }
 
     protected function indexAction()
     {
         $this->indexAction
-        ?->setAccess($this, Access::CAN_VIEW)
-        ?->execute($this, NULL, NULL, HolidaySchema::class, __METHOD__)
+        //?->setAccess($this, Access::CAN_VIEW)
+        ?->execute($this, NULL, NULL, CostCenterSchema::class, __METHOD__)
         ?->render()
         ?->with(
             [
@@ -69,11 +69,11 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     protected function newAction()
     {
         $this->newAction
-            ?->setAccess($this, Access::CAN_VIEW)
-            ->execute($this, HolidayEntity::class, HolidayActionEvent::class, NULL, __METHOD__)
+            //?->setAccess($this, Access::CAN_ADD)
+            ->execute($this, CostCenterEntity::class, CostCenterActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
-            ->form($this->holidayForm)
+            ->form($this->costCenterForm)
             ->end();
     }
 
@@ -81,14 +81,14 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     {
         $this->editAction
             ->setAccess($this, Access::CAN_EDIT)
-            ->execute($this, HolidayEntity::class, HolidayActionEvent::class, NULL, __METHOD__)
+            ->execute($this, CostCenterEntity::class, CostCenterActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(
                 [
-                    'holiday' => $this->toArray($this->findOr404())
+                    'cost_center' => $this->toArray($this->findOr404())
                 ]
             )
-            ->form($this->holidayForm)
+            ->form($this->costCenterForm)
             ->end();
     }
 
@@ -104,7 +104,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     {
         $this->ifCanTrashAction
             ->setAccess($this, Access::CAN_TRASH)
-            ->execute($this, NULL, HolidayActionEvent::class, NULL, __METHOD__, [], [], HolidaySchema::class)
+            ->execute($this, NULL, CostCenterActionEvent::class, NULL, __METHOD__, [], [], CostCenterSchema::class)
             ->endAfterExecution();
     }
 
@@ -118,7 +118,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     {
         $this->changeStatusAction
         ->setAccess($this, Access::CAN_UNTRASH)
-        ->execute($this, HolidayEntity::class, HolidayActionEvent::class, NULL, __METHOD__,[], [],['deleted_at' => 0])
+        ->execute($this, CostCenterEntyity::class, CostCenterActionEvent::class, NULL, __METHOD__,[], [],['deleted_at' => 0])
         ->endAfterExecution();
 
     }
@@ -128,7 +128,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     {
         $this->deleteAction
             ->setAccess($this, Access::CAN_DELETE)
-            ->execute($this, NULL, HolidayActionEvent::class, NULL, __METHOD__)
+            ->execute($this, NULL, CostCenterActionEvent::class, NULL, __METHOD__)
             ->endAfterExecution();
 
     }
@@ -140,7 +140,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
      */
     public function bulkAction()
     {
-        $this->chooseBulkAction($this, HolidayActionEvent::class);
+        $this->chooseBulkAction($this, CostCenterActionEvent::class);
     }
 
     /**
@@ -150,7 +150,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     {
         $this->changeStatusAction
         ->setAccess($this, Access::CAN_UNTRASH)
-        ->execute($this, HolidayEntity::class, HolidayActionEvent::class, NULL, __METHOD__,[], [],['status' => 'active'])
+        ->execute($this, CostCenterEntyity::class, CostCenterActionEvent::class, NULL, __METHOD__,[], [],['status' => 'active'])
         ->endAfterExecution();
 
     }
@@ -162,7 +162,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     {
         $this->changeStatusAction
         ->setAccess($this, Access::CAN_UNTRASH)
-        ->execute($this, HolidayEntity::class, HolidayActionEvent::class, NULL, __METHOD__,[], [],['status' => 'deactive'])
+        ->execute($this, CostCenterEntyity::class, CostCenterActionEvent::class, NULL, __METHOD__,[], [],['status' => 'deactive'])
         ->endAfterExecution();
 
     }
@@ -178,7 +178,7 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
         $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
         $this->sessionUpdateAction
             ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, HolidayActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
+            ->execute($this, NULL, CostCenterActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
             ->render()
             ->with(
                 [

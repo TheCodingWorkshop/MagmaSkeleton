@@ -81,6 +81,57 @@ holiday:
     edit:
       name: edit
 
+costCenter:
+  index:
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/costcenter/log"
+    setting:
+      name: settings
+      path: "/admin/costcenter/settings"
+      icon: cog
+    export:
+      name: export
+      path: "/admin/costcenter/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/costcenter/import"
+      icon: upload-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Cost Center Assignment"
+    edit:
+      name: edit
+
+branch:
+  index:
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/branch/log"
+    setting:
+      name: settings
+      path: "/admin/branch/settings"
+      icon: cog
+    export:
+      name: export
+      path: "/admin/branch/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/branch/import"
+      icon: upload-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Branch Assignment"
+    edit:
+      name: edit
 
 group:
   index:

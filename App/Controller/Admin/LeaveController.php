@@ -93,6 +93,58 @@ class LeaveController extends \MagmaCore\Administrator\Controller\AdminControlle
     }
 
     /**
+     * Route which puts the item within the trash. This is only for supported models
+     * and is effectively changing the deleted_at column to 1. All datatable queries 
+     * deleted_at column should be set to 0. this will prevent any trash items 
+     * from showing up in the main table
+     *
+     * @return void
+     */
+    protected function trashAction()
+    {
+        $this->ifCanTrashAction
+            ->setAccess($this, Access::CAN_TRASH)
+            ->execute($this, NULL, LeaveTypeActionEvent::class, NULL, __METHOD__, [], [], LeaveTypeSchema::class)
+            ->endAfterExecution();
+    }
+
+    /**
+     * As trashing an item changes the deleted_at column to 1 we can reset that to 0
+     * for individual items.
+     *
+     * @return void
+     */
+    protected function untrashAction()
+    {
+        $this->changeStatusAction
+        ->setAccess($this, Access::CAN_UNTRASH)
+        ->execute($this, LeaveTypeEntity::class, LeaveTypeActionEvent::class, NULL, __METHOD__,[], [],['deleted_at' => 0])
+        ->endAfterExecution();
+
+    }
+
+
+    protected function hardDeleteAction()
+    {
+        $this->deleteAction
+            ->setAccess($this, Access::CAN_DELETE)
+            ->execute($this, NULL, LeaveTypeActionEvent::class, NULL, __METHOD__)
+            ->endAfterExecution();
+
+    }
+
+    /**
+     * Bulk action route
+     *
+     * @return void
+     */
+    public function bulkAction()
+    {
+        $this->chooseBulkAction($this, LeaveTypeActionEvent::class);
+    }
+
+
+    /**
      * settings page
      *
      * @return Response
@@ -107,7 +159,7 @@ class LeaveController extends \MagmaCore\Administrator\Controller\AdminControlle
             ->with(
                 [
                     'session_data' => $sessionData,
-                    'page_title' => 'Leave Type Settings',
+                    'page_title' => ucwords($this->thisRouteController()) . ' Settings',
                     'last_updated' => $this->controllerSessionBackupModel
                         ->getRepo()
                         ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at

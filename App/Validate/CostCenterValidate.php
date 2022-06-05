@@ -14,11 +14,11 @@ namespace App\Validate;
 
 use MagmaCore\Utility\Utilities;
 use MagmaCore\Collection\Collection;
-use App\Controller\Admin\HolidayController;
+use App\Controller\Admin\CostCenterController;
 use MagmaCore\ValidationRule\ValidationRule;
 use MagmaCore\DataObjectLayer\DataRepository\AbstractDataRepositoryValidation;
 
-class HolidayValidate extends AbstractDataRepositoryValidation
+class CostCenterValidate extends AbstractDataRepositoryValidation
 {
 
     /** @var array $errors */
@@ -29,7 +29,7 @@ class HolidayValidate extends AbstractDataRepositoryValidation
     protected ValidationRule $rules;
 
     /** @var string */
-    protected const REDIRECT_BACK_TO = '/admin/holiday/index';
+    protected const REDIRECT_BACK_TO = '/admin/costCenter/index';
 
     /**
      * Main class constructor. Uses the ValidateRule class has a dependency
@@ -45,7 +45,7 @@ class HolidayValidate extends AbstractDataRepositoryValidation
     public function __construct(ValidationRule $rules)
     {
         $this->rules = $rules;
-        $this->rules->addObject(HolidayController::class, $this);
+        $this->rules->addObject(CostCenterController::class, $this);
     }
 
     /**
@@ -61,14 +61,14 @@ class HolidayValidate extends AbstractDataRepositoryValidation
     {
         $this->validate($entityCollection, $dataRepository);
         $dataCollection = $this->mergeWithFields((array)$entityCollection->all());
-        $holidayName = (isset($dataCollection['slug']) && $dataCollection['slug'] !=='' ? $dataCollection['slug'] : $dataCollection['name']);
+        $costCenterName = (isset($dataCollection['slug']) && $dataCollection['slug'] !=='' ? $dataCollection['slug'] : $dataCollection['name']);
         $newCleanData = [];
         if (null !== $dataCollection) {
             $newCleanData = [
                 'name' => $this->isSet('name', $dataCollection, $dataRepository),
-                'slug' => Utilities::titleSlugConverter($holidayName),
+                'slug' => Utilities::titleSlugConverter($costCenterName),
+                'code' => $this->isSet('code', $dataCollection, $dataRepository),
                 'description' => $this->isSet('description', $dataCollection, $dataRepository),
-                'holiday_date' => !$dataRepository ? $controller->repository->getPublicBankHolidays($holidayName) : 'None',
                 'created_byid' => $this->getCreator($dataCollection),
             ];
             /* We can return an empty dataBag even if we have nothing to send */

@@ -41,7 +41,7 @@ leave:
 
 holiday:
   status_choices: [active: Active, deactive: Deactive]
-  additional_conditions: deleted_at:0, status:active
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 5
   query: status
@@ -50,6 +50,34 @@ holiday:
   sort_columns:
     - id
     - leave_type
+    - created_at
+  trash_can_support: 'true'
+
+costcenter:
+  status_choices: [active: Active, deactive: Deactive]
+  additional_conditions: deleted_at:0
+  selectors: []
+  records_per_page: 5
+  query: status
+  filter_by: ["name", "slug"]
+  filter_alias: s
+  sort_columns:
+    - id
+    - name
+    - created_at
+  trash_can_support: 'true'
+
+branch:
+  status_choices: [active: Active, deactive: Deactive]
+  additional_conditions: deleted_at:0
+  selectors: []
+  records_per_page: 5
+  query: status
+  filter_by: ["branch", "code"]
+  filter_alias: s
+  sort_columns:
+    - id
+    - branch
     - created_at
   trash_can_support: 'true'
 
