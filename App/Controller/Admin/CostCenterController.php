@@ -20,13 +20,9 @@ use App\Event\CostCenterActionEvent;
 use App\DataColumns\CostCenterColumn;
 use App\Commander\CostCenterCommander;
 use App\Forms\Admin\CostCenter\CostCenterForm;
-use MagmaCore\Base\Traits\ControllerCommonTrait;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class CostCenterController extends \MagmaCore\Administrator\Controller\AdminController
 {
-
-    use ControllerCommonTrait;
 
     public function __construct(array $routeParams)
     {
@@ -40,15 +36,11 @@ class CostCenterController extends \MagmaCore\Administrator\Controller\AdminCont
                 'entity' => CostCenterEntity::class,
                 'costCenterForm' => CostCenterForm::class,
                 'schema' => CostCenterSchema::class,
-                'rawSchema' => CostCenterSchema::class
+                'rawSchema' => CostCenterSchema::class,
+                'actionEvent' => CostCenterActionEvent::class
 
             ]
         );
-    }
-
-    public function schemaAsString()
-    {
-        return CostCenterSchema::class;
     }
 
     protected function indexAction()
@@ -134,16 +126,6 @@ class CostCenterController extends \MagmaCore\Administrator\Controller\AdminCont
     }
 
     /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, CostCenterActionEvent::class);
-    }
-
-    /**
      * @return void
      */
     protected function activeAction()
@@ -165,32 +147,6 @@ class CostCenterController extends \MagmaCore\Administrator\Controller\AdminCont
         ->execute($this, CostCenterEntyity::class, CostCenterActionEvent::class, NULL, __METHOD__,[], [],['status' => 'deactive'])
         ->endAfterExecution();
 
-    }
-
-
-    /**
-     * settings page
-     *
-     * @return Response
-     */
-    protected function settingsAction()
-    {
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, CostCenterActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => ucwords($this->thisRouteController()) . ' Settings',
-                    'last_updated' => $this->controllerSessionBackupModel
-                        ->getRepo()
-                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
     }
 
 }

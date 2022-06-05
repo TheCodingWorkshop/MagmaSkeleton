@@ -20,13 +20,9 @@ use App\Event\HolidayActionEvent;
 use App\DataColumns\HolidayColumn;
 use App\Commander\HolidayCommander;
 use App\Forms\Admin\Holidays\HolidayForm;
-use MagmaCore\Base\Traits\ControllerCommonTrait;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class HolidayController extends \MagmaCore\Administrator\Controller\AdminController
 {
-
-    use ControllerCommonTrait;
 
     public function __construct(array $routeParams)
     {
@@ -40,7 +36,8 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
                 'entity' => HolidayEntity::class,
                 'holidayForm' => HolidayForm::class,
                 'schema' => HolidaySchema::class,
-                'rawSchema' => HolidaySchema::class
+                'rawSchema' => HolidaySchema::class,
+                'actionEvent' => HolidayActionEvent::class
 
             ]
         );
@@ -134,16 +131,6 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
     }
 
     /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, HolidayActionEvent::class);
-    }
-
-    /**
      * @return void
      */
     protected function activeAction()
@@ -167,30 +154,5 @@ class HolidayController extends \MagmaCore\Administrator\Controller\AdminControl
 
     }
 
-
-    /**
-     * settings page
-     *
-     * @return Response
-     */
-    protected function settingsAction()
-    {
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, HolidayActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => ucwords($this->thisRouteController()) . ' Settings',
-                    'last_updated' => $this->controllerSessionBackupModel
-                        ->getRepo()
-                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
-    }
 
 }

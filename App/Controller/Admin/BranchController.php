@@ -40,15 +40,11 @@ class BranchController extends \MagmaCore\Administrator\Controller\AdminControll
                 'entity' => BranchEntity::class,
                 'branchForm' => BranchForm::class,
                 'schema' => BranchSchema::class,
-                'rawSchema' => BranchSchema::class
+                'rawSchema' => BranchSchema::class,
+                'actionEvent' => BranchActionEvent::class
 
             ]
         );
-    }
-
-    public function schemaAsString()
-    {
-        return BranchSchema::class;
     }
 
     protected function indexAction()
@@ -134,16 +130,6 @@ class BranchController extends \MagmaCore\Administrator\Controller\AdminControll
     }
 
     /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, BranchActionEvent::class);
-    }
-
-    /**
      * @return void
      */
     protected function activeAction()
@@ -165,32 +151,6 @@ class BranchController extends \MagmaCore\Administrator\Controller\AdminControll
         ->execute($this, BranchEntity::class, BranchActionEvent::class, NULL, __METHOD__,[], [],['status' => 'deactive'])
         ->endAfterExecution();
 
-    }
-
-
-    /**
-     * settings page
-     *
-     * @return Response
-     */
-    protected function settingsAction()
-    {
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, BranchActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => ucwords($this->thisRouteController()) . ' Settings',
-                    'last_updated' => $this->controllerSessionBackupModel
-                        ->getRepo()
-                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
     }
 
 }

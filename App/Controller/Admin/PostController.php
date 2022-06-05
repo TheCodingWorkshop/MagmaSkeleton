@@ -24,7 +24,7 @@ use App\Forms\Admin\Post\PostMetaForm;
 use App\Forms\Admin\Post\PostMediaForm;
 use App\Forms\Admin\Post\PostSidebarForm;
 use MagmaCore\Administrator\Controller\AdminController;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
+
 
 class PostController extends AdminController
 {
@@ -42,7 +42,9 @@ class PostController extends AdminController
                 'postForm' => PostForm::class,
                 'postMetaForm' => PostMetaForm::class,
                 'postMediaForm' => PostMediaForm::class,
-                'postSidebarForm' => PostSidebarForm::class
+                'postSidebarForm' => PostSidebarForm::class,
+                'rawSchema' => PostSchema::class,
+                'actionEvent' => PostActionEvent::class
             ]
         );
     }
@@ -172,37 +174,6 @@ class PostController extends AdminController
             ->endAfterExecution();
 
     }
-
-    /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, PostActionEvent::class);
-    }
-
-    protected function settingsAction()
-    {
-
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, PostActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => 'Post Settings',
-                    'last_updated' => '30 min ago',
-                    'controller' => $this->thisRouteController()
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
-    }
-
 
 }
 

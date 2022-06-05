@@ -20,26 +20,9 @@ use App\Event\CategoryActionEvent;
 use App\DataColumns\CategoryColumn;
 use App\Commander\CategoryCommander;
 use App\Forms\Admin\Category\CategoryForm;
-use MagmaCore\Base\Traits\ControllerCommonTrait;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
-/**
- * methods
- * 
- * indexAction
- * showAction
- * newAction
- * editAction
- * copyAction
- * trashAction
- * untrashAction
- * hardDeleteAction
- * bulkAction
- */
 class CategoryController extends \MagmaCore\Administrator\Controller\AdminController
 {
-
-    use ControllerCommonTrait;
 
     public function __construct(array $routeParams)
     {
@@ -52,15 +35,11 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
                 'commander' => CategoryCommander::class,
                 'entity' => CategoryEntity::class,
                 'categoryForm' => CategoryForm::class,
-                'schema' => CategorySchema::class,
-                'rawSchema' => CategorySchema::class
+                'schema' => CategorySchema::class, /* outputs the schema object */
+                'rawSchema' => CategorySchema::class, /* outputs the qualified namespace */
+                'actionEvent' => CategoryActionEvent::class /* outputs the qualified namespace */
             ]
         );
-    }
-
-    public function schemaAsString()
-    {
-        return CategorySchema::class;
     }
 
     protected function indexAction()
@@ -155,45 +134,6 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
     }
 
-    /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, CategoryActionEvent::class);
-    }
-
-    protected function testAction()
-    {
-        
-    }
-
-    /**
-     * Category settings page
-     *
-     * @return Response
-     */
-    protected function settingsAction()
-    {
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => 'Category Settings',
-                    'last_updated' => $this->controllerSessionBackupModel
-                        ->getRepo()
-                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
-    }
 
 }
 

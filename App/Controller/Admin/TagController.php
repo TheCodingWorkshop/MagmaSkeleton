@@ -20,13 +20,9 @@ use App\Event\TagActionEvent;
 use App\DataColumns\TagColumn;
 use App\Commander\TagCommander;
 use App\Forms\Admin\Tag\TagForm;
-use MagmaCore\Base\Traits\ControllerCommonTrait;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class TagController extends \MagmaCore\Administrator\Controller\AdminController
 {
-
-    use ControllerCommonTrait;
 
     public function __construct(array $routeParams)
     {
@@ -40,15 +36,10 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
                 'entity' => TagEntity::class,
                 'tagForm' => TagForm::class,
                 'schema' => TagSchema::class,
-                'rawSchema' => TagSchema::class
+                'rawSchema' => TagSchema::class,
+                'actionEvent' => TagActionEvent::class
             ]
         );
-    }
-
-
-    public function schemaAsString()
-    {
-        return TagSchema::class;
     }
 
     protected function indexAction()
@@ -131,39 +122,5 @@ class TagController extends \MagmaCore\Administrator\Controller\AdminController
 
     }
 
-    /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, TagActionEvent::class);
-    }
-
-    protected function settingsAction()
-    {
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, TagActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => 'Tag Settings',
-                    'last_updated' => $this->controllerSessionBackupModel
-                        ->getRepo()
-                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
-    }
-
-    protected function testAction()
-    {
-
-    }
 }
 

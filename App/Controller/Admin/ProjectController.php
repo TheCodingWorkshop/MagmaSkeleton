@@ -20,13 +20,9 @@ use App\Event\ProjectActionEvent;
 use App\DataColumns\ProjectColumn;
 use App\Commander\ProjectCommander;
 use App\Forms\Admin\Project\ProjectForm;
-use MagmaCore\Base\Traits\ControllerCommonTrait;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class ProjectController extends \MagmaCore\Administrator\Controller\AdminController
 {
-
-    use ControllerCommonTrait;
 
     public function __construct(array $routeParams)
     {
@@ -40,15 +36,11 @@ class ProjectController extends \MagmaCore\Administrator\Controller\AdminControl
                 'entity' => ProjectEntity::class,
                 'projectForm' => ProjectForm::class,
                 'schema' => ProjectSchema::class,
-                'rawSchema' => ProjectSchema::class
+                'rawSchema' => ProjectSchema::class,
+                'actionEvent' => ProjectActionEvent::class
 
             ]
         );
-    }
-
-    public function schemaAsString()
-    {
-        return ProjectSchema::class;
     }
 
     protected function indexAction()
@@ -123,7 +115,6 @@ class ProjectController extends \MagmaCore\Administrator\Controller\AdminControl
 
     }
 
-
     protected function hardDeleteAction()
     {
         $this->deleteAction
@@ -131,16 +122,6 @@ class ProjectController extends \MagmaCore\Administrator\Controller\AdminControl
             ->execute($this, NULL, ProjectActionEvent::class, NULL, __METHOD__)
             ->endAfterExecution();
 
-    }
-
-    /**
-     * Bulk action route
-     *
-     * @return void
-     */
-    public function bulkAction()
-    {
-        $this->chooseBulkAction($this, ProjectActionEvent::class);
     }
 
     /**
@@ -167,30 +148,5 @@ class ProjectController extends \MagmaCore\Administrator\Controller\AdminControl
 
     }
 
-
-    /**
-     * settings page
-     *
-     * @return Response
-     */
-    protected function settingsAction()
-    {
-        $sessionData = $this->getSession()->get($this->thisRouteController() . '_settings');
-        $this->sessionUpdateAction
-            ->setAccess($this, Access::CAN_MANANGE_SETTINGS)
-            ->execute($this, NULL, ProjectActionEvent::class, NULL, __METHOD__, [], [], ControllerSessionBackupModel::class)
-            ->render()
-            ->with(
-                [
-                    'session_data' => $sessionData,
-                    'page_title' => ucwords($this->thisRouteController()) . ' Settings',
-                    'last_updated' => $this->controllerSessionBackupModel
-                        ->getRepo()
-                        ->findObjectBy(['controller' => $this->thisRouteController() . '_settings'], ['created_at'])->created_at
-                ]
-            )
-            ->form($this->controllerSettingsForm, null, $this->toObject($sessionData))
-            ->end();
-    }
 
 }

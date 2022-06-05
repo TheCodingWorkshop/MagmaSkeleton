@@ -1,0 +1,16 @@
+leaveType.subscriber:
+  class: \App\Modules\LeaveTypeModule\EventSubscriber\leaveTypeActionSubscriber
+  register_route_feedback:
+    App\Controller\Admin\leaveTypeController::newAction:
+      msg: New category added successfully!
+      redirect: category.new
+    App\Controller\Admin\leaveTypeController::editAction:
+      msg: Changes saved!
+    App\Controller\Admin\leaveTypeController::trashAction:
+      msg: Item thrown in the trash!
+    App\Controller\Admin\leaveTypeController::untrashAction:
+      msg: Category restored from trash!
+      redirect: category.index
+    App\Controller\Admin\leaveTypeController::hardDeleteAction:
+      msg: Category permanently deleted!
+      redirect: category.index
