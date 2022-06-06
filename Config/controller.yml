@@ -26,7 +26,7 @@ user:
 
 leave:
   status_choices: [active: Active, disable: Disable]
-  additional_conditions: status:active
+  additional_conditions: deleted_at:0
   selectors: []
   records_per_page: 15
   query: "status"
@@ -38,6 +38,22 @@ leave:
     - leave_type
     - created_at
   trash_can_support: 'true'
+
+timesheet:
+  status_choices: [active: Active, disable: Disable]
+  additional_conditions: deleted_at:0
+  selectors: []
+  records_per_page: 15
+  query: "status"
+  filter_by: ["project"]
+  filter_alias: s
+  searchables: []
+  sort_columns:
+    - id
+    - project
+    - created_at
+  trash_can_support: 'true'
+
 
 holiday:
   status_choices: [active: Active, deactive: Deactive]

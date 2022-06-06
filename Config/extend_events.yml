@@ -146,3 +146,27 @@ services:
         App\Controller\Admin\BranchController::deactiveAction:
           msg: Updated Successfully!
           redirect: branch.index
+
+    timesheet.subscriber:
+      class: \App\EventSubscriber\TimesheetActionSubscriber
+      register_route_feedback:
+        App\Controller\Admin\TimesheetController::newAction:
+          msg: Added Successfully!
+          redirect: timesheet.new
+        App\Controller\Admin\TimesheetController::editAction:
+          msg: Updated Successfully!
+        App\Controller\Admin\TimesheetController::trashAction:
+          msg: Trashed Successfully!
+          redirect: timesheet.index
+        App\Controller\Admin\TimesheetController::untrashAction:
+          msg: Restored Successfully!
+          redirect: timesheet.index
+        App\Controller\Admin\TimesheetController::hardDeleteAction:
+          msg: Deleted Successfully!
+          redirect: timesheet.index
+        App\Controller\Admin\TimesheetController::activeAction:
+          msg: Updated Successfully!
+          redirect: timesheet.index
+        App\Controller\Admin\TimesheetController::deactiveAction:
+          msg: Updated Successfully!
+          redirect: timesheet.index

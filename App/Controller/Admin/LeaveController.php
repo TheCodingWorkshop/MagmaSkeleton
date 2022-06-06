@@ -43,15 +43,10 @@ class LeaveController extends \MagmaCore\Administrator\Controller\AdminControlle
         );
     }
 
-    public function schemaAsString()
-    {
-        return LeaveTypeColumn::class;
-    }
-
     protected function indexAction()
     {
         $this->indexAction
-        //?->setAccess($this, Access::CAN_VIEW)
+        ->setAccess($this, Access::CAN_VIEW)
         ?->execute($this, NULL, NULL, LeaveTypeSchema::class, __METHOD__)
         ?->render()
         ?->with(
@@ -66,7 +61,7 @@ class LeaveController extends \MagmaCore\Administrator\Controller\AdminControlle
     protected function newAction()
     {
         $this->newAction
-            //?->setAccess($this, Access::CAN_VIEW)
+            ->setAccess($this, Access::CAN_VIEW)
             ->execute($this, LeaveTypeEntity::class, LeaveTypeActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
@@ -77,7 +72,7 @@ class LeaveController extends \MagmaCore\Administrator\Controller\AdminControlle
     protected function editAction(): void
     {
         $this->editAction
-            //->setAccess($this, Access::CAN_EDIT)
+            ->setAccess($this, Access::CAN_EDIT)
             ->execute($this, LeaveTypeEntity::class, LeaveTypeActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with(

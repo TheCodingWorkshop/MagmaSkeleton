@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block title %}Timesheets{% endblock %}
+{% block description %}MagmaCore timesheets{% endblock %}
+{% block keywords %}timesheets{% endblock %}
+{% block author %}Ricardo Miller{% endblock %}
+
+<!-- start content-->
+{% block content %}
+    <form method="post" action="/admin/timesheet/bulk">
+        {@ templateExtension('uikit_simple_pagination') @}
+        <section uk-grid>
+            <div class="uk-width-expand@m">
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            {% include 'admin/_global/_global_datatable.html' %}
+                        </div>
+                    </div>
+                    {@ templateExtension('uikit_pagination') @}
+                </div>
+            </div>
+        </section>
+    </form>
+{% endblock %} 
+
+{% block scripts %} {% endblock %}

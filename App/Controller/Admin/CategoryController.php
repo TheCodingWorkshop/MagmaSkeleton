@@ -125,14 +125,14 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
 
     }
 
-    protected function hardDeleteAction()
-    {
-        $this->deleteAction
-            ->setAccess($this, Access::CAN_DELETE)
-            ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__)
-            ->endAfterExecution();
+    // protected function hardDeleteAction()
+    // {
+    //     $this->deleteAction
+    //         ->setAccess($this, Access::CAN_DELETE)
+    //         ->execute($this, NULL, CategoryActionEvent::class, NULL, __METHOD__)
+    //         ->endAfterExecution();
 
-    }
+    // }
 
 
 }

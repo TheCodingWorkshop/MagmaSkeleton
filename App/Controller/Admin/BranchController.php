@@ -20,13 +20,9 @@ use App\Event\BranchActionEvent;
 use App\DataColumns\BranchColumn;
 use App\Commander\BranchCommander;
 use App\Forms\Admin\Branch\BranchForm;
-use MagmaCore\Base\Traits\ControllerCommonTrait;
-use MagmaCore\Administrator\Model\ControllerSessionBackupModel;
 
 class BranchController extends \MagmaCore\Administrator\Controller\AdminController
 {
-
-    use ControllerCommonTrait;
 
     public function __construct(array $routeParams)
     {

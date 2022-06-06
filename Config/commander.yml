@@ -133,6 +133,32 @@ branch:
     edit:
       name: edit
 
+timesheet:
+  index:
+    log:
+      name: log
+      icon: file-edit
+      nav_header: "Action"
+      path: "/admin/timesheet/log"
+    setting:
+      name: settings
+      path: "/admin/timesheet/settings"
+      icon: cog
+    export:
+      name: export
+      path: "/admin/timesheet/export"
+      icon: download-outline
+    import:
+      name: import
+      path: "/admin/timesheet/import"
+      icon: upload-outline
+  not_index:
+    assigned:
+      name: assigned
+      nav_header: "Timesheet Assignment"
+    edit:
+      name: edit
+
 group:
   index:
     log:

@@ -21,6 +21,7 @@ use App\DataColumns\CostCenterColumn;
 use App\Commander\CostCenterCommander;
 use App\Forms\Admin\CostCenter\CostCenterForm;
 
+
 class CostCenterController extends \MagmaCore\Administrator\Controller\AdminController
 {
 
@@ -114,7 +115,6 @@ class CostCenterController extends \MagmaCore\Administrator\Controller\AdminCont
         ->endAfterExecution();
 
     }
-
 
     protected function hardDeleteAction()
     {
