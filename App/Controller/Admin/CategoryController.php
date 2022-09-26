@@ -61,8 +61,7 @@ class CategoryController extends \MagmaCore\Administrator\Controller\AdminContro
     {
         $this->newAction
             ?->setAccess($this, Access::CAN_VIEW)
-            ?->execute(controller:$this, entity:CategoryEntity::class, event:CategoryActionEvent::class, method:__METHOD__)
-            //->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__)
+            ?->execute($this, CategoryEntity::class, CategoryActionEvent::class, NULL, __METHOD__)
             ->render()
             ->with()
             ->form($this->categoryForm)
