@@ -64,7 +64,7 @@ class TimesheetForm extends ClientFormBuilder implements ClientFormBuilderInterf
             ->add($this->blueprint->datePicker('week_start', ['uk-input uk-form-width-medium'], $this->hasValue('week_start')))
             ->add($this->blueprint->text('employee_id', [], $this->hasValue('employee_id') ?? $callingController->getSession()->get('user_id')))
             ->add($this->blueprint->text('project', [], $this->hasValue('project')))
-            ->add($this->blueprint->text('costcenetr', [], $this->hasValue('costcenetr')))
+            ->add($this->blueprint->text('costcenter', [], $this->hasValue('costcenter')))
             ->add($this->blueprint->text('engineer_time', [], $this->hasValue('engineer_time')))
             ->add(
                 $this->blueprint->submit(

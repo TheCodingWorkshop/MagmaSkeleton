@@ -72,8 +72,8 @@ class TimesheetColumn extends AbstractDatatableColumn
                     $html .= '</div>';
                     $html .= '</div>';
                     $html .= '<div class="uk-float-left">';
-                    $html .= $row["name"] . "<br/>";
-                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $this->truncate($row['description'], 100, 70) . '</small></div>';
+                    $html .= $row["customer"] . "<br/>";
+                    $html .= '<div class="uk-text-truncate uk-width-3-4"><small>' . $this->truncate($row['project'], 100, 70) . '</small></div>';
                     $html .= '</div>';
                     $html .= '</div>';
 
@@ -82,36 +82,82 @@ class TimesheetColumn extends AbstractDatatableColumn
                 }
             ],
             [
-                'db_row' => 'slug',
-                'dt_row' => 'Slug',
-                'class' => '',
-                'show_column' => false,
-                'sortable' => false,
-                'searchable' => true,
-                'formatter' => function ($row, $tempExt) {
-                    return $row['status'] ?? 'None';
-                }
-            ],
-            [
-                'db_row' => 'Timesheet_date',
-                'dt_row' => 'Date <sup class="uk-text-small uk-text-danger uk-text-bolder">(' . date('Y') . ')</sup>',
+                'db_row' => 'costcenter',
+                'dt_row' => 'Cost Centre',
                 'class' => '',
                 'show_column' => true,
                 'sortable' => false,
                 'searchable' => true,
-                'formatter' => function ($row, $tempExt) use ($callingController) {
-                    /* Substitue days are days given as substitute days when the corresponding Timesheet falls on a weekend */
-                    $christmasDay = 'Dec 25th';
-                    $boxingDay = 'Dec 26th';
-                    $newYearsDay = 'Jan 1st';
-                    if (
-                        $row['name'] == 'Christmas Day' && $row['Timesheet_date'] !== $christmasDay ||
-                        $row['name'] == 'Boxing Day' && $row['Timesheet_date'] !== $boxingDay || 
-                        $row['name'] == 'New Years Day' && $row['Timesheet_date'] !== $newYearsDay) {
-                            return $row['Timesheet_date'] . ' <span uk-tooltip="Timesheet falls on a weekend. So is substituted for the following date" class="uk-text-meta uk-text-primary">(Substitute Day)</span>';
-                    } else {
-                        return $row['Timesheet_date'] ?? 'None';
-                    }
+                'formatter' => function ($row, $tempExt) {
+                    return $row['costcenter'] ?? 'None';
+                }
+            ],
+            [
+                'db_row' => 'overtime',
+                'dt_row' => 'Overtime',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['overtime'] ?? 0;
+                }
+            ],
+            [
+                'db_row' => 'week_start',
+                'dt_row' => 'Week',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $tempExt->tableDateFormat($row, "week_start", true);
+                    //return $row['week_start'] ?? 0;
+                }
+            ],
+            [
+                'db_row' => 'time',
+                'dt_row' => 'Days',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['time'] ?? 0;
+                }
+            ],
+            [
+                'db_row' => 'stand_by',
+                'dt_row' => 'Stand By',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['stand_by'] ?? 0;
+                }
+            ],
+            [
+                'db_row' => 'total_time',
+                'dt_row' => 'Total',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['total_time'] ?? 0;
+                }
+            ],
+
+            [
+                'db_row' => 'status',
+                'dt_row' => 'Status',
+                'class' => '',
+                'show_column' => true,
+                'sortable' => false,
+                'searchable' => true,
+                'formatter' => function ($row, $tempExt) {
+                    return $row['status'] ?? 0;
                 }
             ],
 
@@ -130,8 +176,8 @@ class TimesheetColumn extends AbstractDatatableColumn
                 'db_row' => 'created_at',
                 'dt_row' => 'Published',
                 'class' => '',
-                'show_column' => true,
-                'sortable' => true,
+                'show_column' => false,
+                'sortable' => false,
                 'searchable' => false,
                 'formatter' => function ($row, $tempExt) {
                     $html = $tempExt->tableDateFormat($row, "created_at", true);
@@ -143,8 +189,8 @@ class TimesheetColumn extends AbstractDatatableColumn
                 'db_row' => 'modified_at',
                 'dt_row' => 'Last Updated',
                 'class' => '',
-                'show_column' => true,
-                'sortable' => true,
+                'show_column' => false,
+                'sortable' => false,
                 'searchable' => false,
                 'formatter' => function ($row, $tempExt) {
                     $html = '';
